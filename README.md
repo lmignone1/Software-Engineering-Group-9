@@ -21,7 +21,7 @@ CamelCase style will be used for variable naming.
 
  
 
-Software architecture 
+Software architecture: 
 
 The software architecture chosen for the development is the Model-View-Controller via JavaFX which uses the markup language FXML in combination with Java. 
 The Model consists of the specific application of the domain object and will therefore contain the implementation of all methods of the drawing app. 
