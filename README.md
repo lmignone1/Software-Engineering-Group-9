@@ -5,8 +5,7 @@ Drawing app
 Definition of Done: 
 
 - The function has been completely implemented 
-- The code has been reviewed by all members of the team 
-- The product owner has accepted the implementation of the user story 
+- The code has been reviewed by all members of the team
 - The user story implementation meets ALL the acceptance criteria 
 - The unit tests were written, executed and passed 
 - Every acceptance criteria have at least a test case associated 
