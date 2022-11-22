@@ -4,13 +4,19 @@
  */
 package workspace;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.MenuItem;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -44,10 +50,20 @@ public class WorkspaceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    } 
+    
+    private void loadWindow(String location, String title) throws IOException{ //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
+        Parent root = FXMLLoader.load(getClass().getResource(location));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage(StageStyle.DECORATED);
+        stage.setScene(scene);
+        stage.setTitle(title);
+        stage.show();
+    }
 
     @FXML
-    private void newProject(ActionEvent event) { //metodo per creare un nuovo progetto
+    private void newProject(ActionEvent event) throws IOException { //metodo per creare un nuovo progetto
+        loadWindow("/workspace/Workspace.fxml", " ");
     }
 
     @FXML
