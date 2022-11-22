@@ -81,9 +81,13 @@ public class WorkspaceController implements Initializable {
         save.setTitle("Save Image");
         File file = save.showSaveDialog(Workspace.stage);
         if (file != null) {
-            WritableImage image = new WritableImage(1500, 1500); //empty image
-            drawingCanvas.snapshot(null, image); //screenshot saved in the image
-            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+            try {
+                WritableImage image = new WritableImage(1500, 1500); //empty image
+                drawingCanvas.snapshot(null, image); //screenshot saved in the image
+                ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);  // save an image after that the image object has been converted from a javafx image 
+            } catch (IOException e) {
+                System.out.println("Error");
+            }
         }
     }
 
