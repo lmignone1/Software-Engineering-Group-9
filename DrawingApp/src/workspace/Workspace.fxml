@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="738.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
+   <children>
+      <MenuBar prefHeight="28.0" prefWidth="1160.0" AnchorPane.bottomAnchor="710.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem fx:id="newProjectMenu" mnemonicParsing="false" onAction="#newProject" text="New project" />
+              <MenuItem fx:id="loadProjectMenu" mnemonicParsing="false" onAction="#loadProject" text="Load project" />
+                  <MenuItem fx:id="saveProjectMenu" mnemonicParsing="false" onAction="#saveProject" text="Save project" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Shape">
+              <items>
+                <MenuItem fx:id="lineSegmentMenu" mnemonicParsing="false" onAction="#lineSegment" text="Line segment" />
+                  <MenuItem fx:id="rectangleMenu" mnemonicParsing="false" onAction="#rectangle" text="Rectangle" />
+                  <MenuItem fx:id="ellipseMenu" mnemonicParsing="false" onAction="#ellipse" text="Ellipse" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Colour">
+               <items>
+                  <MenuItem fx:id="contourColourMenu" mnemonicParsing="false" onAction="#contourColour" text="Contour colour">
+                     <graphic>
+                        <ColorPicker />
+                     </graphic></MenuItem>
+                  <MenuItem fx:id="fullShapeColourMenu" mnemonicParsing="false" onAction="#fullShapeColour" text="Full shape colour">
+                     <graphic>
+                        <ColorPicker />
+                     </graphic></MenuItem>
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <Canvas fx:id="drawingCanvas" height="652.0" layoutY="27.0" width="1160.0" />
+   </children>
+</AnchorPane>
