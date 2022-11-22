@@ -4,9 +4,11 @@
  */
 package workspace;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,8 +17,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.WritableImage;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.imageio.ImageIO;
 
 /**
  * FXML Controller class
@@ -71,7 +76,15 @@ public class WorkspaceController implements Initializable {
     }
 
     @FXML
-    private void saveProject(ActionEvent event) { //metodo per salvare il progetto
+    private void saveProject(ActionEvent event) throws IOException { //metodo per salvare il progetto
+        FileChooser save = new FileChooser();
+        save.setTitle("Save Image");
+        File file = save.showSaveDialog(Workspace.stage);
+        if (file != null) {
+            WritableImage image = new WritableImage(1500, 1500); //empty image
+            drawingCanvas.snapshot(null, image); //screenshot saved in the image
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        }
     }
 
     @FXML
