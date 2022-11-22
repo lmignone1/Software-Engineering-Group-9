@@ -56,6 +56,7 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private void saveProject(ActionEvent event) { //metodo per salvare il progetto
+        
     }
 
     @FXML
