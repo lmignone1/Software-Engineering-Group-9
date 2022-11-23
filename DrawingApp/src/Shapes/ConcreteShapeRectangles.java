@@ -11,7 +11,7 @@ package Shapes;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.shape.Rectangle;
 
-public class ConcreteShapeRectangles {
+public class ConcreteShapeRectangles implements Shape{
     private ColorPicker FillColor, LineColor;
     public double width, height, PositionX, PositionY;
 

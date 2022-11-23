@@ -11,7 +11,7 @@ import javafx.scene.shape.Line;
  *
  * @author Acer
  */
-public class ConcreteShapeLines {
+public class ConcreteShapeLines implements Shape{
     private ColorPicker LineColor;
     private Line line = new Line();
     public void setLineColor(ColorPicker colorLine){

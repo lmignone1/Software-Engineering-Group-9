@@ -13,23 +13,24 @@ import javafx.scene.control.ColorPicker;
  *
  * @author Acer
  */
-public class ConcreteShapeEllipses {
-    private ColorPicker LineColor,FillColor;
+public class ConcreteShapeEllipses implements Shape{
+    private ColorPicker LineColor, FillColor;
     private double centerX, centerY, endX, endY;
     private Ellipse ellipse = new Ellipse();
     
-       public void setLineColor(ColorPicker colorPicker){
+    public void setLineColor(ColorPicker colorPicker){
         LineColor = colorPicker;
     }
 
     public void setFillColor(ColorPicker colorPicker){
         FillColor = colorPicker;
     }
+    
     public void setCenter(double centerX, double centerY){
-        this.centerX = centerX;
+        this.centerX = centerX; // update of this class
         this.centerY = centerY;
 
-        ellipse.setCenterX(centerX);
+        ellipse.setCenterX(centerX);    // update of the composition obj
         ellipse.setCenterY(centerY);
     }
 
