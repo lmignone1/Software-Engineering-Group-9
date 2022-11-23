@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
@@ -43,11 +44,11 @@ public class WorkspaceController implements Initializable {
     @FXML
     private MenuItem ellipseMenu;
     @FXML
-    private MenuItem contourColourMenu;
-    @FXML
     private MenuItem fullShapeColourMenu;
     @FXML
     private Canvas drawingCanvas;
+    @FXML
+    private ColorPicker selectedColor;
 
     /**
      * Initializes the controller class.
