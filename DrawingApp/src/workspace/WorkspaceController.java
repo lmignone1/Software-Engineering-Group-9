@@ -19,6 +19,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -44,11 +45,11 @@ public class WorkspaceController implements Initializable {
     @FXML
     private MenuItem ellipseMenu;
     @FXML
-    private MenuItem fullShapeColourMenu;
-    @FXML
     private Canvas drawingCanvas;
     @FXML
-    private ColorPicker selectedColor;
+    private ColorPicker selectedContourColour;
+    @FXML
+    private ColorPicker selectedFullColour;
 
     /**
      * Initializes the controller class.
@@ -91,21 +92,41 @@ public class WorkspaceController implements Initializable {
             }
         }
     }
-
+    
+    //DEFAULT
+    
+    public ColorPicker contourColor = new ColorPicker(Color.BLACK);
+    private String shape;
+    
+    
+    
+    //metodo per selezionare la linea tra le forme
     @FXML
-    private void lineSegment(ActionEvent event) { //metodo per selezionare la linea tra le forme
+    private void lineSegment(ActionEvent event) {
+        shape = "segment";
     }
-
+    
+    //metodo per selezionare il rettangolo tra le forme
     @FXML
-    private void rectangle(ActionEvent event) { //metodo per selezionare il rettangolo tra le forme
+    private void rectangle(ActionEvent event) { 
+        shape = "rectangle";
+        
     }
-
+    
+    //metodo per selezionare l'ellisse tra le forme
     @FXML
-    private void ellipse(ActionEvent event) { //metodo per selezionare l'ellisse tra le forme
+    private void ellipse(ActionEvent event) { 
+        shape = "ellipse";
     }
-
+    
+   
+    
+    
+    
     @FXML
-    private void contourColour(ActionEvent event) { //metodo per colorare il contorno della forma
+    private void contourColour(ActionEvent event) {
+        contourColor = new ColorPicker(selectedContourColour.getValue());
+        //System.out.println(selectedContourColour);
     }
 
     @FXML

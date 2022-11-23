@@ -29,11 +29,11 @@
                <items>
                   <MenuItem mnemonicParsing="false" text="Contour colour">
                      <graphic>
-                        <ColorPicker fx:id="selectedColor" onAction="#contourColour" />
+                        <ColorPicker fx:id="selectedContourColour" onAction="#contourColour" />
                      </graphic></MenuItem>
-                  <MenuItem fx:id="fullShapeColourMenu" mnemonicParsing="false" onAction="#fullShapeColour" text="Full shape colour">
+                  <MenuItem mnemonicParsing="false" text="Full shape colour">
                      <graphic>
-                        <ColorPicker />
+                        <ColorPicker fx:id="selectedFullColour" onAction="#fullShapeColour" />
                      </graphic></MenuItem>
                </items>
             </Menu>
