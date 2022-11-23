@@ -4,6 +4,7 @@
  */
 package workspace;
 
+import Shapes.ConcreteShapeLines;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -16,9 +17,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -49,7 +53,8 @@ public class WorkspaceController implements Initializable {
     private Canvas drawingCanvas;
     @FXML
     private ColorPicker selectedColor;
-
+    private String mod;
+    private GraphicsContext gc;
     /**
      * Initializes the controller class.
      */
@@ -94,15 +99,33 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private void lineSegment(ActionEvent event) { //metodo per selezionare la linea tra le forme
-        
+        mod = "Line";
     }
 
     @FXML
     private void rectangle(ActionEvent event) { //metodo per selezionare il rettangolo tra le forme
+        mod = "Rectangle";
     }
 
     @FXML
     private void ellipse(ActionEvent event) { //metodo per selezionare l'ellisse tra le forme
+        mod = "Ellipse";
+    }
+    
+    private void draw (MouseEvent event){
+        gc = drawingCanvas.getGraphicsContext2D();
+        gc.setStroke(Color.BLACK);
+        double x,y;
+        x=event.getX();
+        y=event.getY();
+        ConcreteShapeLines line = new ConcreteShapeLines();
+        line.setGraphicsContext(gc);
+            selectedColor.setValue(Color.BLUE);
+            line.setLineColor(selectedColor);
+            line.setStart(x,y);
+            line.draw();
+            line.setEnd(x+3,y+3);
+            line.draw();
     }
 
     @FXML

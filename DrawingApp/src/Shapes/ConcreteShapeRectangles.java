@@ -11,12 +11,12 @@ package Shapes;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.shape.Rectangle;
 
-public class ConcreteShapeRectangles {
+public class ConcreteShapeRectangles implements Shapes{
     private ColorPicker FillColor, LineColor;
     public double width, height, PositionX, PositionY;
 
     private Rectangle rectangle = new Rectangle();
-    
+    @Override
     public void setLineColor(ColorPicker colorPicker){
         this.LineColor = colorPicker;
     }
@@ -53,7 +53,7 @@ public class ConcreteShapeRectangles {
     public double getHeight() {
         return rectangle.getHeight();
     }
-
+    @Override
     public ColorPicker getLineColor(){
         return LineColor;
     }

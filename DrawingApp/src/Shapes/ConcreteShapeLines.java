@@ -4,26 +4,36 @@
  */
 package Shapes;
 
+import javafx.geometry.Point2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 /**
  *
  * @author Acer
  */
-public class ConcreteShapeLines {
+public class ConcreteShapeLines implements Shapes{
     private ColorPicker LineColor;
+    private GraphicsContext graphicsContext;
     private Line line = new Line();
+    public ConcreteShapeLines(){
+    }
+    public void setGraphicsContext(GraphicsContext graphicsContext){
+        this.graphicsContext = graphicsContext;
+    }
+    @Override
     public void setLineColor(ColorPicker colorLine){
         LineColor = colorLine;
     }
 
-    public void setStartPoint(double x, double y){
+    public void setStart(double x, double y){
         line.setStartX(x);
         line.setStartY(y);
     }
 
-    public void setEndPoint(double x, double y){
+    public void setEnd(double x, double y){
         line.setEndX(x);
         line.setEndY(y);
     }
@@ -42,8 +52,15 @@ public class ConcreteShapeLines {
     public double getEndY(){
         return line.getEndY();
     }
-
+    @Override
     public ColorPicker getLineColor(){
         return LineColor;
+    }
+      public boolean containsPoint(Point2D point){
+        return line.contains(point);
+    }
+     public void draw() {
+        graphicsContext.setStroke(getLineColor().getValue());
+        graphicsContext.strokeLine(getStartX(), getStartY(), getEndX(), getEndY());
     }
 }
