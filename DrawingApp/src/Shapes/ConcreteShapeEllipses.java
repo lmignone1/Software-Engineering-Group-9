@@ -1,11 +1,14 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Shapes;
 
-import javafx.scene.control.ColorPicker;
 import javafx.scene.shape.Ellipse;
+
+import javafx.scene.control.ColorPicker;
+
 /**
  *
  * @author Acer
@@ -14,6 +17,7 @@ public class ConcreteShapeEllipses {
     private ColorPicker LineColor,FillColor;
     private double centerX, centerY, endX, endY;
     private Ellipse ellipse = new Ellipse();
+    
        public void setLineColor(ColorPicker colorPicker){
         LineColor = colorPicker;
     }
