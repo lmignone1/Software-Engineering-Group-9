@@ -111,6 +111,7 @@ public class WorkspaceController implements Initializable {
     
     //DEFAULT
     
+    public ColorPicker fullShapeColor = new ColorPicker(Color.BLACK);
     public ColorPicker contourColor = new ColorPicker(Color.BLACK);
     private String shape;
     
@@ -135,10 +136,6 @@ public class WorkspaceController implements Initializable {
         shape = "ellipse";
     }
     
-   
-    
-    
-    
     @FXML
     private void contourColour(ActionEvent event) {
         contourColor = new ColorPicker(selectedContourColour.getValue());
@@ -147,6 +144,8 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private void fullShapeColour(ActionEvent event) { //metodo per colorare l'interno della forma
+        fullShapeColor = selectedFullColour;
+        //System.out.println(fullShapeColor.getValue());
     }
     
 }
