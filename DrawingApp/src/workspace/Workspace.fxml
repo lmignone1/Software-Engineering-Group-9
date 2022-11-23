@@ -7,7 +7,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="738.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
+<AnchorPane id="AnchorPane" prefHeight="738.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
    <children>
       <MenuBar prefHeight="28.0" prefWidth="1160.0" AnchorPane.bottomAnchor="710.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -27,9 +27,9 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Colour">
                <items>
-                  <MenuItem fx:id="contourColourMenu" mnemonicParsing="false" onAction="#contourColour" text="Contour colour">
+                  <MenuItem mnemonicParsing="false" text="Contour colour">
                      <graphic>
-                        <ColorPicker />
+                        <ColorPicker fx:id="selectedColor" onAction="#contourColour" />
                      </graphic></MenuItem>
                   <MenuItem fx:id="fullShapeColourMenu" mnemonicParsing="false" onAction="#fullShapeColour" text="Full shape colour">
                      <graphic>
