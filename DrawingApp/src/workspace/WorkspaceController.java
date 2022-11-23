@@ -5,7 +5,9 @@
 package workspace;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
@@ -18,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -74,6 +77,19 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private void loadProject(ActionEvent event) { //metodo per aprire un progetto esistente
+        FileChooser openFile = new FileChooser();
+        openFile.setTitle("Open File");
+        File file = openFile.showOpenDialog(Workspace.stage);
+
+        if (file != null) {
+            try {
+                InputStream io = new FileInputStream(file);
+                Image img = new Image(io);
+                drawingCanvas.getGraphicsContext2D().drawImage(img, 0, 0);
+            } catch (IOException ex) {
+                System.out.println("Error!");
+            }
+        }
     }
 
     @FXML
