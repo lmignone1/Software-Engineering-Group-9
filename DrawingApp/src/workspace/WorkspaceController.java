@@ -77,6 +77,7 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private void lineSegment(ActionEvent event) { //metodo per selezionare la linea tra le forme
+        
     }
 
     @FXML

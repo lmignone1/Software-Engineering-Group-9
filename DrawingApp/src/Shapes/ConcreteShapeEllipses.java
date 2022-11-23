@@ -14,6 +14,7 @@ public class ConcreteShapeEllipses {
     private ColorPicker LineColor,FillColor;
     private double centerX, centerY, endX, endY;
     private Ellipse ellipse = new Ellipse();
+    
        public void setLineColor(ColorPicker colorPicker){
         LineColor = colorPicker;
     }
