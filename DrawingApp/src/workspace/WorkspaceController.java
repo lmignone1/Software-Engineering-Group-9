@@ -5,7 +5,9 @@
 package workspace;
 import Shapes.Creator;
 import Shapes.ConcreteCreatorLine;
+import Shapes.ConcreteCreatorRectangle;
 import Shapes.ConcreteShapeLines;
+import Shapes.ConcreteShapeRectangles;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -57,6 +59,8 @@ public class WorkspaceController implements Initializable {
     private GraphicsContext gc;
     ConcreteCreatorLine Line;
     ConcreteShapeLines line;
+    ConcreteCreatorRectangle Rect;
+    ConcreteShapeRectangles rect;
     @FXML
     private ColorPicker selectedContourColour, selectedFullColour;
     
@@ -145,19 +149,34 @@ public class WorkspaceController implements Initializable {
     @FXML
     private void MakeDraw (MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
-        double x,y;
-        x=event.getX();
-        y=event.getY();
+        if(mod=="Line"){
         Line = new ConcreteCreatorLine();
         line = Line.creatorShape();
         line.setGraphicsContext(gc);
             selectedFullColour.setValue(Color.BLACK);
-            line.setStart(x,y);
+            line.setStart(event.getX(),event.getY());
             line.setLineColor(selectedFullColour);
-            line.draw();
-           
+            line.drawShape();
+        }
+        else if(mod=="Rectangle"){
+            Rect = new ConcreteCreatorRectangle();
+            rect = Rect.creatorShape();
+             selectedFullColour.setValue(Color.WHITE);
+             selectedContourColour.setValue(Color.BLACK);
+            rect.setGraphicsContext(gc);
+            rect.setLineColor(selectedContourColour);
+            rect.setFillColor(selectedFullColour);
+            rect.setStart(event.getX(), event.getY());
+            rect.setEnd();
+            rect.setHeight();
+            rect.setWidth();
+       
+            rect.drawShape();
+            
+            
+        }
     }
-    
+
     @FXML
     private void contourColour(ActionEvent event) {
     }
@@ -165,7 +184,7 @@ public class WorkspaceController implements Initializable {
     @FXML
     private void fullShapeColour(ActionEvent event) {
     }
-
+    
    
     
 }

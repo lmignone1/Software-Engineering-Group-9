@@ -4,6 +4,7 @@
  */
 package Shapes;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 
 /**
@@ -11,7 +12,11 @@ import javafx.scene.control.ColorPicker;
  * @author Acer
  */
 public interface Shape {
-    public void setLineColor(ColorPicker colorLine);
+    public void setLineColor(ColorPicker color);
+    public void setFillColor(ColorPicker color);
     public ColorPicker getLineColor(); 
-       
+    public ColorPicker getFillColor(); 
+    public void setGraphicsContext(GraphicsContext graphicsContext);
+    public void drawShape();
+    
 }

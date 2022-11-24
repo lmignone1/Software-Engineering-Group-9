@@ -20,6 +20,7 @@ public  class ConcreteShapeLines implements Shape{
     public ConcreteShapeLines(){
     this.length=100;
     }
+    @Override
     public void setGraphicsContext(GraphicsContext graphicsContext){
         this.graphicsContext = graphicsContext;        
     }
@@ -27,6 +28,11 @@ public  class ConcreteShapeLines implements Shape{
     public void setLineColor(ColorPicker colorLine){
         LineColor = colorLine;
     }
+    @Override
+    public void setFillColor(ColorPicker colorFill) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+   
     public void setStart(double x, double y){
         line.setStartX(x-length/2);
         line.setStartY(y); 
@@ -49,10 +55,17 @@ public  class ConcreteShapeLines implements Shape{
     public ColorPicker getLineColor(){
         return LineColor;
     }
-    public void draw() {
+    public void drawShape() {
         graphicsContext.setStroke(getLineColor().getValue());
         graphicsContext.strokeLine(getStartX(), getStartY(), getEndX(), getEndY());
     }
+
+    @Override
+    public ColorPicker getFillColor() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
 }
 
 

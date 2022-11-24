@@ -43,6 +43,6 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Canvas fx:id="drawingCanvas" height="652.0" layoutY="27.0" onMousePressed="#MakeDraw" width="1160.0" />
+      <Canvas fx:id="drawingCanvas" height="650.0" layoutY="29.0" onMousePressed="#MakeDraw" width="1160.0" />
    </children>
 </AnchorPane>

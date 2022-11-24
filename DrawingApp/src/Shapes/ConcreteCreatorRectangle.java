@@ -8,6 +8,9 @@ package Shapes;
  *
  * @author Acer
  */
-public class ConcreteCreatorRectangle{
-     
+public class ConcreteCreatorRectangle extends Creator{
+    @Override
+    public ConcreteShapeRectangles creatorShape() {
+    return new ConcreteShapeRectangles();   
+    }
 }

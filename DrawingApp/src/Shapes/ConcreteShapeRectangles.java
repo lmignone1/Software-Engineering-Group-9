@@ -8,53 +8,93 @@ package Shapes;
  *
  * @author Acer
  */
+import static java.lang.Math.sqrt;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class ConcreteShapeRectangles implements Shape{
-    private ColorPicker FillColor;
-    private ColorPicker LineColor;
-    private double width, height;
-    GraphicsContext graphicsContext;
-     public ConcreteShapeRectangles(){ 
-      this.width = 4;
-      this.height = 2;
-      LineColor.setValue(Color.BLACK);
-      FillColor.setValue(Color.WHITE);
-     }
+    private GraphicsContext graphicsContext;
+    private ColorPicker cpLine;
+    private ColorPicker cpFill;
+
+    public double startX, startY, endX, endY, width=100, height=50;
+
     private Rectangle rectangle = new Rectangle();
-    @Override
-    public void setLineColor(ColorPicker colorPicker){
-        this.LineColor = colorPicker;
-    }
-    public void setFillColor(ColorPicker colorPicker){
-        this.FillColor = colorPicker;
-    }
-    public void setWidth(double width){
-        this.width=width;
-        rectangle.setWidth(Math.abs((width)));
-    }
-    public void setHeight(double height){
-        this.height=height;
-        rectangle.setHeight(height);
-    }
-    public double getWidth(){
-        return rectangle.getWidth();
-    }
-    public double getHeight() {
-        return rectangle.getHeight();
-    }
-    @Override
-    public ColorPicker getLineColor(){
-        return LineColor;
-    }
-    public ColorPicker getFillColor(){
-        return FillColor;
-    }
+
+    public ConcreteShapeRectangles(){ }
+
     public void setGraphicsContext(GraphicsContext graphicsContext){
         this.graphicsContext = graphicsContext;
     }
-    
+
+        @Override
+    public void setLineColor(ColorPicker colorPicker){
+        this.cpLine = colorPicker;
+    }
+
+    /**
+     *
+     * @param colorPicker
+     */
+    @Override
+    public void setFillColor(ColorPicker colorPicker){
+        this.cpFill = colorPicker;
+    }
+
+    public void setStart(double startX, double startY){
+        this.startX = startX;
+        this.startY = startY;
+        rectangle.setX(startX-width/2);
+        rectangle.setY(startY-height/2);
+    }
+
+    public void setEnd(){
+        this.endX = startX+sqrt((width*width)+(height*height));
+        this.endY = startY+sqrt((width*width)+(height*height));
+    }
+
+    public void setWidth(){
+        this.width = Math.abs((width));
+
+        rectangle.setWidth(Math.abs((width)));
+    }
+
+    public void setHeight(){
+        this.height = Math.abs((height));
+
+        rectangle.setHeight(Math.abs((height)));
+    }
+    public double getX(){
+        return rectangle.getX();
+    }
+
+    public double getY(){
+        return rectangle.getY();
+    }
+
+    public double getWidth(){
+        return rectangle.getWidth();
+    }
+
+    public double getHeight() {
+        return rectangle.getHeight();
+    }
+
+    @Override
+    public ColorPicker getLineColor(){
+        return cpLine;
+    }
+
+    @Override
+    public ColorPicker getFillColor(){
+        return cpFill;
+    }
+
+    public void drawShape(){
+        graphicsContext.setStroke(cpLine.getValue());
+        graphicsContext.setFill(cpFill.getValue());
+        graphicsContext.fillRect(getX(), getY(), getWidth(), getHeight());
+        graphicsContext.strokeRect(getX(), getY(), getWidth(), getHeight());
+    }
 }
