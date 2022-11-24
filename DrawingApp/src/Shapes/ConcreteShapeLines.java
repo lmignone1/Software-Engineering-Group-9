@@ -60,6 +60,7 @@ public  class ConcreteShapeLines implements Shape{
     @Override
     public void drawShape() {
         graphicsContext.setStroke(getLineColor().getValue());
+        graphicsContext.setLineWidth(2);
         graphicsContext.strokeLine(getStartX(), getStartY(), getEndX(), getEndY());
     }
 

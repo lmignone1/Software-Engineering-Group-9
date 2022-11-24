@@ -133,16 +133,14 @@ public class WorkspaceController implements Initializable {
             Line = new ConcreteCreatorLine();
             line = Line.createShape();
             line.setGraphicsContext(gc);
-            selectedFullColour.setValue(Color.BLACK);
+            
             line.setStart(event.getX(),event.getY());
-            line.setLineColor(selectedFullColour);
+            line.setLineColor(selectedContourColour);
             line.drawShape();
         }
-        else if(mod=="Rectangle"){
+        else if(mod == "Rectangle"){
             Rect = new ConcreteCreatorRectangle();
             rect = Rect.createShape();
-            selectedFullColour.setValue(Color.WHITE);
-            selectedContourColour.setValue(Color.BLACK);
             rect.setGraphicsContext(gc);
             rect.setLineColor(selectedContourColour);
             rect.setFillColor(selectedFullColour);
@@ -157,6 +155,8 @@ public class WorkspaceController implements Initializable {
             ellipse = ccel.createShape();
             ellipse.setGraphicsContext(gc);
             ellipse.setCenter(event.getX(), event.getY());
+            ellipse.setLineColor(selectedContourColour);
+            ellipse.setFillColor(selectedFullColour);
             ellipse.setRadius();
             ellipse.drawShape();
         }
@@ -177,13 +177,6 @@ public class WorkspaceController implements Initializable {
         mod = "Ellipse";
     }
 
-    @FXML
-    private void contourColour(ActionEvent event) {
-    }
-
-    @FXML
-    private void fullShapeColour(ActionEvent event) {
-    }
 
     
     

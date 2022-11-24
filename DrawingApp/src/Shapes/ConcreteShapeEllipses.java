@@ -21,7 +21,7 @@ public class ConcreteShapeEllipses implements Shape{
     private ColorPicker FillColor = new ColorPicker(Color.WHITE);
     private double centerX;
     private double centerY;
-    private Ellipse ellipse  = new Ellipse();;
+    private Ellipse ellipse  = new Ellipse();
     private GraphicsContext gc;
     
     @Override
@@ -80,6 +80,7 @@ public class ConcreteShapeEllipses implements Shape{
     @Override
     public void drawShape(){
         gc.setStroke(LineColor.getValue());
+        gc.setLineWidth(3);
         gc.setFill(FillColor.getValue());
         gc.strokeOval(this.centerX - (getRadiusX())/2, this.centerY - (getRadiusY()/2), getRadiusX(), getRadiusY());
         gc.fillOval(this.centerX - (getRadiusX())/2, this.centerY - (getRadiusY()/2), getRadiusX(), getRadiusY());

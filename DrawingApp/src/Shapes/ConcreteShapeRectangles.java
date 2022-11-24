@@ -95,6 +95,7 @@ public class ConcreteShapeRectangles implements Shape{
     @Override
     public void drawShape(){
         graphicsContext.setStroke(cpLine.getValue());
+        graphicsContext.setLineWidth(2);
         graphicsContext.setFill(cpFill.getValue());
         graphicsContext.fillRect(getX(), getY(), getWidth(), getHeight());
         graphicsContext.strokeRect(getX(), getY(), getWidth(), getHeight());
