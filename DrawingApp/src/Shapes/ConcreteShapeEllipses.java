@@ -17,8 +17,8 @@ import javafx.scene.paint.Color;
  * @author Acer
  */
 public class ConcreteShapeEllipses implements Shape{
-    private ColorPicker LineColor = new ColorPicker(Color.BLACK);
-    private ColorPicker FillColor = new ColorPicker(Color.WHITE);
+    private ColorPicker LineColor;
+    private ColorPicker FillColor;
     private double centerX;
     private double centerY;
     private Ellipse ellipse  = new Ellipse();

@@ -133,7 +133,6 @@ public class WorkspaceController implements Initializable {
             Line = new ConcreteCreatorLine();
             line = Line.createShape();
             line.setGraphicsContext(gc);
-            
             line.setStart(event.getX(),event.getY());
             line.setLineColor(selectedContourColour);
             line.drawShape();
@@ -165,16 +164,19 @@ public class WorkspaceController implements Initializable {
     @FXML
     private void lineSegment(ActionEvent event) {
         mod = "Line";
+        selectedFullColour.setDisable(true);
     }
 
     @FXML
     private void rectangle(ActionEvent event) {
         mod = "Rectangle";
+        selectedFullColour.setDisable(false);
     }
 
     @FXML
     private void ellipse(ActionEvent event) {
         mod = "Ellipse";
+        selectedFullColour.setDisable(false);
     }
 
 
