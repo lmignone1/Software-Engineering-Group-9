@@ -24,20 +24,10 @@ public class ConcreteShapeEllipses implements Shape{
     private Ellipse ellipse  = new Ellipse();;
     private GraphicsContext gc;
     
-    public void ConcreteShapeEllipse(double x, double y) {
-        this.centerX = x;
-        this.centerY = y;
-        ellipse.setCenterX(x);
-        ellipse.setCenterY(y);
-        ellipse.setRadiusY(90.0f);
-        ellipse.setRadiusX(150.0f);
-    }
-    
     @Override
     public void setLineColor(ColorPicker color){
         LineColor = color;
     }
-
     
     @Override
     public void setFillColor(ColorPicker color){
