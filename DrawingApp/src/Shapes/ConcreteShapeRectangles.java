@@ -28,7 +28,13 @@ public class ConcreteShapeRectangles implements Shape{
     public void setGraphicsContext(GraphicsContext graphicsContext){
         this.graphicsContext = graphicsContext;
     }
-
+    
+    
+    @Override
+    public GraphicsContext getGraphicsContext(){
+        return this.graphicsContext;
+    }
+    
         @Override
     public void setLineColor(ColorPicker colorPicker){
         this.cpLine = colorPicker;

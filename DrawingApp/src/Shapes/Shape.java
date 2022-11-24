@@ -17,5 +17,6 @@ public interface Shape {
     public ColorPicker getLineColor();
     public ColorPicker getFillColor();
     public void setGraphicsContext(GraphicsContext gc);
+    public GraphicsContext getGraphicsContext();
     public void drawShape();
 }

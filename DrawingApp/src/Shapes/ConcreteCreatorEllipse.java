@@ -8,7 +8,7 @@ package Shapes;
 
 /**
  *
- * @author Acer
+ * @author loren
  */
 public class ConcreteCreatorEllipse extends Creator {
 

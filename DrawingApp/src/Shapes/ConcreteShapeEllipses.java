@@ -9,12 +9,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Ellipse;
 
 import javafx.scene.control.ColorPicker;
-import javafx.scene.paint.Color;
-
 
 /**
  *
- * @author Acer
+ * @author loren
  */
 public class ConcreteShapeEllipses implements Shape{
     private ColorPicker LineColor;
@@ -22,7 +20,7 @@ public class ConcreteShapeEllipses implements Shape{
     private double centerX;
     private double centerY;
     private Ellipse ellipse  = new Ellipse();
-    private GraphicsContext gc;
+    private GraphicsContext gc = null;
     
     @Override
     public void setLineColor(ColorPicker color){
@@ -42,8 +40,8 @@ public class ConcreteShapeEllipses implements Shape{
     }
 
     public void setRadius(){
-        ellipse.setRadiusY(90.0f);
         ellipse.setRadiusX(150.0f);
+        ellipse.setRadiusY(90.0f);
     }
     
     public double getCenterX(){
@@ -75,6 +73,11 @@ public class ConcreteShapeEllipses implements Shape{
     @Override
     public void setGraphicsContext(GraphicsContext gc){
         this.gc = gc;
+    }
+    
+    @Override
+    public GraphicsContext getGraphicsContext() {
+        return gc;
     }
     
     @Override
