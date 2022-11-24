@@ -4,6 +4,8 @@
  */
 package workspace;
 
+import Shapes.ConcreteCreatorEllipse;
+import Shapes.ConcreteShapeEllipses;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,10 +20,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -53,6 +57,9 @@ public class WorkspaceController implements Initializable {
     private ColorPicker selectedContourColour;
     @FXML
     private ColorPicker selectedFullColour;
+    
+    public ConcreteShapeEllipses ellipse;
+    public GraphicsContext gc; 
 
     /**
      * Initializes the controller class.
@@ -113,27 +120,27 @@ public class WorkspaceController implements Initializable {
     
     public ColorPicker fullShapeColor = new ColorPicker(Color.BLACK);
     public ColorPicker contourColor = new ColorPicker(Color.BLACK);
-    private String shape;
+    private String mod;
     
     
     
     //metodo per selezionare la linea tra le forme
     @FXML
     private void lineSegment(ActionEvent event) {
-        shape = "segment";
+        mod = "Line";
     }
     
     //metodo per selezionare il rettangolo tra le forme
     @FXML
     private void rectangle(ActionEvent event) { 
-        shape = "rectangle";
+        mod = "Recatangle";
         
     }
     
     //metodo per selezionare l'ellisse tra le forme
     @FXML
     private void ellipse(ActionEvent event) { 
-        shape = "ellipse";
+        mod = "Ellipse";
     }
     
     @FXML
@@ -147,5 +154,16 @@ public class WorkspaceController implements Initializable {
         fullShapeColor = selectedFullColour;
         //System.out.println(fullShapeColor.getValue());
     }
-    
+
+    @FXML
+    private void draw(MouseEvent event) {
+        gc = drawingCanvas.getGraphicsContext2D();
+        ConcreteCreatorEllipse ccel = new ConcreteCreatorEllipse();
+        ellipse = ccel.createShape();
+        ellipse.setGraphicsContext(gc);
+        ellipse.setCenter(event.getX(), event.getY());
+        ellipse.setRadius();
+        ellipse.drawShape();
+    }
+        
 }

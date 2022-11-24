@@ -4,10 +4,17 @@
  */
 package Shapes;
 
+
+
 /**
  *
  * @author Acer
  */
-public class ConcreteCreatorEllipse {
+public class ConcreteCreatorEllipse extends Creator {
+
+    @Override
+    public ConcreteShapeEllipses createShape() {
+        return new ConcreteShapeEllipses();
+    }
     
 }

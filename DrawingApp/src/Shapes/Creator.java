@@ -4,10 +4,11 @@
  */
 package Shapes;
 
+
 /**
  *
- * @author Acer
+ * @author loren
  */
-public class ConcretereatorLine {
-    
+public abstract class Creator {
+    public abstract Shape createShape();
 }
