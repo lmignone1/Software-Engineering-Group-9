@@ -10,7 +10,6 @@ import javafx.scene.shape.Ellipse;
 
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
-import static java.lang.Math.*;
 
 
 /**

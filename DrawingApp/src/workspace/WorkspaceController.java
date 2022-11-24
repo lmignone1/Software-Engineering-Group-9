@@ -4,6 +4,11 @@
  */
 package workspace;
 
+import Shapes.ConcreteCreatorLine;
+import Shapes.ConcreteCreatorRectangle;
+import Shapes.ConcreteShapeLines;
+import Shapes.ConcreteShapeRectangles;
+
 import Shapes.ConcreteCreatorEllipse;
 import Shapes.ConcreteShapeEllipses;
 import java.io.File;
@@ -40,6 +45,20 @@ import javax.imageio.ImageIO;
 public class WorkspaceController implements Initializable {
 
     @FXML
+    private Canvas drawingCanvas;
+    private String mod;
+    private GraphicsContext gc;
+    private ConcreteCreatorLine Line;
+    private ConcreteShapeLines line;
+    private ConcreteCreatorRectangle Rect;
+    private ConcreteShapeRectangles rect;
+    @FXML
+    private ColorPicker selectedContourColour;
+    @FXML
+    private ColorPicker selectedFullColour;
+    
+    private ConcreteShapeEllipses ellipse;
+    @FXML
     private MenuItem newProjectMenu;
     @FXML
     private MenuItem loadProjectMenu;
@@ -51,16 +70,7 @@ public class WorkspaceController implements Initializable {
     private MenuItem rectangleMenu;
     @FXML
     private MenuItem ellipseMenu;
-    @FXML
-    private Canvas drawingCanvas;
-    @FXML
-    private ColorPicker selectedContourColour;
-    @FXML
-    private ColorPicker selectedFullColour;
     
-    public ConcreteShapeEllipses ellipse;
-    public GraphicsContext gc; 
-
     /**
      * Initializes the controller class.
      */
@@ -116,54 +126,65 @@ public class WorkspaceController implements Initializable {
         }
     }
     
-    //DEFAULT
-    
-    public ColorPicker fullShapeColor = new ColorPicker(Color.BLACK);
-    public ColorPicker contourColor = new ColorPicker(Color.BLACK);
-    private String mod;
-    
-    
-    
-    //metodo per selezionare la linea tra le forme
+    @FXML
+    private void MakeDraw(MouseEvent event){
+        gc = drawingCanvas.getGraphicsContext2D();
+        if (mod == "Line"){
+            Line = new ConcreteCreatorLine();
+            line = Line.createShape();
+            line.setGraphicsContext(gc);
+            selectedFullColour.setValue(Color.BLACK);
+            line.setStart(event.getX(),event.getY());
+            line.setLineColor(selectedFullColour);
+            line.drawShape();
+        }
+        else if(mod=="Rectangle"){
+            Rect = new ConcreteCreatorRectangle();
+            rect = Rect.createShape();
+            selectedFullColour.setValue(Color.WHITE);
+            selectedContourColour.setValue(Color.BLACK);
+            rect.setGraphicsContext(gc);
+            rect.setLineColor(selectedContourColour);
+            rect.setFillColor(selectedFullColour);
+            rect.setStart(event.getX(), event.getY());
+            rect.setEnd();
+            rect.setHeight();
+            rect.setWidth();
+            rect.drawShape();
+        }
+        else if (mod == "Ellipse") {
+            ConcreteCreatorEllipse ccel = new ConcreteCreatorEllipse();
+            ellipse = ccel.createShape();
+            ellipse.setGraphicsContext(gc);
+            ellipse.setCenter(event.getX(), event.getY());
+            ellipse.setRadius();
+            ellipse.drawShape();
+        }
+    }        
+
     @FXML
     private void lineSegment(ActionEvent event) {
         mod = "Line";
     }
-    
-    //metodo per selezionare il rettangolo tra le forme
+
     @FXML
-    private void rectangle(ActionEvent event) { 
-        mod = "Recatangle";
-        
+    private void rectangle(ActionEvent event) {
+        mod = "Rectangle";
     }
-    
-    //metodo per selezionare l'ellisse tra le forme
+
     @FXML
-    private void ellipse(ActionEvent event) { 
+    private void ellipse(ActionEvent event) {
         mod = "Ellipse";
     }
-    
+
     @FXML
     private void contourColour(ActionEvent event) {
-        contourColor = new ColorPicker(selectedContourColour.getValue());
-        //System.out.println(selectedContourColour);
     }
 
     @FXML
-    private void fullShapeColour(ActionEvent event) { //metodo per colorare l'interno della forma
-        fullShapeColor = selectedFullColour;
-        //System.out.println(fullShapeColor.getValue());
+    private void fullShapeColour(ActionEvent event) {
     }
 
-    @FXML
-    private void draw(MouseEvent event) {
-        gc = drawingCanvas.getGraphicsContext2D();
-        ConcreteCreatorEllipse ccel = new ConcreteCreatorEllipse();
-        ellipse = ccel.createShape();
-        ellipse.setGraphicsContext(gc);
-        ellipse.setCenter(event.getX(), event.getY());
-        ellipse.setRadius();
-        ellipse.drawShape();
-    }
-        
+    
+    
 }

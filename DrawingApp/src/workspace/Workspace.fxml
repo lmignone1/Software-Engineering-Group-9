@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--<?import java.lang.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>-->
+
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Menu?>
@@ -39,6 +44,6 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Canvas fx:id="drawingCanvas" height="652.0" layoutY="27.0" onMouseClicked="#draw" width="1160.0" />
+      <Canvas fx:id="drawingCanvas" height="652.0" layoutY="27.0" onMousePressed="#MakeDraw" width="1160.0" />
    </children>
 </AnchorPane>
