@@ -10,8 +10,8 @@ import javafx.scene.control.ColorPicker;
  *
  * @author Acer
  */
-public interface Shapes {
+public interface Shape {
     public void setLineColor(ColorPicker colorLine);
     public ColorPicker getLineColor(); 
-            
+       
 }

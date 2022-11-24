@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Menu?>
@@ -7,7 +11,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="738.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
+<AnchorPane id="AnchorPane" prefHeight="738.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
    <children>
       <MenuBar prefHeight="28.0" prefWidth="1160.0" AnchorPane.bottomAnchor="710.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -29,16 +33,16 @@
                <items>
                   <MenuItem mnemonicParsing="false" text="Contour colour">
                      <graphic>
-                        <ColorPicker fx:id="selectedColor" onAction="#contourColour" />
+                        <ColorPicker fx:id="selectedContourColour" onAction="#contourColour" />
                      </graphic></MenuItem>
-                  <MenuItem fx:id="fullShapeColourMenu" mnemonicParsing="false" onAction="#fullShapeColour" text="Full shape colour">
+                  <MenuItem mnemonicParsing="false" text="Full shape colour">
                      <graphic>
-                        <ColorPicker />
+                        <ColorPicker fx:id="selectedFullColour" onAction="#fullShapeColour" />
                      </graphic></MenuItem>
                </items>
             </Menu>
         </menus>
       </MenuBar>
-      <Canvas fx:id="drawingCanvas" height="652.0" layoutY="27.0" width="1160.0" />
+      <Canvas fx:id="drawingCanvas" height="652.0" layoutY="27.0" onMousePressed="#MakeDraw" width="1160.0" />
    </children>
 </AnchorPane>

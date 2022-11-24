@@ -8,6 +8,6 @@ package Shapes;
  *
  * @author Acer
  */
-public class ConcreteCreatorRectangle {
-    
+public class ConcreteCreatorRectangle{
+     
 }

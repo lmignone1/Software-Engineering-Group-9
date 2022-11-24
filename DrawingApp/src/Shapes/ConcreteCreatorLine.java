@@ -4,10 +4,21 @@
  */
 package Shapes;
 
+
+
 /**
  *
  * @author Acer
  */
-public class ConcretereatorLine {
+public class ConcreteCreatorLine extends Creator{
+
+    @Override
+    public ConcreteShapeLines creatorShape() {
+    return new ConcreteShapeLines();   
+    }
+
+   
     
+       
+       
 }

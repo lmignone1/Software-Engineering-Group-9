@@ -8,6 +8,6 @@ package Shapes;
  *
  * @author Acer
  */
-public class ConcreteCreatorEllipse {
+public class ConcreteCreatorEllipse{
     
 }

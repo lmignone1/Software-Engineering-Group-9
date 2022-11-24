@@ -4,51 +4,44 @@
  */
 package Shapes;
 
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 /**
  *
  * @author Acer
  */
-public class ConcreteShapeLines implements Shapes{
+public  class ConcreteShapeLines implements Shape{
+    private double length;
     private ColorPicker LineColor;
     private GraphicsContext graphicsContext;
     private Line line = new Line();
     public ConcreteShapeLines(){
+    this.length=100;
     }
     public void setGraphicsContext(GraphicsContext graphicsContext){
-        this.graphicsContext = graphicsContext;
+        this.graphicsContext = graphicsContext;        
     }
     @Override
     public void setLineColor(ColorPicker colorLine){
         LineColor = colorLine;
     }
-
     public void setStart(double x, double y){
-        line.setStartX(x);
-        line.setStartY(y);
-    }
-
-    public void setEnd(double x, double y){
-        line.setEndX(x);
+        line.setStartX(x-length/2);
+        line.setStartY(y); 
+        line.setEndX(x+length/2);
         line.setEndY(y);
     }
     public double getStartX(){
-        return line.getStartX();
+        return line.getStartX();   
     }
-
     public double getStartY(){
-        return line.getStartY();
+        return line.getStartY();  
     }
-
     public double getEndX(){
         return line.getEndX();
     }
-
     public double getEndY(){
         return line.getEndY();
     }
@@ -56,11 +49,10 @@ public class ConcreteShapeLines implements Shapes{
     public ColorPicker getLineColor(){
         return LineColor;
     }
-      public boolean containsPoint(Point2D point){
-        return line.contains(point);
-    }
-     public void draw() {
+    public void draw() {
         graphicsContext.setStroke(getLineColor().getValue());
         graphicsContext.strokeLine(getStartX(), getStartY(), getEndX(), getEndY());
     }
 }
+
+

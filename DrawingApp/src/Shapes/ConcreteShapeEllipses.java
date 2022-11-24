@@ -13,7 +13,7 @@ import javafx.scene.control.ColorPicker;
  *
  * @author Acer
  */
-public class ConcreteShapeEllipses implements Shapes{
+public class ConcreteShapeEllipses implements Shape{
     private ColorPicker LineColor,FillColor;
     private double centerX, centerY, endX, endY;
     private Ellipse ellipse = new Ellipse();
@@ -66,5 +66,6 @@ public class ConcreteShapeEllipses implements Shapes{
     public ColorPicker getFillColor(){
         return FillColor;
     }
+
     
 }

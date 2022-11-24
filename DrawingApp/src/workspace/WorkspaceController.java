@@ -3,10 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package workspace;
-
+import Shapes.Creator;
+import Shapes.ConcreteCreatorLine;
 import Shapes.ConcreteShapeLines;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
@@ -20,6 +23,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -48,13 +52,15 @@ public class WorkspaceController implements Initializable {
     @FXML
     private MenuItem ellipseMenu;
     @FXML
-    private MenuItem fullShapeColourMenu;
-    @FXML
     private Canvas drawingCanvas;
-    @FXML
-    private ColorPicker selectedColor;
     private String mod;
     private GraphicsContext gc;
+    ConcreteCreatorLine Line;
+    ConcreteShapeLines line;
+    @FXML
+    private ColorPicker selectedContourColour, selectedFullColour;
+    
+   
     /**
      * Initializes the controller class.
      */
@@ -79,6 +85,19 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private void loadProject(ActionEvent event) { //metodo per aprire un progetto esistente
+        FileChooser openFile = new FileChooser();
+        openFile.setTitle("Open File");
+        File file = openFile.showOpenDialog(Workspace.stage);
+
+        if (file != null) {
+            try {
+                InputStream io = new FileInputStream(file);
+                Image img = new Image(io);
+                drawingCanvas.getGraphicsContext2D().drawImage(img, 0, 0);
+            } catch (IOException ex) {
+                System.out.println("Error!");
+            }
+        }
     }
 
     @FXML
@@ -96,44 +115,57 @@ public class WorkspaceController implements Initializable {
             }
         }
     }
-
+    
+    //DEFAULT
+    /*
+    public ColorPicker fullShapeColor = new ColorPicker(Color.BLACK);
+    pConcreteShapeLines line;ublic ColorPicker contourColor = new ColorPicker(Color.BLACK);
+    private String shape;
+    */
+    
+    
+    //metodo per selezionare la linea tra le forme
     @FXML
     private void lineSegment(ActionEvent event) { //metodo per selezionare la linea tra le forme
         mod = "Line";
+        
     }
-
+    
+    //metodo per selezionare l'ellisse tra le forme
     @FXML
     private void rectangle(ActionEvent event) { //metodo per selezionare il rettangolo tra le forme
         mod = "Rectangle";
     }
-
+    
     @FXML
     private void ellipse(ActionEvent event) { //metodo per selezionare l'ellisse tra le forme
         mod = "Ellipse";
     }
     
-    private void draw (MouseEvent event){
+    @FXML
+    private void MakeDraw (MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
-        gc.setStroke(Color.BLACK);
         double x,y;
         x=event.getX();
         y=event.getY();
-        ConcreteShapeLines line = new ConcreteShapeLines();
+        Line = new ConcreteCreatorLine();
+        line = Line.creatorShape();
         line.setGraphicsContext(gc);
-            selectedColor.setValue(Color.BLUE);
-            line.setLineColor(selectedColor);
+            selectedFullColour.setValue(Color.BLACK);
             line.setStart(x,y);
+            line.setLineColor(selectedFullColour);
             line.draw();
-            line.setEnd(x+3,y+3);
-            line.draw();
+           
+    }
+    
+    @FXML
+    private void contourColour(ActionEvent event) {
     }
 
     @FXML
-    private void contourColour(ActionEvent event) { //metodo per colorare il contorno della forma
+    private void fullShapeColour(ActionEvent event) {
     }
 
-    @FXML
-    private void fullShapeColour(ActionEvent event) { //metodo per colorare l'interno della forma
-    }
+   
     
 }
