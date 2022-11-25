@@ -4,6 +4,8 @@
  */
 package Shapes;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -87,17 +89,90 @@ public class ConcreteShapeLinesTest {
         } catch (AssertionError ex) {
             fail("The setLineColor failed");
         }
-       
-           
-       
-        
-    }
 
+    }
+    
+    /**
+    * Test2 of setLineColor method, of class ConcreteShapeEllipses.
+    */
+    
+    @Test
+    public void testSetLineColor2(){
+       
+       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
+       ColorPicker colorPickerRed = new ColorPicker(Color.RED);
+       ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
+       ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
+       ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
+       ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
+       ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
+       ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
+        
+       List<ColorPicker> listColor = new ArrayList<>();
+       
+       listColor.add(colorPickerWhite);
+       listColor.add(colorPickerRed); 
+       listColor.add(colorPickerBlue);
+       listColor.add(colorPickerYellow);
+       listColor.add(colorPickerOrange);
+       listColor.add(colorPickerGreen);
+       listColor.add(colorPickerPurple);
+       listColor.add(colorPickerBlack);
+           
+       try{
+           
+           for(int i = 0; i < listColor.size(); i++){
+               instance.setLineColor(listColor.get(i));
+               assertEquals(listColor.get(i),instance.getLineColor()); 
+           }
+           
+       } catch (AssertionError ex){
+            fail("The setLineColor2 failed");
+       }
+    } 
     /**
      * Test of setFillColor method, of class ConcreteShapeLines.
      */
     
-
+    
+    /**
+    * Test2 of setFillColor method, of class ConcreteShapeEllipses.
+    */
+    
+    @Test
+    public void testSetFillColor2(){
+       
+       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
+       ColorPicker colorPickerRed = new ColorPicker(Color.RED);
+       ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
+       ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
+       ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
+       ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
+       ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
+       ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
+        
+       List<ColorPicker> listColor = new ArrayList<>();
+       
+       listColor.add(colorPickerWhite);
+       listColor.add(colorPickerRed); 
+       listColor.add(colorPickerBlue);
+       listColor.add(colorPickerYellow);
+       listColor.add(colorPickerOrange);
+       listColor.add(colorPickerGreen);
+       listColor.add(colorPickerPurple);
+       listColor.add(colorPickerBlack);
+           
+       try{
+           
+           for(int i = 0; i < listColor.size(); i++){
+               instance.setFillColor(listColor.get(i));
+               assertEquals(listColor.get(i),instance.getFillColor()); 
+           }
+           
+       } catch (AssertionError ex){
+            fail("The setLineColor2 failed");
+       }
+    }
     /**
      * Test of setStart method, of class ConcreteShapeLines.
      */

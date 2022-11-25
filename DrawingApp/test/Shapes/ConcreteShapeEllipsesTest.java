@@ -4,6 +4,11 @@
  */
 package Shapes;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -61,19 +66,45 @@ public class ConcreteShapeEllipsesTest {
         }
     }
     
+    /**
+    * Test2 of setLineColor method, of class ConcreteShapeEllipses.
+    */
+    
     @Test
     public void testSetLineColor2(){
-        //ColorPicker currentColor = instance.getLineColor();
+       
+       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
+       ColorPicker colorPickerRed = new ColorPicker(Color.RED);
+       ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
+       ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
+       ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
+       ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
+       ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
+       ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
         
-        //DAVIDE STA MODIFICANDO
-        
-        //ColorPicker color = new ColorPicker(Color.RED);
-        
+       List<ColorPicker> listColor = new ArrayList<>();
+       
+       listColor.add(colorPickerWhite);
+       listColor.add(colorPickerRed); 
+       listColor.add(colorPickerBlue);
+       listColor.add(colorPickerYellow);
+       listColor.add(colorPickerOrange);
+       listColor.add(colorPickerGreen);
+       listColor.add(colorPickerPurple);
+       listColor.add(colorPickerBlack);
+           
+       try{
+           
+           for(int i = 0; i < listColor.size(); i++){
+               instance.setLineColor(listColor.get(i));
+               assertEquals(listColor.get(i),instance.getLineColor()); 
+           }
+           
+       } catch (AssertionError ex){
+            fail("The setLineColor2 failed");
+       }
     }
     
-    
-    
-
     /**
      * Test of setFillColor method, of class ConcreteShapeEllipses.
      */
@@ -89,7 +120,48 @@ public class ConcreteShapeEllipsesTest {
             fail("The setFillColor failed");
         }
     }
-
+    
+    
+    /**
+    * Test2 of setFillColor method, of class ConcreteShapeEllipses.
+    */
+    
+    @Test
+    public void testSetFillColor2(){
+       
+       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
+       ColorPicker colorPickerRed = new ColorPicker(Color.RED);
+       ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
+       ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
+       ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
+       ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
+       ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
+       ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
+        
+       List<ColorPicker> listColor = new ArrayList<>();
+       
+       listColor.add(colorPickerWhite);
+       listColor.add(colorPickerRed); 
+       listColor.add(colorPickerBlue);
+       listColor.add(colorPickerYellow);
+       listColor.add(colorPickerOrange);
+       listColor.add(colorPickerGreen);
+       listColor.add(colorPickerPurple);
+       listColor.add(colorPickerBlack);
+           
+       try{
+           
+           for(int i = 0; i < listColor.size(); i++){
+               instance.setFillColor(listColor.get(i));
+               assertEquals(listColor.get(i),instance.getFillColor()); 
+           }
+           
+       } catch (AssertionError ex){
+            fail("The setLineColor2 failed");
+       }
+    }
+    
+    
     /**
      * Test of setCenter method, of class ConcreteShapeEllipses.
      */
@@ -98,8 +170,8 @@ public class ConcreteShapeEllipsesTest {
         System.out.println("setCenter");
         double currentCenterX = instance.getCenterX();
         double currentCenterY = instance.getCenterY();
-        double centerX = 134.1f;
-        double centerY = 850.75f;
+        double centerX = 134.1;
+        double centerY = 850.75;
         instance.setCenter(centerX, centerY);
         try {
             assertNotEquals(currentCenterX, instance.getCenterX());
@@ -134,8 +206,8 @@ public class ConcreteShapeEllipsesTest {
     @Test
     public void testGetCenterX() {
         System.out.println("getCenterX");
-        double expResult = -94.908f;
-        instance.setCenter(expResult, 0.0f);
+        double expResult = -94.908;
+        instance.setCenter(expResult, 0.0);
         double result = instance.getCenterX();
         try {
             assertNotNull(result);
@@ -152,7 +224,7 @@ public class ConcreteShapeEllipsesTest {
     @Test
     public void testGetCenterY() {
         System.out.println("getCenterY");
-        double expResult = -94.908f;
+        double expResult = -94.908;
         instance.setCenter(0.0f, expResult);
         double result = instance.getCenterY();
         try {
@@ -171,7 +243,7 @@ public class ConcreteShapeEllipsesTest {
     public void testGetRadiusX() {
         System.out.println("getRadiusX");
         instance.setRadius();
-        double expResult = 150.0f;
+        double expResult = 150.0;
         double result = instance.getRadiusX();
         try {
             assertNotNull(result);
@@ -189,7 +261,7 @@ public class ConcreteShapeEllipsesTest {
     public void testGetRadiusY() {
         System.out.println("getRadiusY");
         instance.setRadius();
-        double expResult = 90.0f;
+        double expResult = 90.0;
         double result = instance.getRadiusY();
         try {
             assertNotNull(result);
