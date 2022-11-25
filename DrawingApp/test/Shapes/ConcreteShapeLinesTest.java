@@ -23,8 +23,9 @@ import static org.junit.Assert.*;
  * @author Acer
  */
 public class ConcreteShapeLinesTest {
-     private ConcreteShapeLines instance;
+    private ConcreteShapeLines instance;
     private JFXPanel panel = new JFXPanel();
+    
     public ConcreteShapeLinesTest() {
     }
     
@@ -129,14 +130,10 @@ public class ConcreteShapeLinesTest {
                instance.setLineColor(listColor.get(i));
                assertEquals(listColor.get(i),instance.getLineColor()); 
            }
-           
        } catch (AssertionError ex){
             fail("The setLineColor2 failed");
        }
     } 
-    /**
-     * Test of setFillColor method, of class ConcreteShapeLines.
-     */
     
     
     /**
@@ -146,6 +143,7 @@ public class ConcreteShapeLinesTest {
     /**
      * Test of setStart method, of class ConcreteShapeLines.
      */
+    
     @Test
     public void testSetStart() {
         System.out.println("setStart");
@@ -301,9 +299,14 @@ public class ConcreteShapeLinesTest {
             fail("The drawShape failed");
         }
     }
-
-    /**
-     * Test of getFillColor method, of class ConcreteShapeLines.
-     */
     
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetFillColor() {
+        instance.setFillColor(new ColorPicker(Color.CHOCOLATE));
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetFillColor() {
+        ColorPicker color = instance.getFillColor();
+    }
 }
