@@ -76,7 +76,7 @@ public class WorkspaceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        selectedContourColour.getCustomColors().removeAll();
+        
     } 
     
     private void loadWindow(String location, String title) throws IOException{ //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -108,7 +108,7 @@ public class WorkspaceController implements Initializable {
             }
         }
     }
-
+     
     @FXML
     private void saveProject(ActionEvent event) throws IOException { //metodo per salvare il progetto
         FileChooser save = new FileChooser();
@@ -128,6 +128,7 @@ public class WorkspaceController implements Initializable {
     @FXML
     private void MakeDraw(MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
+        
         if (mod == "Line"){
             Line = new ConcreteCreatorLine();
             line = Line.createShape();

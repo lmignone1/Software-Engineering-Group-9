@@ -42,9 +42,9 @@ public  class ConcreteShapeLines implements Shape{
     }
    
     public void setStart(double x, double y){
-        line.setStartX(x-length/2);
+        line.setStartX(x);
         line.setStartY(y); 
-        line.setEndX(x+length/2);
+        line.setEndX(x);
         line.setEndY(y);
     }
     public double getStartX(){
@@ -69,7 +69,7 @@ public  class ConcreteShapeLines implements Shape{
     public void drawShape() {
         graphicsContext.setStroke(getLineColor().getValue());
         graphicsContext.setLineWidth(2);
-        graphicsContext.strokeLine(getStartX(), getStartY(), getEndX(), getEndY());
+        graphicsContext.strokeLine(getStartX()-length/2, getStartY(), getEndX()+length/2, getEndY());
     }
 
     @Override
