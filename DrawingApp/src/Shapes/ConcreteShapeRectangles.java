@@ -40,7 +40,6 @@ public class ConcreteShapeRectangles implements Shape{
         this.graphicsContext = graphicsContext;
     }
     
-    
     @Override
     public GraphicsContext getGraphicsContext(){
         return this.graphicsContext;
