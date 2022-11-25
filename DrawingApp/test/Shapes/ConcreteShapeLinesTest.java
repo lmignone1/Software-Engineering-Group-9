@@ -23,8 +23,9 @@ import static org.junit.Assert.*;
  * @author Acer
  */
 public class ConcreteShapeLinesTest {
-     private ConcreteShapeLines instance;
+    private ConcreteShapeLines instance;
     private JFXPanel panel = new JFXPanel();
+    
     public ConcreteShapeLinesTest() {
     }
     
@@ -125,57 +126,15 @@ public class ConcreteShapeLinesTest {
                instance.setLineColor(listColor.get(i));
                assertEquals(listColor.get(i),instance.getLineColor()); 
            }
-           
        } catch (AssertionError ex){
             fail("The setLineColor2 failed");
        }
     } 
-    /**
-     * Test of setFillColor method, of class ConcreteShapeLines.
-     */
     
-    
-    /**
-    * Test2 of setFillColor method, of class ConcreteShapeEllipses.
-    */
-    
-    @Test
-    public void testSetFillColor2(){
-       
-       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
-       ColorPicker colorPickerRed = new ColorPicker(Color.RED);
-       ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
-       ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
-       ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
-       ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
-       ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
-       ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
-        
-       List<ColorPicker> listColor = new ArrayList<>();
-       
-       listColor.add(colorPickerWhite);
-       listColor.add(colorPickerRed); 
-       listColor.add(colorPickerBlue);
-       listColor.add(colorPickerYellow);
-       listColor.add(colorPickerOrange);
-       listColor.add(colorPickerGreen);
-       listColor.add(colorPickerPurple);
-       listColor.add(colorPickerBlack);
-           
-       try{
-           
-           for(int i = 0; i < listColor.size(); i++){
-               instance.setFillColor(listColor.get(i));
-               assertEquals(listColor.get(i),instance.getFillColor()); 
-           }
-           
-       } catch (AssertionError ex){
-            fail("The setLineColor2 failed");
-       }
-    }
     /**
      * Test of setStart method, of class ConcreteShapeLines.
      */
+    
     @Test
     public void testSetStart() {
         System.out.println("setStart");
@@ -277,9 +236,14 @@ public class ConcreteShapeLinesTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of getFillColor method, of class ConcreteShapeLines.
-     */
     
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetFillColor() {
+        instance.setFillColor(new ColorPicker(Color.CHOCOLATE));
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetFillColor() {
+        ColorPicker color = instance.getFillColor();
+    }
 }
