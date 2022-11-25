@@ -16,9 +16,13 @@ public  class ConcreteShapeLines implements Shape{
     private double length;
     private ColorPicker LineColor;
     private GraphicsContext graphicsContext;
-    private Line line = new Line();
+    private Line line;
+    
     public ConcreteShapeLines(){
-    this.length=100;
+        this.length = 100;
+        this.LineColor = null;
+        this.graphicsContext = null;
+        this.line = new Line();
     }
     @Override
     public void setGraphicsContext(GraphicsContext graphicsContext){

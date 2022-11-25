@@ -18,11 +18,22 @@ public class ConcreteShapeRectangles implements Shape{
     private ColorPicker cpLine;
     private ColorPicker cpFill;
 
-    public double startX, startY, endX, endY, width=100, height=50;
+    public double startX, startY, endX, endY, width, height;
 
-    private Rectangle rectangle = new Rectangle();
+    private Rectangle rectangle;
 
-    public ConcreteShapeRectangles(){ }
+    public ConcreteShapeRectangles(){
+        this.graphicsContext = null;
+        this.cpLine = null;
+        this.cpFill = null;
+        this.startX = 0.0;
+        this.startY = 0.0;
+        this.endX = 0.0;
+        this.endY = 0.0;
+        this.width = 100;
+        this.height = 50;
+        this.rectangle = new Rectangle();
+    }
 
     @Override
     public void setGraphicsContext(GraphicsContext graphicsContext){

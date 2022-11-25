@@ -19,8 +19,17 @@ public class ConcreteShapeEllipses implements Shape{
     private ColorPicker FillColor;
     private double centerX;
     private double centerY;
-    private Ellipse ellipse  = new Ellipse();
-    private GraphicsContext gc = null;
+    private Ellipse ellipse;
+    private GraphicsContext gc;
+
+    public ConcreteShapeEllipses() {
+        this.LineColor = null;
+        this.FillColor = null;
+        this.centerX = 0.0;
+        this.centerY = 0.0;
+        this.gc = null;
+        this.ellipse = new Ellipse();
+    }
     
     @Override
     public void setLineColor(ColorPicker color){

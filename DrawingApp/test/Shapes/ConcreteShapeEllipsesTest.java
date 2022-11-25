@@ -55,10 +55,24 @@ public class ConcreteShapeEllipsesTest {
         instance.setLineColor(color);
         try {
             assertNotEquals(currentColor, instance.getLineColor().getValue());
+            assertEquals(color,instance.getLineColor());
         } catch (AssertionError ex) {
             fail("The setLineColor failed");
         }
     }
+    
+    @Test
+    public void testSetLineColor2(){
+        //ColorPicker currentColor = instance.getLineColor();
+        
+        //DAVIDE STA MODIFICANDO
+        
+        //ColorPicker color = new ColorPicker(Color.RED);
+        
+    }
+    
+    
+    
 
     /**
      * Test of setFillColor method, of class ConcreteShapeEllipses.
