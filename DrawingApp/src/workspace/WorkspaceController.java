@@ -76,7 +76,7 @@ public class WorkspaceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        selectedContourColour.getCustomColors().removeAll();
     } 
     
     private void loadWindow(String location, String title) throws IOException{ //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -98,7 +98,6 @@ public class WorkspaceController implements Initializable {
         FileChooser openFile = new FileChooser();
         openFile.setTitle("Open File");
         File file = openFile.showOpenDialog(Workspace.stage);
-
         if (file != null) {
             try {
                 InputStream io = new FileInputStream(file);

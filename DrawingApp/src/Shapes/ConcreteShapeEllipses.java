@@ -49,8 +49,8 @@ public class ConcreteShapeEllipses implements Shape{
     }
 
     public void setRadius(){
-        ellipse.setRadiusX(150.0f);
-        ellipse.setRadiusY(90.0f);
+        ellipse.setRadiusX(150.0);
+        ellipse.setRadiusY(90.0);
     }
     
     public double getCenterX(){

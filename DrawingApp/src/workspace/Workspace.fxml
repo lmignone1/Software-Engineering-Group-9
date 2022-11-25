@@ -42,7 +42,7 @@
                      </graphic></MenuItem>
                   <MenuItem mnemonicParsing="false" text="Full shape colour">
                      <graphic>
-                        <ColorPicker fx:id="selectedFullColour" />
+                        <ColorPicker fx:id="selectedFullColour"/>
                      </graphic></MenuItem>
                </items>
             </Menu>

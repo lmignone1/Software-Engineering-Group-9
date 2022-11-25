@@ -85,6 +85,7 @@ public class ConcreteShapeEllipsesTest {
         instance.setFillColor(color);
         try {
             assertNotEquals(currentColor, instance.getFillColor().getValue());
+            assertEquals(color,instance.getFillColor());
         } catch (AssertionError ex) {
             fail("The setFillColor failed");
         }
@@ -251,6 +252,21 @@ public class ConcreteShapeEllipsesTest {
             fail("The setGraphicsContext failed");
         }
     }
+    
+    @Test
+    public void testGetGraphicsContext() {
+        System.out.println("getGraphicsContext");
+        Canvas drawingCanvas = new Canvas(1500, 1500);
+        GraphicsContext expResult = drawingCanvas.getGraphicsContext2D();
+        instance.setGraphicsContext(expResult);
+        GraphicsContext result = instance.getGraphicsContext();
+        try {
+            assertNotNull(result);
+            assertEquals(expResult, result);
+        } catch (AssertionError ex) {
+            fail("The getGraphicsContext failed");
+        }
+    }
 
     /**
      * Test of drawShape method, of class ConcreteShapeEllipses.
@@ -261,7 +277,7 @@ public class ConcreteShapeEllipsesTest {
         Canvas drawingCanvas = new Canvas(1500, 1500);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(gc);
-        instance.setCenter(120.0, 150.0);
+        instance.setCenter(800.0223, 673.9829);
         instance.setRadius();
         ColorPicker lineColor = new ColorPicker(Color.YELLOW);
         instance.setLineColor(lineColor);
@@ -269,10 +285,25 @@ public class ConcreteShapeEllipsesTest {
         instance.setFillColor(fillColor);
         instance.drawShape();
         GraphicsContext instanceGC = instance.getGraphicsContext();
-        //GraphicsContext expResult = 
+        Canvas expCanvas = new Canvas(1500, 1500);
+        GraphicsContext expGC = expCanvas.getGraphicsContext2D();
+        expGC.setStroke(lineColor.getValue());
+        expGC.setLineWidth(3);
+        double x = 800.0223 - (150.0)/2;
+        double y = 673.9829 - (90.0)/2;
+        double w = 150.0;
+        double h = 90.0;
+        expGC.setFill(fillColor.getValue());
+        expGC.strokeOval(x, y, w, h);
+        expGC.fillOval(x, y, w, h);
         try {
-            assertEquals(lineColor, instanceGC.getStroke());
-            
+            assertEquals(expGC.getStroke(), instanceGC.getStroke());
+            assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
+            assertEquals(expGC.getFill(), instanceGC.getFill());
+            assertEquals(x, (instance.getCenterX() - (instance.getRadiusX()/2)), 0);
+            assertEquals(y, (instance.getCenterY() - (instance.getRadiusY()/2)), 0);
+            assertEquals(w, instance.getRadiusX(), 0);
+            assertEquals(h, instance.getRadiusY(), 0);
         } catch (AssertionError ex){
             fail("The drawShape failed");
         }
