@@ -30,7 +30,11 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
+import javafx.scene.input.ZoomEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -70,6 +74,8 @@ public class WorkspaceController implements Initializable {
     private MenuItem rectangleMenu;
     @FXML
     private MenuItem ellipseMenu;
+    @FXML
+    private AnchorPane pane;
     
     /**
      * Initializes the controller class.
@@ -123,7 +129,12 @@ public class WorkspaceController implements Initializable {
             }
         }
     }
-    
+    @FXML
+    private void ResizeCanvas(MouseEvent event){
+        drawingCanvas.setWidth(pane.getPrefWidth());
+        drawingCanvas.setHeight(pane.getPrefHeight());
+        
+    }
     @FXML
     private void MakeDraw(MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
@@ -175,5 +186,8 @@ public class WorkspaceController implements Initializable {
         mod = "Ellipse";
         selectedFullColour.setDisable(false);
     }
+
+
+
     
 }
