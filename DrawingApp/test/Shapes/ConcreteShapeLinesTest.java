@@ -30,6 +30,7 @@ public class ConcreteShapeLinesTest {
     private JFXPanel panel = new JFXPanel();
     private double[] vect = null;
     private double[] vect2 = null;
+    private List<ColorPicker> listColor = null;
     
     public ConcreteShapeLinesTest() {
         vect = new double[100];
@@ -47,6 +48,28 @@ public class ConcreteShapeLinesTest {
             }
             count++;
         }
+        
+        listColor = new ArrayList<>();
+        
+        ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
+        ColorPicker colorPickerRed = new ColorPicker(Color.RED);
+        ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
+        ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
+        ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
+        ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
+        ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
+        ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
+        
+        listColor.add(colorPickerWhite);
+        listColor.add(colorPickerRed); 
+        listColor.add(colorPickerBlue);
+        listColor.add(colorPickerYellow);
+        listColor.add(colorPickerOrange);
+        listColor.add(colorPickerGreen);
+        listColor.add(colorPickerPurple);
+        listColor.add(colorPickerBlack);
+        
+        
     }
     
     @BeforeClass
@@ -125,32 +148,22 @@ public class ConcreteShapeLinesTest {
     @Test
     public void testSetLineColor2(){
        
-       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
-       ColorPicker colorPickerRed = new ColorPicker(Color.RED);
-       ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
-       ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
-       ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
-       ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
-       ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
-       ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
+        System.out.println("testSetLineColor2");
         
-       List<ColorPicker> listColor = new ArrayList<>();
-       
-       listColor.add(colorPickerWhite);
-       listColor.add(colorPickerRed); 
-       listColor.add(colorPickerBlue);
-       listColor.add(colorPickerYellow);
-       listColor.add(colorPickerOrange);
-       listColor.add(colorPickerGreen);
-       listColor.add(colorPickerPurple);
-       listColor.add(colorPickerBlack);
+        List<ColorPicker> listColorDefault = new ArrayList<>();
+        
+        for(int i = 0;i < 8; i++){
+            listColorDefault.add(instance.getLineColor());
+        }
            
        try{
            
            for(int i = 0; i < listColor.size(); i++){
                instance.setLineColor(listColor.get(i));
+               assertNotEquals(listColorDefault.get(i),instance.getLineColor()); 
                assertEquals(listColor.get(i),instance.getLineColor()); 
            }
+           
        } catch (AssertionError ex){
             fail("The setLineColor2 failed");
        }
@@ -273,36 +286,16 @@ public class ConcreteShapeLinesTest {
      */
     @Test
     public void testGetLineColor() {
-       System.out.println("getLineColor");
-       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
-       ColorPicker colorPickerRed = new ColorPicker(Color.RED);
-       ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
-       ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
-       ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
-       ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
-       ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
-       ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
-        
-       List<ColorPicker> listColor = new ArrayList<>();
-       
-       listColor.add(colorPickerWhite);
-       listColor.add(colorPickerRed); 
-       listColor.add(colorPickerBlue);
-       listColor.add(colorPickerYellow);
-       listColor.add(colorPickerOrange);
-       listColor.add(colorPickerGreen);
-       listColor.add(colorPickerPurple);
-       listColor.add(colorPickerBlack);
-           
-        
+       System.out.println("getLineColor"); 
         try {
-            for(int i=0;i<8;i++){
-        ColorPicker expResult = new ColorPicker(listColor.get(i).getValue());
-        instance.setLineColor(expResult);
-        ColorPicker result = instance.getLineColor();
-            assertNotNull(result);
-            assertEquals(expResult.getValue(), result.getValue());
-        }
+            for(int i = 0;i < listColor.size(); i++){
+                ColorPicker expResult = listColor.get(i);
+                instance.setLineColor(expResult);
+                ColorPicker result = instance.getLineColor();
+                
+                assertNotNull(result);
+                assertEquals(expResult, result);
+            }
         }
         catch (AssertionError ex) {
             fail("The getLineColor failed");

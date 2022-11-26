@@ -30,6 +30,7 @@ public class ConcreteShapeEllipsesTest {
     private JFXPanel panel = new JFXPanel();
     private double[] vect = null;
     private double[] vect2 = null;
+    private List<ColorPicker> listColor = null;
     
     public ConcreteShapeEllipsesTest() {
         vect = new double[100];
@@ -47,6 +48,27 @@ public class ConcreteShapeEllipsesTest {
             }
             count++;
         }
+        
+        listColor = new ArrayList<>();
+        
+        ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
+        ColorPicker colorPickerRed = new ColorPicker(Color.RED);
+        ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
+        ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
+        ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
+        ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
+        ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
+        ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
+        
+        listColor.add(colorPickerWhite);
+        listColor.add(colorPickerRed); 
+        listColor.add(colorPickerBlue);
+        listColor.add(colorPickerYellow);
+        listColor.add(colorPickerOrange);
+        listColor.add(colorPickerGreen);
+        listColor.add(colorPickerPurple);
+        listColor.add(colorPickerBlack);
+        
     }
     
     @BeforeClass
@@ -97,26 +119,6 @@ public class ConcreteShapeEllipsesTest {
         for(int i = 0;i < 8; i++){
             listColorDefault.add(instance.getLineColor());
         }
-       
-       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
-       ColorPicker colorPickerRed = new ColorPicker(Color.RED);
-       ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
-       ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
-       ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
-       ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
-       ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
-       ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
-        
-       List<ColorPicker> listColor = new ArrayList<>();
-       
-       listColor.add(colorPickerWhite);
-       listColor.add(colorPickerRed); 
-       listColor.add(colorPickerBlue);
-       listColor.add(colorPickerYellow);
-       listColor.add(colorPickerOrange);
-       listColor.add(colorPickerGreen);
-       listColor.add(colorPickerPurple);
-       listColor.add(colorPickerBlack);
            
        try{
            
@@ -163,27 +165,7 @@ public class ConcreteShapeEllipsesTest {
         for(int i = 0;i < 8; i++){
             listColorDefault.add(instance.getLineColor());
         }
-       
-       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
-       ColorPicker colorPickerRed = new ColorPicker(Color.RED);
-       ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
-       ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
-       ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
-       ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
-       ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
-       ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
-        
-       List<ColorPicker> listColor = new ArrayList<>();
-       
-       listColor.add(colorPickerWhite);
-       listColor.add(colorPickerRed); 
-       listColor.add(colorPickerBlue);
-       listColor.add(colorPickerYellow);
-       listColor.add(colorPickerOrange);
-       listColor.add(colorPickerGreen);
-       listColor.add(colorPickerPurple);
-       listColor.add(colorPickerBlack);
-           
+
        try{
            
            for(int i = 0; i < listColor.size(); i++){
@@ -248,15 +230,16 @@ public class ConcreteShapeEllipsesTest {
     @Test
     public void testGetCenterX() {
         System.out.println("getCenterX");
-        double expResult = -94.908;
-        instance.setCenter(expResult, 0.0);
-        double result = instance.getCenterX();
-        try {
-            assertNotNull(result);
-            assertEquals(expResult, result, 0);
-        }
-        catch (AssertionError ex) {
-            fail("The getCenterX failed");
+        double[] expResult = vect;
+        for(int i = 0; i < expResult.length; i++) {
+            instance.setCenter(expResult[i], 0.0);
+            double result = instance.getCenterX();
+            try {
+                assertNotNull(result);
+                assertEquals(expResult[i], result, 0);
+            } catch (AssertionError ex) {
+                fail("The getCenterX failed");
+            }
         }
     }
 
@@ -266,15 +249,16 @@ public class ConcreteShapeEllipsesTest {
     @Test
     public void testGetCenterY() {
         System.out.println("getCenterY");
-        double expResult = -94.908;
-        instance.setCenter(0.0f, expResult);
-        double result = instance.getCenterY();
-        try {
-            assertNotNull(result);
-            assertEquals(expResult, result, 0);
-        }
-        catch (AssertionError ex) {
-            fail("The getCenterY failed");
+        double[] expResult = vect;
+        for(int i = 0; i < expResult.length; i++) {
+            instance.setCenter(0.0, expResult[i]);
+            double result = instance.getCenterY();
+            try {
+                assertNotNull(result);
+                assertEquals(expResult[i], result, 0);
+            } catch (AssertionError ex) {
+                fail("The getCenterY failed");
+            }
         }
     }
 
@@ -319,13 +303,16 @@ public class ConcreteShapeEllipsesTest {
      */
     @Test
     public void testGetLineColor() {
-        System.out.println("getLineColor");
-        ColorPicker expResult = new ColorPicker(Color.BLUE);
-        instance.setLineColor(expResult);
-        ColorPicker result = instance.getLineColor();
+       System.out.println("getLineColor"); 
         try {
-            assertNotNull(result);
-            assertEquals(expResult.getValue(), result.getValue());
+            for(int i = 0;i < listColor.size(); i++){
+                ColorPicker expResult = listColor.get(i);
+                instance.setLineColor(expResult);
+                ColorPicker result = instance.getLineColor();
+                
+                assertNotNull(result);
+                assertEquals(expResult, result);
+            }
         }
         catch (AssertionError ex) {
             fail("The getLineColor failed");
@@ -337,13 +324,16 @@ public class ConcreteShapeEllipsesTest {
      */
     @Test
     public void testGetFillColor() {
-        System.out.println("getFillColor");
-        ColorPicker expResult = new ColorPicker(Color.BLUE);
-        instance.setFillColor(expResult);
-        ColorPicker result = instance.getFillColor();
+       System.out.println("getFillColor"); 
         try {
-            assertNotNull(result);
-            assertEquals(expResult.getValue(), result.getValue());
+            for(int i = 0;i < listColor.size(); i++){
+                ColorPicker expResult = listColor.get(i);
+                instance.setFillColor(expResult);
+                ColorPicker result = instance.getFillColor();
+                
+                assertNotNull(result);
+                assertEquals(expResult, result);
+            }
         }
         catch (AssertionError ex) {
             fail("The getFillColor failed");
@@ -361,6 +351,7 @@ public class ConcreteShapeEllipsesTest {
         instance.setGraphicsContext(gc);
         try {
             assertNotEquals(null, instance.getGraphicsContext());
+            assertEquals(gc, instance.getGraphicsContext());
         } catch (AssertionError ex) {
             fail("The setGraphicsContext failed");
         }
