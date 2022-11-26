@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.paint.Color?>
 
-<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="1000.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
+<AnchorPane id="AnchorPane" fx:id="pane" onMouseEntered="#ResizeCanvas" prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
    <children>
-      <BorderPane prefHeight="1000.0" prefWidth="1500.0">
+      <BorderPane prefHeight="1000.0" prefWidth="1400.0">
          <center>
-            <Canvas fx:id="drawingCanvas" accessibleRole="PAGE_ITEM" height="1000.0" onMousePressed="#MakeDraw" width="1500.0" BorderPane.alignment="CENTER" />
+            <Canvas fx:id="drawingCanvas" accessibleRole="PAGE_ITEM" height="1000.0" onMousePressed="#MakeDraw" width="1400.0" BorderPane.alignment="CENTER" />
          </center>
          <top>
             <MenuBar onMouseEntered="#ResizeCanvas" prefHeight="25.0" prefWidth="1500.0" BorderPane.alignment="CENTER">
