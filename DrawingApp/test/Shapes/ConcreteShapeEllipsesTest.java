@@ -248,15 +248,16 @@ public class ConcreteShapeEllipsesTest {
     @Test
     public void testGetCenterX() {
         System.out.println("getCenterX");
-        double expResult = -94.908;
-        instance.setCenter(expResult, 0.0);
-        double result = instance.getCenterX();
-        try {
-            assertNotNull(result);
-            assertEquals(expResult, result, 0);
-        }
-        catch (AssertionError ex) {
-            fail("The getCenterX failed");
+        double[] expResult = vect;
+        for(int i = 0; i < expResult.length; i++) {
+            instance.setCenter(expResult[i], 0.0);
+            double result = instance.getCenterX();
+            try {
+                assertNotNull(result);
+                assertEquals(expResult[i], result, 0);
+            } catch (AssertionError ex) {
+                fail("The getCenterX failed");
+            }
         }
     }
 
@@ -266,15 +267,16 @@ public class ConcreteShapeEllipsesTest {
     @Test
     public void testGetCenterY() {
         System.out.println("getCenterY");
-        double expResult = -94.908;
-        instance.setCenter(0.0f, expResult);
-        double result = instance.getCenterY();
-        try {
-            assertNotNull(result);
-            assertEquals(expResult, result, 0);
-        }
-        catch (AssertionError ex) {
-            fail("The getCenterY failed");
+        double[] expResult = vect;
+        for(int i = 0; i < expResult.length; i++) {
+            instance.setCenter(0.0, expResult[i]);
+            double result = instance.getCenterY();
+            try {
+                assertNotNull(result);
+                assertEquals(expResult[i], result, 0);
+            } catch (AssertionError ex) {
+                fail("The getCenterY failed");
+            }
         }
     }
 
@@ -361,6 +363,7 @@ public class ConcreteShapeEllipsesTest {
         instance.setGraphicsContext(gc);
         try {
             assertNotEquals(null, instance.getGraphicsContext());
+            assertEquals(gc, instance.getGraphicsContext());
         } catch (AssertionError ex) {
             fail("The setGraphicsContext failed");
         }
