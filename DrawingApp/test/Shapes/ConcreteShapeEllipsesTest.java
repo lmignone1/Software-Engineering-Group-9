@@ -402,8 +402,9 @@ public class ConcreteShapeEllipsesTest {
         double w = 150.0;
         double h = 90.0;
         
-        
-        
+        for(int i = 0; i < vect.length; i++) {
+            
+        }
         
         
         
