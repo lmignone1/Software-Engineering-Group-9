@@ -392,23 +392,35 @@ public class ConcreteShapeEllipsesTest {
         System.out.println("drawShape");
         Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
+        Canvas expCanvas = new Canvas(1400, 1000);
+        GraphicsContext expGC = expCanvas.getGraphicsContext2D();
+        double[] centerX = vect;
+        double[] centerY = vect2;
         instance.setGraphicsContext(gc);
-        instance.setCenter(800.0223, 673.9829);
         instance.setRadius();
+        expGC.setLineWidth(3);
+        double w = 150.0;
+        double h = 90.0;
+        
+        
+        
+        
+        
+        
+        
+        instance.setCenter(800.0223, 673.9829);
         ColorPicker lineColor = new ColorPicker(Color.YELLOW);
         instance.setLineColor(lineColor);
         ColorPicker fillColor = new ColorPicker(Color.GREEN);
         instance.setFillColor(fillColor);
         instance.drawShape();
         GraphicsContext instanceGC = instance.getGraphicsContext();
-        Canvas expCanvas = new Canvas(1400, 1000);
-        GraphicsContext expGC = expCanvas.getGraphicsContext2D();
         expGC.setStroke(lineColor.getValue());
-        expGC.setLineWidth(3);
+        
+        
         double x = 800.0223 - (150.0)/2;
         double y = 673.9829 - (90.0)/2;
-        double w = 150.0;
-        double h = 90.0;
+        
         expGC.setFill(fillColor.getValue());
         expGC.strokeOval(x, y, w, h);
         expGC.fillOval(x, y, w, h);
