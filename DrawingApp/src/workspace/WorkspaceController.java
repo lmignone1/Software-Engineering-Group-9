@@ -76,7 +76,6 @@ public class WorkspaceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
     } 
     
     private void loadWindow(String location, String title) throws IOException{ //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -116,7 +115,7 @@ public class WorkspaceController implements Initializable {
         File file = save.showSaveDialog(Workspace.stage);
         if (file != null) {
             try {
-                WritableImage image = new WritableImage(1500, 1500); //empty image
+                WritableImage image = new WritableImage(1400, 1000); //empty image
                 drawingCanvas.snapshot(null, image); //screenshot saved in the image
                 ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);  // save an image after that the image object has been converted from a javafx image 
             } catch (IOException e) {
@@ -128,7 +127,6 @@ public class WorkspaceController implements Initializable {
     @FXML
     private void MakeDraw(MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
-        
         if (mod == "Line"){
             Line = new ConcreteCreatorLine();
             line = Line.createShape();

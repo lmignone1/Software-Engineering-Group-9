@@ -53,7 +53,7 @@ public class ConcreteShapeLinesTest {
     @Test
     public void testSetGraphicsContext() {
        System.out.println("setGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1500, 1500);
+        Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(gc);
         try {
@@ -69,7 +69,7 @@ public class ConcreteShapeLinesTest {
     @Test
     public void testGetGraphicsContext() {
       System.out.println("getGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1500, 1500);
+        Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext expResult = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(expResult);
         GraphicsContext result = instance.getGraphicsContext();
@@ -327,7 +327,7 @@ public class ConcreteShapeLinesTest {
     @Test
     public void testDrawShape() {
         System.out.println("drawShape");
-        Canvas drawingCanvas = new Canvas(1500, 1500);
+        Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(gc);
         double[] startX= new double[10];
@@ -370,7 +370,7 @@ public class ConcreteShapeLinesTest {
         instance.setLineColor(listColor.get(i));
         instance.drawShape();
         GraphicsContext instanceGC = instance.getGraphicsContext();
-        Canvas expCanvas = new Canvas(1500, 1500);
+        Canvas expCanvas = new Canvas(1400, 1000);
         GraphicsContext expGC = expCanvas.getGraphicsContext2D();
         expGC.setStroke(listColor.get(i).getValue());
         expGC.setLineWidth(2);

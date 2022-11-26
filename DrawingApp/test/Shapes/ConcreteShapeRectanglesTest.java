@@ -53,7 +53,7 @@ public class ConcreteShapeRectanglesTest {
     @Test
     public void testSetGraphicsContext() {
         System.out.println("setGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1500, 1500);
+        Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(gc);
         try {
@@ -69,7 +69,7 @@ public class ConcreteShapeRectanglesTest {
     @Test
     public void testGetGraphicsContext() {
         System.out.println("getGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1500, 1500);
+        Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext expResult = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(expResult);
         GraphicsContext result = instance.getGraphicsContext();

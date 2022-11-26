@@ -4,11 +4,11 @@
  */
 package Shapes;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.PrimitiveIterator;
+import java.util.Random;
+import java.util.stream.DoubleStream;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -28,8 +28,25 @@ import static org.junit.Assert.*;
 public class ConcreteShapeEllipsesTest {
     private ConcreteShapeEllipses instance;
     private JFXPanel panel = new JFXPanel();
+    private double[] vect = null;
+    private double[] vect2 = null;
     
     public ConcreteShapeEllipsesTest() {
+        vect = new double[100];
+        vect2 = new double[100];
+        Random r = new Random();
+        DoubleStream stream = r.doubles(-999.999, 999.999);
+        int count = 0;
+        PrimitiveIterator.OfDouble it = stream.iterator();
+        while(count < 2*vect.length && it.hasNext()) {
+            if (count < vect.length) {
+                vect[count] = it.nextDouble();
+            }
+            else {
+                vect2[count-vect.length] = it.nextDouble();
+            }
+            count++;
+        }
     }
     
     @BeforeClass
@@ -48,7 +65,7 @@ public class ConcreteShapeEllipsesTest {
     @After
     public void tearDown() {
     }
-
+   
     /**
      * Test of setLineColor method, of class ConcreteShapeEllipses.
      */
@@ -171,15 +188,19 @@ public class ConcreteShapeEllipsesTest {
         System.out.println("setCenter");
         double currentCenterX = instance.getCenterX();
         double currentCenterY = instance.getCenterY();
-        double centerX = 134.1;
-        double centerY = 850.75;
-        instance.setCenter(centerX, centerY);
-        try {
-            assertNotEquals(currentCenterX, instance.getCenterX());
-            assertNotEquals(currentCenterY, instance.getCenterY());
-        } catch (AssertionError ex) {
-            fail("The setCenter failed");
-        }
+        double[] centerX = vect;
+        double[] centerY = vect2;
+        for(int i = 0; i < centerX.length; i++) {
+            instance.setCenter(centerX[i], centerY[i]);
+            try {
+                assertNotEquals(currentCenterX, instance.getCenterX());
+                assertNotEquals(currentCenterY, instance.getCenterY());
+                assertEquals(centerX[i], instance.getCenterX(), 0);
+                assertEquals(centerY[i], instance.getCenterY(), 0);
+            } catch (AssertionError ex) {
+                fail("The setCenter failed");
+            }
+        } 
     }
 
     /**
@@ -196,6 +217,8 @@ public class ConcreteShapeEllipsesTest {
         try {
            assertNotEquals(currentRX, rX);
            assertNotEquals(currentRY, rY);
+           assertEquals(150.0, instance.getRadiusX(), 0);
+           assertEquals(90.0, instance.getRadiusY(), 0);
         } catch (AssertionError ex) {
             fail("The setRadius failed");
         }
@@ -315,7 +338,7 @@ public class ConcreteShapeEllipsesTest {
     @Test
     public void testSetGraphicsContext() {
         System.out.println("setGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1500, 1500);
+        Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(gc);
         try {
@@ -328,7 +351,7 @@ public class ConcreteShapeEllipsesTest {
     @Test
     public void testGetGraphicsContext() {
         System.out.println("getGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1500, 1500);
+        Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext expResult = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(expResult);
         GraphicsContext result = instance.getGraphicsContext();
@@ -346,7 +369,7 @@ public class ConcreteShapeEllipsesTest {
     @Test
     public void testDrawShape() {
         System.out.println("drawShape");
-        Canvas drawingCanvas = new Canvas(1500, 1500);
+        Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(gc);
         instance.setCenter(800.0223, 673.9829);
@@ -357,7 +380,7 @@ public class ConcreteShapeEllipsesTest {
         instance.setFillColor(fillColor);
         instance.drawShape();
         GraphicsContext instanceGC = instance.getGraphicsContext();
-        Canvas expCanvas = new Canvas(1500, 1500);
+        Canvas expCanvas = new Canvas(1400, 1000);
         GraphicsContext expGC = expCanvas.getGraphicsContext2D();
         expGC.setStroke(lineColor.getValue());
         expGC.setLineWidth(3);
