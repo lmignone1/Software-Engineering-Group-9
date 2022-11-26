@@ -11,6 +11,9 @@ import Shapes.ConcreteShapeRectangles;
 
 import Shapes.ConcreteCreatorEllipse;
 import Shapes.ConcreteShapeEllipses;
+
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,7 +33,12 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.SwipeEvent;
+import javafx.scene.input.TouchEvent;
+import javafx.scene.input.ZoomEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -70,6 +78,8 @@ public class WorkspaceController implements Initializable {
     private MenuItem rectangleMenu;
     @FXML
     private MenuItem ellipseMenu;
+    @FXML
+    private AnchorPane pane;
     
     /**
      * Initializes the controller class.
@@ -84,6 +94,8 @@ public class WorkspaceController implements Initializable {
         Stage stage = new Stage(StageStyle.DECORATED);
         stage.setScene(scene);
         stage.setTitle(title);
+        
+        
         stage.show();
     }
 
@@ -123,7 +135,16 @@ public class WorkspaceController implements Initializable {
             }
         }
     }
-    
+    @FXML
+    private void ResizeCanvas(MouseEvent event){
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+        if((drawingCanvas.getHeight()!=pane.getPrefHeight())&&(drawingCanvas.getWidth()!=pane.getPrefWidth())){
+        drawingCanvas.setWidth(width);
+        drawingCanvas.setHeight(height);
+        }
+    }
     @FXML
     private void MakeDraw(MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
@@ -175,5 +196,10 @@ public class WorkspaceController implements Initializable {
         mod = "Ellipse";
         selectedFullColour.setDisable(false);
     }
+
+
+
+
+
     
 }
