@@ -232,7 +232,7 @@ public class ConcreteShapeRectanglesTest {
                 assertEquals(startX[i], instance.getStartX(), 0);
                 assertEquals(startY[i], instance.getStartY(), 0);
             } catch (AssertionError ex) {
-                fail("The setCenter failed");
+                fail("The setStart failed");
             }
         } 
     }
@@ -254,7 +254,7 @@ public class ConcreteShapeRectanglesTest {
                 assertEquals(expResult[i], result, 0);
             }
             catch (AssertionError ex) {
-                fail("The getCenterX failed");
+                fail("The getStartX failed");
             }
         } 
     }
