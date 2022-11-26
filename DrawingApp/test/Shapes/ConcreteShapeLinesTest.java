@@ -91,7 +91,7 @@ public class ConcreteShapeLinesTest {
         ColorPicker color = new ColorPicker(Color.BLUE);
         instance.setLineColor(color);
         try {
-            assertNotEquals(currentColor, instance.getLineColor().getValue());
+            assertNotEquals(currentColor, instance.getLineColor());
             assertEquals(color,instance.getLineColor());
         } catch (AssertionError ex) {
             fail("The setLineColor failed");
