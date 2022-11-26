@@ -6,7 +6,9 @@ package Shapes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.Random;
+import java.util.stream.DoubleStream;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,8 +28,25 @@ import static org.junit.Assert.*;
 public class ConcreteShapeLinesTest {
     private ConcreteShapeLines instance;
     private JFXPanel panel = new JFXPanel();
+    private double[] vect = null;
+    private double[] vect2 = null;
     
     public ConcreteShapeLinesTest() {
+        vect = new double[100];
+        vect2 = new double[100];
+        Random r = new Random();
+        DoubleStream stream = r.doubles(-999.999, 999.999);
+        int count = 0;
+        PrimitiveIterator.OfDouble it = stream.iterator();
+        while(count < 2*vect.length && it.hasNext()) {
+            if (count < vect.length) {
+                vect[count] = it.nextDouble();
+            }
+            else {
+                vect2[count-vect.length] = it.nextDouble();
+            }
+            count++;
+        }
     }
     
     @BeforeClass
@@ -58,6 +77,7 @@ public class ConcreteShapeLinesTest {
         instance.setGraphicsContext(gc);
         try {
             assertNotEquals(null, instance.getGraphicsContext());
+            assertEquals(gc,instance.getGraphicsContext());
         } catch (AssertionError ex) {
             fail("The setGraphicsContext failed");
         }
@@ -150,22 +170,11 @@ public class ConcreteShapeLinesTest {
         System.out.println("setStart");
         double currentstartX=instance.getStartX();
         double currentstartY=instance.getStartY();
-        double[] startX= new double[10];
-        double[] startY= new double[10];
-        Random random=new Random();
-        double min=-999;
-        double max=999;
+        double[] startX= vect;
+        double[] startY= vect2;
         
-        for(int i=0;i<5;i++){
-            startX[i]= Math.random()*max;
-            startY[i]= Math.random()*max;
-        }
-         for(int i=5;i<10;i++){
-            startX[i]= Math.random()*min;
-            startY[i]= Math.random()*min;
-        }
         try {
-            for(int i=0;i<10;i++){
+            for(int i=0;i<vect.length;i++){
             instance.setStart(startX[i], startY[i]);
             assertNotEquals(currentstartX, instance.getStartX());
             assertNotEquals(currentstartY, instance.getStartY());
@@ -183,20 +192,9 @@ public class ConcreteShapeLinesTest {
     @Test
     public void testGetStartX() {
        System.out.println("getStartX");
-        double[] expResult = new double[10];
-        Random random=new Random();
-        double min=-999;
-        double max=999;
-      
-         for(int i=0;i<5;i++){
-            expResult[i]= Math.random()*max;
-        }
-         for(int i=5;i<10;i++){
-            expResult[i]= Math.random()*min;
-          
-        }
+        double[] expResult = vect;
         try {
-            for(int i = 0;i<10;i++){
+            for(int i = 0;i<vect.length;i++){
         instance.setStart(expResult[i], 0.0);
         double result = instance.getStartX();
         assertNotNull(result);
@@ -214,20 +212,10 @@ public class ConcreteShapeLinesTest {
     @Test
     public void testGetStartY() {
          System.out.println("getStartY");
-        double[] expResult = new double[10];
-        Random random=new Random();
-        double min=-999;
-        double max=999;
-         for(int i=0;i<5;i++){
-            expResult[i]= Math.random()*max;
-        }
-         for(int i=5;i<10;i++){
-            expResult[i]= Math.random()*min;
-          
-        }
+        double[] expResult = vect;
         
         try {
-            for(int i = 0;i<10;i++){
+            for(int i = 0;i<vect.length;i++){
         instance.setStart(0.0,expResult[i]);
         double result = instance.getStartY();
         assertNotNull(result);
@@ -245,20 +233,9 @@ public class ConcreteShapeLinesTest {
     @Test
     public void testGetEndX() {
          System.out.println("getEndX");
-        double[] expResult = new double[10];
-        Random random=new Random();
-        double min=-999;
-        double max=999;
-         for(int i=0;i<5;i++){
-            expResult[i]= Math.random()*max;
-        }
-         for(int i=5;i<10;i++){
-            expResult[i]= Math.random()*min;
-          
-        }
-        
+        double[] expResult = vect; 
         try {
-            for(int i = 0;i<10;i++){
+            for(int i = 0;i<vect.length;i++){
         instance.setStart(expResult[i], 0.0);
         double result = instance.getEndX();
         assertNotNull(result);
@@ -276,20 +253,10 @@ public class ConcreteShapeLinesTest {
     @Test
     public void testGetEndY() {
        System.out.println("getEndY");
-        double[] expResult = new double[10];
-        Random random=new Random();
-        double min=-999;
-        double max=999;
-        for(int i=0;i<5;i++){
-            expResult[i]= Math.random()*max;
-        }
-         for(int i=5;i<10;i++){
-            expResult[i]= Math.random()*min;
-          
-        }
+        double[] expResult = vect;
         
         try {
-            for(int i = 0;i<10;i++){
+            for(int i = 0;i<vect.length;i++){
         instance.setStart(0.0,expResult[i]);
         double result = instance.getEndY();
         assertNotNull(result);
@@ -351,19 +318,8 @@ public class ConcreteShapeLinesTest {
         Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(gc);
-        double[] startX= new double[10];
-        double[] startY= new double[10];
-        Random random=new Random();
-        double min=-999;
-        double max=999;
-        for(int i=0;i<5;i++){
-            startX[i]= Math.random()*max;
-            startY[i]= Math.random()*max;
-        }
-         for(int i=5;i<10;i++){
-            startX[i]= Math.random()*min;
-            startY[i]= Math.random()*min;
-        }
+        double[] startX= vect;
+        double[] startY= vect2;
         
        ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
        ColorPicker colorPickerRed = new ColorPicker(Color.RED);
@@ -386,18 +342,22 @@ public class ConcreteShapeLinesTest {
        listColor.add(colorPickerPurple);
        listColor.add(colorPickerBlack);
        listColor.add(colorPickerAzure);
-       listColor.add(colorPickerBurlywood);   
-       
-        try {
-            for(int i=0;i<10;i++){
+       listColor.add(colorPickerBurlywood); 
+       GraphicsContext instanceGC = instance.getGraphicsContext();
+       Canvas expCanvas = new Canvas(1400, 1000);
+       GraphicsContext expGC = expCanvas.getGraphicsContext2D();  
+       for(int i=0;i<10;i++){
+       instance.setLineColor(listColor.get(i)); 
+       expGC.setStroke(listColor.get(i).getValue());
+       } 
+       try {
+            for(int i=0;i<vect.length;i++){
         instance.setStart(startX[i], startY[i]);
                 
-        instance.setLineColor(listColor.get(i));
+        
         instance.drawShape();
-        GraphicsContext instanceGC = instance.getGraphicsContext();
-        Canvas expCanvas = new Canvas(1400, 1000);
-        GraphicsContext expGC = expCanvas.getGraphicsContext2D();
-        expGC.setStroke(listColor.get(i).getValue());
+        
+       
         expGC.setLineWidth(2);
         expGC.strokeLine(instance.getStartX(), instance.getStartY(), instance.getEndX(), instance.getEndY());
        
