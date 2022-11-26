@@ -155,9 +155,14 @@ public class ConcreteShapeLinesTest {
         Random random=new Random();
         double min=-999;
         double max=999;
-        for(int i=0;i<10;i++){
-            startX[i]= random.nextInt((int) (max-min))+min;
-            startY[i]= random.nextInt((int) (max-min))+min;
+        
+        for(int i=0;i<5;i++){
+            startX[i]= Math.random()*max;
+            startY[i]= Math.random()*max;
+        }
+         for(int i=5;i<10;i++){
+            startX[i]= Math.random()*min;
+            startY[i]= Math.random()*min;
         }
         try {
             for(int i=0;i<10;i++){
@@ -182,10 +187,14 @@ public class ConcreteShapeLinesTest {
         Random random=new Random();
         double min=-999;
         double max=999;
-        for(int i=0;i<10;i++){
-        expResult[i]= random.nextInt((int) (max-min))+min;
+      
+         for(int i=0;i<5;i++){
+            expResult[i]= Math.random()*max;
         }
-        
+         for(int i=5;i<10;i++){
+            expResult[i]= Math.random()*min;
+          
+        }
         try {
             for(int i = 0;i<10;i++){
         instance.setStart(expResult[i], 0.0);
@@ -209,8 +218,12 @@ public class ConcreteShapeLinesTest {
         Random random=new Random();
         double min=-999;
         double max=999;
-        for(int i=0;i<10;i++){
-        expResult[i]= random.nextInt((int) (max-min))+min;
+         for(int i=0;i<5;i++){
+            expResult[i]= Math.random()*max;
+        }
+         for(int i=5;i<10;i++){
+            expResult[i]= Math.random()*min;
+          
         }
         
         try {
@@ -236,8 +249,12 @@ public class ConcreteShapeLinesTest {
         Random random=new Random();
         double min=-999;
         double max=999;
-        for(int i=0;i<10;i++){
-        expResult[i]= random.nextInt((int) (max-min))+min;
+         for(int i=0;i<5;i++){
+            expResult[i]= Math.random()*max;
+        }
+         for(int i=5;i<10;i++){
+            expResult[i]= Math.random()*min;
+          
         }
         
         try {
@@ -263,8 +280,12 @@ public class ConcreteShapeLinesTest {
         Random random=new Random();
         double min=-999;
         double max=999;
-        for(int i=0;i<10;i++){
-        expResult[i]= random.nextInt((int) (max-min))+min;
+        for(int i=0;i<5;i++){
+            expResult[i]= Math.random()*max;
+        }
+         for(int i=5;i<10;i++){
+            expResult[i]= Math.random()*min;
+          
         }
         
         try {
@@ -335,12 +356,16 @@ public class ConcreteShapeLinesTest {
         Random random=new Random();
         double min=-999;
         double max=999;
-        for(int i=0;i<10;i++){
-            startX[i]= random.nextInt((int) (max-min))+min;
-            startY[i]= random.nextInt((int) (max-min))+min;
+        for(int i=0;i<5;i++){
+            startX[i]= Math.random()*max;
+            startY[i]= Math.random()*max;
+        }
+         for(int i=5;i<10;i++){
+            startX[i]= Math.random()*min;
+            startY[i]= Math.random()*min;
         }
         
-        ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
+       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
        ColorPicker colorPickerRed = new ColorPicker(Color.RED);
        ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
        ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
@@ -379,6 +404,10 @@ public class ConcreteShapeLinesTest {
             
             assertEquals(expGC.getStroke(), instanceGC.getStroke());
             assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
+            assertEquals(startX[i], instance.getStartX(), 0);
+            assertEquals(startY[i], instance.getStartY(), 0);
+            assertEquals(startX[i], instance.getEndX(), 0);
+            assertEquals(startY[i], instance.getEndY(), 0);
             }
         } catch (AssertionError ex){
             fail("The drawShape failed");

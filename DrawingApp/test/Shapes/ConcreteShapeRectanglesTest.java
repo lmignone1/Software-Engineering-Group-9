@@ -6,6 +6,7 @@ package Shapes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,7 +24,6 @@ import static org.junit.Assert.*;
  * @author Davide
  */
 public class ConcreteShapeRectanglesTest {
-    
     private ConcreteShapeRectangles instance;
     private JFXPanel panel = new JFXPanel();
     
@@ -52,8 +52,8 @@ public class ConcreteShapeRectanglesTest {
      */
     @Test
     public void testSetGraphicsContext() {
-        System.out.println("setGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1400, 1000);
+       System.out.println("setGraphicsContext");
+        Canvas drawingCanvas = new Canvas(1500, 1500);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(gc);
         try {
@@ -68,8 +68,8 @@ public class ConcreteShapeRectanglesTest {
      */
     @Test
     public void testGetGraphicsContext() {
-        System.out.println("getGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1400, 1000);
+      System.out.println("getGraphicsContext");
+        Canvas drawingCanvas = new Canvas(1500, 1500);
         GraphicsContext expResult = drawingCanvas.getGraphicsContext2D();
         instance.setGraphicsContext(expResult);
         GraphicsContext result = instance.getGraphicsContext();
@@ -91,19 +91,26 @@ public class ConcreteShapeRectanglesTest {
         ColorPicker color = new ColorPicker(Color.BLUE);
         instance.setLineColor(color);
         try {
-            assertNotEquals(currentColor, instance.getLineColor().getValue());
+            assertNotEquals(currentColor, instance.getLineColor());
             assertEquals(color,instance.getLineColor());
         } catch (AssertionError ex) {
             fail("The setLineColor failed");
         }
     }
-    
     /**
     * Test2 of setLineColor method, of class ConcreteShapeRectangles.
     */
     
     @Test
     public void testSetLineColor2(){
+        
+        System.out.println("testSetLineColor2");
+        
+        List<ColorPicker> listColorDefault = new ArrayList<>();
+        
+        for(int i = 0;i < 8; i++){
+            listColorDefault.add(instance.getLineColor());
+        }
        
        ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
        ColorPicker colorPickerRed = new ColorPicker(Color.RED);
@@ -129,6 +136,7 @@ public class ConcreteShapeRectanglesTest {
            
            for(int i = 0; i < listColor.size(); i++){
                instance.setLineColor(listColor.get(i));
+               assertNotEquals(listColorDefault.get(i),instance.getLineColor()); 
                assertEquals(listColor.get(i),instance.getLineColor()); 
            }
            
@@ -147,7 +155,8 @@ public class ConcreteShapeRectanglesTest {
         ColorPicker color = new ColorPicker(Color.BLUE);
         instance.setFillColor(color);
         try {
-            assertNotEquals(currentColor, instance.getFillColor().getValue());
+            assertNotEquals(currentColor, instance.getFillColor());
+            assertEquals(color,instance.getFillColor());
         } catch (AssertionError ex) {
             fail("The setFillColor failed");
         }
@@ -159,6 +168,14 @@ public class ConcreteShapeRectanglesTest {
     
     @Test
     public void testSetFillColor2(){
+        
+        System.out.println("testSetFillColor2");
+        
+        List<ColorPicker> listColorDefault = new ArrayList<>();
+        
+        for(int i = 0;i < 8; i++){
+            listColorDefault.add(instance.getLineColor());
+        }
        
        ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
        ColorPicker colorPickerRed = new ColorPicker(Color.RED);
@@ -184,6 +201,7 @@ public class ConcreteShapeRectanglesTest {
            
            for(int i = 0; i < listColor.size(); i++){
                instance.setFillColor(listColor.get(i));
+               assertNotEquals(listColorDefault.get(i),instance.getFillColor());
                assertEquals(listColor.get(i),instance.getFillColor()); 
            }
            
@@ -199,29 +217,82 @@ public class ConcreteShapeRectanglesTest {
     @Test
     public void testSetStart() {
         System.out.println("setStart");
-        double currentstartX = instance.getX();
-        double currentstartY = instance.getY();
-        double startX = 200;
-        double startY = 100;
-        instance.setStart(startX, startY);
+        double currentstartX = instance.getStartX();
+        double currentstartY = instance.getStartY();
+        double[] startX = new double[10];
+        double[] startY = new double[10];
+        Random random = new Random();
+        double min = -999;
+        double max = 999;
+        for(int i = 0; i < 10; i++){
+            startX[i] = random.nextInt((int) (max-min)) + min;
+            startY[i] = random.nextInt((int) (max-min)) + min;
+        }
         try {
-            assertNotEquals(currentstartX, instance.getX());
-            assertNotEquals(currentstartY, instance.getY());
+            for(int i = 0; i < 10; i++){
+                instance.setStart(startX[i], startY[i]);
+                assertNotEquals(currentstartX, instance.getStartX());
+                assertNotEquals(currentstartY, instance.getStartY());
+                assertEquals(startX[i], instance.getStartX(),0);
+                assertEquals(startY[i], instance.getStartY(),0);
+            }
         } catch (AssertionError ex) {
             fail("The setStart failed");
         }
     }
 
     /**
-     * Test of setEnd method, of class ConcreteShapeRectangles.
+     * Test of getStartX method, of class ConcreteShapeRectangles.
      */
     @Test
-    public void testSetEnd() {
-        System.out.println("setEnd");
-        ConcreteShapeRectangles instance = new ConcreteShapeRectangles();
-        instance.setEnd();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetStartX() {
+       System.out.println("getStartX");
+       double[] expResult = new double[10];
+       Random random = new Random();
+       double min = -999;
+       double max = 999;
+       for(int i = 0; i < 10; i++){
+            expResult[i] = random.nextInt((int) (max-min)) + min;
+        }
+        
+        try {
+            for(int i = 0; i<10; i++){
+                instance.setStart(expResult[i], 0.0);
+                double result = instance.getStartX();
+                assertNotNull(result);
+                assertEquals(expResult[i], result, 0);
+            }
+        }
+        catch (AssertionError ex) {
+            fail("The getStartX failed");
+        }
+    }
+
+    /**
+     * Test of getStartY method, of class ConcreteShapeRectangles.
+     */
+    @Test
+    public void testGetStartY() {
+        System.out.println("getStartY");
+        double[] expResult = new double[10];
+        Random random = new Random();
+        double min = -999;
+        double max = 999;
+        for(int i=0;i<10;i++){
+        expResult[i]= random.nextInt((int) (max-min)) + min;
+        }
+        
+        try {
+            for(int i = 0;i<10;i++){
+                instance.setStart(0.0,expResult[i]);
+                double result = instance.getStartY();
+                assertNotNull(result);
+                assertEquals(expResult[i], result, 0);
+            }
+        }
+        catch (AssertionError ex) {
+            fail("The getStartY failed");
+        }
     }
 
     /**

@@ -142,7 +142,6 @@ public class WorkspaceController implements Initializable {
             rect.setLineColor(selectedContourColour);
             rect.setFillColor(selectedFullColour);
             rect.setStart(event.getX(), event.getY());
-            rect.setEnd();
             rect.setHeight();
             rect.setWidth();
             rect.drawShape();
@@ -176,8 +175,5 @@ public class WorkspaceController implements Initializable {
         mod = "Ellipse";
         selectedFullColour.setDisable(false);
     }
-
-
-    
     
 }

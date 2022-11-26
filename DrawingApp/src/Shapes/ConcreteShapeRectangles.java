@@ -18,7 +18,7 @@ public class ConcreteShapeRectangles implements Shape{
     private ColorPicker cpLine;
     private ColorPicker cpFill;
 
-    public double startX, startY, endX, endY, width, height;
+    public double startX, startY, width, height;
 
     private Rectangle rectangle;
 
@@ -28,8 +28,6 @@ public class ConcreteShapeRectangles implements Shape{
         this.cpFill = null;
         this.startX = 0.0;
         this.startY = 0.0;
-        this.endX = 0.0;
-        this.endY = 0.0;
         this.width = 100;
         this.height = 50;
         this.rectangle = new Rectangle();
@@ -45,7 +43,7 @@ public class ConcreteShapeRectangles implements Shape{
         return this.graphicsContext;
     }
     
-        @Override
+    @Override
     public void setLineColor(ColorPicker colorPicker){
         this.cpLine = colorPicker;
     }
@@ -62,25 +60,24 @@ public class ConcreteShapeRectangles implements Shape{
     public void setStart(double startX, double startY){
         this.startX = startX;
         this.startY = startY;
-        rectangle.setX(startX-width/2);
-        rectangle.setY(startY-height/2);
+        rectangle.setX(startX - this.width/2);
+        rectangle.setY(startY - this.height/2);
     }
 
-    public void setEnd(){
-        this.endX = startX+sqrt((width*width)+(height*height));
-        this.endY = startY+sqrt((width*width)+(height*height));
+    public double getStartX() {
+        return startX;
     }
 
+    public double getStartY() {
+        return startY;
+    }
+    
     public void setWidth(){
-        this.width = Math.abs((width));
-
-        rectangle.setWidth(Math.abs((width)));
+        rectangle.setWidth(this.width);
     }
 
     public void setHeight(){
-        this.height = Math.abs((height));
-
-        rectangle.setHeight(Math.abs((height)));
+        rectangle.setHeight(this.height);
     }
     public double getX(){
         return rectangle.getX();
