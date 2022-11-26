@@ -137,14 +137,12 @@ public class WorkspaceController implements Initializable {
     }
     @FXML
     private void ResizeCanvas(MouseEvent event){
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        if((drawingCanvas.getHeight()!=pane.getPrefHeight())&&(drawingCanvas.getWidth()!=pane.getPrefWidth())){
-        drawingCanvas.setWidth(width);
-        drawingCanvas.setHeight(height);
-        }
+        drawingCanvas.setWidth(pane.getWidth());
+        drawingCanvas.setHeight(pane.getHeight());
+        drawingCanvas.setLayoutX(pane.getScaleX());
+        drawingCanvas.setLayoutY(pane.getScaleY());
     }
+    
     @FXML
     private void MakeDraw(MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
