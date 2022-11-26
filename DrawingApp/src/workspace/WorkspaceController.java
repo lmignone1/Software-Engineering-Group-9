@@ -150,10 +150,10 @@ public class WorkspaceController implements Initializable {
             ConcreteCreatorEllipse ccel = new ConcreteCreatorEllipse();
             ellipse = ccel.createShape();
             ellipse.setGraphicsContext(gc);
+            ellipse.setRadius();    // must be before setCenter
             ellipse.setCenter(event.getX(), event.getY());
             ellipse.setLineColor(selectedContourColour);
             ellipse.setFillColor(selectedFullColour);
-            ellipse.setRadius();
             ellipse.drawShape();
         }
     }        

@@ -5,6 +5,7 @@
 package Shapes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.PrimitiveIterator;
 import java.util.Random;
@@ -446,14 +447,52 @@ public class ConcreteShapeRectanglesTest {
     /**
      * Test of drawShape method, of class ConcreteShapeRectangles.
      */
-    /*
+    
     @Test
     public void testDrawShape() {
         System.out.println("drawShape");
-        ConcreteShapeRectangles instance = new ConcreteShapeRectangles();
-        instance.drawShape();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Canvas drawingCanvas = new Canvas(1400, 1000);
+        GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
+        Canvas expCanvas = new Canvas(1400, 1000);
+        GraphicsContext expGC = expCanvas.getGraphicsContext2D();
+        double[] startX = vect;
+        double[] startY = vect2;
+        instance.setGraphicsContext(gc);
+        instance.setHeight();
+        instance.setWidth();
+        expGC.setLineWidth(2);
+        double w = 100.0;
+        double h = 50.0;
+        Iterator<ColorPicker> it = listColor.iterator();
+        
+        for(int i = 0; i < startX.length; i++) {
+            instance.setStart(startX[i], startY[i]);
+            if (!it.hasNext()) {
+                it = listColor.iterator();
+            }
+            ColorPicker color = it.next();
+            instance.setLineColor(color);
+            instance.setFillColor(color);
+            instance.drawShape();
+            GraphicsContext instanceGC = instance.getGraphicsContext();
+            expGC.setStroke(color.getValue());
+            double x = startX[i] - w/2;
+            double y = startY[i] - h/2;
+            expGC.setFill(color.getValue());
+            expGC.strokeRect(x, y, w, h);
+            expGC.fillRect(x, y, w, h);
+            try {
+                assertEquals(expGC.getStroke(), instanceGC.getStroke());
+                assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
+                assertEquals(expGC.getFill(), instanceGC.getFill());
+                assertEquals(x, instance.getX(), 0);
+                assertEquals(y, instance.getY(), 0);
+                assertEquals(w, instance.getWidth(), 0);
+                assertEquals(h, instance.getHeight(), 0);
+            } catch (AssertionError ex){
+                fail("The drawShape failed");
+            }
+        }
     }
-    */
+    
 }

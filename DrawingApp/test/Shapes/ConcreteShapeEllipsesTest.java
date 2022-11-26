@@ -5,6 +5,7 @@
 package Shapes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.PrimitiveIterator;
 import java.util.Random;
@@ -389,40 +390,35 @@ public class ConcreteShapeEllipsesTest {
         expGC.setLineWidth(3);
         double w = 150.0;
         double h = 90.0;
-        
+        Iterator<ColorPicker> it = listColor.iterator();
+   
         for(int i = 0; i < vect.length; i++) {
-            
-        }
-        
-        
-        
-        
-        instance.setCenter(800.0223, 673.9829);
-        ColorPicker lineColor = new ColorPicker(Color.YELLOW);
-        instance.setLineColor(lineColor);
-        ColorPicker fillColor = new ColorPicker(Color.GREEN);
-        instance.setFillColor(fillColor);
-        instance.drawShape();
-        GraphicsContext instanceGC = instance.getGraphicsContext();
-        expGC.setStroke(lineColor.getValue());
-        
-        
-        double x = 800.0223 - (150.0)/2;
-        double y = 673.9829 - (90.0)/2;
-        
-        expGC.setFill(fillColor.getValue());
-        expGC.strokeOval(x, y, w, h);
-        expGC.fillOval(x, y, w, h);
-        try {
-            assertEquals(expGC.getStroke(), instanceGC.getStroke());
-            assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
-            assertEquals(expGC.getFill(), instanceGC.getFill());
-            assertEquals(x, (instance.getCenterX() - (instance.getRadiusX()/2)), 0);
-            assertEquals(y, (instance.getCenterY() - (instance.getRadiusY()/2)), 0);
-            assertEquals(w, instance.getRadiusX(), 0);
-            assertEquals(h, instance.getRadiusY(), 0);
-        } catch (AssertionError ex){
-            fail("The drawShape failed");
+            instance.setCenter(centerX[i], centerY[i]);
+            if (!it.hasNext()) {
+                it = listColor.iterator();
+            }
+            ColorPicker color = it.next();
+            instance.setLineColor(color);
+            instance.setFillColor(color);
+            instance.drawShape();
+            GraphicsContext instanceGC = instance.getGraphicsContext();
+            expGC.setStroke(color.getValue());
+            double x = centerX[i] - w/2;
+            double y = centerY[i] - h/2;
+            expGC.setFill(color.getValue());
+            expGC.strokeOval(x, y, w, h);
+            expGC.fillOval(x, y, w, h);
+            try {
+                assertEquals(expGC.getStroke(), instanceGC.getStroke());
+                assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
+                assertEquals(expGC.getFill(), instanceGC.getFill());
+                assertEquals(x, instance.getCenterX(), 0);
+                assertEquals(y, instance.getCenterY(), 0);
+                assertEquals(w, instance.getRadiusX(), 0);
+                assertEquals(h, instance.getRadiusY(), 0);
+            } catch (AssertionError ex){
+                fail("The drawShape failed");
+            }
         }
     }
     

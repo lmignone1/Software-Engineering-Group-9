@@ -44,8 +44,8 @@ public class ConcreteShapeEllipses implements Shape{
     public void setCenter(double centerX, double centerY){
         this.centerX = centerX; // update of this class
         this.centerY = centerY;
-        ellipse.setCenterX(centerX);    // update of the composition obj
-        ellipse.setCenterY(centerY);
+        ellipse.setCenterX(centerX - this.getRadiusX()/2);    // update of the composition obj
+        ellipse.setCenterY(centerY - this.getRadiusY()/2);
     }
 
     public void setRadius(){
@@ -94,7 +94,7 @@ public class ConcreteShapeEllipses implements Shape{
         gc.setStroke(LineColor.getValue());
         gc.setLineWidth(3);
         gc.setFill(FillColor.getValue());
-        gc.strokeOval(this.centerX - (getRadiusX())/2, this.centerY - (getRadiusY()/2), getRadiusX(), getRadiusY());
-        gc.fillOval(this.centerX - (getRadiusX())/2, this.centerY - (getRadiusY()/2), getRadiusX(), getRadiusY());
+        gc.strokeOval(ellipse.getCenterX(), ellipse.getCenterY(), getRadiusX(), getRadiusY());
+        gc.fillOval(ellipse.getCenterX(), ellipse.getCenterY(), getRadiusX(), getRadiusY());
     }
 }

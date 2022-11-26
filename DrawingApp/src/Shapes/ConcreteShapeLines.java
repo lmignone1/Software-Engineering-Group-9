@@ -19,7 +19,7 @@ public  class ConcreteShapeLines implements Shape{
     private Line line;
     
     public ConcreteShapeLines(){
-        this.length = 100;
+        this.length = 100.0;
         this.LineColor = null;
         this.graphicsContext = null;
         this.line = new Line();

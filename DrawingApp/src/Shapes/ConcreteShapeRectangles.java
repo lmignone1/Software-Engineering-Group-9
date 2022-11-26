@@ -8,7 +8,6 @@ package Shapes;
  *
  * @author Acer
  */
-import static java.lang.Math.sqrt;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.shape.Rectangle;
@@ -28,8 +27,8 @@ public class ConcreteShapeRectangles implements Shape{
         this.cpFill = null;
         this.startX = 0.0;
         this.startY = 0.0;
-        this.width = 100;
-        this.height = 50;
+        this.width = 100.0;
+        this.height = 50.0;
         this.rectangle = new Rectangle();
     }
 

@@ -5,6 +5,7 @@
 package Shapes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.PrimitiveIterator;
 import java.util.Random;
@@ -310,60 +311,40 @@ public class ConcreteShapeLinesTest {
         System.out.println("drawShape");
         Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
-        instance.setGraphicsContext(gc);
+        Canvas expCanvas = new Canvas(1400, 1000);
+        GraphicsContext expGC = expCanvas.getGraphicsContext2D();
         double[] startX= vect;
         double[] startY= vect2;
-        
-       ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
-       ColorPicker colorPickerRed = new ColorPicker(Color.RED);
-       ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
-       ColorPicker colorPickerYellow = new ColorPicker(Color.YELLOW);
-       ColorPicker colorPickerOrange = new ColorPicker(Color.ORANGE);
-       ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
-       ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
-       ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
-       ColorPicker colorPickerAzure = new ColorPicker(Color.AZURE);
-       ColorPicker colorPickerBurlywood = new ColorPicker(Color.BURLYWOOD);
-       List<ColorPicker> listColor = new ArrayList<>();
-       
-       listColor.add(colorPickerWhite);
-       listColor.add(colorPickerRed); 
-       listColor.add(colorPickerBlue);
-       listColor.add(colorPickerYellow);
-       listColor.add(colorPickerOrange);
-       listColor.add(colorPickerGreen);
-       listColor.add(colorPickerPurple);
-       listColor.add(colorPickerBlack);
-       listColor.add(colorPickerAzure);
-       listColor.add(colorPickerBurlywood); 
-       GraphicsContext instanceGC = instance.getGraphicsContext();
-       Canvas expCanvas = new Canvas(1400, 1000);
-       GraphicsContext expGC = expCanvas.getGraphicsContext2D();  
-       for(int i=0;i<10;i++){
-       instance.setLineColor(listColor.get(i)); 
-       expGC.setStroke(listColor.get(i).getValue());
-       } 
-       try {
-            for(int i=0;i<vect.length;i++){
-        instance.setStart(startX[i], startY[i]);
-                
-        
-        instance.drawShape();
-        
-       
+        instance.setGraphicsContext(gc);
         expGC.setLineWidth(2);
-        expGC.strokeLine(instance.getStartX(), instance.getStartY(), instance.getEndX(), instance.getEndY());
-       
-            
-            assertEquals(expGC.getStroke(), instanceGC.getStroke());
-            assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
-            assertEquals(startX[i], instance.getStartX(), 0);
-            assertEquals(startY[i], instance.getStartY(), 0);
-            assertEquals(startX[i], instance.getEndX(), 0);
-            assertEquals(startY[i], instance.getEndY(), 0);
+        double len = 100.0;
+        Iterator<ColorPicker> it = listColor.iterator();
+        
+        for(int i = 0; i < vect.length; i++) {
+            instance.setStart(startX[i], startY[i]);
+            if (!it.hasNext()) {
+                it = listColor.iterator();
             }
-        } catch (AssertionError ex){
-            fail("The drawShape failed");
+            ColorPicker color = it.next();
+            instance.setLineColor(color);
+            instance.drawShape();
+            GraphicsContext instanceGC = instance.getGraphicsContext();
+            expGC.setStroke(color.getValue());
+            double x1 = startX[i] - len/2;
+            double y1 = startY[i];
+            double x2 = startY[i] + len/2;
+            double y2 = startY[i];
+            expGC.strokeLine(x1, y1, x2, y2);
+            try {
+                assertEquals(expGC.getStroke(), instanceGC.getStroke());
+                assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
+                assertEquals(x1, instance.getStartX() - len/2, 0);
+                assertEquals(y1, instance.getStartY(), 0);
+                assertEquals(x2, instance.getEndY() + len/2, 0);
+                assertEquals(y2, instance.getEndY(), 0);
+            } catch (AssertionError ex){
+                fail("The drawShape failed");
+            }
         }
     }
     
