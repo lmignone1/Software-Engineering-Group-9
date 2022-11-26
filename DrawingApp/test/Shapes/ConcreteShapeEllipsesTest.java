@@ -4,11 +4,8 @@
  */
 package Shapes;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -72,6 +69,14 @@ public class ConcreteShapeEllipsesTest {
     
     @Test
     public void testSetLineColor2(){
+        
+        System.out.println("testSetLineColor2");
+        
+        List<ColorPicker> listColorDefault = new ArrayList<>();
+        
+        for(int i = 0;i < 8; i++){
+            listColorDefault.add(instance.getLineColor());
+        }
        
        ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
        ColorPicker colorPickerRed = new ColorPicker(Color.RED);
@@ -97,6 +102,7 @@ public class ConcreteShapeEllipsesTest {
            
            for(int i = 0; i < listColor.size(); i++){
                instance.setLineColor(listColor.get(i));
+               assertNotEquals(listColorDefault.get(i),instance.getLineColor()); 
                assertEquals(listColor.get(i),instance.getLineColor()); 
            }
            
@@ -129,6 +135,14 @@ public class ConcreteShapeEllipsesTest {
     
     @Test
     public void testSetFillColor2(){
+        
+        System.out.println("testSetFillColor2");
+        
+        List<ColorPicker> listColorDefault = new ArrayList<>();
+        
+        for(int i = 0;i < 8; i++){
+            listColorDefault.add(instance.getLineColor());
+        }
        
        ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
        ColorPicker colorPickerRed = new ColorPicker(Color.RED);
@@ -154,6 +168,7 @@ public class ConcreteShapeEllipsesTest {
            
            for(int i = 0; i < listColor.size(); i++){
                instance.setFillColor(listColor.get(i));
+               assertNotEquals(listColorDefault.get(i),instance.getFillColor());
                assertEquals(listColor.get(i),instance.getFillColor()); 
            }
            
