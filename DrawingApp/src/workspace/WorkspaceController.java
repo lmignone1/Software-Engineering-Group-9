@@ -136,15 +136,17 @@ public class WorkspaceController implements Initializable {
         }
     }
     @FXML
-    private void ResizeCanvas(MouseEvent event){
+    private void resizeCanvas(MouseEvent event){
         drawingCanvas.setWidth(pane.getWidth());
         drawingCanvas.setHeight(pane.getHeight());
+        /*
         drawingCanvas.setLayoutX(pane.getScaleX());
         drawingCanvas.setLayoutY(pane.getScaleY());
+        */
     }
     
     @FXML
-    private void MakeDraw(MouseEvent event){
+    private void makeDraw(MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
         if (mod == "Line"){
             Line = new ConcreteCreatorLine();
