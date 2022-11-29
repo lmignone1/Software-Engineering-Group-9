@@ -12,8 +12,7 @@ package Shapes;
  */
 public class ConcreteCreatorEllipse extends Creator {
 
-    @Override
-    public ConcreteShapeEllipses createShape() {
+    public static Shape createShape() {
         return new ConcreteShapeEllipses();
     }
     

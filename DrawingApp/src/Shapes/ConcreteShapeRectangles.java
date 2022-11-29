@@ -8,84 +8,42 @@ package Shapes;
  *
  * @author Acer
  */
-import javafx.scene.canvas.GraphicsContext;
+
 import javafx.scene.control.ColorPicker;
 import javafx.scene.shape.Rectangle;
 
-public class ConcreteShapeRectangles implements Shape{
-    private GraphicsContext graphicsContext;
-    private ColorPicker cpLine;
-    private ColorPicker cpFill;
-
-    public double startX, startY, width, height;
-
+public class ConcreteShapeRectangles extends AbstractShape{
+    
+    private double width, height;
+    private ColorPicker fillColor;
     private Rectangle rectangle;
 
     public ConcreteShapeRectangles(){
-        this.graphicsContext = null;
-        this.cpLine = null;
-        this.cpFill = null;
-        this.startX = 0.0;
-        this.startY = 0.0;
         this.width = 100.0;
         this.height = 50.0;
         this.rectangle = new Rectangle();
     }
-
+    
     @Override
-    public void setGraphicsContext(GraphicsContext graphicsContext){
-        this.graphicsContext = graphicsContext;
+    public void setFillColor(ColorPicker color){
+       this.fillColor = color;
     }
     
     @Override
-    public GraphicsContext getGraphicsContext(){
-        return this.graphicsContext;
+    public ColorPicker getFillColor(){
+        return this.fillColor;
     }
-    
+
     @Override
-    public void setLineColor(ColorPicker colorPicker){
-        this.cpLine = colorPicker;
-    }
-
-    /**
-     *
-     * @param colorPicker
-     */
-    @Override
-    public void setFillColor(ColorPicker colorPicker){
-        this.cpFill = colorPicker;
-    }
-
-    public void setStart(double startX, double startY){
-        this.startX = startX;
-        this.startY = startY;
-        rectangle.setX(startX - this.width/2);
-        rectangle.setY(startY - this.height/2);
-    }
-
-    public double getStartX() {
-        return startX;
-    }
-
-    public double getStartY() {
-        return startY;
-    }
-    
-    public void setWidth(){
+    public void setXY(double newX, double newY){
+        setX(newX - this.width/2);
+        setY(newY - this.height/2);
+        rectangle.setX(getX());
+        rectangle.setY(getY());
         rectangle.setWidth(this.width);
-    }
-
-    public void setHeight(){
         rectangle.setHeight(this.height);
     }
-    public double getX(){
-        return rectangle.getX();
-    }
-
-    public double getY(){
-        return rectangle.getY();
-    }
-
+    
     public double getWidth(){
         return rectangle.getWidth();
     }
@@ -95,21 +53,12 @@ public class ConcreteShapeRectangles implements Shape{
     }
 
     @Override
-    public ColorPicker getLineColor(){
-        return cpLine;
+    public void draw(){
+        getGraphicsContext().setStroke(getLineColor().getValue());
+        getGraphicsContext().setFill(getFillColor().getValue());
+        getGraphicsContext().setLineWidth(2);
+        getGraphicsContext().fillRect(getX(), getY(), getWidth(), getHeight());
+        getGraphicsContext().strokeRect(getX(), getY(), getWidth(), getHeight());
     }
-
-    @Override
-    public ColorPicker getFillColor(){
-        return cpFill;
-    }
-
-    @Override
-    public void drawShape(){
-        graphicsContext.setStroke(cpLine.getValue());
-        graphicsContext.setLineWidth(2);
-        graphicsContext.setFill(cpFill.getValue());
-        graphicsContext.fillRect(getX(), getY(), getWidth(), getHeight());
-        graphicsContext.strokeRect(getX(), getY(), getWidth(), getHeight());
-    }
+    
 }
