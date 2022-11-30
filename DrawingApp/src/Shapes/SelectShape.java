@@ -4,16 +4,10 @@
  */
 package Shapes;
 
-
-
 /**
  *
  * @author loren
  */
-public class ConcreteCreatorEllipse extends Creator {
-
-    public static Shape createShape() {
-        return new ConcreteShapeEllipses();
-    }
+public class SelectShape {
     
 }

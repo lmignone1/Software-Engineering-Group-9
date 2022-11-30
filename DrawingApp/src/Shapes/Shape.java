@@ -4,6 +4,8 @@
  */
 package Shapes;
 
+
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 
@@ -24,4 +26,6 @@ public interface Shape {
     public void setY(double newY);
     public double getY();
     public void draw();
+    public boolean containsPoint(double x, double y);
+    public Point2D getPoint();
 }

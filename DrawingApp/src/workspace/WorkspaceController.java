@@ -4,25 +4,29 @@
  */
 package workspace;
 
-import Shapes.ConcreteCreatorLine;
-import Shapes.ConcreteCreatorRectangle;
+import Factory.ConcreteCreatorLine;
+import Factory.ConcreteCreatorRectangle;
 import Shapes.ConcreteShapeLines;
 import Shapes.ConcreteShapeRectangles;
-import Shapes.ConcreteCreatorEllipse;
+import Factory.ConcreteCreatorEllipse;
 import Shapes.ConcreteShapeEllipses;
-import Shapes.Creator;
+import Factory.Creator;
 import Shapes.Shape;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -52,18 +56,12 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private Canvas drawingCanvas;
-    private String mod;
-    private GraphicsContext gc;
-    private ConcreteCreatorLine Line;
-    private ConcreteShapeLines line;
-    private ConcreteCreatorRectangle Rect;
-    private ConcreteShapeRectangles rect;
+  
     @FXML
     private ColorPicker selectedContourColour;
     @FXML
     private ColorPicker selectedFullColour;
     
-    private ConcreteShapeEllipses ellipse;
     @FXML
     private MenuItem newProjectMenu;
     @FXML
@@ -79,11 +77,17 @@ public class WorkspaceController implements Initializable {
     @FXML
     private AnchorPane pane;
     
+    private String mod;
+    private GraphicsContext gc;
+    private List<Shape> shape = null;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        shape = new ArrayList<>();
+        gc = drawingCanvas.getGraphicsContext2D();
     } 
     
     private void loadWindow(String location, String title) throws IOException{ //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -145,7 +149,7 @@ public class WorkspaceController implements Initializable {
     
     @FXML
     private void makeDraw(MouseEvent event){
-        gc = drawingCanvas.getGraphicsContext2D();
+        
         Creator c = new Creator();
         if (mod.equals("Line")){
             Shape line = c.createShape(mod);
@@ -153,7 +157,7 @@ public class WorkspaceController implements Initializable {
             
             line.setXY(event.getX(),event.getY());
             line.setLineColor(selectedContourColour);
-            
+            shape.add(line);
             line.draw();
         }
         
@@ -165,19 +169,26 @@ public class WorkspaceController implements Initializable {
             
             rect.setLineColor(selectedContourColour);
             rect.setFillColor(selectedFullColour);
-            
+            shape.add(rect);
             rect.draw();
         }
         else if(mod.equals("Ellipse")) {
-            Shape rect = c.createShape(mod);
+            if (event.isSecondaryButtonDown()) {
+                select(event);
+                System.out.println("sono qui");
+            }
+            else {
+                Shape ellipse = c.createShape(mod);
            
-            rect.setGraphicsContext(gc);
-            rect.setXY(event.getX(), event.getY());
+                ellipse.setGraphicsContext(gc);
+                ellipse.setXY(event.getX(), event.getY());
             
-            rect.setLineColor(selectedContourColour);
-            rect.setFillColor(selectedFullColour);
+                ellipse.setLineColor(selectedContourColour);
+                ellipse.setFillColor(selectedFullColour);
+                shape.add(ellipse);
+                ellipse.draw();
+            }
             
-            rect.draw();
             
         }
     }        
@@ -200,9 +211,21 @@ public class WorkspaceController implements Initializable {
         selectedFullColour.setDisable(false);
     }
 
-
-
-
-
+    private void select(MouseEvent event) {
+        Iterator<Shape> it = shape.iterator();
+        while (it.hasNext()) {
+            Shape elem = it.next();
+            if (elem.containsPoint(event.getX(), event.getY())) {
+                elem.setFillColor(new ColorPicker(Color.RED));
+                System.out.println(elem.getFillColor());
+                System.out.println(elem.getLineColor());
+                elem.draw();
+            }
+            else {
+                System.out.println("no");
+            }
+        }
+    }
+    
     
 }

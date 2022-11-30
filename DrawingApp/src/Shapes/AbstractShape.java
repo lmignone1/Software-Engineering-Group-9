@@ -67,6 +67,6 @@ public abstract class AbstractShape implements Shape{
     public double getY() {
         return this.y;
     }
-    
-    
+
 }
+

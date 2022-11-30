@@ -9,6 +9,7 @@ package Shapes;
  * @author Acer
  */
 
+import javafx.geometry.Point2D;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.shape.Rectangle;
 
@@ -59,6 +60,16 @@ public class ConcreteShapeRectangles extends AbstractShape{
         getGraphicsContext().setLineWidth(2);
         getGraphicsContext().fillRect(getX(), getY(), getWidth(), getHeight());
         getGraphicsContext().strokeRect(getX(), getY(), getWidth(), getHeight());
+    }
+
+    @Override
+    public Point2D getPoint() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean containsPoint(double x, double y) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

@@ -5,6 +5,7 @@
 package Shapes;
 
 
+import javafx.geometry.Point2D;
 import javafx.scene.shape.Line;
 
 /**
@@ -32,6 +33,17 @@ public  class ConcreteShapeLines extends AbstractShape{
         getGraphicsContext().setStroke(getLineColor().getValue());
         getGraphicsContext().setLineWidth(2);
         getGraphicsContext().strokeLine(line.getStartX() - length/2, line.getStartY(), line.getStartX() + length/2, line.getStartY());
+    }
+
+
+    @Override
+    public Point2D getPoint() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean containsPoint(double x, double y) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

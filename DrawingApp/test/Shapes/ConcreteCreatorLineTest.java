@@ -4,6 +4,7 @@
  */
 package Shapes;
 
+import Factory.ConcreteCreatorLine;
 import javafx.embed.swing.JFXPanel;
 import org.junit.After;
 import org.junit.AfterClass;
