@@ -15,7 +15,7 @@ import javafx.scene.shape.Rectangle;
 
 public class ConcreteShapeRectangles extends AbstractShape{
     
-    private double width, height;
+     double width, height;
     private ColorPicker fillColor;
     private Rectangle rectangle;
 

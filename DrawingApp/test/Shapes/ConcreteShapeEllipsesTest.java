@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author loren
+ * @author Acer
  */
 public class ConcreteShapeEllipsesTest {
     private ConcreteShapeEllipses instance;
@@ -32,7 +32,6 @@ public class ConcreteShapeEllipsesTest {
     private double[] vect = null;
     private double[] vect2 = null;
     private List<ColorPicker> listColor = null;
-    
     public ConcreteShapeEllipsesTest() {
         vect = new double[100];
         vect2 = new double[100];
@@ -88,78 +87,13 @@ public class ConcreteShapeEllipsesTest {
     @After
     public void tearDown() {
     }
-   
-    /**
-     * Test of setLineColor method, of class ConcreteShapeEllipses.
-     */
-    @Test
-    public void testSetLineColor() {
-        System.out.println("setLineColor");
-        ColorPicker currentColor = instance.getLineColor();
-        ColorPicker color = new ColorPicker(Color.BLUE);
-        instance.setLineColor(color);
-        try {
-            assertNotEquals(currentColor, instance.getLineColor());
-            assertEquals(color,instance.getLineColor());
-        } catch (AssertionError ex) {
-            fail("The setLineColor failed");
-        }
-    }
-    
-    /**
-    * Test2 of setLineColor method, of class ConcreteShapeEllipses.
-    */
-    
-    @Test
-    public void testSetLineColor2(){
-        
-        System.out.println("testSetLineColor2");
-        
-        List<ColorPicker> listColorDefault = new ArrayList<>();
-        
-        for(int i = 0;i < 8; i++){
-            listColorDefault.add(instance.getLineColor());
-        }
-           
-       try{
-           
-           for(int i = 0; i < listColor.size(); i++){
-               instance.setLineColor(listColor.get(i));
-               assertNotEquals(listColorDefault.get(i),instance.getLineColor()); 
-               assertEquals(listColor.get(i),instance.getLineColor()); 
-           }
-           
-       } catch (AssertionError ex){
-            fail("The setLineColor2 failed");
-       }
-    }
-    
+
     /**
      * Test of setFillColor method, of class ConcreteShapeEllipses.
      */
     @Test
     public void testSetFillColor() {
-        System.out.println("setFillColor");
-        ColorPicker currentColor = instance.getFillColor();
-        ColorPicker color = new ColorPicker(Color.BLUE);
-        instance.setFillColor(color);
-        try {
-            assertNotEquals(currentColor, instance.getFillColor());
-            assertEquals(color,instance.getFillColor());
-        } catch (AssertionError ex) {
-            fail("The setFillColor failed");
-        }
-    }
-    
-    
-    /**
-    * Test2 of setFillColor method, of class ConcreteShapeEllipses.
-    */
-    
-    @Test
-    public void testSetFillColor2(){
-        
-        System.out.println("testSetFillColor2");
+       System.out.println("testSetFillColor");
         
         List<ColorPicker> listColorDefault = new ArrayList<>();
         
@@ -176,148 +110,8 @@ public class ConcreteShapeEllipsesTest {
            }
            
        } catch (AssertionError ex){
-            fail("The setLineColor2 failed");
+            fail("The setLineColor failed");
        }
-    }
-    
-    
-    /**
-     * Test of setCenter method, of class ConcreteShapeEllipses.
-     */
-    @Test
-    public void testSetCenter() {
-        System.out.println("setCenter");
-        double currentCenterX = instance.getCenterX();
-        double currentCenterY = instance.getCenterY();
-        double[] centerX = vect;
-        double[] centerY = vect2;
-        for(int i = 0; i < centerX.length; i++) {
-            instance.setCenter(centerX[i], centerY[i]);
-            try {
-                assertNotEquals(currentCenterX, instance.getCenterX());
-                assertNotEquals(currentCenterY, instance.getCenterY());
-                assertEquals(centerX[i], instance.getCenterX(), 0);
-                assertEquals(centerY[i], instance.getCenterY(), 0);
-            } catch (AssertionError ex) {
-                fail("The setCenter failed");
-            }
-        } 
-    }
-
-    /**
-     * Test of setRadius method, of class ConcreteShapeEllipses.
-     */
-    @Test
-    public void testSetRadius() {
-        System.out.println("setRadius");
-        double currentRX = instance.getRadiusX();
-        double currentRY = instance.getRadiusY();
-        instance.setRadius();
-        double rX = instance.getRadiusX();
-        double rY = instance.getRadiusY();
-        try {
-           assertNotEquals(currentRX, rX);
-           assertNotEquals(currentRY, rY);
-           assertEquals(150.0, instance.getRadiusX(), 0);
-           assertEquals(90.0, instance.getRadiusY(), 0);
-        } catch (AssertionError ex) {
-            fail("The setRadius failed");
-        }
-    }
-
-    /**
-     * Test of getCenterX method, of class ConcreteShapeEllipses.
-     */
-    @Test
-    public void testGetCenterX() {
-        System.out.println("getCenterX");
-        double[] expResult = vect;
-        for(int i = 0; i < expResult.length; i++) {
-            instance.setCenter(expResult[i], 0.0);
-            double result = instance.getCenterX();
-            try {
-                assertNotNull(result);
-                assertEquals(expResult[i], result, 0);
-            } catch (AssertionError ex) {
-                fail("The getCenterX failed");
-            }
-        }
-    }
-
-    /**
-     * Test of getCenterY method, of class ConcreteShapeEllipses.
-     */
-    @Test
-    public void testGetCenterY() {
-        System.out.println("getCenterY");
-        double[] expResult = vect;
-        for(int i = 0; i < expResult.length; i++) {
-            instance.setCenter(0.0, expResult[i]);
-            double result = instance.getCenterY();
-            try {
-                assertNotNull(result);
-                assertEquals(expResult[i], result, 0);
-            } catch (AssertionError ex) {
-                fail("The getCenterY failed");
-            }
-        }
-    }
-
-    /**
-     * Test of getRadiusX method, of class ConcreteShapeEllipses.
-     */
-    @Test
-    public void testGetRadiusX() {
-        System.out.println("getRadiusX");
-        instance.setRadius();
-        double expResult = 150.0;
-        double result = instance.getRadiusX();
-        try {
-            assertNotNull(result);
-            assertEquals(expResult, result, 0);
-        }
-        catch (AssertionError ex) {
-            fail("The getRadiusX failed");
-        }
-    }
-
-    /**
-     * Test of getRadiusY method, of class ConcreteShapeEllipses.
-     */
-    @Test
-    public void testGetRadiusY() {
-        System.out.println("getRadiusY");
-        instance.setRadius();
-        double expResult = 90.0;
-        double result = instance.getRadiusY();
-        try {
-            assertNotNull(result);
-            assertEquals(expResult, result, 0);
-        }
-        catch (AssertionError ex) {
-            fail("The getRadiusY failed");
-        }
-    }
-
-    /**
-     * Test of getLineColor method, of class ConcreteShapeEllipses.
-     */
-    @Test
-    public void testGetLineColor() {
-       System.out.println("getLineColor"); 
-        try {
-            for(int i = 0;i < listColor.size(); i++){
-                ColorPicker expResult = listColor.get(i);
-                instance.setLineColor(expResult);
-                ColorPicker result = instance.getLineColor();
-                
-                assertNotNull(result);
-                assertEquals(expResult, result);
-            }
-        }
-        catch (AssertionError ex) {
-            fail("The getLineColor failed");
-        }
     }
 
     /**
@@ -325,7 +119,7 @@ public class ConcreteShapeEllipsesTest {
      */
     @Test
     public void testGetFillColor() {
-       System.out.println("getFillColor"); 
+        System.out.println("getFillColor"); 
         try {
             for(int i = 0;i < listColor.size(); i++){
                 ColorPicker expResult = listColor.get(i);
@@ -342,69 +136,97 @@ public class ConcreteShapeEllipsesTest {
     }
 
     /**
-     * Test of setGraphicsContext method, of class ConcreteShapeEllipses.
+     * Test of setXY method, of class ConcreteShapeEllipses.
      */
     @Test
-    public void testSetGraphicsContext() {
-        System.out.println("setGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1400, 1000);
-        GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
-        instance.setGraphicsContext(gc);
+    public void testSetXY() {
+        double currentX=instance.getX();
+        double currentY=instance.getY();
+        double[] X= vect;
+        double[] Y= vect2;
+        
         try {
-            assertNotEquals(null, instance.getGraphicsContext());
-            assertEquals(gc, instance.getGraphicsContext());
+            for(int i=0;i<vect.length;i++){
+            instance.setX(X[i]);
+            instance.setY(Y[i]);
+            assertNotEquals(currentX, instance.getX());
+            assertNotEquals(currentY, instance.getY());
+            assertEquals(X[i], instance.getX(),0);
+            assertEquals(Y[i], instance.getY(),0);
+            }
         } catch (AssertionError ex) {
-            fail("The setGraphicsContext failed");
-        }
-    }
-    
-    @Test
-    public void testGetGraphicsContext() {
-        System.out.println("getGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1400, 1000);
-        GraphicsContext expResult = drawingCanvas.getGraphicsContext2D();
-        instance.setGraphicsContext(expResult);
-        GraphicsContext result = instance.getGraphicsContext();
-        try {
-            assertNotNull(result);
-            assertEquals(expResult, result);
-        } catch (AssertionError ex) {
-            fail("The getGraphicsContext failed");
+            fail("The setXY failed");
         }
     }
 
     /**
-     * Test of drawShape method, of class ConcreteShapeEllipses.
+     * Test of getRadiusX method, of class ConcreteShapeEllipses.
      */
     @Test
-    public void testDrawShape() {
+    public void testGetRadiusX() {
+        System.out.println("getRadiusY");
+        instance.setXY(129,-283);
+        double expResult = 150.0;
+        double result = instance.getRadiusX();
+        try {
+            assertNotNull(result);
+            assertEquals(expResult, result, 0);
+        }
+        catch (AssertionError ex) {
+            fail("The getRadiusX failed");
+        }
+    }
+
+    /**
+     * Test of getRadiusY method, of class ConcreteShapeEllipses.
+     */
+    @Test
+    public void testGetRadiusY() {
+       System.out.println("getRadiusY");
+        instance.setXY(560,-123);
+        double expResult = 90.0;
+        double result = instance.getRadiusY();
+        try {
+            assertNotNull(result);
+            assertEquals(expResult, result, 0);
+        }
+        catch (AssertionError ex) {
+            fail("The getRadiusY failed");
+        }
+    }
+
+    /**
+     * Test of draw method, of class ConcreteShapeEllipses.
+     */
+    @Test
+    public void testDraw() {
         System.out.println("drawShape");
         Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         Canvas expCanvas = new Canvas(1400, 1000);
         GraphicsContext expGC = expCanvas.getGraphicsContext2D();
-        double[] centerX = vect;
-        double[] centerY = vect2;
+        double[] X = vect;
+        double[] Y = vect2;
         instance.setGraphicsContext(gc);
-        instance.setRadius();
+        
         expGC.setLineWidth(3);
         double w = 150.0;
         double h = 90.0;
         Iterator<ColorPicker> it = listColor.iterator();
    
         for(int i = 0; i < vect.length; i++) {
-            instance.setCenter(centerX[i], centerY[i]);
+            instance.setXY(X[i],Y[i]);
             if (!it.hasNext()) {
                 it = listColor.iterator();
             }
             ColorPicker color = it.next();
             instance.setLineColor(color);
             instance.setFillColor(color);
-            instance.drawShape();
+            instance.draw();
             GraphicsContext instanceGC = instance.getGraphicsContext();
             expGC.setStroke(color.getValue());
-            double x = centerX[i] - w/2;
-            double y = centerY[i] - h/2;
+            double x = X[i] - w/2;
+            double y = Y[i] - h/2;
             expGC.setFill(color.getValue());
             expGC.strokeOval(x, y, w, h);
             expGC.fillOval(x, y, w, h);
@@ -412,8 +234,8 @@ public class ConcreteShapeEllipsesTest {
                 assertEquals(expGC.getStroke(), instanceGC.getStroke());
                 assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
                 assertEquals(expGC.getFill(), instanceGC.getFill());
-                assertEquals(x, instance.getCenterX(), 0);
-                assertEquals(y, instance.getCenterY(), 0);
+                assertEquals(x, instance.getX(), 0);
+                assertEquals(y, instance.getY(), 0);
                 assertEquals(w, instance.getRadiusX(), 0);
                 assertEquals(h, instance.getRadiusY(), 0);
             } catch (AssertionError ex){

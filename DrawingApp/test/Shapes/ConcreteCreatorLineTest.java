@@ -48,7 +48,7 @@ public class ConcreteCreatorLineTest {
     public void testCreateShape() {
         System.out.println("createShape");
         ConcreteShapeLines expResult = new ConcreteShapeLines();
-        ConcreteShapeLines result = instance.createShape();
+        ConcreteShapeLines result = (ConcreteShapeLines) instance.createShape();
         try {
             assertNotNull(result);
             assertEquals(expResult.getClass(), result.getClass());
