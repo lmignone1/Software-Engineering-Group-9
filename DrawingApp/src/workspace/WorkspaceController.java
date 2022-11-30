@@ -37,6 +37,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -161,7 +162,6 @@ public class WorkspaceController implements Initializable {
            
             rect.setGraphicsContext(gc);
             rect.setXY(event.getX(), event.getY());
-            
             rect.setLineColor(selectedContourColour);
             rect.setFillColor(selectedFullColour);
             shape.add(rect);
@@ -177,9 +177,11 @@ public class WorkspaceController implements Initializable {
            
                 ellipse.setGraphicsContext(gc);
                 ellipse.setXY(event.getX(), event.getY());
-            
-                ellipse.setLineColor(selectedContourColour);
-                ellipse.setFillColor(selectedFullColour);
+                
+                ColorPicker color1 = new ColorPicker(selectedContourColour.getValue());
+                ColorPicker color2 = new ColorPicker(selectedFullColour.getValue());
+                ellipse.setLineColor(color1);
+                ellipse.setFillColor(color2);
                 shape.add(ellipse);
                 ellipse.draw();
             }
@@ -211,10 +213,9 @@ public class WorkspaceController implements Initializable {
         while (it.hasNext()) {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
-                elem.setFillColor(new ColorPicker(Color.RED));
-                System.out.println(elem.getFillColor());
-                System.out.println(elem.getLineColor());
+                elem.setLineColor(new ColorPicker(Color.RED));
                 elem.draw();
+                break;
             }
             else {
                 System.out.println("no");
