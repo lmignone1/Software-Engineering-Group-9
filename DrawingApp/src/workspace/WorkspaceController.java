@@ -4,6 +4,10 @@
  */
 package workspace;
 
+import Command.Command;
+import Command.DeleteCommand;
+import Command.Invoker;
+import Command.Select;
 import Factory.ConcreteCreatorLine;
 import Factory.ConcreteCreatorRectangle;
 import Shapes.ConcreteShapeLines;
@@ -37,6 +41,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -74,7 +79,7 @@ public class WorkspaceController implements Initializable {
     
     private String mod;
     private GraphicsContext gc;
-    private List<Shape> shape = null;
+    public List<Shape> shape = null;
     
     /**
      * Initializes the controller class.
@@ -82,7 +87,7 @@ public class WorkspaceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         shape = new ArrayList<>();
-        gc = drawingCanvas.getGraphicsContext2D();
+        
     } 
     
     private void loadWindow(String location, String title) throws IOException{ //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -144,7 +149,7 @@ public class WorkspaceController implements Initializable {
     
     @FXML
     private void makeDraw(MouseEvent event){
-        
+        gc = drawingCanvas.getGraphicsContext2D();
         Creator c = new Creator();
         if (mod.equals("Line")){
             Shape line = c.createShape(mod);
@@ -208,12 +213,27 @@ public class WorkspaceController implements Initializable {
 
     private void select(MouseEvent event) {
         Iterator<Shape> it = shape.iterator();
+        Invoker invoker = new Invoker();
+        Select select = null;
         while (it.hasNext()) {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
-                elem.setFillColor(new ColorPicker(Color.RED));
+                /*
+                elem.setLineColor(new ColorPicker(Color.RED));
                 System.out.println(elem.getFillColor());
                 System.out.println(elem.getLineColor());
+                elem.draw();
+                */
+                select = new Select(shape,elem);
+                Command delete = new DeleteCommand(select);
+                Command copy = new DeleteCommand(select);
+                Command paste = new DeleteCommand(select);
+                Command cut = new DeleteCommand(select);
+                
+                invoker.setCommand(delete);
+                invoker.startCommand();
+                // DA QUI CAPIRE COME ANDARE AVANTI
+                it.next();
                 elem.draw();
             }
             else {
