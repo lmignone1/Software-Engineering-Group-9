@@ -71,5 +71,9 @@ public class ConcreteShapeRectangles extends AbstractShape{
     public boolean containsPoint(double x, double y) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+ 
+
+   
     
 }

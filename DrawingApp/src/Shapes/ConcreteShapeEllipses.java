@@ -46,7 +46,6 @@ public class ConcreteShapeEllipses extends AbstractShape{
         ellipse.setRadiusX(this.radiusX);
         ellipse.setRadiusY(this.radiusY);
         point = new Point2D(getX(), getY());
-        
     }
 
     public double getRadiusX(){
@@ -75,4 +74,5 @@ public class ConcreteShapeEllipses extends AbstractShape{
     public Point2D getPoint(){
         return this.point;
     }
+
 }

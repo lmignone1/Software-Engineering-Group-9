@@ -171,7 +171,6 @@ public class WorkspaceController implements Initializable {
         else if(mod.equals("Ellipse")) {
             if (event.isSecondaryButtonDown()) {
                 select(event);
-                System.out.println("sono qui");
             }
             else {
                 Shape ellipse = c.createShape(mod);
@@ -208,17 +207,21 @@ public class WorkspaceController implements Initializable {
     }
 
     private void select(MouseEvent event) {
-        Iterator<Shape> it = shape.iterator();
-        while (it.hasNext()) {
-            Shape elem = it.next();
-            if (elem.containsPoint(event.getX(), event.getY())) {
-                elem.setLineColor(new ColorPicker(Color.RED));
-                elem.draw();
-            }
-            else {
-                System.out.println("no");
+        Point2D mousePoint = new Point2D(event.getX(), event.getY());
+        Point2D min = new Point2D(999999, 9999999);
+        ConcreteShapeEllipses s = null;
+        for(Shape elem : shape) {
+            if (mousePoint.distance(elem.getPoint()) < mousePoint.distance(min)) {
+                min = elem.getPoint();
+                s = (ConcreteShapeEllipses) elem;
             }
         }
+        
+        if(min.distance(mousePoint) < Math.abs(s.getRadiusX()) && min.distance(mousePoint) < Math.abs(s.getRadiusY())) {
+            s.setLineColor(new ColorPicker(Color.RED));
+            s.draw();
+        }
+ 
     }
     
     
