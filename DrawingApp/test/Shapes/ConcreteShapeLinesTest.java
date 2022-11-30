@@ -32,9 +32,8 @@ public class ConcreteShapeLinesTest {
     private double[] vect = null;
     private double[] vect2 = null;
     private List<ColorPicker> listColor = null;
-    
     public ConcreteShapeLinesTest() {
-        vect = new double[100];
+    vect = new double[100];
         vect2 = new double[100];
         Random r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
@@ -70,7 +69,7 @@ public class ConcreteShapeLinesTest {
         listColor.add(colorPickerPurple);
         listColor.add(colorPickerBlack);
         
-        
+
     }
     
     @BeforeClass
@@ -83,7 +82,7 @@ public class ConcreteShapeLinesTest {
     
     @Before
     public void setUp() {
-    instance = new ConcreteShapeLines();
+        instance = new ConcreteShapeLines();
     }
     
     @After
@@ -91,223 +90,34 @@ public class ConcreteShapeLinesTest {
     }
 
     /**
-     * Test of setGraphicsContext method, of class ConcreteShapeLines.
+     * Test of setXY method, of class ConcreteShapeLines.
      */
     @Test
-    public void testSetGraphicsContext() {
-       System.out.println("setGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1400, 1000);
-        GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
-        instance.setGraphicsContext(gc);
-        try {
-            assertNotEquals(null, instance.getGraphicsContext());
-            assertEquals(gc,instance.getGraphicsContext());
-        } catch (AssertionError ex) {
-            fail("The setGraphicsContext failed");
-        }
-    }
-
-    /**
-     * Test of getGraphicsContext method, of class ConcreteShapeLines.
-     */
-    @Test
-    public void testGetGraphicsContext() {
-      System.out.println("getGraphicsContext");
-        Canvas drawingCanvas = new Canvas(1400, 1000);
-        GraphicsContext expResult = drawingCanvas.getGraphicsContext2D();
-        instance.setGraphicsContext(expResult);
-        GraphicsContext result = instance.getGraphicsContext();
-        try {
-            assertNotNull(result);
-            assertEquals(expResult, result);
-        } catch (AssertionError ex) {
-            fail("The getGraphicsContext failed");
-        }
-    }
-
-    /**
-     * Test of setLineColor method, of class ConcreteShapeLines.
-     */
-    @Test
-    public void testSetLineColor() {
-         System.out.println("setLineColor");
-        ColorPicker currentColor = instance.getLineColor();
-        ColorPicker color = new ColorPicker(Color.BLUE);
-        instance.setLineColor(color);
-        try {
-            assertNotEquals(currentColor, instance.getLineColor());
-            assertEquals(color,instance.getLineColor());
-        } catch (AssertionError ex) {
-            fail("The setLineColor failed");
-        }
-    }
-    
-    /**
-    * Test2 of setLineColor method, of class ConcreteShapeEllipses.
-    */
-    
-    @Test
-    public void testSetLineColor2(){
-       
-        System.out.println("testSetLineColor2");
-        
-        List<ColorPicker> listColorDefault = new ArrayList<>();
-        
-        for(int i = 0;i < 8; i++){
-            listColorDefault.add(instance.getLineColor());
-        }
-           
-       try{
-           
-           for(int i = 0; i < listColor.size(); i++){
-               instance.setLineColor(listColor.get(i));
-               assertNotEquals(listColorDefault.get(i),instance.getLineColor()); 
-               assertEquals(listColor.get(i),instance.getLineColor()); 
-           }
-           
-       } catch (AssertionError ex){
-            fail("The setLineColor2 failed");
-       }
-    } 
-    
-    
-    /**
-    * Test2 of setFillColor method, of class ConcreteShapeEllipses.
-    */
-    
-    /**
-     * Test of setStart method, of class ConcreteShapeLines.
-     */
-    
-    @Test
-    public void testSetStart() {
-        System.out.println("setStart");
-        double currentstartX=instance.getStartX();
-        double currentstartY=instance.getStartY();
-        double[] startX= vect;
-        double[] startY= vect2;
+    public void testSetXY() {
+        double currentX=instance.getX();
+        double currentY=instance.getY();
+        double[] X= vect;
+        double[] Y= vect2;
         
         try {
             for(int i=0;i<vect.length;i++){
-            instance.setStart(startX[i], startY[i]);
-            assertNotEquals(currentstartX, instance.getStartX());
-            assertNotEquals(currentstartY, instance.getStartY());
-            assertEquals(startX[i], instance.getStartX(),0);
-            assertEquals(startY[i], instance.getStartY(),0);
+            instance.setX(X[i]);
+            instance.setY(Y[i]);
+            assertNotEquals(currentX, instance.getX());
+            assertNotEquals(currentY, instance.getY());
+            assertEquals(X[i], instance.getX(),0);
+            assertEquals(Y[i], instance.getY(),0);
             }
         } catch (AssertionError ex) {
-            fail("The setStart failed");
+            fail("The setXY failed");
         }
     }
 
     /**
-     * Test of getStartX method, of class ConcreteShapeLines.
+     * Test of draw method, of class ConcreteShapeLines.
      */
     @Test
-    public void testGetStartX() {
-       System.out.println("getStartX");
-        double[] expResult = vect;
-        try {
-            for(int i = 0;i<vect.length;i++){
-        instance.setStart(expResult[i], 0.0);
-        double result = instance.getStartX();
-        assertNotNull(result);
-        assertEquals(expResult[i], result, 0);
-            }
-        }
-        catch (AssertionError ex) {
-            fail("The getStartX failed");
-        }
-    }
-
-    /**
-     * Test of getStartY method, of class ConcreteShapeLines.
-     */
-    @Test
-    public void testGetStartY() {
-         System.out.println("getStartY");
-        double[] expResult = vect;
-        
-        try {
-            for(int i = 0;i<vect.length;i++){
-        instance.setStart(0.0,expResult[i]);
-        double result = instance.getStartY();
-        assertNotNull(result);
-        assertEquals(expResult[i], result, 0);
-            }
-        }
-        catch (AssertionError ex) {
-            fail("The getStartY failed");
-        }
-    }
-
-    /**
-     * Test of getEndX method, of class ConcreteShapeLines.
-     */
-    @Test
-    public void testGetEndX() {
-         System.out.println("getEndX");
-        double[] expResult = vect; 
-        try {
-            for(int i = 0;i<vect.length;i++){
-        instance.setStart(expResult[i], 0.0);
-        double result = instance.getEndX();
-        assertNotNull(result);
-        assertEquals(expResult[i], result, 0);
-            }
-        }
-        catch (AssertionError ex) {
-            fail("The getEndX failed");
-        }
-    }
-
-    /**
-     * Test of getEndY method, of class ConcreteShapeLines.
-     */
-    @Test
-    public void testGetEndY() {
-       System.out.println("getEndY");
-        double[] expResult = vect;
-        
-        try {
-            for(int i = 0;i<vect.length;i++){
-        instance.setStart(0.0,expResult[i]);
-        double result = instance.getEndY();
-        assertNotNull(result);
-        assertEquals(expResult[i], result, 0);
-            }
-        }
-        catch (AssertionError ex) {
-            fail("The getEndY failed");
-        }
-    }
-
-    /**
-     * Test of getLineColor method, of class ConcreteShapeLines.
-     */
-    @Test
-    public void testGetLineColor() {
-       System.out.println("getLineColor"); 
-        try {
-            for(int i = 0;i < listColor.size(); i++){
-                ColorPicker expResult = listColor.get(i);
-                instance.setLineColor(expResult);
-                ColorPicker result = instance.getLineColor();
-                
-                assertNotNull(result);
-                assertEquals(expResult, result);
-            }
-        }
-        catch (AssertionError ex) {
-            fail("The getLineColor failed");
-        }
-    }
-
-    /**
-     * Test of drawShape method, of class ConcreteShapeLines.
-     */
-    @Test
-    public void testDrawShape() {
+    public void testDraw() {
         System.out.println("drawShape");
         Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
@@ -321,13 +131,14 @@ public class ConcreteShapeLinesTest {
         Iterator<ColorPicker> it = listColor.iterator();
         
         for(int i = 0; i < vect.length; i++) {
-            instance.setStart(startX[i], startY[i]);
+            instance.setX(startX[i]);
+            instance.setY(startY[i]);
             if (!it.hasNext()) {
                 it = listColor.iterator();
             }
             ColorPicker color = it.next();
             instance.setLineColor(color);
-            instance.drawShape();
+            instance.draw();
             GraphicsContext instanceGC = instance.getGraphicsContext();
             expGC.setStroke(color.getValue());
             double x1 = startX[i] - len/2;
@@ -338,23 +149,14 @@ public class ConcreteShapeLinesTest {
             try {
                 assertEquals(expGC.getStroke(), instanceGC.getStroke());
                 assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
-                assertEquals(x1, instance.getStartX() - len/2, 0);
-                assertEquals(y1, instance.getStartY(), 0);
-                assertEquals(x2, instance.getEndY() + len/2, 0);
-                assertEquals(y2, instance.getEndY(), 0);
+                assertEquals(x1, instance.getX() - len/2, 0);
+                assertEquals(y1, instance.getY(), 0);
+                assertEquals(x2, instance.getY() + len/2, 0);
+                assertEquals(y2, instance.getY(), 0);
             } catch (AssertionError ex){
                 fail("The drawShape failed");
             }
         }
     }
     
-    @Test(expected = UnsupportedOperationException.class)
-    public void testSetFillColor() {
-        instance.setFillColor(new ColorPicker(Color.CHOCOLATE));
-    }
-    
-    @Test(expected = UnsupportedOperationException.class)
-    public void testGetFillColor() {
-        ColorPicker color = instance.getFillColor();
-    }
 }

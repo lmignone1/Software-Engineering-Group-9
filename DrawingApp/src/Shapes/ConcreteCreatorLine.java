@@ -12,13 +12,7 @@ package Shapes;
  */
 public class ConcreteCreatorLine extends Creator{
 
-    @Override
-    public ConcreteShapeLines createShape() {
-    return new ConcreteShapeLines();   
-    }
-
-   
-    
-       
-       
+    public static Shape createShape() {
+        return new ConcreteShapeLines();   
+    }   
 }

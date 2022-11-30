@@ -47,7 +47,7 @@ public class ConcreteCreatorRectangleTest {
     public void testCreateShape() {
         System.out.println("createShape");
         ConcreteShapeRectangles expResult = new ConcreteShapeRectangles();
-        ConcreteShapeRectangles result = instance.createShape();
+        ConcreteShapeRectangles result = (ConcreteShapeRectangles) instance.createShape();
         try {
             assertNotNull(result);
             assertEquals(expResult.getClass(), result.getClass());

@@ -10,8 +10,7 @@ package Shapes;
  */
 public class ConcreteCreatorRectangle extends Creator{
     
-    @Override
-    public ConcreteShapeRectangles createShape() {
-    return new ConcreteShapeRectangles();   
+    public static Shape createShape() {
+        return new ConcreteShapeRectangles();   
     }
 }

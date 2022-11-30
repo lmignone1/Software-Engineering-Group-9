@@ -8,10 +8,10 @@ import Shapes.ConcreteCreatorLine;
 import Shapes.ConcreteCreatorRectangle;
 import Shapes.ConcreteShapeLines;
 import Shapes.ConcreteShapeRectangles;
-
 import Shapes.ConcreteCreatorEllipse;
 import Shapes.ConcreteShapeEllipses;
-
+import Shapes.Creator;
+import Shapes.Shape;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -129,45 +129,51 @@ public class WorkspaceController implements Initializable {
         }
     }
     @FXML
-    private void ResizeCanvas(MouseEvent event){
-      
+    private void resizeCanvas(MouseEvent event){
         drawingCanvas.setWidth(pane.getWidth());
         drawingCanvas.setHeight(pane.getHeight());
+        
         drawingCanvas.setLayoutX(pane.getScaleX());
         drawingCanvas.setLayoutY(pane.getScaleY());
+        
     }
     
     @FXML
-    private void MakeDraw(MouseEvent event){
+    private void makeDraw(MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
-        if (mod == "Line"){
-            Line = new ConcreteCreatorLine();
-            line = Line.createShape();
+        Creator c = new Creator();
+        if (mod.equals("Line")){
+            Shape line = c.createShape(mod);
             line.setGraphicsContext(gc);
-            line.setStart(event.getX(),event.getY());
+            
+            line.setXY(event.getX(),event.getY());
             line.setLineColor(selectedContourColour);
-            line.drawShape();
+            
+            line.draw();
         }
-        else if(mod == "Rectangle"){
-            Rect = new ConcreteCreatorRectangle();
-            rect = Rect.createShape();
+        
+        else if(mod.equals("Rectangle")){
+            Shape rect = c.createShape(mod);
+           
             rect.setGraphicsContext(gc);
+            rect.setXY(event.getX(), event.getY());
+            
             rect.setLineColor(selectedContourColour);
             rect.setFillColor(selectedFullColour);
-            rect.setStart(event.getX(), event.getY());
-            rect.setHeight();
-            rect.setWidth();
-            rect.drawShape();
+            
+            rect.draw();
         }
-        else if (mod == "Ellipse") {
-            ConcreteCreatorEllipse ccel = new ConcreteCreatorEllipse();
-            ellipse = ccel.createShape();
-            ellipse.setGraphicsContext(gc);
-            ellipse.setRadius();    // must be before setCenter
-            ellipse.setCenter(event.getX(), event.getY());
-            ellipse.setLineColor(selectedContourColour);
-            ellipse.setFillColor(selectedFullColour);
-            ellipse.drawShape();
+        else if(mod.equals("Ellipse")) {
+            Shape rect = c.createShape(mod);
+           
+            rect.setGraphicsContext(gc);
+            rect.setXY(event.getX(), event.getY());
+            
+            rect.setLineColor(selectedContourColour);
+            rect.setFillColor(selectedFullColour);
+            
+            rect.draw();
+            
         }
     }        
 

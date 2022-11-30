@@ -4,12 +4,10 @@
  */
 package workspace;
 
-import com.sun.javafx.scene.control.skin.CustomColorDialog;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
@@ -23,7 +21,7 @@ public class Workspace extends Application {
      */
     
     public static Stage stage;
-    
+       
     public static void main(String[] args) {
         launch(args);
     }

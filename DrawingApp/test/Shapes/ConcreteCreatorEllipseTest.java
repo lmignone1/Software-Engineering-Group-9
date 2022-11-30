@@ -48,7 +48,7 @@ public class ConcreteCreatorEllipseTest {
     public void testCreateShape() {
         System.out.println("createShape");
         ConcreteShapeEllipses expResult = new ConcreteShapeEllipses();
-        ConcreteShapeEllipses result = instance.createShape();
+        ConcreteShapeEllipses result = (ConcreteShapeEllipses) instance.createShape();
         try {
             assertNotNull(result);
             assertEquals(expResult.getClass(), result.getClass());

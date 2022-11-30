@@ -4,80 +4,36 @@
  */
 package Shapes;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ColorPicker;
+
 import javafx.scene.shape.Line;
 
 /**
  *
  * @author Acer
  */
-public  class ConcreteShapeLines implements Shape{
-    private double length;
-    private ColorPicker LineColor;
-    private GraphicsContext graphicsContext;
-    private Line line;
+public  class ConcreteShapeLines extends AbstractShape{
+    private final double length;
+    private final Line line;
     
     public ConcreteShapeLines(){
         this.length = 100.0;
-        this.LineColor = null;
-        this.graphicsContext = null;
         this.line = new Line();
     }
-    @Override
-    public void setGraphicsContext(GraphicsContext graphicsContext){
-        this.graphicsContext = graphicsContext;        
-    }
-    @Override
-    public GraphicsContext getGraphicsContext(){
-        return this.graphicsContext;
-    }
-    @Override
-    public void setLineColor(ColorPicker colorLine){
-        LineColor = colorLine;
-    }
-    @Override
-    public void setFillColor(ColorPicker colorFill) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-   
-    public void setStart(double x, double y){
-        line.setStartX(x);
-        line.setStartY(y); 
-        line.setEndX(x);
-        line.setEndY(y);
-    }
-    public double getStartX(){
-        return line.getStartX();   
-    }
-    public double getStartY(){
-        return line.getStartY();  
-    }
-    public double getEndX(){
-        return line.getEndX();
-    }
-    public double getEndY(){
-        return line.getEndY();
-    }
-    @Override
-    public ColorPicker getLineColor(){
-        return LineColor;
-    }
-    
-    
-    @Override
-    public void drawShape() {
-        graphicsContext.setStroke(getLineColor().getValue());
-        graphicsContext.setLineWidth(2);
-        graphicsContext.strokeLine(getStartX()-length/2, getStartY(), getEndX()+length/2, getEndY());
-    }
 
     @Override
-    public ColorPicker getFillColor() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setXY(double x, double y){ 
+        setX(x);
+        setY(y);
+        line.setStartX(getX());
+        line.setStartY(getY());
+    }
+    @Override
+    public void draw() {
+        getGraphicsContext().setStroke(getLineColor().getValue());
+        getGraphicsContext().setLineWidth(2);
+        getGraphicsContext().strokeLine(line.getStartX() - length/2, line.getStartY(), line.getStartX() + length/2, line.getStartY());
     }
 
-    
 }
 
 
