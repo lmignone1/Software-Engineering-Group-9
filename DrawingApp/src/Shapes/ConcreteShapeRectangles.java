@@ -27,7 +27,7 @@ public class ConcreteShapeRectangles extends AbstractShape{
     
     @Override
     public void setFillColor(ColorPicker color){
-       this.fillColor = color;
+       this.fillColor = new ColorPicker(color.getValue());
     }
     
     @Override

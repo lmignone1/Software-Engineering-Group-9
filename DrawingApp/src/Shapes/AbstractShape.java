@@ -20,7 +20,7 @@ public abstract class AbstractShape implements Shape{
     
     @Override
     public void setLineColor(ColorPicker color){
-        LineColor = color;
+        LineColor = new ColorPicker(color.getValue());
     }
     
     @Override

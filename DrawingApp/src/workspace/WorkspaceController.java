@@ -162,6 +162,7 @@ public class WorkspaceController implements Initializable {
            
             rect.setGraphicsContext(gc);
             rect.setXY(event.getX(), event.getY());
+            
             rect.setLineColor(selectedContourColour);
             rect.setFillColor(selectedFullColour);
             shape.add(rect);
@@ -178,10 +179,8 @@ public class WorkspaceController implements Initializable {
                 ellipse.setGraphicsContext(gc);
                 ellipse.setXY(event.getX(), event.getY());
                 
-                ColorPicker color1 = new ColorPicker(selectedContourColour.getValue());
-                ColorPicker color2 = new ColorPicker(selectedFullColour.getValue());
-                ellipse.setLineColor(color1);
-                ellipse.setFillColor(color2);
+                ellipse.setLineColor(selectedContourColour);
+                ellipse.setFillColor(selectedFullColour);
                 shape.add(ellipse);
                 ellipse.draw();
             }
@@ -215,7 +214,6 @@ public class WorkspaceController implements Initializable {
             if (elem.containsPoint(event.getX(), event.getY())) {
                 elem.setLineColor(new ColorPicker(Color.RED));
                 elem.draw();
-                break;
             }
             else {
                 System.out.println("no");
