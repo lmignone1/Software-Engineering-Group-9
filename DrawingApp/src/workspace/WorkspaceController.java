@@ -175,14 +175,13 @@ public class WorkspaceController implements Initializable {
         else if(mod.equals("Ellipse")) {
             if (event.isSecondaryButtonDown()) {
                 select(event);
-                System.out.println("sono qui");
             }
             else {
                 Shape ellipse = c.createShape(mod);
            
                 ellipse.setGraphicsContext(gc);
                 ellipse.setXY(event.getX(), event.getY());
-            
+                
                 ellipse.setLineColor(selectedContourColour);
                 ellipse.setFillColor(selectedFullColour);
                 shape.add(ellipse);
@@ -232,7 +231,7 @@ public class WorkspaceController implements Initializable {
                 
                 invoker.setCommand(delete);
                 invoker.startCommand();
-                // DA QUI CAPIRE COME ANDARE AVANTI
+                // DA QUI CAPIRE COME ANDARE AVANTI E CAMBIARE INVOKER
                 it.next();
                 elem.draw();
             }
@@ -241,6 +240,4 @@ public class WorkspaceController implements Initializable {
             }
         }
     }
-    
-    
-}
+}    
