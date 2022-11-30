@@ -136,6 +136,7 @@ public class WorkspaceController implements Initializable {
         drawingCanvas.setLayoutX(pane.getScaleX());
         drawingCanvas.setLayoutY(pane.getScaleY());
     }
+    
     @FXML
     private void MakeDraw(MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
