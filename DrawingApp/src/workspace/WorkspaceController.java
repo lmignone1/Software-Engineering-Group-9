@@ -252,7 +252,7 @@ public class WorkspaceController implements Initializable {
         while (it.hasNext()) {
                 Shape elem = it.next();
                 elem.draw();
-            }
+        }
     }
     
     private void initContextMenu(){

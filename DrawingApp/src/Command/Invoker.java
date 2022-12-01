@@ -23,11 +23,11 @@ public class Invoker {
         command.execute();
         stack.add(command);
     }
+    
     public void startUndo(){
     
         Command commandUndo = stack.pop();
         commandUndo.undo();
-    
     }
 
     

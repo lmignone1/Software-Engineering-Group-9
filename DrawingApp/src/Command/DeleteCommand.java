@@ -12,8 +12,6 @@ public class DeleteCommand implements Command {
     
     Select shape;
 
-
-
    public DeleteCommand(Select shape) {
         this.shape = shape;
     }
@@ -22,8 +20,6 @@ public class DeleteCommand implements Command {
     public void execute() {
         shape.delete();
     }
-
-
 
    @Override
     public void undo() {
