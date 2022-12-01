@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,6 +37,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -81,11 +83,20 @@ public class WorkspaceController implements Initializable {
     private GraphicsContext gc;
 
     public List<Shape> shape = null;
-    @FXML
-    private MenuItem Delete;
+    
     private Invoker invoker;
     private Select selectShape = null;
     private Command delete = null;
+    
+    
+    ContextMenu contextMenu = new ContextMenu();
+    MenuItem deleteMenu = new MenuItem("Delete");
+    MenuItem moveMenu = new MenuItem("Move");
+    MenuItem copyMenu = new MenuItem("Copy");
+    MenuItem pasteMenu = new MenuItem("Paste");
+    MenuItem cutMenu = new MenuItem("Cut");
+    MenuItem colorMenu = new MenuItem("Change colour");
+    MenuItem sizeMenu = new MenuItem("Change size");
     
     /**
      * Initializes the controller class.
@@ -159,7 +170,7 @@ public class WorkspaceController implements Initializable {
         gc = drawingCanvas.getGraphicsContext2D();
         Creator c = new Creator();
         
-        if (mod.equals("Line")){
+        if (mod.equals("Line") && event.isPrimaryButtonDown()){
             Shape line = c.createShape(mod);
             line.setGraphicsContext(gc);
             
@@ -169,7 +180,7 @@ public class WorkspaceController implements Initializable {
             drawAll();
         }
         
-        else if(mod.equals("Rectangle")){
+        else if(mod.equals("Rectangle") && event.isPrimaryButtonDown()){
             Shape rect = c.createShape(mod);
            
             rect.setGraphicsContext(gc);
@@ -180,7 +191,7 @@ public class WorkspaceController implements Initializable {
             shape.add(rect);
             drawAll();
         }
-        else if(mod.equals("Ellipse")) {
+        else if(mod.equals("Ellipse") && event.isPrimaryButtonDown()) {
             
             Shape ellipse = c.createShape(mod);
 
@@ -191,24 +202,14 @@ public class WorkspaceController implements Initializable {
             ellipse.setFillColor(selectedFullColour);
             shape.add(ellipse);
             drawAll();
-            
-            
-        }           
-        else if(mod.equals("Delete")){ //FUNZIONA SOLO CON L'ELLISSE E NON SO PERCHE'
-
-            if (event.isSecondaryButtonDown()) {
+           
+        }
+        if(event.isSecondaryButtonDown()){
                 selectShape = select(event);
-                System.out.println(selectShape.getSelectedShape().getClass());
                 
-                if(selectShape == null){
-                    System.out.println("nessuna shape selezionata");
+                if(event.isPrimaryButtonDown()){
+                    contextMenu.hide();
                 }
-                delete = new DeleteCommand(selectShape);
-                invoker.setCommand(delete);
-                invoker.startCommand();
-                drawAll();
-            }
-
         }
     }        
    
@@ -232,11 +233,6 @@ public class WorkspaceController implements Initializable {
         selectedFullColour.setDisable(false);
     }
     
-    @FXML
-    private void deleteCommand(ActionEvent event) {    
-        mod = "Delete";  
-    }
-
     private Select select(MouseEvent event) {
         Iterator<Shape> it = shape.iterator();
         Select select = null;
@@ -244,6 +240,7 @@ public class WorkspaceController implements Initializable {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
                 select = new Select(shape,elem);
+                initContextMenu();
             }
         }
         return select;
@@ -257,5 +254,89 @@ public class WorkspaceController implements Initializable {
                 elem.draw();
             }
     }
+    
+    private void initContextMenu(){
+        contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu);
+        drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
+        
+        deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
+         public void handle(ActionEvent event) {
+            delete();
+         }
+        });
+        
+        moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
+         public void handle(ActionEvent event) {
+            move();
+         }
+        });
+        
+        copyMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the copyMenu item
+         public void handle(ActionEvent event) {
+            copy();
+         }
+        });
+        
+        pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the pasteMenu item
+         public void handle(ActionEvent event) {
+            paste();
+         }
+        });
+        
+        cutMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the cutMenu item
+         public void handle(ActionEvent event) {
+            cut();
+         }
+        });
+        
+        colorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the colorMenu item
+         public void handle(ActionEvent event) {
+            changeColor();
+         }
+        });
+        
+        sizeMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
+         public void handle(ActionEvent event) {
+            changeSize();
+         }
+        });
+        
+    }
+    
+    public void delete(){
+        delete = new DeleteCommand(selectShape);
+        invoker.setCommand(delete);
+        invoker.startCommand();
+        drawAll();
+    }
+    
+    public void move(){
+        
+    }
+    
+    public void copy(){
+        
+    }
+    
+    public void paste(){
+        
+    }
+    
+    public void cut(){
+        
+    }
+    
+    public void changeColor(){
+        
+    }
+    
+    public void changeSize(){
+        
+    }
 
+    @FXML
+    private void undoCommand(ActionEvent event) {
+        invoker.startUndo();
+        drawAll();
+    }
 }    

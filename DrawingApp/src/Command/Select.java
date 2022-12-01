@@ -24,25 +24,37 @@ public class Select {
     private Shape copyShape;
     private Shape cutShape;
 
-    public Select(List<Shape> shape, Shape selectedShape) {
+
+
+   public Select(List<Shape> shape, Shape selectedShape) {
         this.list = shape;
         this.selectedShape = selectedShape;
 
-    }
 
-    public List<Shape> getShape() {
+
+   }
+
+
+
+   public List<Shape> getShape() {
         return list;
     }
 
-    public void setShape(List<Shape> shape) {
+
+
+   public void setShape(List<Shape> shape) {
         this.list = shape;
     }
 
-    public Shape getSelectedShape() {
+
+
+   public Shape getSelectedShape() {
         return selectedShape;
     }
 
-    public void setSelectedShape(Shape selectedShape) {
+
+
+   public void setSelectedShape(Shape selectedShape) {
         this.selectedShape = selectedShape;
     }
     
@@ -58,10 +70,12 @@ public class Select {
     
     public void paste(){
         
-        this.copyShape.draw();
-        //this.list.add(this.copyShape);
+        
+        this.list.add(this.copyShape);
 
-    }
+
+
+   }
     
     public void cut(){
         copy();

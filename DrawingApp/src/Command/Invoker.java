@@ -12,7 +12,7 @@ import java.util.Stack;
  */
 public class Invoker {
     
-    private Command command;
+     private Command command;
     private Stack<Command> stack = new Stack<>();
     
     public void setCommand(Command command){
@@ -21,12 +21,14 @@ public class Invoker {
     
     public void startCommand(){
         command.execute();
+        stack.add(command);
     }
     public void startUndo(){
     
-        Command command2 = stack.pop();
-        command2.undo();
+        Command commandUndo = stack.pop();
+        commandUndo.undo();
     
     }
+
     
 }
