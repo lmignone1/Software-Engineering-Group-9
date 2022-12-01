@@ -83,6 +83,9 @@ public class WorkspaceController implements Initializable {
     public List<Shape> shape = null;
     @FXML
     private MenuItem Delete;
+    private Invoker invoker;
+    private Select selectShape = null;
+    private Command delete = null;
     
     /**
      * Initializes the controller class.
@@ -90,6 +93,7 @@ public class WorkspaceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         shape = new ArrayList<>();
+        invoker = new Invoker();
         
     } 
     
@@ -191,10 +195,7 @@ public class WorkspaceController implements Initializable {
             
         }           
         else if(mod.equals("Delete")){ //FUNZIONA SOLO CON L'ELLISSE E NON SO PERCHE'
-            Invoker invoker = new Invoker();
-            Select selectShape = null;
-            Command delete = null;
-            
+
             if (event.isSecondaryButtonDown()) {
                 selectShape = select(event);
                 System.out.println(selectShape.getSelectedShape().getClass());
@@ -256,8 +257,5 @@ public class WorkspaceController implements Initializable {
                 elem.draw();
             }
     }
-    
-
-    
 
 }    
