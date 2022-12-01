@@ -14,10 +14,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.paint.Color?>
 
-
-
-
-<AnchorPane id="AnchorPane" fx:id="pane" onMouseMoved="#resizeCanvas" prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
+<AnchorPane id="AnchorPane" fx:id="pane" onMouseMoved="#resizeCanvas" prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
 
    <children>
       <BorderPane>
@@ -58,6 +55,11 @@
                            </graphic>
                         </MenuItem>
                      </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Action">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#undoCommand" text="Undo" />
+                    </items>
                   </Menu>
               </menus>
             </MenuBar>

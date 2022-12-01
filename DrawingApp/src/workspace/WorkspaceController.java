@@ -4,6 +4,10 @@
  */
 package workspace;
 
+import Command.Command;
+import Command.DeleteCommand;
+import Command.Invoker;
+import Command.Select;
 import Factory.ConcreteCreatorLine;
 import Factory.ConcreteCreatorRectangle;
 import Shapes.ConcreteShapeLines;
@@ -23,6 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,6 +37,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -75,7 +81,22 @@ public class WorkspaceController implements Initializable {
     
     private String mod;
     private GraphicsContext gc;
-    private List<Shape> shape = null;
+
+    public List<Shape> shape = null;
+    
+    private Invoker invoker;
+    private Select selectShape = null;
+    private Command delete = null;
+    
+    
+    ContextMenu contextMenu = new ContextMenu();
+    MenuItem deleteMenu = new MenuItem("Delete");
+    MenuItem moveMenu = new MenuItem("Move");
+    MenuItem copyMenu = new MenuItem("Copy");
+    MenuItem pasteMenu = new MenuItem("Paste");
+    MenuItem cutMenu = new MenuItem("Cut");
+    MenuItem colorMenu = new MenuItem("Change colour");
+    MenuItem sizeMenu = new MenuItem("Change size");
     
     /**
      * Initializes the controller class.
@@ -83,7 +104,8 @@ public class WorkspaceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         shape = new ArrayList<>();
-        gc = drawingCanvas.getGraphicsContext2D();
+        invoker = new Invoker();
+        
     } 
     
     private void loadWindow(String location, String title) throws IOException{ //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -142,35 +164,27 @@ public class WorkspaceController implements Initializable {
         drawingCanvas.setLayoutY(pane.getScaleY());
         
     }
-    
+
     @FXML
     private void makeDraw(MouseEvent event){
-        
+        gc = drawingCanvas.getGraphicsContext2D();
         Creator c = new Creator();
         
-        if (mod.equals("Line")){
-            
-            if (event.isSecondaryButtonDown()) {
-                select(event);
-            }
-        else {
-             Shape line = c.createShape(mod);
+        if (mod.equals("Line") && event.isPrimaryButtonDown()){
+            Shape line = c.createShape(mod);
             line.setGraphicsContext(gc);
             
             line.setXY(event.getX(),event.getY());
             line.setLineColor(selectedContourColour);
             shape.add(line);
-            line.draw();
+            drawAll();
         }
             
            
         }
         
-        else if(mod.equals("Rectangle")){
-            if (event.isSecondaryButtonDown()) {
-                select(event);
-            } else {
-                Shape rect = c.createShape(mod);
+        else if(mod.equals("Rectangle") && event.isPrimaryButtonDown()){
+            Shape rect = c.createShape(mod);
            
             rect.setGraphicsContext(gc);
             rect.setXY(event.getX(), event.getY());
@@ -178,30 +192,31 @@ public class WorkspaceController implements Initializable {
             rect.setLineColor(selectedContourColour);
             rect.setFillColor(selectedFullColour);
             shape.add(rect);
-            rect.draw();
-            }
-            
-            
+            drawAll();
         }
-        else if(mod.equals("Ellipse")) {
-            if (event.isSecondaryButtonDown()) {
-                select(event);
-            }
-            else {
-                Shape ellipse = c.createShape(mod);
+        else if(mod.equals("Ellipse") && event.isPrimaryButtonDown()) {
+            
+            Shape ellipse = c.createShape(mod);
+
+            ellipse.setGraphicsContext(gc);
+            ellipse.setXY(event.getX(), event.getY());
+
+            ellipse.setLineColor(selectedContourColour);
+            ellipse.setFillColor(selectedFullColour);
+            shape.add(ellipse);
+            drawAll();
            
-                ellipse.setGraphicsContext(gc);
-                ellipse.setXY(event.getX(), event.getY());
+        }
+        if(event.isSecondaryButtonDown()){
+                selectShape = select(event);
                 
-                ellipse.setLineColor(selectedContourColour);
-                ellipse.setFillColor(selectedFullColour);
-                shape.add(ellipse);
-                ellipse.draw();
-            }
-            
-            
+                if(event.isPrimaryButtonDown()){
+                    contextMenu.hide();
+                }
         }
     }        
+   
+
 
     @FXML
     private void lineSegment(ActionEvent event) {
@@ -220,33 +235,111 @@ public class WorkspaceController implements Initializable {
         mod = "Ellipse";
         selectedFullColour.setDisable(false);
     }
-
-    private void select(MouseEvent event) {
-        Point2D mousePoint = new Point2D(event.getX(), event.getY());
-        
-        for(Shape elem : shape) {
-            if(elem.containsPoint(event.getX(), event.getY())) {
-                elem.setLineColor(new ColorPicker(Color.RED));
-                elem.draw();
+    
+    private Select select(MouseEvent event) {
+        Iterator<Shape> it = shape.iterator();
+        Select select = null;
+        while (it.hasNext()) {
+            Shape elem = it.next();
+            if (elem.containsPoint(event.getX(), event.getY())) {
+                select = new Select(shape,elem);
+                initContextMenu();
             }
         }
-        
-        /*
-        Point2D min = new Point2D(999999, 9999999);
-        ConcreteShapeEllipses s = null;
-        for(Shape elem : shape) {
-            if (mousePoint.distance(elem.getPoint()) < mousePoint.distance(min)) {
-                min = elem.getPoint();
-                s = (ConcreteShapeEllipses) elem;
-            }
-        }
-        
-        if(min.distance(mousePoint) < Math.abs(s.getRadiusX()) && min.distance(mousePoint) < Math.abs(s.getRadiusY())) {
-            s.setLineColor(new ColorPicker(Color.RED));
-            s.draw();
-        }
-        */
+        return select;
     }
     
+    private void drawAll(){
+        Iterator<Shape> it = shape.iterator();
+        gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
+        while (it.hasNext()) {
+                Shape elem = it.next();
+                elem.draw();
+        }
+    }
     
-}
+    private void initContextMenu(){
+        contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu);
+        drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
+        
+        deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
+         public void handle(ActionEvent event) {
+            delete();
+         }
+        });
+        
+        moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
+         public void handle(ActionEvent event) {
+            move();
+         }
+        });
+        
+        copyMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the copyMenu item
+         public void handle(ActionEvent event) {
+            copy();
+         }
+        });
+        
+        pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the pasteMenu item
+         public void handle(ActionEvent event) {
+            paste();
+         }
+        });
+        
+        cutMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the cutMenu item
+         public void handle(ActionEvent event) {
+            cut();
+         }
+        });
+        
+        colorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the colorMenu item
+         public void handle(ActionEvent event) {
+            changeColor();
+         }
+        });
+        
+        sizeMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
+         public void handle(ActionEvent event) {
+            changeSize();
+         }
+        });
+        
+    }
+    
+    public void delete(){
+        delete = new DeleteCommand(selectShape);
+        invoker.setCommand(delete);
+        invoker.startCommand();
+        drawAll();
+    }
+    
+    public void move(){
+        
+    }
+    
+    public void copy(){
+        
+    }
+    
+    public void paste(){
+        
+    }
+    
+    public void cut(){
+        
+    }
+    
+    public void changeColor(){
+        
+    }
+    
+    public void changeSize(){
+        
+    }
+
+    @FXML
+    private void undoCommand(ActionEvent event) {
+        invoker.startUndo();
+        drawAll();
+    }
+}    
