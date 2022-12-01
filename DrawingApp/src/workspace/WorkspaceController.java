@@ -8,12 +8,6 @@ import Command.Command;
 import Command.DeleteCommand;
 import Command.Invoker;
 import Command.Select;
-import Factory.ConcreteCreatorLine;
-import Factory.ConcreteCreatorRectangle;
-import Shapes.ConcreteShapeLines;
-import Shapes.ConcreteShapeRectangles;
-import Factory.ConcreteCreatorEllipse;
-import Shapes.ConcreteShapeEllipses;
 import Factory.Creator;
 import Shapes.Shape;
 import java.io.File;
@@ -31,7 +25,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -43,7 +36,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -177,12 +169,9 @@ public class WorkspaceController implements Initializable {
             line.setXY(event.getX(),event.getY());
             line.setLineColor(selectedContourColour);
             shape.add(line);
-            drawAll();
+            //drawAll();
+            line.draw();
         }
-            
-           
-        }
-        
         else if(mod.equals("Rectangle") && event.isPrimaryButtonDown()){
             Shape rect = c.createShape(mod);
            
@@ -192,7 +181,8 @@ public class WorkspaceController implements Initializable {
             rect.setLineColor(selectedContourColour);
             rect.setFillColor(selectedFullColour);
             shape.add(rect);
-            drawAll();
+            //drawAll();
+            rect.draw();
         }
         else if(mod.equals("Ellipse") && event.isPrimaryButtonDown()) {
             
@@ -204,20 +194,19 @@ public class WorkspaceController implements Initializable {
             ellipse.setLineColor(selectedContourColour);
             ellipse.setFillColor(selectedFullColour);
             shape.add(ellipse);
-            drawAll();
+            //drawAll();
+            ellipse.draw();
            
         }
         if(event.isSecondaryButtonDown()){
                 selectShape = select(event);
-                
+ 
                 if(event.isPrimaryButtonDown()){
                     contextMenu.hide();
                 }
         }
-    }        
-   
-
-
+    }
+    
     @FXML
     private void lineSegment(ActionEvent event) {
         mod = "Line";
