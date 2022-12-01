@@ -8,6 +8,7 @@ import Shapes.Shape;
 import java.util.Iterator;
 import java.util.List;
 import javafx.geometry.Point2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 
@@ -26,6 +27,7 @@ public class Select {
     public Select(List<Shape> shape, Shape selectedShape) {
         this.list = shape;
         this.selectedShape = selectedShape;
+
     }
 
     public List<Shape> getShape() {
@@ -44,7 +46,7 @@ public class Select {
         this.selectedShape = selectedShape;
     }
     
-    public void delete(){        
+    public void delete(){
         list.remove(this.selectedShape);
     }
     
@@ -57,8 +59,15 @@ public class Select {
     public void paste(){
         
         this.copyShape.draw();
+        //this.list.add(this.copyShape);
 
     }
+    
+    public void cut(){
+        copy();
+        delete();
+    }
+    
     
     public void move(Point2D point, Shape shape){ // SCRITTA A CASO DA RIVEDERE
         
@@ -69,11 +78,7 @@ public class Select {
        
     }
     
-    public void cut(){
-        copy();
-        delete();
-    }
-    
+
     
     
 }

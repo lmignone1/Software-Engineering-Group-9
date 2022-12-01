@@ -79,7 +79,10 @@ public class WorkspaceController implements Initializable {
     
     private String mod;
     private GraphicsContext gc;
+
     public List<Shape> shape = null;
+    @FXML
+    private MenuItem Delete;
     
     /**
      * Initializes the controller class.
@@ -146,11 +149,12 @@ public class WorkspaceController implements Initializable {
         drawingCanvas.setLayoutY(pane.getScaleY());
         
     }
-    
+
     @FXML
     private void makeDraw(MouseEvent event){
         gc = drawingCanvas.getGraphicsContext2D();
         Creator c = new Creator();
+        
         if (mod.equals("Line")){
             Shape line = c.createShape(mod);
             line.setGraphicsContext(gc);
@@ -158,7 +162,7 @@ public class WorkspaceController implements Initializable {
             line.setXY(event.getX(),event.getY());
             line.setLineColor(selectedContourColour);
             shape.add(line);
-            line.draw();
+            drawAll();
         }
         
         else if(mod.equals("Rectangle")){
@@ -170,27 +174,44 @@ public class WorkspaceController implements Initializable {
             rect.setLineColor(selectedContourColour);
             rect.setFillColor(selectedFullColour);
             shape.add(rect);
-            rect.draw();
+            drawAll();
         }
         else if(mod.equals("Ellipse")) {
+            
+            Shape ellipse = c.createShape(mod);
+
+            ellipse.setGraphicsContext(gc);
+            ellipse.setXY(event.getX(), event.getY());
+
+            ellipse.setLineColor(selectedContourColour);
+            ellipse.setFillColor(selectedFullColour);
+            shape.add(ellipse);
+            drawAll();
+            
+            
+        }           
+        else if(mod.equals("Delete")){ //FUNZIONA SOLO CON L'ELLISSE E NON SO PERCHE'
+            Invoker invoker = new Invoker();
+            Select selectShape = null;
+            Command delete = null;
+            
             if (event.isSecondaryButtonDown()) {
-                select(event);
-            }
-            else {
-                Shape ellipse = c.createShape(mod);
-           
-                ellipse.setGraphicsContext(gc);
-                ellipse.setXY(event.getX(), event.getY());
+                selectShape = select(event);
+                System.out.println(selectShape.getSelectedShape().getClass());
                 
-                ellipse.setLineColor(selectedContourColour);
-                ellipse.setFillColor(selectedFullColour);
-                shape.add(ellipse);
-                ellipse.draw();
+                if(selectShape == null){
+                    System.out.println("nessuna shape selezionata");
+                }
+                delete = new DeleteCommand(selectShape);
+                invoker.setCommand(delete);
+                invoker.startCommand();
+                drawAll();
             }
-            
-            
+
         }
     }        
+   
+
 
     @FXML
     private void lineSegment(ActionEvent event) {
@@ -209,35 +230,34 @@ public class WorkspaceController implements Initializable {
         mod = "Ellipse";
         selectedFullColour.setDisable(false);
     }
+    
+    @FXML
+    private void deleteCommand(ActionEvent event) {    
+        mod = "Delete";  
+    }
 
-    private void select(MouseEvent event) {
+    private Select select(MouseEvent event) {
         Iterator<Shape> it = shape.iterator();
-        Invoker invoker = new Invoker();
         Select select = null;
         while (it.hasNext()) {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
-                /*
-                elem.setLineColor(new ColorPicker(Color.RED));
-                System.out.println(elem.getFillColor());
-                System.out.println(elem.getLineColor());
-                elem.draw();
-                */
-                select = new Select(shape,elem);
-                Command delete = new DeleteCommand(select);
-                Command copy = new DeleteCommand(select);
-                Command paste = new DeleteCommand(select);
-                Command cut = new DeleteCommand(select);
-                
-                invoker.setCommand(delete);
-                invoker.startCommand();
-                // DA QUI CAPIRE COME ANDARE AVANTI E CAMBIARE INVOKER
-                it.next();
-                elem.draw();
-            }
-            else {
-                System.out.println("no");
+                return select = new Select(shape,elem);
             }
         }
+        return null;
     }
+    
+    private void drawAll(){
+        Iterator<Shape> it = shape.iterator();
+        gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
+        while (it.hasNext()) {
+                Shape elem = it.next();
+                elem.draw();
+            }
+    }
+    
+
+    
+
 }    
