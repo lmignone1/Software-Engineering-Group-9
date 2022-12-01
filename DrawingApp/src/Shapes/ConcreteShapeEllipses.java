@@ -5,8 +5,8 @@
  */
 package Shapes;
 
+import java.awt.geom.Ellipse2D;
 import javafx.geometry.Point2D;
-import javafx.scene.shape.Ellipse;
 
 import javafx.scene.control.ColorPicker;
 
@@ -15,16 +15,17 @@ import javafx.scene.control.ColorPicker;
  * @author loren
  */
 public class ConcreteShapeEllipses extends AbstractShape{
-    private Ellipse ellipse;
     private ColorPicker fillColor;
     private double radiusX, radiusY;
     private Point2D point;
-
+    
+    private Ellipse2D ellipse = null;
+    
     public ConcreteShapeEllipses() {
         this.radiusX = 150.0;
         this.radiusY = 90.0;
-        this.ellipse = new Ellipse();
         this.point = null;
+        this.ellipse = new Ellipse2D.Double();
     }
     
     @Override
@@ -40,11 +41,8 @@ public class ConcreteShapeEllipses extends AbstractShape{
     @Override
     public void setXY(double centerX, double centerY){
         setX(centerX - this.getRadiusX()/2);
-        setY(centerY - this.getRadiusY()/2);
-        ellipse.setCenterX(getX());   
-        ellipse.setCenterY(getY());
-        ellipse.setRadiusX(this.radiusX);
-        ellipse.setRadiusY(this.radiusY);
+        setY(centerY - this.getRadiusY()/2);  
+        ellipse.setFrame(getX(), getY(), getRadiusX(), getRadiusY());
         point = new Point2D(getX(), getY());
     }
 
@@ -62,12 +60,12 @@ public class ConcreteShapeEllipses extends AbstractShape{
         getGraphicsContext().setFill(getFillColor().getValue());
         getGraphicsContext().setLineWidth(3);
         getGraphicsContext().strokeOval(getX(), getY(), getRadiusX(), getRadiusY());
-        getGraphicsContext().fillOval(getX(), getY(), getRadiusX(), getRadiusY());    
+        getGraphicsContext().fillOval(getX(), getY(), getRadiusX(), getRadiusY());
     }
 
     @Override
     public boolean containsPoint(double x, double y) {
-        return ellipse.contains(new Point2D(x, y));
+        return ellipse.contains(x, y);
     }
     
     @Override

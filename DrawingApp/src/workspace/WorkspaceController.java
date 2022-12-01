@@ -147,8 +147,14 @@ public class WorkspaceController implements Initializable {
     private void makeDraw(MouseEvent event){
         
         Creator c = new Creator();
+        
         if (mod.equals("Line")){
-            Shape line = c.createShape(mod);
+            
+            if (event.isSecondaryButtonDown()) {
+                select(event);
+            }
+        else {
+             Shape line = c.createShape(mod);
             line.setGraphicsContext(gc);
             
             line.setXY(event.getX(),event.getY());
@@ -156,9 +162,15 @@ public class WorkspaceController implements Initializable {
             shape.add(line);
             line.draw();
         }
+            
+           
+        }
         
         else if(mod.equals("Rectangle")){
-            Shape rect = c.createShape(mod);
+            if (event.isSecondaryButtonDown()) {
+                select(event);
+            } else {
+                Shape rect = c.createShape(mod);
            
             rect.setGraphicsContext(gc);
             rect.setXY(event.getX(), event.getY());
@@ -167,6 +179,9 @@ public class WorkspaceController implements Initializable {
             rect.setFillColor(selectedFullColour);
             shape.add(rect);
             rect.draw();
+            }
+            
+            
         }
         else if(mod.equals("Ellipse")) {
             if (event.isSecondaryButtonDown()) {
@@ -208,6 +223,15 @@ public class WorkspaceController implements Initializable {
 
     private void select(MouseEvent event) {
         Point2D mousePoint = new Point2D(event.getX(), event.getY());
+        
+        for(Shape elem : shape) {
+            if(elem.containsPoint(event.getX(), event.getY())) {
+                elem.setLineColor(new ColorPicker(Color.RED));
+                elem.draw();
+            }
+        }
+        
+        /*
         Point2D min = new Point2D(999999, 9999999);
         ConcreteShapeEllipses s = null;
         for(Shape elem : shape) {
@@ -221,7 +245,7 @@ public class WorkspaceController implements Initializable {
             s.setLineColor(new ColorPicker(Color.RED));
             s.draw();
         }
- 
+        */
     }
     
     

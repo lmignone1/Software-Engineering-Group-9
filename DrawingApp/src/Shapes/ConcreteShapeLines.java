@@ -5,48 +5,69 @@
 package Shapes;
 
 
+import java.awt.geom.Line2D;
 import javafx.geometry.Point2D;
-import javafx.scene.shape.Line;
 
 /**
  *
  * @author Acer
  */
+
 public  class ConcreteShapeLines extends AbstractShape{
-    private final double length;
-    private final Line line;
+    private double length;
+    private Line2D line;
+    private Point2D point;
+    private double endX, endY;
     
     public ConcreteShapeLines(){
         this.length = 100.0;
-        this.line = new Line();
+        this.line = new Line2D.Double();
+        point = null;
+        this.endX = 0.0;
+        this.endY = 0.0;
     }
 
     @Override
     public void setXY(double x, double y){ 
-        setX(x);
+        setX(x - length/2);
         setY(y);
-        line.setStartX(getX());
-        line.setStartY(getY());
+        setEndX(getX() + length);
+        setEndY(getY());
+        line.setLine(getX(), getY(), getEndX(), getEndY());
+        point = new Point2D(getX(), getY());
     }
     @Override
     public void draw() {
         getGraphicsContext().setStroke(getLineColor().getValue());
         getGraphicsContext().setLineWidth(2);
-        getGraphicsContext().strokeLine(line.getStartX() - length/2, line.getStartY(), line.getStartX() + length/2, line.getStartY());
+        getGraphicsContext().strokeLine(getX(), getY(), getEndX(), getEndY());
     }
-
 
     @Override
     public Point2D getPoint() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.point;
     }
 
     @Override
     public boolean containsPoint(double x, double y) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return line.intersects(x, y, 5.0, 5.0);
     }
 
+    public double getEndX() {
+        return endX;
+    }
 
+    public void setEndX(double endX) {
+        this.endX = endX;
+    }
+
+    public double getEndY() {
+        return endY;
+    }
+
+    public void setEndY(double endY) {
+        this.endY = endY;
+    }
 }
 
 
