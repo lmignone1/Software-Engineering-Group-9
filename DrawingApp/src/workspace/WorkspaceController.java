@@ -243,10 +243,10 @@ public class WorkspaceController implements Initializable {
         while (it.hasNext()) {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
-                return select = new Select(shape,elem);
+                select = new Select(shape,elem);
             }
         }
-        return null;
+        return select;
     }
     
     private void drawAll(){
