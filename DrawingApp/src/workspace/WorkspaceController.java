@@ -11,6 +11,7 @@ import Command.Select;
 import Command.changeColorCommand;
 import Command.copyCommand;
 import Command.pasteCommand;
+import Command.cutCommand;
 import Factory.Creator;
 import Shapes.Shape;
 import java.io.File;
@@ -340,7 +341,10 @@ public class WorkspaceController implements Initializable {
     }
     
     public void cut(){
-        
+        command = new cutCommand(selectShape);
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll();
     }
     
     public void changeColor(){

@@ -95,7 +95,7 @@ public class Select {
    }
     
     public void cut(){
-        copy();
+        this.copyShape = this.selectedShape;
         delete();
     }
     
