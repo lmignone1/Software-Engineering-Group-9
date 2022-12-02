@@ -97,8 +97,7 @@ public class WorkspaceController implements Initializable {
     MenuItem deleteMenu = new MenuItem("Delete");
     MenuItem moveMenu = new MenuItem("Move");
     MenuItem copyMenu = new MenuItem("Copy");
-    Label lbl = new Label("Paste");
-    MenuItem pasteMenu = new CustomMenuItem(lbl);
+    MenuItem pasteMenu = new MenuItem("Paste");
     MenuItem cutMenu = new MenuItem("Cut");
     MenuItem colorMenu = new MenuItem("Change colour");
     MenuItem sizeMenu = new MenuItem("Change size");
@@ -176,7 +175,7 @@ public class WorkspaceController implements Initializable {
         gc = drawingCanvas.getGraphicsContext2D();
         Creator c = new Creator();
         
-        if(event.isPrimaryButtonDown()){
+        if((event.isPrimaryButtonDown()) && (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse")) ){
             Shape shapeCreated = c.createShape(mod, gc, event.getX(), event.getY() ,selectedContourColour, selectedFullColour);
             shape.add(shapeCreated);
             shapeCreated.draw();
@@ -188,7 +187,15 @@ public class WorkspaceController implements Initializable {
             if(event.isPrimaryButtonDown()){
                 contextMenu.hide();
             }
+            System.out.println("sono prima del if con paste");
+            System.out.println(mod);
+            if(event.isSecondaryButtonDown() && mod.equals("paste")){
+                paste(event.getX(),event.getY());
+            }
+            mod = "";
+
         }
+
         
     }
     
@@ -269,22 +276,22 @@ public class WorkspaceController implements Initializable {
          }
         });
         
-        lbl.setOnMouseClicked(new EventHandler<MouseEvent>() { //set the action of the pasteMenu item
-            public void handle(MouseEvent event) {
-                System.out.println("cursore x" + event.getX());
-                System.out.println("cursore y" + event.getY());
-                paste(event.getX(),event.getY());
-                //mod = "paste";
-            }    
-         });
-        /*
-        pasteMenu.setOnAction(new EventHandler<MouseEvent>() { //set the action of the pasteMenu item
-        public void handle(MouseEvent event) {
-            //paste();
-            mod = "paste";
+        moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
+         public void handle(ActionEvent event) {
+            //move();
+            mod = "move";
          }
         });
-        */
+        
+        pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
+         public void handle(ActionEvent event) {
+            //move();
+            mod = "paste";
+            
+         }
+        });
+        
+        
         
         cutMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the cutMenu item
          public void handle(ActionEvent event) {
@@ -336,6 +343,7 @@ public class WorkspaceController implements Initializable {
         //System.out.println("select x: " + selectShape.getCopyShape().getX());
         //System.out.println("select y: " + selectShape.getCopyShape().getY());
         drawAll();
+        
         
 
     }
