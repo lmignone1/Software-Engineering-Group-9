@@ -21,7 +21,6 @@ public class Select {
     private List<Shape> list;
     private Shape selectedShape;
     private Shape copyShape;
-    private Shape cutShape;
     private Creator creator = new Creator();
     private ColorPicker previusLineColor;
     private ColorPicker previusFillColor;
@@ -86,7 +85,7 @@ public class Select {
    }
     
     public void cut(){
-        copy();
+        this.copyShape = this.selectedShape;
         delete();
     }
     
