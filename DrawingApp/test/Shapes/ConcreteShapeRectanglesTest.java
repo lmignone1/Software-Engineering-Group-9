@@ -106,11 +106,11 @@ public class ConcreteShapeRectanglesTest {
            for(int i = 0; i < listColor.size(); i++){
                instance.setFillColor(listColor.get(i));
                assertNotEquals(listColorDefault.get(i),instance.getFillColor());
-               assertEquals(listColor.get(i),instance.getFillColor()); 
+               assertEquals(listColor.get(i).getValue(),instance.getFillColor().getValue()); 
            }
            
        } catch (AssertionError ex){
-            fail("The setLineColor2 failed");
+            fail("The setFillColor failed");
        }
     }
 
@@ -127,7 +127,7 @@ public class ConcreteShapeRectanglesTest {
                 ColorPicker result = instance.getFillColor();
                 
                 assertNotNull(result);
-                assertEquals(expResult, result);
+                assertEquals(expResult.getValue(), result.getValue());
             }
         }
         catch (AssertionError ex) {

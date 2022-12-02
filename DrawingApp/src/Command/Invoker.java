@@ -21,6 +21,7 @@ public class Invoker {
     
     public void startCommand(){
         command.execute();
+        stack.add(command);
     }
     public void startUndo(){
     

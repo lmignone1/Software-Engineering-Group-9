@@ -8,6 +8,8 @@ import Command.Command;
 import Command.DeleteCommand;
 import Command.Invoker;
 import Command.Select;
+import Command.copyCommand;
+import Command.moveCommand;
 import Factory.ConcreteCreatorLine;
 import Factory.ConcreteCreatorRectangle;
 import Shapes.ConcreteShapeLines;
@@ -20,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import static java.lang.System.exit;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,6 +30,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -86,6 +90,10 @@ public class WorkspaceController implements Initializable {
     private Invoker invoker;
     private Select selectShape = null;
     private Command delete = null;
+    private copyCommand copy = null;
+    private moveCommand move = null;
+    @FXML
+    private MenuItem Copy;
     
     /**
      * Initializes the controller class.
@@ -210,10 +218,47 @@ public class WorkspaceController implements Initializable {
             }
 
         }
+        else if(mod.equals("Copy")){
+         if (event.isSecondaryButtonDown()) {
+                selectShape = select(event);
+                System.out.println(selectShape.getSelectedShape().getClass());
+                
+                if(selectShape == null){
+                    System.out.println("nessuna shape selezionata");
+                }
+                copy = new copyCommand(selectShape);
+                invoker.setCommand(copy);
+                invoker.startCommand();
+                System.out.println(shape);
+                System.out.println(selectShape.getCopyShape());
+            } 
+        
+         
+             
+         }else{
+             
+         }
+        
+    
     }        
-   
-
-
+    @FXML
+    private void Move(MouseEvent event){ 
+if (event.isSecondaryButtonDown()) {
+                selectShape = select(event);
+                System.out.println(selectShape.getSelectedShape().getClass());
+                
+                if(selectShape == null){
+                    System.out.println("nessuna shape selezionata");
+                }
+}
+        if(event.isPrimaryButtonDown()){
+            move = new moveCommand(selectShape,event.getX(),event.getY());
+            invoker.setCommand(move);
+            invoker.startCommand();
+            drawAll();
+        }
+       
+}
     @FXML
     private void lineSegment(ActionEvent event) {
         mod = "Line";
@@ -236,6 +281,15 @@ public class WorkspaceController implements Initializable {
     private void deleteCommand(ActionEvent event) {    
         mod = "Delete";  
     }
+    @FXML
+    private void copyCommand(ActionEvent event) {
+        mod = "Copy";
+    } 
+    @FXML
+    private void moveCommand(ActionEvent event) {
+        mod = "Move";
+    }
+
 
     private Select select(MouseEvent event) {
         Iterator<Shape> it = shape.iterator();
@@ -257,5 +311,24 @@ public class WorkspaceController implements Initializable {
                 elem.draw();
             }
     }
+
+    
+    @FXML
+    private void undoCommandCopy(ActionEvent event) {
+     invoker.startUndo();
+     drawAll();
+     System.out.println(shape);
+     System.out.println(selectShape.getCopyShape());
+    }
+
+    @FXML
+    private void UndoCommandMove(ActionEvent event) {
+    invoker.startUndo();
+    drawAll();
+    }
+
+   
+   
+    
 
 }    

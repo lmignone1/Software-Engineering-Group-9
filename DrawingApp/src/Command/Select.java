@@ -10,7 +10,9 @@ import java.util.List;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.effect.Light.Point;
 import javafx.scene.paint.Color;
+import static javafx.scene.paint.Color.color;
 
 /**
  *
@@ -23,7 +25,7 @@ public class Select {
     private Shape selectedShape;
     private Shape copyShape;
     private Shape cutShape;
-
+    
     public Select(List<Shape> shape, Shape selectedShape) {
         this.list = shape;
         this.selectedShape = selectedShape;
@@ -37,11 +39,16 @@ public class Select {
     public void setShape(List<Shape> shape) {
         this.list = shape;
     }
-
+    
     public Shape getSelectedShape() {
         return selectedShape;
     }
-
+    public void setCopyShape(Shape copyShape){
+        this.copyShape=copyShape;
+    }
+    public Shape getCopyShape() {
+        return copyShape;
+    }
     public void setSelectedShape(Shape selectedShape) {
         this.selectedShape = selectedShape;
     }
@@ -58,8 +65,8 @@ public class Select {
     
     public void paste(){
         
-        this.copyShape.draw();
-        //this.list.add(this.copyShape);
+        //this.copyShape.draw();
+        this.list.add(this.copyShape);
 
     }
     
@@ -69,12 +76,10 @@ public class Select {
     }
     
     
-    public void move(Point2D point, Shape shape){ // SCRITTA A CASO DA RIVEDERE
-        
-        double newX = point.getX();
-        double newY = point.getY();
-        
-        shape.setXY(newX, newY);
+    public void move(double x,double y, Shape shape){ // SCRITTA A CASO DA RIVEDERE
+       
+       shape.setX(x);
+       shape.setY(y);
        
     }
     

@@ -8,26 +8,26 @@ import Shapes.Shape;
 
 /**
  *
- * @author Davide
+ * @author Acer
  */
-public class copyCommand implements Command {
-    
-    Select shape;
-
-    public copyCommand(Select shape) {
+public class moveCommand implements Command{
+     Select shape;
+       double x;
+       double y;
+    public moveCommand(Select shape, double x, double y) {
         this.shape = shape;
+        this.x=x;
+        this.y=y;
     }
-    public Shape getCopy(){
-        return shape.getCopyShape();
-    }
+   
     @Override
     public void execute() {
-        this.shape.copy();
+        this.shape.move(x,y,shape.getSelectedShape());
     }
 
     @Override
     public void undo() {
-       this.shape.setCopyShape(null);
+      
     }
     
 }

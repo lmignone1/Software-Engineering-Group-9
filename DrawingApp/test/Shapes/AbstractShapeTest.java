@@ -106,7 +106,7 @@ public class AbstractShapeTest {
            for(int i = 0; i < listColor.size(); i++){
                instance.setLineColor(listColor.get(i));
                assertNotEquals(listColorDefault.get(i),instance.getLineColor()); 
-               assertEquals(listColor.get(i),instance.getLineColor()); 
+               assertEquals(listColor.get(i).getValue(),instance.getLineColor().getValue()); 
            }
            
        } catch (AssertionError ex){
@@ -127,7 +127,7 @@ public class AbstractShapeTest {
                 ColorPicker result = instance.getLineColor();
                 
                 assertNotNull(result);
-                assertEquals(expResult, result);
+                assertEquals(expResult.getValue(), result.getValue());
             }
         }
         catch (AssertionError ex) {
