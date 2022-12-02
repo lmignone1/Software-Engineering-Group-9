@@ -11,19 +11,22 @@ package Command;
 public class pasteCommand implements Command {
     
     Select shape;
+    private double x,y;
 
-    public pasteCommand(Select shape) {
+    public pasteCommand(Select shape, double x, double y) {
         this.shape = shape;
+        this.x = x;
+        this.y = y;
     }
 
     @Override
     public void execute() {
-        this.shape.paste();
+        this.shape.paste(this.x, this.y);
     }
 
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.shape.getShape().remove(shape.getCopyShape());
     }
     
     

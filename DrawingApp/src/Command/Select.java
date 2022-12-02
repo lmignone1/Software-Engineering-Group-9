@@ -78,11 +78,20 @@ public class Select {
     
     public void copy(){ 
         this.copyShape = this.creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), 
-                0 ,0, this.selectedShape.getLineColor(), this.selectedShape.getFillColor());
+                this.selectedShape.getX(),this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor());
+        System.out.println("shape copiata: " + copyShape);
+        System.out.println("shape selezionata: " + selectedShape);
     }
     
-    public void paste(){  
+    public void paste(double x, double y){
+        
+        this.copyShape.setXY(x,y);
+        System.out.println("shape copiata: " + copyShape);
+        System.out.println("ho settato" + copyShape.getX());
+        System.out.println("ho settato" + copyShape.getY());
+        
         this.list.add(this.copyShape);
+        System.out.println("list past" + list);
    }
     
     public void cut(){
