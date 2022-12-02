@@ -8,6 +8,7 @@ import Command.Command;
 import Command.DeleteCommand;
 import Command.Invoker;
 import Command.Select;
+import Command.changeColorCommand;
 import Factory.Creator;
 import Shapes.Shape;
 import java.io.File;
@@ -79,8 +80,11 @@ public class WorkspaceController implements Initializable {
     
     private Invoker invoker;
     private Select selectShape = null;
-    private Command delete = null;
+    private Command command = null;
+    //private Command delete = null;
     
+    
+    //private Command changeColor = null;
     
     ContextMenu contextMenu = new ContextMenu();
     MenuItem deleteMenu = new MenuItem("Delete");
@@ -316,8 +320,8 @@ public class WorkspaceController implements Initializable {
     }
     
     public void delete(){
-        delete = new DeleteCommand(selectShape);
-        invoker.setCommand(delete);
+        command = new DeleteCommand(selectShape);
+        invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
     }
@@ -339,8 +343,13 @@ public class WorkspaceController implements Initializable {
     }
     
     public void changeColor(){
+        command = new changeColorCommand(selectShape, selectedContourColour, selectedFullColour);
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll();
         
-    }
+    }   
+   
     
     public void changeSize(){
         

@@ -8,6 +8,7 @@ import Factory.Creator;
 import Shapes.Shape;
 import java.util.List;
 import javafx.geometry.Point2D;
+import javafx.scene.control.ColorPicker;
 
 
 /**
@@ -21,7 +22,9 @@ public class Select {
     private Shape selectedShape;
     private Shape copyShape;
     private Shape cutShape;
-    private Creator creator = new Creator(); 
+    private Creator creator = new Creator();
+    private ColorPicker previusLineColor;
+    private ColorPicker previusFillColor;
 
 
    public Select(List<Shape> shape, Shape selectedShape) {
@@ -52,7 +55,23 @@ public class Select {
     public void setCopyShape(Shape copyShape) {
         this.copyShape = copyShape;
     }
-    
+
+    public ColorPicker getPreviusLineColor() {
+        return previusLineColor;
+    }
+
+    public void setPreviusLineColor(ColorPicker previusLineColor) {
+        this.previusLineColor = previusLineColor;
+    }
+
+    public ColorPicker getPreviusFillColor() {
+        return previusFillColor;
+    }
+
+    public void setPreviusFillColor(ColorPicker previusFillColor) {
+        this.previusFillColor = previusFillColor;
+    }
+       
     public void delete(){
         list.remove(this.selectedShape);
     }
@@ -78,4 +97,20 @@ public class Select {
         shape.setXY(newX, newY);
     }
     
+    public void changeColor(ColorPicker lineColor, ColorPicker fillColor) {
+        
+        if(this.selectedShape.getType().equals("Line")){
+            setPreviusLineColor(this.selectedShape.getLineColor());
+        }else{
+            setPreviusLineColor(this.selectedShape.getLineColor());
+            setPreviusFillColor(this.selectedShape.getFillColor());
+        }
+        
+        if(this.selectedShape.getType().equals("Line")){
+            this.selectedShape.setLineColor(lineColor);
+        }else{
+            this.selectedShape.setLineColor(lineColor);
+            this.selectedShape.setFillColor(fillColor);
+        }
+    }
 }
