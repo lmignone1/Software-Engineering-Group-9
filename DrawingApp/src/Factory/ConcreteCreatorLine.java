@@ -6,6 +6,8 @@ package Factory;
 
 import Shapes.ConcreteShapeLines;
 import Shapes.Shape;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ColorPicker;
 
 
 
@@ -15,7 +17,14 @@ import Shapes.Shape;
  */
 public class ConcreteCreatorLine extends Creator{
 
-    public static Shape createShape() {
-        return new ConcreteShapeLines();   
+    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor) {
+        
+        ConcreteShapeLines line = new ConcreteShapeLines();
+        
+        line.setGraphicsContext(gc);
+        line.setXY(x, y);
+        line.setLineColor(lineColor);
+        
+        return line;   
     }   
 }

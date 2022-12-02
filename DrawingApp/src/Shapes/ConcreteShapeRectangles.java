@@ -20,12 +20,14 @@ public class ConcreteShapeRectangles extends AbstractShape{
     private ColorPicker fillColor;
     private Rectangle2D rectangle = null;
     private Point2D point;
+    private final String TYPE;
 
     public ConcreteShapeRectangles(){
+        this.TYPE = "Rectangle";
         this.width = 100.0;
         this.height = 50.0;
         this.rectangle = new Rectangle2D.Double();
-        this.point = null;
+        //this.point = null;
     }
     
     @Override
@@ -71,6 +73,11 @@ public class ConcreteShapeRectangles extends AbstractShape{
     @Override
     public Point2D getPoint() {
         return this.point;
+    }
+
+    @Override
+    public String getType() {
+        return this.TYPE;
     }
     
     

@@ -18,13 +18,15 @@ public  class ConcreteShapeLines extends AbstractShape{
     private Line2D line;
     private Point2D point;
     private double endX, endY;
+    private final String TYPE;
     
     public ConcreteShapeLines(){
+        this.TYPE = "Line";
         this.length = 100.0;
         this.line = new Line2D.Double();
-        point = null;
-        this.endX = 0.0;
-        this.endY = 0.0;
+        //point = null;
+        //this.endX = 0.0;
+        //this.endY = 0.0;
     }
 
     @Override
@@ -67,6 +69,11 @@ public  class ConcreteShapeLines extends AbstractShape{
 
     public void setEndY(double endY) {
         this.endY = endY;
+    }
+
+    @Override
+    public String getType() {
+       return this.TYPE;
     }
 }
 

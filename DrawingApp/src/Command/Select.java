@@ -4,13 +4,11 @@
  */
 package Command;
 
+import Factory.Creator;
 import Shapes.Shape;
-import java.util.Iterator;
 import java.util.List;
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.paint.Color;
+
 
 /**
  *
@@ -23,6 +21,7 @@ public class Select {
     private Shape selectedShape;
     private Shape copyShape;
     private Shape cutShape;
+    private Creator creator = new Creator(); 
 
 
    public Select(List<Shape> shape, Shape selectedShape) {
@@ -45,13 +44,22 @@ public class Select {
    public void setSelectedShape(Shape selectedShape) {
         this.selectedShape = selectedShape;
     }
+
+    public Shape getCopyShape() {
+        return copyShape;
+    }
+
+    public void setCopyShape(Shape copyShape) {
+        this.copyShape = copyShape;
+    }
     
     public void delete(){
         list.remove(this.selectedShape);
     }
     
-    public void copy(){
-        this.copyShape = this.selectedShape;
+    public void copy(){ 
+        this.copyShape = this.creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), 
+                0 ,0, this.selectedShape.getLineColor(), this.selectedShape.getFillColor());
     }
     
     public void paste(){  

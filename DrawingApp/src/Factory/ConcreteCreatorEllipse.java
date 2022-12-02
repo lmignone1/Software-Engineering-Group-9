@@ -6,6 +6,8 @@ package Factory;
 
 import Shapes.ConcreteShapeEllipses;
 import Shapes.Shape;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ColorPicker;
 
 
 
@@ -15,8 +17,16 @@ import Shapes.Shape;
  */
 public class ConcreteCreatorEllipse extends Creator {
 
-    public static Shape createShape() {
-        return new ConcreteShapeEllipses();
+    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor) {
+        
+        ConcreteShapeEllipses ellipse = new ConcreteShapeEllipses();
+        
+        ellipse.setGraphicsContext(gc);
+        ellipse.setXY(x, y);
+        ellipse.setLineColor(lineColor);
+        ellipse.setFillColor(fillColor);
+        
+        return ellipse;   
     }
     
 }

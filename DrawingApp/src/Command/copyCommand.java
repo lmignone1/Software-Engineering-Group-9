@@ -23,7 +23,7 @@ public class copyCommand implements Command {
 
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.shape.setCopyShape(null);
     }
     
 }

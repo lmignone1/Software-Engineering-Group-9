@@ -4,10 +4,10 @@
  */
 package Factory;
 
-import Factory.ConcreteCreatorRectangle;
-import Factory.ConcreteCreatorLine;
-import Factory.ConcreteCreatorEllipse;
+
 import Shapes.Shape;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ColorPicker;
 
 
 /**
@@ -16,18 +16,18 @@ import Shapes.Shape;
  */
 public class Creator {
     
-    public static Shape createShape(String mode){
+    public static Shape createShape(String mode, GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor){
         
         Shape shape = null;
         
         if(mode.equals("Line")){
-            shape = ConcreteCreatorLine.createShape();
+            shape = ConcreteCreatorLine.createShape(gc, x, y, lineColor);
         }
         if(mode.equals("Rectangle")){
-            shape = ConcreteCreatorRectangle.createShape();
+            shape = ConcreteCreatorRectangle.createShape(gc, x, y, lineColor, fillColor);
         }
         if(mode.equals("Ellipse")){
-            shape = ConcreteCreatorEllipse.createShape();
+            shape = ConcreteCreatorEllipse.createShape(gc, x, y, lineColor, fillColor);
         }
         
         return shape;

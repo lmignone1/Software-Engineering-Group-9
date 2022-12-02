@@ -6,6 +6,8 @@ package Factory;
 
 import Shapes.ConcreteShapeRectangles;
 import Shapes.Shape;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ColorPicker;
 
 /**
  *
@@ -13,7 +15,15 @@ import Shapes.Shape;
  */
 public class ConcreteCreatorRectangle extends Creator{
     
-    public static Shape createShape() {
-        return new ConcreteShapeRectangles();   
+    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor) {
+        
+        ConcreteShapeRectangles rect = new ConcreteShapeRectangles();
+        
+        rect.setGraphicsContext(gc);
+        rect.setXY(x, y);
+        rect.setLineColor(lineColor);
+        rect.setFillColor(fillColor);
+        
+        return rect;   
     }
 }

@@ -18,13 +18,16 @@ public class ConcreteShapeEllipses extends AbstractShape{
     private ColorPicker fillColor;
     private double radiusX, radiusY;
     private Point2D point;
+    //private Ellipse2D ellipse = null;
+    private Ellipse2D ellipse;
+    private final String TYPE;
     
-    private Ellipse2D ellipse = null;
     
     public ConcreteShapeEllipses() {
+        this.TYPE = "Ellipse";
         this.radiusX = 150.0;
         this.radiusY = 90.0;
-        this.point = null;
+        //this.point = null;
         this.ellipse = new Ellipse2D.Double();
     }
     
@@ -71,6 +74,11 @@ public class ConcreteShapeEllipses extends AbstractShape{
     @Override
     public Point2D getPoint(){
         return this.point;
+    }
+
+    @Override
+    public String getType() {
+        return this.TYPE;
     }
 
 }

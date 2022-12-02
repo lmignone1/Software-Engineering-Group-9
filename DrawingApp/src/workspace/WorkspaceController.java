@@ -36,6 +36,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -162,6 +163,19 @@ public class WorkspaceController implements Initializable {
         gc = drawingCanvas.getGraphicsContext2D();
         Creator c = new Creator();
         
+        if(event.isPrimaryButtonDown()){
+            Shape shapeCreated = c.createShape(mod, gc, event.getX(), event.getY() ,selectedContourColour, selectedFullColour);
+            shape.add(shapeCreated);
+            shapeCreated.draw();
+        }
+        if(event.isSecondaryButtonDown()){
+            selectShape = select(event);
+            if(event.isPrimaryButtonDown()){
+                contextMenu.hide();
+            }
+        }
+        
+        /*
         if (mod.equals("Line") && event.isPrimaryButtonDown()){
             Shape line = c.createShape(mod);
             line.setGraphicsContext(gc);
@@ -205,6 +219,7 @@ public class WorkspaceController implements Initializable {
                     contextMenu.hide();
                 }
         }
+        */
     }
     
     @FXML
@@ -228,12 +243,17 @@ public class WorkspaceController implements Initializable {
     private Select select(MouseEvent event) {
         Iterator<Shape> it = shape.iterator();
         Select select = null;
+        //ColorPicker previusColor;
+        //ColorPicker selection = new ColorPicker(Color.RED);
         while (it.hasNext()) {
             Shape elem = it.next();
+            //previusColor = elem.getLineColor();
             if (elem.containsPoint(event.getX(), event.getY())) {
                 select = new Select(shape,elem);
+                //elem.setLineColor(selection);
                 initContextMenu();
             }
+            //elem.setLineColor(previusColor);
         }
         return select;
     }
