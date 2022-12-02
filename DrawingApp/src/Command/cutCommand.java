@@ -18,12 +18,12 @@ public class cutCommand implements Command{
 
     @Override
     public void execute() {
-        
         this.shape.cut();
     }
 
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        shape.getShape().add(shape.getCopyShape());
+        shape.setCopyShape(null);
     }
 }
