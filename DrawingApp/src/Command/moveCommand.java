@@ -4,6 +4,8 @@
  */
 package Command;
 
+import Command.Command;
+import Command.Select;
 import Shapes.Shape;
 
 /**

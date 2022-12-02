@@ -14,7 +14,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.paint.Color?>
 
-<AnchorPane id="AnchorPane" fx:id="pane" onMouseMoved="#resizeCanvas" onMousePressed="#Move" prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
+<AnchorPane id="AnchorPane" fx:id="pane" onMouseMoved="#resizeCanvas" onMousePressed="#moveShape" prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
+
 
    <children>
       <BorderPane>
@@ -58,11 +59,8 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Action">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#undoCommandCopy" text="UndoCopy" />
-                      <MenuItem fx:id="Delete" mnemonicParsing="false" onAction="#deleteCommand" text="Delete" />
-                        <MenuItem fx:id="Copy" mnemonicParsing="false" onAction="#copyCommand" text="Copy" />
-                        <MenuItem mnemonicParsing="false" onAction="#UndoCommandMove" text="UndoMove" />
-                        <MenuItem mnemonicParsing="false" onAction="#moveCommand" text="Move" />
+                      <MenuItem mnemonicParsing="false" onAction="#undoCommand" text="Undo" />
+                        <MenuItem mnemonicParsing="false" onAction="#MoveAction" text="Move" />
                     </items>
                   </Menu>
               </menus>

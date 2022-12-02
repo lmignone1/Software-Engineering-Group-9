@@ -28,4 +28,5 @@ public interface Shape {
     public void draw();
     public boolean containsPoint(double x, double y);
     public Point2D getPoint();
+    public String getType();
 }

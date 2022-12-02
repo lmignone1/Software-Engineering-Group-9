@@ -12,7 +12,7 @@ public class DeleteCommand implements Command {
     
     Select shape;
 
-    public DeleteCommand(Select shape) {
+   public DeleteCommand(Select shape) {
         this.shape = shape;
     }
     
@@ -21,9 +21,9 @@ public class DeleteCommand implements Command {
         shape.delete();
     }
 
-    @Override
+   @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        shape.getShape().add(shape.getSelectedShape());
     }
-    
+
 }
