@@ -29,4 +29,8 @@ public interface Shape {
     public boolean containsPoint(double x, double y);
     public Point2D getPoint();
     public String getType();
+    public void setSizeX(double sizeX);
+    public void setSizeY(double sizeY);
+    public double getSizeX();
+    public double getSizeY();
 }

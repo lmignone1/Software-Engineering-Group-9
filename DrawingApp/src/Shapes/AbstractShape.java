@@ -17,6 +17,8 @@ public abstract class AbstractShape implements Shape{
     private GraphicsContext gc;
     private double x;
     private double y;
+    private double sizeX;
+    private double sizeY;
     
     @Override
     public void setLineColor(ColorPicker color){
@@ -66,6 +68,26 @@ public abstract class AbstractShape implements Shape{
     @Override
     public double getY() {
         return this.y;
+    }
+    
+    @Override
+    public void setSizeX(double sizeX) {
+        this.sizeX = sizeX;
+    }
+    
+    @Override
+    public void setSizeY(double sizeY) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public double getSizeX(){
+        return this.sizeX;
+    }
+    
+    @Override
+    public double getSizeY(){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

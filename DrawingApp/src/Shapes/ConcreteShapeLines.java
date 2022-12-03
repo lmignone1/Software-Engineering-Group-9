@@ -14,7 +14,7 @@ import javafx.geometry.Point2D;
  */
 
 public  class ConcreteShapeLines extends AbstractShape{
-    private double length;
+    private double length, lengthY;
     private Line2D line;
     private Point2D point;
     private double endX, endY;
@@ -74,6 +74,16 @@ public  class ConcreteShapeLines extends AbstractShape{
     @Override
     public String getType() {
        return this.TYPE;
+    }
+    
+    @Override
+    public void setSizeX(double sizeX) {
+        this.length = sizeX;
+    }
+
+    @Override
+    public double getSizeX() {
+        return this.length;
     }
 }
 

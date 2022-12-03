@@ -10,6 +10,7 @@ import Command.DeleteCommand;
 import Command.Invoker;
 import Command.Select;
 import Command.changeColorCommand;
+import Command.changeSizeCommand;
 import Command.copyCommand;
 import Command.pasteCommand;
 import Command.cutCommand;
@@ -38,6 +39,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
@@ -63,18 +65,6 @@ public class WorkspaceController implements Initializable {
     private ColorPicker selectedFullColour;
     
     @FXML
-    private MenuItem newProjectMenu;
-    @FXML
-    private MenuItem loadProjectMenu;
-    @FXML
-    private MenuItem saveProjectMenu;
-    @FXML
-    private MenuItem lineSegmentMenu;
-    @FXML
-    private MenuItem rectangleMenu;
-    @FXML
-    private MenuItem ellipseMenu;
-    @FXML
     private AnchorPane pane;
     
     private String mod;
@@ -86,7 +76,7 @@ public class WorkspaceController implements Initializable {
     private static Select selectShape;
     private Command command = null;
     private double X,Y;
-    private String oldMod;
+    
     private boolean flag=false;
     private MouseEvent ev=null;
     ContextMenu contextMenu = new ContextMenu();
@@ -97,6 +87,25 @@ public class WorkspaceController implements Initializable {
     MenuItem cutMenu = new MenuItem("Cut");
     MenuItem colorMenu = new MenuItem("Change colour");
     MenuItem sizeMenu = new MenuItem("Change size");
+    @FXML
+    private TextField sizeX;
+    @FXML
+    private TextField sizeY;
+    
+    private String oldMod;   //da cambiare 
+    private Select changeShape = null;
+    @FXML
+    private MenuItem newProjectMenu;
+    @FXML
+    private MenuItem loadProjectMenu;
+    @FXML
+    private MenuItem saveProjectMenu;
+    @FXML
+    private MenuItem lineSegmentMenu;
+    @FXML
+    private MenuItem rectangleMenu;
+    @FXML
+    private MenuItem ellipseMenu;
     
     /**
      * Initializes the controller class.
@@ -107,7 +116,7 @@ public class WorkspaceController implements Initializable {
         invoker = new Invoker();
         pasteMenu.setDisable(true);
         selectShape = new Select(shape,null);
-        oldMod=null;
+        oldMod = null;
     } 
     
     private void loadWindow(String location, String title) throws IOException{ //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -199,18 +208,21 @@ public class WorkspaceController implements Initializable {
     private void lineSegment(ActionEvent event) {
         mod = "Line";
         selectedFullColour.setDisable(true);
+        sizeY.setDisable(true);
     }
 
     @FXML
     private void rectangle(ActionEvent event) {
         mod = "Rectangle";
         selectedFullColour.setDisable(false);
+        sizeY.setDisable(false);
     }
 
     @FXML
     private void ellipse(ActionEvent event) {
         mod = "Ellipse";
         selectedFullColour.setDisable(false);
+        sizeY.setDisable(false);
     }
     
     private void select(MouseEvent event) {
@@ -228,14 +240,12 @@ public class WorkspaceController implements Initializable {
     
     private void drawAll(){
         Iterator<Shape> it = shape.iterator();
-        System.out.println("drawAll" + shape);
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
         while (it.hasNext()) {
                 Shape elem = it.next();
                 elem.draw();
         }
     }
-    private Select oldSelectShape = null;
     private void initContextMenu(){
         contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
@@ -260,13 +270,15 @@ public class WorkspaceController implements Initializable {
         });
         
         copyMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the copyMenu item
-        public void handle(ActionEvent event) {
-               if(mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse")){
+         public void handle(ActionEvent event) {
+            /*
+            if(mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse")){
                 oldMod = mod;
             }
-        copy();
+            */
+            copy();
             pasteMenu.setDisable(false);
-            mod="Copy";
+            //mod = "copy";
          }
         });
         
@@ -289,6 +301,7 @@ public class WorkspaceController implements Initializable {
        
         colorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the colorMenu item
          public void handle(ActionEvent event) {
+            changeShape = new Select(shape, selectShape.getSelectedShape());
             changeColor();
        
          }
@@ -346,9 +359,21 @@ public class WorkspaceController implements Initializable {
         
     }   
    
-    
     public void changeSize(){
+        String x1 = sizeX.getText();
+        String y1 = sizeY.getText();
+        Double x = new Double(x1);
+        Double y = new Double(y1);
         
+        if(Select.getSelectedShape().getType().equals("Line")){
+            command = new changeSizeCommand(selectShape, x.doubleValue());
+        }
+        else {
+            command = new changeSizeCommand(selectShape, x.doubleValue(), y.doubleValue());
+        }
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll(); 
     }
 
     @FXML

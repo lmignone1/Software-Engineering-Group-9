@@ -44,6 +44,7 @@ public class ConcreteShapeRectangles extends AbstractShape{
     public void setXY(double newX, double newY){
         setX(newX - this.width/2);
         setY(newY - this.height/2);
+        
         rectangle.setFrame(getX(), getY(), getWidth(), getHeight());
         point = new Point2D(newX, newY);
     }
@@ -80,5 +81,24 @@ public class ConcreteShapeRectangles extends AbstractShape{
         return this.TYPE;
     }
     
+    @Override
+    public void setSizeX(double sizeX) {
+        this.width = sizeX;
+    }
+
+    @Override
+    public void setSizeY(double sizeY) {
+        this.height = sizeY;
+    }
+
+    @Override
+    public double getSizeX() {
+        return this.width;
+    }
+
+    @Override
+    public double getSizeY() {
+        return this.height;
+    }
     
 }

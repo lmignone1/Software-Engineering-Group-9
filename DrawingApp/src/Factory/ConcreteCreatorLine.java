@@ -26,5 +26,18 @@ public class ConcreteCreatorLine extends Creator{
         line.setLineColor(lineColor);
         
         return line;   
-    }   
+    }
+    
+    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, double sizeX) {
+        
+        ConcreteShapeLines line = new ConcreteShapeLines();
+        
+        line.setGraphicsContext(gc);
+        line.setXY(x, y);
+        line.setLineColor(lineColor);
+        line.setSizeX(sizeX);
+        
+        
+        return line;   
+    }  
 }
