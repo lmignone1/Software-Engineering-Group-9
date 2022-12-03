@@ -26,6 +26,7 @@ public class Select {
     private ColorPicker previusLineColor;
     private ColorPicker previusFillColor;
     private Integer count = 0;
+    private double previusX,previusY;
 
 
    public Select(List<Shape> shape, Shape selectedShape) {
@@ -72,36 +73,55 @@ public class Select {
     public void setPreviusFillColor(ColorPicker previusFillColor) {
         this.previusFillColor = previusFillColor;
     }
-       
+
+    public double getPreviusX() {
+        return previusX;
+    }
+
+    public void setPreviusX(double previusX) {
+        this.previusX = previusX;
+    }
+
+    public double getPreviusY() {
+        return previusY;
+    }
+
+    public void setPreviusY(double previusY) {
+        this.previusY = previusY;
+    }
+    
+    
     public void delete(){
         list.remove(Select.selectedShape);
     }
     
-    public void copy(){ 
-        this.copyShape = Creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), 
+    public void copy(){
+        
+        if(Select.getSelectedShape().getType().equals("Line")){
+            this.copyShape = Creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), 
+                Select.selectedShape.getX(),Select.selectedShape.getY(), Select.selectedShape.getLineColor(), null);
+        }else{
+             this.copyShape = Creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), 
                 Select.selectedShape.getX(),Select.selectedShape.getY(), Select.selectedShape.getLineColor(), Select.selectedShape.getFillColor());
-         
-
+        }
+        
     }
     
     public void paste(double x, double y){
         
-        copy();
+        //copy();
         this.copyShape.setXY(x,y);
         this.list.add(this.copyShape);
 
    }
     
     public void cut(){
-        this.copyShape = this.selectedShape;
+        this.copyShape = Select.selectedShape;
         delete();
     }
     
-    public void move(Point2D point, Shape shape){ // SCRITTA A CASO DA RIVEDERE
-        double newX = point.getX();
-        double newY = point.getY();
+    public void move(double x, double y){ // SCRITTA A CASO DA RIVEDERE
         
-        shape.setXY(newX, newY);
     }
     
     public void changeColor(ColorPicker lineColor, ColorPicker fillColor) {

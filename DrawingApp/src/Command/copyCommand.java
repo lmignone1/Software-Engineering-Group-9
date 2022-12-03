@@ -20,16 +20,10 @@ public class copyCommand implements Command {
     public void execute() {
         this.shape.copy();
     }
-    /*
+    
     @Override
     public void undo() {
         this.shape.setCopyShape(null);
     }
-    */
 
-    @Override
-    public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
 }
