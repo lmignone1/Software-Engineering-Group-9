@@ -26,6 +26,7 @@ public class Select {
     private ColorPicker previusLineColor;
     private ColorPicker previusFillColor;
     private Integer count = 0;
+    private double previousSizeX, previousSizeY;
 
 
    public Select(List<Shape> shape, Shape selectedShape) {
@@ -72,6 +73,23 @@ public class Select {
     public void setPreviusFillColor(ColorPicker previusFillColor) {
         this.previusFillColor = previusFillColor;
     }
+
+    public double getPreviousSizeX() {
+        return previousSizeX;
+    }
+
+    public void setPreviousSizeX(double previusSizeX) {
+        this.previousSizeX = previusSizeX;
+    }
+
+    public double getPreviousSizeY() {
+        return previousSizeY;
+    }
+
+    public void setPreviousSizeY(double previusSizeY) {
+        this.previousSizeY = previusSizeY;
+    }
+    
        
     public void delete(){
         list.remove(Select.selectedShape);
@@ -118,6 +136,26 @@ public class Select {
         }else{
             Select.selectedShape.setLineColor(lineColor);
             Select.selectedShape.setFillColor(fillColor);
+        }
+    }
+    
+    public void changeSize(double sizeX, double sizeY){
+        if(Select.selectedShape.getType().equals("Line")){
+            setPreviousSizeX(Select.selectedShape.getSizeX());
+        }
+        else{
+            setPreviousSizeX(Select.selectedShape.getSizeX());
+            setPreviousSizeY(Select.selectedShape.getSizeY());
+        }
+        
+        if(Select.selectedShape.getType().equals("Line")){
+            Select.selectedShape.setSizeX(sizeX);
+            Select.selectedShape.setXY(Select.selectedShape.getX(), Select.selectedShape.getY());
+        }
+        else{
+            Select.selectedShape.setSizeX(sizeX);
+            Select.selectedShape.setSizeY(sizeY);
+            Select.selectedShape.setXY(Select.selectedShape.getX(), Select.selectedShape.getY());
         }
     }
 }

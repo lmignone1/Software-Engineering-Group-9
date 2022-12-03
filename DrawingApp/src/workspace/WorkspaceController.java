@@ -9,6 +9,7 @@ import Command.DeleteCommand;
 import Command.Invoker;
 import Command.Select;
 import Command.changeColorCommand;
+import Command.changeSizeCommand;
 import Command.copyCommand;
 import Command.pasteCommand;
 import Command.cutCommand;
@@ -36,6 +37,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
@@ -93,6 +95,10 @@ public class WorkspaceController implements Initializable {
     MenuItem cutMenu = new MenuItem("Cut");
     MenuItem colorMenu = new MenuItem("Change colour");
     MenuItem sizeMenu = new MenuItem("Change size");
+    @FXML
+    private TextField sizeX;
+    @FXML
+    private TextField sizeY;
     
     /**
      * Initializes the controller class.
@@ -180,18 +186,21 @@ public class WorkspaceController implements Initializable {
     private void lineSegment(ActionEvent event) {
         mod = "Line";
         selectedFullColour.setDisable(true);
+        sizeY.setDisable(true);
     }
 
     @FXML
     private void rectangle(ActionEvent event) {
         mod = "Rectangle";
         selectedFullColour.setDisable(false);
+        sizeY.setDisable(false);
     }
 
     @FXML
     private void ellipse(ActionEvent event) {
         mod = "Ellipse";
         selectedFullColour.setDisable(false);
+        sizeY.setDisable(false);
     }
     
     private void select(MouseEvent event) {
@@ -254,7 +263,6 @@ public class WorkspaceController implements Initializable {
          public void handle(ActionEvent event) {
             //move();
             paste(pasteX,pasteY);
-            
          }
         });
 
@@ -321,9 +329,21 @@ public class WorkspaceController implements Initializable {
         
     }   
    
-    
     public void changeSize(){
+        String x1 = sizeX.getText();
+        String y1 = sizeY.getText();
+        Double x = new Double(x1);
+        Double y = new Double(y1);
         
+        if(Select.getSelectedShape().getType().equals("Line")){
+            command = new changeSizeCommand(selectShape, x.doubleValue());
+        }
+        else {
+            command = new changeSizeCommand(selectShape, x.doubleValue(), y.doubleValue());
+        }
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll(); 
     }
 
     @FXML
