@@ -98,7 +98,7 @@ public class ConcreteShapeEllipsesTest {
         List<ColorPicker> listColorDefault = new ArrayList<>();
         
         for(int i = 0;i < 8; i++){
-            listColorDefault.add(instance.getLineColor());
+            listColorDefault.add(instance.getFillColor());
         }
 
        try{
@@ -106,11 +106,11 @@ public class ConcreteShapeEllipsesTest {
            for(int i = 0; i < listColor.size(); i++){
                instance.setFillColor(listColor.get(i));
                assertNotEquals(listColorDefault.get(i),instance.getFillColor());
-               assertEquals(listColor.get(i),instance.getFillColor()); 
+               assertEquals(listColor.get(i).getValue(),instance.getFillColor().getValue()); 
            }
            
        } catch (AssertionError ex){
-            fail("The setLineColor failed");
+            fail("The setFillColor failed");
        }
     }
 
@@ -127,7 +127,7 @@ public class ConcreteShapeEllipsesTest {
                 ColorPicker result = instance.getFillColor();
                 
                 assertNotNull(result);
-                assertEquals(expResult, result);
+                assertEquals(expResult.getValue(), result.getValue());
             }
         }
         catch (AssertionError ex) {

@@ -4,6 +4,7 @@
  */
 package workspace;
 
+import Command.moveCommand;
 import Command.Command;
 import Command.DeleteCommand;
 import Command.Invoker;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,18 +65,6 @@ public class WorkspaceController implements Initializable {
     private ColorPicker selectedFullColour;
     
     @FXML
-    private MenuItem newProjectMenu;
-    @FXML
-    private MenuItem loadProjectMenu;
-    @FXML
-    private MenuItem saveProjectMenu;
-    @FXML
-    private MenuItem lineSegmentMenu;
-    @FXML
-    private MenuItem rectangleMenu;
-    @FXML
-    private MenuItem ellipseMenu;
-    @FXML
     private AnchorPane pane;
     
     private String mod;
@@ -85,8 +75,10 @@ public class WorkspaceController implements Initializable {
     private Invoker invoker;
     private static Select selectShape;
     private Command command = null;
-    private double pasteX,pasteY;
+    private double X,Y;
     
+    private boolean flag=false;
+    private MouseEvent ev=null;
     ContextMenu contextMenu = new ContextMenu();
     MenuItem deleteMenu = new MenuItem("Delete");
     MenuItem moveMenu = new MenuItem("Move");
@@ -102,6 +94,18 @@ public class WorkspaceController implements Initializable {
     
     private String oldMod;   //da cambiare 
     private Select changeShape = null;
+    @FXML
+    private MenuItem newProjectMenu;
+    @FXML
+    private MenuItem loadProjectMenu;
+    @FXML
+    private MenuItem saveProjectMenu;
+    @FXML
+    private MenuItem lineSegmentMenu;
+    @FXML
+    private MenuItem rectangleMenu;
+    @FXML
+    private MenuItem ellipseMenu;
     
     /**
      * Initializes the controller class.
@@ -176,21 +180,28 @@ public class WorkspaceController implements Initializable {
         gc = drawingCanvas.getGraphicsContext2D();
         Creator c = new Creator();
         
-        if(event.isPrimaryButtonDown()){
-            /*
-            if(oldMod != null){
+        if(event.isPrimaryButtonDown()&&(mod=="Rectangle"||mod=="Ellipse"||mod=="Line")){
+             
+             if(oldMod != null){
                 mod = oldMod;
                 oldMod = null;
             }
-            */
             Shape shapeCreated = c.createShape(mod, gc, event.getX(), event.getY() ,selectedContourColour, selectedFullColour);
             shape.add(shapeCreated);
             shapeCreated.draw();
         }
         if(event.isSecondaryButtonDown()){
             select(event);
-            
+             
+        } 
+        if(event.isPrimaryButtonDown()&&mod=="Move"){
+                move(event.getX(),event.getY());  
+                mod=oldMod;
+                oldMod=null;
         }
+       
+       
+         
     }
     
     @FXML
@@ -223,8 +234,8 @@ public class WorkspaceController implements Initializable {
                 initContextMenu();
             }       
         }
-        pasteX = event.getX();
-        pasteY = event.getY();
+        X = event.getX();
+        Y = event.getY();
     }
     
     private void drawAll(){
@@ -242,11 +253,22 @@ public class WorkspaceController implements Initializable {
         
         
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
-         public void handle(ActionEvent event) {
+        public void handle(ActionEvent event) {
             delete();
-         }
+        }
         });
-
+        
+        moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
+        public void handle(ActionEvent event) {
+             if(mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse")){
+                oldMod = mod;
+            }
+       
+        mod="Move";
+       
+        }
+        });
+        
         copyMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the copyMenu item
          public void handle(ActionEvent event) {
             /*
@@ -260,26 +282,20 @@ public class WorkspaceController implements Initializable {
          }
         });
         
-        moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
-         public void handle(ActionEvent event) {
-            move(pasteX,pasteY);
-            //mod = "move";
-         }
-        });
+       
         
         pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
-         public void handle(ActionEvent event) {
-
-            paste(pasteX,pasteY);
-            //mod = "paste";
+        public void handle(ActionEvent event) {
+            //move();
+        paste(X,Y);
             
          }
         });
 
         cutMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the cutMenu item
-         public void handle(ActionEvent event) {
-            cut();
-            pasteMenu.setDisable(false);
+        public void handle(ActionEvent event) {
+        cut();
+        pasteMenu.setDisable(false);
          }
         });
        
@@ -307,13 +323,11 @@ public class WorkspaceController implements Initializable {
         drawAll();
     }
     
-    public void move(double x, double y){
-        /*
-        command = new moveCommand(selectShape, x ,y);
+    public void move(double x,double y){
+        command = new moveCommand(selectShape,x,y,X,Y);
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
-        */
     }
     
     public void copy(){

@@ -4,6 +4,8 @@
  */
 package Command;
 
+import Shapes.Shape;
+
 /**
  *
  * @author Davide
@@ -15,7 +17,9 @@ public class copyCommand implements Command {
     public copyCommand(Select shape) {
         this.shape = shape;
     }
-    
+    public Shape getCopy(){
+        return shape.getCopyShape();
+    }
     @Override
     public void execute() {
         this.shape.copy();
@@ -23,7 +27,7 @@ public class copyCommand implements Command {
     
     @Override
     public void undo() {
-        this.shape.setCopyShape(null);
+       this.shape.setCopyShape(null);
     }
 
 }
