@@ -16,21 +16,27 @@ import Shapes.Shape;
  */
 public class moveCommand implements Command{
      Select shape;
-       double x;
-       double y;
-    public moveCommand(Select shape, double x, double y) {
+       double previousX;
+       double previousY;
+       double newX;
+       double newY;
+    public moveCommand(Select shape, double newX, double newY,double previousX,double previousY) {
         this.shape = shape;
-        this.x=x;
-        this.y=y;
+        this.newX=newX;
+        this.newY=newY;
+        this.previousX=previousX;
+        this.previousY=previousY;
     }
    
     @Override
     public void execute() {
-        this.shape.move(this.x,this.y);
+        this.shape.move(this.newX,this.newY,this.previousX,this.previousY);
+        
     }
 
     @Override
     public void undo() {
+     Select.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
       
     }
     
