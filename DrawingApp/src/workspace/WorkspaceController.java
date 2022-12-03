@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,14 +35,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.CustomMenuItem;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -87,11 +83,7 @@ public class WorkspaceController implements Initializable {
     private Invoker invoker;
     private static Select selectShape;
     private Command command = null;
-    private Select copyShape = null;
-    //private Command delete = null;
-    
-    
-    //private Command changeColor = null;
+    private double pasteX,pasteY;
     
     ContextMenu contextMenu = new ContextMenu();
     MenuItem deleteMenu = new MenuItem("Delete");
@@ -111,7 +103,6 @@ public class WorkspaceController implements Initializable {
         invoker = new Invoker();
         pasteMenu.setDisable(true);
         selectShape = new Select(shape,null);
-        
     } 
     
     private void loadWindow(String location, String title) throws IOException{ //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -165,7 +156,6 @@ public class WorkspaceController implements Initializable {
     private void resizeCanvas(MouseEvent event){
         drawingCanvas.setWidth(pane.getWidth());
         drawingCanvas.setHeight(pane.getHeight());
-        
         drawingCanvas.setLayoutX(pane.getScaleX());
         drawingCanvas.setLayoutY(pane.getScaleY());
         
@@ -176,28 +166,14 @@ public class WorkspaceController implements Initializable {
         gc = drawingCanvas.getGraphicsContext2D();
         Creator c = new Creator();
         
-        if((event.isPrimaryButtonDown()) && (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse")) ){
+        if(event.isPrimaryButtonDown() ){
             Shape shapeCreated = c.createShape(mod, gc, event.getX(), event.getY() ,selectedContourColour, selectedFullColour);
             shape.add(shapeCreated);
             shapeCreated.draw();
         }
-        
         if(event.isSecondaryButtonDown()){
             select(event);
-
-            if(event.isPrimaryButtonDown()){
-                contextMenu.hide();
-            }
-            System.out.println("sono prima del if con paste");
-            System.out.println(mod);
-            if(event.isSecondaryButtonDown() && mod.equals("paste")){
-                paste(event.getX(),event.getY());
-            }
-            mod = "";
-
         }
-
-        
     }
     
     @FXML
@@ -217,37 +193,18 @@ public class WorkspaceController implements Initializable {
         mod = "Ellipse";
         selectedFullColour.setDisable(false);
     }
-    private double x,y;
+    
     private void select(MouseEvent event) {
         Iterator<Shape> it = shape.iterator();
-        //Select select = null;
-        Double flag = null;
-        //ColorPicker previusColor;
-        //ColorPicker selection = new ColorPicker(Color.RED);
         while (it.hasNext()) {
             Shape elem = it.next();
-            //previusColor = elem.getLineColor();
             if (elem.containsPoint(event.getX(), event.getY())) {
-                //select = new Select(shape,elem);
-                flag = 0.0;
                 selectShape.setSelectedShape(elem);
-                //copyShape = new Select(shape, select.getSelectedShape());
-                //copyShape.setCopyShape(select.getCopyShape());
-                //elem.setLineColor(selection);
                 initContextMenu();
-                
-            }
-            //elem.setLineColor(previusColor);
+            }       
         }
-        if(flag == null){
-            x = event.getX();
-            y = event.getY();
-        }
-
-        //selectShape.setShape(select.getShape());
-        //selectShape.setSelectedShape(select.getSelectedShape());
-        
-        //return select;
+        pasteX = event.getX();
+        pasteY = event.getY();
     }
     
     private void drawAll(){
@@ -259,7 +216,7 @@ public class WorkspaceController implements Initializable {
                 elem.draw();
         }
     }
-    
+    private Select oldSelectShape = null;
     private void initContextMenu(){
         contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
@@ -283,8 +240,6 @@ public class WorkspaceController implements Initializable {
          public void handle(ActionEvent event) {
             copy();
             pasteMenu.setDisable(false);
-
-            
          }
         });
         
@@ -298,24 +253,22 @@ public class WorkspaceController implements Initializable {
         pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
          public void handle(ActionEvent event) {
             //move();
-            paste(x,y);
+            paste(pasteX,pasteY);
             
          }
         });
-        
-        
-        
+
         cutMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the cutMenu item
          public void handle(ActionEvent event) {
             cut();
             pasteMenu.setDisable(false);
          }
         });
-        
+       
         colorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the colorMenu item
          public void handle(ActionEvent event) {
             changeColor();
-           
+       
          }
         });
         
@@ -350,14 +303,7 @@ public class WorkspaceController implements Initializable {
         command = new pasteCommand(selectShape, x ,y);
         invoker.setCommand(command);
         invoker.startCommand();
-        System.out.println("prima di disegnare x: " + selectShape.getCopyShape().getX());
-        System.out.println("prima di disegnare y:" + selectShape.getCopyShape().getY());
-        //System.out.println("select x: " + selectShape.getCopyShape().getX());
-        //System.out.println("select y: " + selectShape.getCopyShape().getY());
         drawAll();
-        
-        
-
     }
     
     public void cut(){

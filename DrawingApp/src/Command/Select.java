@@ -21,7 +21,7 @@ public class Select {
     private List<Shape> list;
     private static Shape selectedShape;
     private Shape copyShape;
-    private Shape cutShape;
+    private Shape changeShape;
     private Creator creator = new Creator();
     private ColorPicker previusLineColor;
     private ColorPicker previusFillColor;
@@ -80,31 +80,16 @@ public class Select {
     public void copy(){ 
         this.copyShape = Creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), 
                 Select.selectedShape.getX(),Select.selectedShape.getY(), Select.selectedShape.getLineColor(), Select.selectedShape.getFillColor());
-        System.out.println("shape copiata: " + copyShape);
-        System.out.println("shape selezionata: " + selectedShape);
+         
+
     }
     
     public void paste(double x, double y){
         
-        if(count == 0){
-            this.copyShape.setXY(x,y);
-            this.list.add(this.copyShape);
-            count++;
-        }else{
-            
-            copy();
-            this.copyShape.setXY(x,y);
-            this.list.add(this.copyShape);
-             //count++;
-        }
-        
-       
-        System.out.println("shape copiata: " + copyShape);
-        System.out.println("ho settato" + copyShape.getX());
-        System.out.println("ho settato" + copyShape.getY());
-        
-       
-        System.out.println("list past" + list);
+        copy();
+        this.copyShape.setXY(x,y);
+        this.list.add(this.copyShape);
+
    }
     
     public void cut(){
@@ -121,18 +106,18 @@ public class Select {
     
     public void changeColor(ColorPicker lineColor, ColorPicker fillColor) {
         
-        if(this.selectedShape.getType().equals("Line")){
-            setPreviusLineColor(this.selectedShape.getLineColor());
+        if(Select.selectedShape.getType().equals("Line")){
+            setPreviusLineColor(Select.selectedShape.getLineColor());
         }else{
-            setPreviusLineColor(this.selectedShape.getLineColor());
-            setPreviusFillColor(this.selectedShape.getFillColor());
+            setPreviusLineColor(Select.selectedShape.getLineColor());
+            setPreviusFillColor(Select.selectedShape.getFillColor());
         }
         
-        if(this.selectedShape.getType().equals("Line")){
-            this.selectedShape.setLineColor(lineColor);
+        if(Select.selectedShape.getType().equals("Line")){
+            Select.selectedShape.setLineColor(lineColor);
         }else{
-            this.selectedShape.setLineColor(lineColor);
-            this.selectedShape.setFillColor(fillColor);
+            Select.selectedShape.setLineColor(lineColor);
+            Select.selectedShape.setFillColor(fillColor);
         }
     }
 }
