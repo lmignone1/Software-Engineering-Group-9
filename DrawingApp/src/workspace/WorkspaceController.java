@@ -94,6 +94,9 @@ public class WorkspaceController implements Initializable {
     MenuItem colorMenu = new MenuItem("Change colour");
     MenuItem sizeMenu = new MenuItem("Change size");
     
+    private String oldMod;   //da cambiare 
+    private Select changeShape = null;
+    
     /**
      * Initializes the controller class.
      */
@@ -103,6 +106,7 @@ public class WorkspaceController implements Initializable {
         invoker = new Invoker();
         pasteMenu.setDisable(true);
         selectShape = new Select(shape,null);
+        oldMod = null;
     } 
     
     private void loadWindow(String location, String title) throws IOException{ //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -166,13 +170,20 @@ public class WorkspaceController implements Initializable {
         gc = drawingCanvas.getGraphicsContext2D();
         Creator c = new Creator();
         
-        if(event.isPrimaryButtonDown() ){
+        if(event.isPrimaryButtonDown()){
+            /*
+            if(oldMod != null){
+                mod = oldMod;
+                oldMod = null;
+            }
+            */
             Shape shapeCreated = c.createShape(mod, gc, event.getX(), event.getY() ,selectedContourColour, selectedFullColour);
             shape.add(shapeCreated);
             shapeCreated.draw();
         }
         if(event.isSecondaryButtonDown()){
             select(event);
+            
         }
     }
     
@@ -216,7 +227,6 @@ public class WorkspaceController implements Initializable {
                 elem.draw();
         }
     }
-    private Select oldSelectShape = null;
     private void initContextMenu(){
         contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
@@ -228,32 +238,32 @@ public class WorkspaceController implements Initializable {
             delete();
          }
         });
-        
-        moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
-         public void handle(ActionEvent event) {
-            //move();
-            mod = "move";
-         }
-        });
-        
+
         copyMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the copyMenu item
          public void handle(ActionEvent event) {
+            /*
+            if(mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse")){
+                oldMod = mod;
+            }
+            */
             copy();
             pasteMenu.setDisable(false);
+            //mod = "copy";
          }
         });
         
         moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
          public void handle(ActionEvent event) {
-            //move();
-            mod = "move";
+            move(pasteX,pasteY);
+            //mod = "move";
          }
         });
         
         pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
          public void handle(ActionEvent event) {
-            //move();
+
             paste(pasteX,pasteY);
+            //mod = "paste";
             
          }
         });
@@ -267,6 +277,7 @@ public class WorkspaceController implements Initializable {
        
         colorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the colorMenu item
          public void handle(ActionEvent event) {
+            changeShape = new Select(shape, selectShape.getSelectedShape());
             changeColor();
        
          }
@@ -288,8 +299,13 @@ public class WorkspaceController implements Initializable {
         drawAll();
     }
     
-    public void move(){
-        System.out.println("faccio la move");
+    public void move(double x, double y){
+        /*
+        command = new moveCommand(selectShape, x ,y);
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll();
+        */
     }
     
     public void copy(){
