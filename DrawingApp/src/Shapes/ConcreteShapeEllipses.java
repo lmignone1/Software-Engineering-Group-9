@@ -80,5 +80,25 @@ public class ConcreteShapeEllipses extends AbstractShape{
     public String getType() {
         return this.TYPE;
     }
+    
+    @Override
+    public void setSizeX(double sizeX) {
+        this.radiusX = sizeX;
+    }
+
+    @Override
+    public void setSizeY(double sizeY) {
+        this.radiusY = sizeY;
+    }
+
+    @Override
+    public double getSizeX() {
+        return this.radiusX;
+    }
+
+    @Override
+    public double getSizeY() {
+        return this.radiusY;
+    }
 
 }
