@@ -123,7 +123,7 @@ public class Select {
     
     public void paste(double x, double y){
         
-        //copy();
+        copy();
         this.copyShape.setXY(x,y);
         this.list.add(this.copyShape);
 
