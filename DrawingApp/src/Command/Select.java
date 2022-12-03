@@ -19,17 +19,18 @@ import javafx.scene.control.ColorPicker;
 public class Select {
     
     private List<Shape> list;
-    private Shape selectedShape;
+    private static Shape selectedShape;
     private Shape copyShape;
     private Shape cutShape;
     private Creator creator = new Creator();
     private ColorPicker previusLineColor;
     private ColorPicker previusFillColor;
+    private Integer count = 0;
 
 
    public Select(List<Shape> shape, Shape selectedShape) {
         this.list = shape;
-        this.selectedShape = selectedShape;
+        Select.selectedShape = selectedShape;
    }
 
    public List<Shape> getShape() {
@@ -40,14 +41,14 @@ public class Select {
         this.list = shape;
     }
 
-   public Shape getSelectedShape() {
+   public static Shape getSelectedShape() {
         return selectedShape;
     }
 
-   public void setSelectedShape(Shape selectedShape) {
-        this.selectedShape = selectedShape;
+    public static void setSelectedShape(Shape selectedShape) {
+        Select.selectedShape = selectedShape;
     }
-
+   
     public Shape getCopyShape() {
         return copyShape;
     }
@@ -73,24 +74,36 @@ public class Select {
     }
        
     public void delete(){
-        list.remove(this.selectedShape);
+        list.remove(Select.selectedShape);
     }
     
     public void copy(){ 
-        this.copyShape = this.creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), 
-                this.selectedShape.getX(),this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor());
+        this.copyShape = Creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), 
+                Select.selectedShape.getX(),Select.selectedShape.getY(), Select.selectedShape.getLineColor(), Select.selectedShape.getFillColor());
         System.out.println("shape copiata: " + copyShape);
         System.out.println("shape selezionata: " + selectedShape);
     }
     
     public void paste(double x, double y){
         
-        this.copyShape.setXY(x,y);
+        if(count == 0){
+            this.copyShape.setXY(x,y);
+            this.list.add(this.copyShape);
+            count++;
+        }else{
+            
+            copy();
+            this.copyShape.setXY(x,y);
+            this.list.add(this.copyShape);
+             //count++;
+        }
+        
+       
         System.out.println("shape copiata: " + copyShape);
         System.out.println("ho settato" + copyShape.getX());
         System.out.println("ho settato" + copyShape.getY());
         
-        this.list.add(this.copyShape);
+       
         System.out.println("list past" + list);
    }
     
