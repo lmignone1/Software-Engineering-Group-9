@@ -5,6 +5,8 @@
 package Command;
 
 import Command.Command;
+import Command.Command;
+import Command.Select;
 import Command.Select;
 import Shapes.Shape;
 
@@ -24,7 +26,7 @@ public class moveCommand implements Command{
    
     @Override
     public void execute() {
-        this.shape.move(x,y,shape.getSelectedShape());
+        this.shape.move(this.x,this.y);
     }
 
     @Override

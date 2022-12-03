@@ -4,6 +4,7 @@
  */
 package workspace;
 
+import Command.moveCommand;
 import Command.Command;
 import Command.DeleteCommand;
 import Command.Invoker;
@@ -85,11 +86,11 @@ public class WorkspaceController implements Initializable {
     public List<Shape> shape = null;
     
     private Invoker invoker;
-    private Select selectShape = null;
+    private static Select selectShape;
     private Command command = null;
     private Select copyShape = null;
     //private Command delete = null;
-    double x,y;
+    
     
     //private Command changeColor = null;
     
@@ -110,6 +111,7 @@ public class WorkspaceController implements Initializable {
         shape = new ArrayList<>();
         invoker = new Invoker();
         pasteMenu.setDisable(true);
+        selectShape = new Select(shape,null);
         
     } 
     
@@ -180,28 +182,25 @@ public class WorkspaceController implements Initializable {
             shape.add(shapeCreated);
             shapeCreated.draw();
         }
+        
         if(event.isSecondaryButtonDown()){
-            selectShape = select(event);
+            select(event);
 
             if(event.isPrimaryButtonDown()){
                 contextMenu.hide();
             }
-         }
-        /*
-        if(event.isSecondaryButtonDown()){
-            selectShape = select(event);
-
-            if(event.isPrimaryButtonDown()){
-                contextMenu.hide();
-            }*/
             System.out.println("sono prima del if con paste");
             System.out.println(mod);
-           /* if(event.isSecondaryButtonDown() && mod.equals("paste")){
+            if(event.isSecondaryButtonDown() && mod.equals("paste")){
                 paste(event.getX(),event.getY());
+            }else if(event.isSecondaryButtonDown() && mod.equals("move")){
+               
+              move(event.getX(),event.getY());
+              
             }
             mod = "";
-*/
-        
+
+        }
 
         
     }
@@ -223,25 +222,37 @@ public class WorkspaceController implements Initializable {
         mod = "Ellipse";
         selectedFullColour.setDisable(false);
     }
-    
-    private Select select(MouseEvent event) {
+    private double x,y;
+    private void select(MouseEvent event) {
         Iterator<Shape> it = shape.iterator();
-        Select select = null;
+        //Select select = null;
+        Double flag = null;
         //ColorPicker previusColor;
         //ColorPicker selection = new ColorPicker(Color.RED);
         while (it.hasNext()) {
             Shape elem = it.next();
             //previusColor = elem.getLineColor();
             if (elem.containsPoint(event.getX(), event.getY())) {
-                select = new Select(shape,elem);
-              
+                //select = new Select(shape,elem);
+                flag = 0.0;
+                selectShape.setSelectedShape(elem);
+                //copyShape = new Select(shape, select.getSelectedShape());
+                //copyShape.setCopyShape(select.getCopyShape());
                 //elem.setLineColor(selection);
                 initContextMenu();
                 
             }
             //elem.setLineColor(previusColor);
         }
-        return select;
+        if(flag == null){
+            x = event.getX();
+            y = event.getY();
+        }
+
+        //selectShape.setShape(select.getShape());
+        //selectShape.setSelectedShape(select.getSelectedShape());
+        
+        //return select;
     }
     
     private void drawAll(){
@@ -268,8 +279,9 @@ public class WorkspaceController implements Initializable {
         
         moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
          public void handle(ActionEvent event) {
-            //move();
-            mod = "move";
+            move(x,y);
+            
+             
          }
         });
         
@@ -277,23 +289,17 @@ public class WorkspaceController implements Initializable {
          public void handle(ActionEvent event) {
             copy();
             pasteMenu.setDisable(false);
-            copyShape = new Select(shape, selectShape.getSelectedShape());
-            copyShape.setCopyShape(selectShape.getCopyShape());
-            mod="paste";
+
+            
          }
         });
         
-        moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
-         public void handle(ActionEvent event) {
-            //move();
-            mod = "move";
-         }
-        });
+       
         
         pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
          public void handle(ActionEvent event) {
             //move();
-            mod = "paste";
+            paste(x,y);
             
          }
         });
@@ -322,14 +328,7 @@ public class WorkspaceController implements Initializable {
         });
        
     }
-    @FXML
-    private void PasteShape(MouseEvent event){
-        if(mod=="paste"){
-        paste(event.getX(),event.getY());
-        
-        mod="Ellise";
-        }
-    }
+    
     public void delete(){
         command = new DeleteCommand(selectShape);
         invoker.setCommand(command);
@@ -337,8 +336,11 @@ public class WorkspaceController implements Initializable {
         drawAll();
     }
     
-    public void move(){
-        System.out.println("faccio la move");
+    public void move(double x,double y){
+        command = new moveCommand(selectShape,x,y);
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll();
     }
     
     public void copy(){
@@ -349,11 +351,11 @@ public class WorkspaceController implements Initializable {
     }
     
     public void paste(double x, double y){
-        command = new pasteCommand(copyShape, x ,y);
+        command = new pasteCommand(selectShape, x ,y);
         invoker.setCommand(command);
         invoker.startCommand();
-        System.out.println("prima di disegnare x: " + copyShape.getCopyShape().getX());
-        System.out.println("prima di disegnare y:" + copyShape.getCopyShape().getY());
+        System.out.println("prima di disegnare x: " + selectShape.getCopyShape().getX());
+        System.out.println("prima di disegnare y:" + selectShape.getCopyShape().getY());
         //System.out.println("select x: " + selectShape.getCopyShape().getX());
         //System.out.println("select y: " + selectShape.getCopyShape().getY());
         drawAll();
@@ -387,5 +389,4 @@ public class WorkspaceController implements Initializable {
         invoker.startUndo();
         drawAll();
     }
-
 }    
