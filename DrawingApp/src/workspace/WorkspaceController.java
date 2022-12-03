@@ -229,7 +229,6 @@ public class WorkspaceController implements Initializable {
     
     private void drawAll(){
         Iterator<Shape> it = shape.iterator();
-        System.out.println("drawAll" + shape);
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
         while (it.hasNext()) {
                 Shape elem = it.next();

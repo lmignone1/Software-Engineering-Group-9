@@ -32,4 +32,22 @@ public class Creator {
         
         return shape;
     }
+    
+    public static Shape createShape(String mode, GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, double sizeX, double sizeY){
+        
+        Shape shape = null;
+        
+        if(mode.equals("Line")){
+            shape = ConcreteCreatorLine.createShape(gc, x, y, lineColor, sizeX);
+        }
+        if(mode.equals("Rectangle")){
+            shape = ConcreteCreatorRectangle.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY);
+        }
+        if(mode.equals("Ellipse")){
+            shape = ConcreteCreatorEllipse.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY);
+        }
+        
+        return shape;
+    }
+
 }

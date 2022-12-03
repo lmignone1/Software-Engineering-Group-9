@@ -26,4 +26,22 @@ public class ConcreteCreatorRectangle extends Creator{
         
         return rect;   
     }
+    
+    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, double sizeX, double sizeY) {
+        
+        ConcreteShapeRectangles rect = new ConcreteShapeRectangles();
+        
+        rect.setGraphicsContext(gc);
+        rect.setXY(x, y);
+        rect.setLineColor(lineColor);
+        rect.setFillColor(fillColor);
+        rect.setSizeX(sizeX);
+        rect.setSizeY(sizeY);
+        
+        return rect;   
+    }
+
+    
+    
+    
 }

@@ -82,18 +82,8 @@ public  class ConcreteShapeLines extends AbstractShape{
     }
 
     @Override
-    public void setSizeY(double sizeY) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public double getSizeX() {
         return this.length;
-    }
-
-    @Override
-    public double getSizeY() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
 

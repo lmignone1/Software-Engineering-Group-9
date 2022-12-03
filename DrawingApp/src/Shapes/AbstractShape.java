@@ -77,7 +77,6 @@ public abstract class AbstractShape implements Shape{
     
     @Override
     public void setSizeY(double sizeY) {
-        //this.sizeY = sizeY;
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
@@ -88,7 +87,6 @@ public abstract class AbstractShape implements Shape{
     
     @Override
     public double getSizeY(){
-        //return this.sizeY;
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

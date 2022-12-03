@@ -114,11 +114,9 @@ public class Select {
     public void copy(){
         
         if(Select.getSelectedShape().getType().equals("Line")){
-            this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), 
-                Select.selectedShape.getX(),Select.selectedShape.getY(), Select.selectedShape.getLineColor(), null);
+            this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), Select.selectedShape.getX(),Select.selectedShape.getY(), Select.selectedShape.getLineColor(), null,Select.selectedShape.getSizeX(),0);
         }else{
-             this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), 
-                Select.selectedShape.getX(),Select.selectedShape.getY(), Select.selectedShape.getLineColor(), Select.selectedShape.getFillColor());
+            this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), Select.selectedShape.getX(),Select.selectedShape.getY(), Select.selectedShape.getLineColor(), Select.selectedShape.getFillColor(),Select.selectedShape.getSizeX(),Select.selectedShape.getSizeY());
         }
         
     }
