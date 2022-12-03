@@ -15,12 +15,11 @@ import static javafx.scene.paint.Color.color;
 
 /**
  *
- * @author Davide
- * //Receiver
+ * @author Davide //Receiver
  */
 public class Select {
-    
-   private List<Shape> list;
+
+    private List<Shape> list;
     private static Shape selectedShape;
     private Shape copyShape;
     private Shape changeShape;
@@ -28,169 +27,69 @@ public class Select {
     private ColorPicker previusLineColor;
     private ColorPicker previusFillColor;
     private double previousSizeX, previousSizeY;
-    private double previousX,previousY;
+    private double previousX, previousY;
 
-
-
-
-   public Select(List<Shape> shape, Shape selectedShape) {
+    public Select(List<Shape> shape, Shape selectedShape) {
         this.list = shape;
         Select.selectedShape = selectedShape;
-   }
+    }
 
-
-
-  public List<Shape> getShape() {
+    public List<Shape> getShape() {
         return list;
     }
 
-
-
-  public void setShape(List<Shape> shape) {
+    public void setShape(List<Shape> shape) {
         this.list = shape;
     }
 
-
-
-  public static Shape getSelectedShape() {
+    public static Shape getSelectedShape() {
         return selectedShape;
     }
 
-
-
-   public static void setSelectedShape(Shape selectedShape) {
+    public static void setSelectedShape(Shape selectedShape) {
         Select.selectedShape = selectedShape;
     }
-   
+
     public Shape getCopyShape() {
         return copyShape;
     }
 
-
-
-   public void setCopyShape(Shape copyShape) {
+    public void setCopyShape(Shape copyShape) {
         this.copyShape = copyShape;
     }
 
-
-
-   public ColorPicker getPreviusLineColor() {
+    public ColorPicker getPreviusLineColor() {
         return previusLineColor;
     }
 
-
-
-   public void setPreviusLineColor(ColorPicker previusLineColor) {
+    public void setPreviusLineColor(ColorPicker previusLineColor) {
         this.previusLineColor = previusLineColor;
     }
 
-
-
-   public ColorPicker getPreviusFillColor() {
+    public ColorPicker getPreviusFillColor() {
         return previusFillColor;
     }
 
-
-
-   public void setPreviusFillColor(ColorPicker previusFillColor) {
+    public void setPreviusFillColor(ColorPicker previusFillColor) {
         this.previusFillColor = previusFillColor;
     }
 
-
-
-
-   public double getPreviousSizeX() {
+    public double getPreviousSizeX() {
         return previousSizeX;
     }
 
-
-
-   public void setPreviousSizeX(double previousSizeX) {
+    public void setPreviousSizeX(double previousSizeX) {
         this.previousSizeX = previousSizeX;
     }
 
-
-
-   public double getPreviousSizeY() {
+    public double getPreviousSizeY() {
         return previousSizeY;
     }
 
-
-
-   public void setPreviousSizeY(double previousSizeY) {
+    public void setPreviousSizeY(double previousSizeY) {
         this.previousSizeY = previousSizeY;
     }
-    
-    
-    public void delete(){
-        list.remove(Select.selectedShape);
-    }
-    
-    public void copy(){
-        
-        if(Select.getSelectedShape().getType().equals("Line")){
-            this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), Select.selectedShape.getX(),Select.selectedShape.getY(), Select.selectedShape.getLineColor(), null,Select.selectedShape.getSizeX(),0);
-        }else{
-            this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), Select.selectedShape.getX(),Select.selectedShape.getY(), Select.selectedShape.getLineColor(), Select.selectedShape.getFillColor(),Select.selectedShape.getSizeX(),Select.selectedShape.getSizeY());
-        }
-        
-    }
-    
-    public void paste(double x, double y){
-        
-        copy();
-        this.copyShape.setXY(x,y);
-        this.list.add(this.copyShape);
 
-
-
-  }
-    
-    public void cut(){
-        this.copyShape = Select.selectedShape;
-        delete();
-    }
-    
-    public void move(double x, double y){ // SCRITTA A CASO DA RIVEDERE
-        
-    }
-    
-    public void changeColor(ColorPicker lineColor, ColorPicker fillColor) {
-        
-        if(Select.selectedShape.getType().equals("Line")){
-            setPreviusLineColor(Select.selectedShape.getLineColor());
-        }else{
-            setPreviusLineColor(Select.selectedShape.getLineColor());
-            setPreviusFillColor(Select.selectedShape.getFillColor());
-        }
-        
-        if(Select.selectedShape.getType().equals("Line")){
-            Select.selectedShape.setLineColor(lineColor);
-        }else{
-            Select.selectedShape.setLineColor(lineColor);
-            Select.selectedShape.setFillColor(fillColor);
-        }
-    }
-    
-        public void changeSize(double sizeX, double sizeY){
-        if(Select.selectedShape.getType().equals("Line")){
-            setPreviousSizeX(Select.selectedShape.getSizeX());
-        }
-        else{
-            setPreviousSizeX(Select.selectedShape.getSizeX());
-            setPreviousSizeY(Select.selectedShape.getSizeY());
-        }
-        
-        if(Select.selectedShape.getType().equals("Line")){
-            Select.selectedShape.setSizeX(sizeX);
-            Select.selectedShape.setXY(Select.selectedShape.getX(), Select.selectedShape.getY());
-        }
-        else{
-            Select.selectedShape.setSizeX(sizeX);
-            Select.selectedShape.setSizeY(sizeY);
-            Select.selectedShape.setXY(Select.selectedShape.getX(), Select.selectedShape.getY());
-        }
-    }
     public double getPreviousX() {
         return previousX;
     }
@@ -205,13 +104,69 @@ public class Select {
 
     public void setPreviousY(double previousY) {
         this.previousY = previousY;
+    }
 
-    }    
-    public void move(double newX,double newY, double previousX,double previousY){ // SCRITTA A CASO DA RIVEDERE
-     setPreviousX(previousX);
-     setPreviousY(previousY);
-        selectedShape.setXY(newX,newY);
+    public void delete() {
+        list.remove(Select.selectedShape);
+    }
+
+    public void copy() {
+        if (Select.getSelectedShape().getType().equals("Line")) {
+            this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), Select.selectedShape.getX(), Select.selectedShape.getY(), Select.selectedShape.getLineColor(), null, Select.selectedShape.getSizeX(), 0);
+        } else {
+            this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), Select.selectedShape.getX(), Select.selectedShape.getY(), Select.selectedShape.getLineColor(), Select.selectedShape.getFillColor(), Select.selectedShape.getSizeX(), Select.selectedShape.getSizeY());
+        }
+    }
+
+    public void paste(double x, double y) {
+        copy();
+        this.copyShape.setXY(x, y);
+        this.list.add(this.copyShape);
+    }
+
+    public void cut() {
+        this.copyShape = Select.selectedShape;
+        delete();
+    }
+
+    public void move(double newX, double newY, double previousX, double previousY) { // SCRITTA A CASO DA RIVEDERE
+        setPreviousX(previousX);
+        setPreviousY(previousY);
+        selectedShape.setXY(newX, newY);
+    }
+
+    public void changeColor(ColorPicker lineColor, ColorPicker fillColor) {
+
+        if (Select.selectedShape.getType().equals("Line")) {
+            setPreviusLineColor(Select.selectedShape.getLineColor());
+        } else {
+            setPreviusLineColor(Select.selectedShape.getLineColor());
+            setPreviusFillColor(Select.selectedShape.getFillColor());
+        }
+
+        if (Select.selectedShape.getType().equals("Line")) {
+            Select.selectedShape.setLineColor(lineColor);
+        } else {
+            Select.selectedShape.setLineColor(lineColor);
+            Select.selectedShape.setFillColor(fillColor);
+        }
+    }
+
+    public void changeSize(double sizeX, double sizeY) {
+        if (Select.selectedShape.getType().equals("Line")) {
+            setPreviousSizeX(Select.selectedShape.getSizeX());
+        } else {
+            setPreviousSizeX(Select.selectedShape.getSizeX());
+            setPreviousSizeY(Select.selectedShape.getSizeY());
+        }
+
+        if (Select.selectedShape.getType().equals("Line")) {
+            Select.selectedShape.setSizeX(sizeX);
+            Select.selectedShape.setXY(Select.selectedShape.getX(), Select.selectedShape.getY());
+        } else {
+            Select.selectedShape.setSizeX(sizeX);
+            Select.selectedShape.setSizeY(sizeY);
+            Select.selectedShape.setXY(Select.selectedShape.getX(), Select.selectedShape.getY());
+        }
     }
 }
-
- 

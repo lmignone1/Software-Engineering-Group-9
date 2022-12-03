@@ -29,6 +29,4 @@ public class pasteCommand implements Command {
         this.shape.getShape().remove(shape.getCopyShape());
     }
     
-    
-    
 }

@@ -11,23 +11,25 @@ import Shapes.Shape;
  * @author Davide
  */
 public class copyCommand implements Command {
-    
+
     Select shape;
 
     public copyCommand(Select shape) {
         this.shape = shape;
     }
-    public Shape getCopy(){
+
+    public Shape getCopy() {
         return shape.getCopyShape();
     }
+
     @Override
     public void execute() {
         this.shape.copy();
     }
-    
+
     @Override
     public void undo() {
-       this.shape.setCopyShape(null);
+        this.shape.setCopyShape(null);
     }
 
 }
