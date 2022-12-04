@@ -10,13 +10,13 @@ import javafx.scene.control.ColorPicker;
  *
  * @author Davide
  */
-public class changeColorCommand implements Command {
+public class ChangeColorCommand implements Command {
     
     private Select shape;
     private ColorPicker lineColor;
     private ColorPicker fillColor;
 
-    public changeColorCommand(Select shape, ColorPicker lineColor, ColorPicker fillColor) {
+    public ChangeColorCommand(Select shape, ColorPicker lineColor, ColorPicker fillColor) {
         this.shape = shape;
         this.lineColor = lineColor;
         this.fillColor = fillColor;
@@ -24,7 +24,7 @@ public class changeColorCommand implements Command {
     
     @Override
     public void execute() {
-       this.shape.changeColor(this.lineColor, this.fillColor);
+       this.shape.ChangeColor(this.lineColor, this.fillColor);
     }
 
     @Override
