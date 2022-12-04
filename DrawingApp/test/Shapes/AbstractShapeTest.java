@@ -32,6 +32,7 @@ public class AbstractShapeTest {
     private double[] vect = null;
     private double[] vect2 = null;
     private List<ColorPicker> listColor = null;
+    
     public AbstractShapeTest() {
         vect = new double[100];
         vect2 = new double[100];

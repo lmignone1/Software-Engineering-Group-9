@@ -36,17 +36,19 @@ public class Select {
     public Select(List<Shape> shape, Shape selectedShape) {
         this.list = shape;
         Select.selectedShape = selectedShape;
-        stackShape = new Stack<>();
+        //stackShape = new Stack<>();
     }
 
     public List<Shape> getShape() {
         return list;
     }
-
+    
+    /*
     public void setShape(List<Shape> shape) {
         this.list = shape;
     }
-
+    */
+    
     public static Shape getSelectedShape() {
         return selectedShape;
     }
@@ -191,4 +193,3 @@ public class Select {
         }
     }
 }
-

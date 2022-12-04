@@ -358,7 +358,7 @@ public class WorkspaceController implements Initializable {
         String x1 = sizeX.getText();
         String y1 = sizeY.getText();
         Double x = new Double(x1);
-
+        
         if (Select.getSelectedShape().getType().equals("Line")) {
             command = new ChangeSizeCommand(selectShape, x.doubleValue(), pastX, pastY);
         } else {
