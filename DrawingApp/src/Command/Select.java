@@ -28,7 +28,7 @@ public class Select {
     private ColorPicker previusFillColor;
     private double previousSizeX, previousSizeY;
     private double previousX, previousY;
-
+    
     public Select(List<Shape> shape, Shape selectedShape) {
         this.list = shape;
         Select.selectedShape = selectedShape;
@@ -173,4 +173,5 @@ public class Select {
             Select.selectedShape.setXY(Select.selectedShape.getX(), Select.selectedShape.getY());
         }
     }
+
 }
