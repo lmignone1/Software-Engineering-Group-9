@@ -8,12 +8,12 @@ package Command;
  *
  * @author Davide
  */
-public class pasteCommand implements Command {
+public class PasteCommand implements Command {
     
     Select shape;
     private double x,y;
 
-    public pasteCommand(Select shape, double x, double y) {
+    public PasteCommand(Select shape, double x, double y) {
         this.shape = shape;
         this.x = x;
         this.y = y;
