@@ -24,7 +24,7 @@ public class ChangeColorCommand implements Command {
     
     @Override
     public void execute() {
-       this.shape.ChangeColor(this.lineColor, this.fillColor);
+       this.shape.changeColor(this.lineColor, this.fillColor);
     }
 
     @Override

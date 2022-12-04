@@ -4,16 +4,16 @@
  */
 package workspace;
 
-import Command.moveCommand;
+import Command.ChangeColorCommand;
+import Command.ChangeSizeCommand;
 import Command.Command;
+import Command.CopyCommand;
+import Command.CutCommand;
 import Command.DeleteCommand;
 import Command.Invoker;
+import Command.MoveCommand;
+import Command.PasteCommand;
 import Command.Select;
-import Command.changeColorCommand;
-import Command.changeSizeCommand;
-import Command.copyCommand;
-import Command.pasteCommand;
-import Command.cutCommand;
 import Factory.Creator;
 import Shapes.Shape;
 import java.io.File;
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -320,35 +319,35 @@ public class WorkspaceController implements Initializable {
     }
 
     public void move(double x, double y) {
-        command = new moveCommand(selectShape, x, y, pastX, pastY);
+        command = new MoveCommand(selectShape, x, y, pastX, pastY);
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
     }
 
     public void copy() {
-        command = new copyCommand(selectShape);
+        command = new CopyCommand(selectShape);
         invoker.setCommand(command);
         invoker.startCommand();
 
     }
 
     public void paste(double x, double y) {
-        command = new pasteCommand(selectShape, x, y);
+        command = new PasteCommand(selectShape, x, y);
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
     }
 
     public void cut() {
-        command = new cutCommand(selectShape);
+        command = new CutCommand(selectShape);
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
     }
 
     public void changeColor() {
-        command = new changeColorCommand(selectShape, selectedContourColour, selectedFullColour);
+        command = new ChangeColorCommand(selectShape, selectedContourColour, selectedFullColour);
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
@@ -362,9 +361,9 @@ public class WorkspaceController implements Initializable {
         Double y = new Double(y1);
 
         if (Select.getSelectedShape().getType().equals("Line")) {
-            command = new changeSizeCommand(selectShape, x.doubleValue());
+            command = new ChangeSizeCommand(selectShape, x.doubleValue());
         } else {
-            command = new changeSizeCommand(selectShape, x.doubleValue(), y.doubleValue());
+            command = new ChangeSizeCommand(selectShape, x.doubleValue(), y.doubleValue());
         }
         invoker.setCommand(command);
         invoker.startCommand();
