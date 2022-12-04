@@ -14,6 +14,8 @@ import javafx.scene.effect.Light.Point;
 import javafx.scene.paint.Color;
 import static javafx.scene.paint.Color.color;
 
+import javafx.scene.control.ColorPicker;
+
 /**
  *
  * @author Davide //Receiver
@@ -167,12 +169,16 @@ public class Select {
         }
     }
 
-    public void changeSize(double sizeX, double sizeY) {
+    public void changeSize(double sizeX, double sizeY, double previousX, double previousY) {
         if (Select.selectedShape.getType().equals("Line")) {
             setPreviousSizeX(Select.selectedShape.getSizeX());
+            setPreviousX(previousX);
+            setPreviousY(previousY);
         } else {
             setPreviousSizeX(Select.selectedShape.getSizeX());
             setPreviousSizeY(Select.selectedShape.getSizeY());
+            setPreviousX(previousX);
+            setPreviousY(previousY);
         }
 
         if (Select.selectedShape.getType().equals("Line")) {
@@ -185,3 +191,4 @@ public class Select {
         }
     }
 }
+
