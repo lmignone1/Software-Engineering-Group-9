@@ -32,8 +32,9 @@ public class ConcreteShapeLinesTest {
     private double[] vect = null;
     private double[] vect2 = null;
     private List<ColorPicker> listColor = null;
+    
     public ConcreteShapeLinesTest() {
-    vect = new double[100];
+        vect = new double[100];
         vect2 = new double[100];
         Random r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);

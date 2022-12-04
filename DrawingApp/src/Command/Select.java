@@ -24,8 +24,8 @@ public class Select {
     private Shape copyShape;
     private Shape changeShape;
     private Creator creator = new Creator();
-    private ColorPicker previusLineColor;
-    private ColorPicker previusFillColor;
+    private ColorPicker previusLineColor = null;
+    private ColorPicker previusFillColor = null;
     private double previousSizeX, previousSizeY;
     private double previousX, previousY;
 
@@ -33,15 +33,18 @@ public class Select {
         this.list = shape;
         Select.selectedShape = selectedShape;
     }
-
+    
+    
     public List<Shape> getShape() {
         return list;
     }
 
+    /*
     public void setShape(List<Shape> shape) {
         this.list = shape;
     }
-
+    */
+    
     public static Shape getSelectedShape() {
         return selectedShape;
     }

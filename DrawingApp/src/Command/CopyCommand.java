@@ -18,10 +18,6 @@ public class CopyCommand implements Command {
         this.shape = shape;
     }
 
-    public Shape getCopy() {
-        return shape.getCopyShape();
-    }
-
     @Override
     public void execute() {
         this.shape.copy();
