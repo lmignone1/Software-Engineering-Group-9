@@ -14,7 +14,7 @@ import Shapes.Shape;
  *
  * @author Acer
  */
-public class moveCommand implements Command {
+public class MoveCommand implements Command {
 
     Select shape;
     double previousX;
@@ -22,7 +22,7 @@ public class moveCommand implements Command {
     double newX;
     double newY;
 
-    public moveCommand(Select shape, double newX, double newY, double previousX, double previousY) {
+    public MoveCommand(Select shape, double newX, double newY, double previousX, double previousY) {
         this.shape = shape;
         this.newX = newX;
         this.newY = newY;
