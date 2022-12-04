@@ -123,7 +123,7 @@ public class PasteCommandTest {
     public void setUp() {
         selectShape = listShape.get(rand.nextInt(listShape.size()));
         selectedShape.setSelectedShape(selectShape);
-        instance = new PasteCommand(selectedShape, vect[rand.nextInt(vect.length)], vect[rand.nextInt(vect.length)]);
+        instance = new PasteCommand(selectedShape, vect[0], vect[1]);
     }
     
     @After
@@ -136,24 +136,50 @@ public class PasteCommandTest {
     
     @Test
     public void testExecute() {
-        /*System.out.println("execute");
-        for(int i = 0; i < listShape.size(); i++){
-            instance.x = vect[i]+vect[i];
-            instance.y = vect[i]*vect[i];
+        System.out.println("execute");
+        
+        double expX = vect[0] - (Select.getSelectedShape().getSizeX()/2);
+        double expY;
+        if(!(Select.getSelectedShape().getType().equals("Line"))){
+            expY = vect[1] - (Select.getSelectedShape().getSizeY()/2);
+        }else{
+            expY = vect[1];
+        }
+        
+        int count = 2;
+
+        for(int i = 0; i < 2; i++){
+
             instance.execute();
 
             try{
-                assertTrue(listShape.contains(selectShape));
-                assertEquals(selectedShape.getSelectedShape().getX(), instance.x, 0);
-                assertEquals(selectedShape.getSelectedShape().getY(), instance.y, 0);
+
+                assertEquals(expX, selectedShape.getCopyShape().getX(), 0);
+                
+                if(!(selectedShape.getCopyShape().getType().equals("Line"))){
+                    assertEquals(expY, selectedShape.getCopyShape().getY(), 0);
+                }
+                 
+                //assertTrue(listShape.contains());
+               
                 
             }catch(AssertionError ex){
                 fail("The excute of PasteCommand failed");
             }
             selectShape = listShape.get(rand.nextInt(listShape.size()));
             selectedShape.setSelectedShape(selectShape);
-        }*/
-        
+            
+            expX = vect[count+2] - (Select.getSelectedShape().getSizeX()/2);
+            
+            if(!(Select.getSelectedShape().getType().equals("Line"))){
+                expY = vect[count+3] - (Select.getSelectedShape().getSizeY()/2);
+            }else{
+                expY = vect[count+3];
+            }
+            
+            instance = new PasteCommand(selectedShape, expX, expY);
+            
+        }
     }
 
     /**
