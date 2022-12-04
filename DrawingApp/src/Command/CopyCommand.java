@@ -12,7 +12,7 @@ import Shapes.Shape;
  */
 public class CopyCommand implements Command {
 
-    Select shape;
+    private Select shape;
 
     public CopyCommand(Select shape) {
         this.shape = shape;
@@ -26,6 +26,7 @@ public class CopyCommand implements Command {
     @Override
     public void undo() {
         this.shape.setCopyShape(null);
+        //this.shape.getStackShape().pop();
     }
 
 }

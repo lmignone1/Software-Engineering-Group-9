@@ -12,29 +12,40 @@ public class ChangeSizeCommand implements Command {
     
     Select shape;
     double sizeX, sizeY;
+    double previousX, previousY;
 
-    public ChangeSizeCommand(Select shape, double sizeX, double sizeY) {
+    public ChangeSizeCommand(Select shape, double sizeX, double sizeY, double previousX, double previousY) {
         this.shape = shape;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+        this.previousX = previousX;
+        this.previousY = previousY;
     }
     
-    public ChangeSizeCommand(Select shape, double sizeX) {
+    public ChangeSizeCommand(Select shape, double sizeX, double previousX, double previousY) {
         this.shape = shape;
         this.sizeX = sizeX;
-        //this.sizeY = 0;
-    }
+        this.previousX = previousX;
+        this.previousY = previousY;
+    } 
     
 
     @Override
     public void execute() {
-        this.shape.changeSize(this.sizeX, this.sizeY);
+        this.shape.changeSize(this.sizeX, this.sizeY, this.previousX, this.previousY);
     }
 
     @Override
     public void undo() {
-        this.shape.getSelectedShape().setSizeX(shape.getPreviousSizeX());
-        this.shape.getSelectedShape().setSizeY(shape.getPreviousSizeY());
+        if (this.shape.getSelectedShape().getType().equals("Line")){
+            this.shape.getSelectedShape().setSizeX(shape.getPreviousSizeX());
+            Select.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
+        }
+        else{
+            this.shape.getSelectedShape().setSizeX(shape.getPreviousSizeX());
+            this.shape.getSelectedShape().setSizeY(shape.getPreviousSizeY());
+            Select.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
+        }
     }
     
 }

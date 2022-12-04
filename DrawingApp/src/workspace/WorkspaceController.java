@@ -180,7 +180,7 @@ public class WorkspaceController implements Initializable {
        
         
 
-        if (event.isPrimaryButtonDown() && (mod == "Rectangle" || mod == "Ellipse" || mod == "Line")) {
+        if (event.isPrimaryButtonDown() && (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse"))) {
 
             if (oldMod != null) {
                 mod = oldMod;
@@ -194,7 +194,7 @@ public class WorkspaceController implements Initializable {
             select(event);
 
         }
-        if (event.isPrimaryButtonDown() && mod == "Move") {
+        if (event.isPrimaryButtonDown() && mod.equals("Move")) {
             move(event.getX(), event.getY());
             mod = oldMod;
             oldMod = null;
@@ -360,10 +360,11 @@ public class WorkspaceController implements Initializable {
         Double x = new Double(x1);
         
         if (Select.getSelectedShape().getType().equals("Line")) {
-            command = new ChangeSizeCommand(selectShape, x.doubleValue());
+            command = new ChangeSizeCommand(selectShape, x.doubleValue(), pastX, pastY);
         } else {
             Double y = new Double(y1);
-            command = new ChangeSizeCommand(selectShape, x.doubleValue(), y.doubleValue());
+            command = new ChangeSizeCommand(selectShape, x.doubleValue(), y.doubleValue(), pastX, pastY);
+
         }
         invoker.setCommand(command);
         invoker.startCommand();
