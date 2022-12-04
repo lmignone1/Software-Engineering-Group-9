@@ -10,11 +10,11 @@ import Shapes.Shape;
  *
  * @author Davide
  */
-public class copyCommand implements Command {
+public class CopyCommand implements Command {
 
     Select shape;
 
-    public copyCommand(Select shape) {
+    public CopyCommand(Select shape) {
         this.shape = shape;
     }
 
