@@ -8,11 +8,11 @@ package Command;
  *
  * @author Davide
  */
-public class cutCommand implements Command{
+public class CutCommand implements Command{
     
     Select shape;
 
-    public cutCommand(Select shape) {
+    public CutCommand(Select shape) {
         this.shape = shape;
     }
 
