@@ -8,18 +8,18 @@ package Command;
  *
  * @author artem
  */
-public class changeSizeCommand implements Command {
+public class ChangeSizeCommand implements Command {
     
     Select shape;
     double sizeX, sizeY;
 
-    public changeSizeCommand(Select shape, double sizeX, double sizeY) {
+    public ChangeSizeCommand(Select shape, double sizeX, double sizeY) {
         this.shape = shape;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
     }
     
-    public changeSizeCommand(Select shape, double sizeX) {
+    public ChangeSizeCommand(Select shape, double sizeX) {
         this.shape = shape;
         this.sizeX = sizeX;
         //this.sizeY = 0;
