@@ -32,11 +32,14 @@ public class Select {
     private double previousSizeX, previousSizeY;
     private double previousX, previousY;
     private Stack<Shape> stackShape;
+    private Shape pasteShape;
+    private Stack<Double> moveStack;
 
     public Select(List<Shape> shape, Shape selectedShape) {
         this.list = shape;
         Select.selectedShape = selectedShape;
-        stackShape = new Stack<>();
+        this.stackShape = new Stack<>();
+        this.moveStack = new Stack<>();
     }
 
     public List<Shape> getShape() {
@@ -120,6 +123,14 @@ public class Select {
     public void setStackShape(Stack<Shape> stackShape) {
         this.stackShape = stackShape;
     }
+
+    public Stack<Double> getMoveStack() {
+        return moveStack;
+    }
+
+    public void setMoveStack(Stack<Double> moveStack) {
+        this.moveStack = moveStack;
+    }
     
     public void delete() {
         list.remove(Select.selectedShape);
@@ -133,14 +144,22 @@ public class Select {
         } else {
             this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), Select.selectedShape.getX(), Select.selectedShape.getY(), Select.selectedShape.getLineColor(), Select.selectedShape.getFillColor(), Select.selectedShape.getSizeX(), Select.selectedShape.getSizeY());
         }
+        
         this.stackShape.add(this.copyShape);
     }
 
+
     public void paste(double x, double y) {
-        copy();
-        this.copyShape.setXY(x, y);
-        this.list.add(this.copyShape);
-        this.stackShape.pop();
+        
+        if (this.copyShape.getType().equals("Line")) {
+                this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), null, this.copyShape.getSizeX(), 0);
+        } else {
+                this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY());
+            }
+        this.pasteShape.setXY(x, y);
+        this.list.add(this.pasteShape);
+        this.stackShape.add(this.pasteShape);
+        
     }
 
     public void cut() {
@@ -148,10 +167,19 @@ public class Select {
         delete();
     }
 
-    public void move(double newX, double newY, double previousX, double previousY) { // SCRITTA A CASO DA RIVEDERE
+    public void move(double newX, double newY, double previousX, double previousY) { 
         setPreviousX(previousX);
         setPreviousY(previousY);
+        
+        Double provaX = new Double(previousX);
+        Double provaY = new Double(previousY);
+        
+        
+        this.moveStack.add(provaY);
+        this.moveStack.add(provaX);
+        
         selectedShape.setXY(newX, newY);
+        this.stackShape.add(selectedShape);
     }
 
     public void changeColor(ColorPicker lineColor, ColorPicker fillColor) {

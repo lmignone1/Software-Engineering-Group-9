@@ -4,11 +4,7 @@
  */
 package Command;
 
-import Command.Command;
-import Command.Command;
-import Command.Select;
-import Command.Select;
-import Shapes.Shape;
+
 
 /**
  *
@@ -38,7 +34,10 @@ public class MoveCommand implements Command {
 
     @Override
     public void undo() {
-        Select.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
+        
+        this.shape.getStackShape().pop().setXY(this.shape.getMoveStack().pop().doubleValue(), this.shape.getMoveStack().pop().doubleValue());
+        
+        //Select.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
 
     }
 

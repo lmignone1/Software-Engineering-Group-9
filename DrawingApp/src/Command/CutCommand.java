@@ -23,7 +23,7 @@ public class CutCommand implements Command{
 
     @Override
     public void undo() {
-        shape.getShape().add(shape.getCopyShape());
-        shape.setCopyShape(null);
+        shape.getShape().add(this.shape.getStackShape().pop());
+       
     }
 }
