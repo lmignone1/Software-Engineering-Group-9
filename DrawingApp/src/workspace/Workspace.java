@@ -12,10 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-/**
- *
- * @author artem
- */
 public class Workspace extends Application {
 
     /**
