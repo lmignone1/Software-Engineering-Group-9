@@ -15,11 +15,8 @@ import javafx.scene.layout.AnchorPane;
 public interface Component {
     
     public void execute();
-    
-    //public Canvas getCanvas();
-    //public AnchorPane getPane();
-    
-    //public abstract boolean scrollBar();
-    
-    //public abstract boolean grid();
+    public Canvas getCanvas();
+    public void setGridSizeInput(int size);
+    public int getGridSizeInput();
+ 
 }
