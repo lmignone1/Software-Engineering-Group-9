@@ -33,4 +33,5 @@ public interface Shape {
     public void setSizeY(double sizeY);
     public double getSizeX();
     public double getSizeY();
+    
 }

@@ -30,7 +30,7 @@ public class Workspace extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("InitialInterface.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Workspace.fxml"));
         primaryStage.setTitle("Paint It!");
         //primaryStage.getIcons().add(new Image("/workspace.image/uni.png"));
         Scene scene = new Scene(root);

@@ -14,6 +14,9 @@ import Command.Invoker;
 import Command.MoveCommand;
 import Command.PasteCommand;
 import Command.Select;
+import Command.ToBackCommand;
+import Command.ToFrontCommand;
+
 import Factory.Creator;
 import Shapes.Shape;
 import java.io.File;
@@ -43,6 +46,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -75,7 +79,7 @@ public class WorkspaceController implements Initializable {
     private static Select selectShape;
     private Command command = null;
     private double pastX, pastY;
-    
+    private double previousPosition;
 
     ContextMenu contextMenu = new ContextMenu();
     MenuItem deleteMenu = new MenuItem("Delete");
@@ -85,6 +89,8 @@ public class WorkspaceController implements Initializable {
     MenuItem cutMenu = new MenuItem("Cut");
     MenuItem colorMenu = new MenuItem("Change colour");
     MenuItem sizeMenu = new MenuItem("Change size");
+    MenuItem toFrontMenu = new MenuItem("ToFront");
+    MenuItem toBackMenu = new MenuItem("ToBack");
     @FXML
     private TextField sizeX;
     @FXML
@@ -104,6 +110,7 @@ public class WorkspaceController implements Initializable {
     private MenuItem rectangleMenu;
     @FXML
     private MenuItem ellipseMenu;
+    private GridPane gridPane;
 
     /**
      * Initializes the controller class.
@@ -172,23 +179,26 @@ public class WorkspaceController implements Initializable {
         drawingCanvas.setHeight(pane.getHeight());
         drawingCanvas.setLayoutX(pane.getScaleX());
         drawingCanvas.setLayoutY(pane.getScaleY());
-
     }
 
     @FXML
     private void makeDraw(MouseEvent event) {
        
+       
         
-
         if (event.isPrimaryButtonDown() && (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse"))) {
 
             if (oldMod != null) {
                 mod = oldMod;
                 oldMod = null;
             }
+            
+            
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, selectedFullColour);
             shape.add(shapeCreated);
+           
             shapeCreated.draw();
+            
         }
         if (event.isSecondaryButtonDown()) {
             select(event);
@@ -225,17 +235,24 @@ public class WorkspaceController implements Initializable {
 
     private void select(MouseEvent event) {
         Iterator<Shape> it = shape.iterator();
+        
         while (it.hasNext()) {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
                 selectShape.setSelectedShape(elem);
-                initContextMenu();
-            }
+                 
+            } 
+            
         }
+        previousPosition=shape.indexOf(selectShape.getSelectedShape());
+        
+        
+         
+        initContextMenu();
         pastX = event.getX();
         pastY = event.getY();
     }
-
+    
     private void drawAll() {
         Iterator<Shape> it = shape.iterator();
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
@@ -246,12 +263,13 @@ public class WorkspaceController implements Initializable {
     }
 
     private void initContextMenu() {
-        contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu);
+        contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu,toFrontMenu,toBackMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
-
+        
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
             public void handle(ActionEvent event) {
                 delete();
+                 
             }
         });
 
@@ -262,7 +280,7 @@ public class WorkspaceController implements Initializable {
                 }
 
                 mod = "Move";
-
+                 
             }
         });
 
@@ -271,8 +289,10 @@ public class WorkspaceController implements Initializable {
                 /*
             if(mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse")){
                 oldMod = mod;
+                
             }
                  */
+                 
                 copy();
                 pasteMenu.setDisable(false);
                 //mod = "copy";
@@ -283,7 +303,7 @@ public class WorkspaceController implements Initializable {
             public void handle(ActionEvent event) {
                 //move();
                 paste(pastX, pastY);
-
+                
             }
         });
 
@@ -291,6 +311,7 @@ public class WorkspaceController implements Initializable {
             public void handle(ActionEvent event) {
                 cut();
                 pasteMenu.setDisable(false);
+                
             }
         });
 
@@ -298,19 +319,40 @@ public class WorkspaceController implements Initializable {
             public void handle(ActionEvent event) {
                 changeShape = new Select(shape, selectShape.getSelectedShape());
                 changeColor();
-
+               
             }
         });
 
         sizeMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
                 changeSize();
-
+                 
             }
         });
+        toFrontMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
+            public void handle(ActionEvent event) {
+                toFront(shape.indexOf(selectShape.getSelectedShape()),shape.size());
+            }
+        });
+        toBackMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
+            public void handle(ActionEvent event) {
+                toBack(shape.indexOf(selectShape.getSelectedShape()));
+            }
+        });
+    }
+    public void toFront(double index,double size){
+        command = new ToFrontCommand(selectShape, index, size);
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll();
+    }
+    public void toBack(double index){
+        command = new ToBackCommand(selectShape, index);
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll();
 
     }
-
     public void delete() {
         command = new DeleteCommand(selectShape);
         invoker.setCommand(command);
@@ -376,4 +418,11 @@ public class WorkspaceController implements Initializable {
         invoker.startUndo();
         drawAll();
     }
+
+    private void showGrid(ActionEvent event) {
+        
+        gridPane.setVisible(true);
+    }
+
+    
 }

@@ -86,5 +86,3 @@ public  class ConcreteShapeLines extends AbstractShape{
         return this.length;
     }
 }
-
-

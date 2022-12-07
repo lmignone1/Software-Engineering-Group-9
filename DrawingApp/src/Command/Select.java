@@ -125,7 +125,7 @@ public class Select {
         list.remove(Select.selectedShape);
         //stackShape.add(Select.selectedShape);
     }
-
+    
     public void copy() {
 
         if (Select.getSelectedShape().getType().equals("Line")) {
@@ -191,5 +191,18 @@ public class Select {
             Select.selectedShape.setSizeY(sizeY);
             Select.selectedShape.setXY(Select.selectedShape.getX(), Select.selectedShape.getY());
         }
+    }
+   /* public void toFront(){
+        selectedShape.setToFront();
+    }*/
+
+   public void toFront(double index) {
+        list.remove(selectedShape);
+        list.add((int)index-1,selectedShape);
+    }
+
+   public void toBack(double index) {
+        list.remove(selectedShape);
+        list.add((int)index,selectedShape);
     }
 }
