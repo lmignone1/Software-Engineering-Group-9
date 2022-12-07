@@ -125,13 +125,6 @@ public class MoveCommandTest {
         selectShape = listShape.get(0);
         selectedShape.setSelectedShape(selectShape);
         instance = new MoveCommand(selectedShape,vect[0],vect[1],vect[2],vect[3]);
-        /*
-        if(selectedShape.getSelectedShape().getType().equals("Line")){
-        instance=new MoveCommand(selectedShape,vect[0]+selectShape.getSizeX()/2,vect[1],vect[2]+selectShape.getSizeX()/2,vect[3]);
-        }else{
-            instance=new MoveCommand(selectedShape,vect[0]+selectShape.getSizeX()/2,vect[1]+selectShape.getSizeY()/2,vect[2]+selectShape.getSizeX()/2,vect[3]+selectShape.getSizeY()/2);
-        }
-        */
        }
     
     @After
@@ -187,8 +180,6 @@ public class MoveCommandTest {
                expY = vect[count+5] - selectedShape.getSelectedShape().getSizeY()/2;
             }
         }
-
-        
     }
 
     /**
