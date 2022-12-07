@@ -34,7 +34,7 @@ public class MoveCommand implements Command {
 
     @Override
     public void undo() {
-        this.shape.getMemory().getStackShape().setXY(this.shape.getMemory().getStackDouble(), this.shape.getMemory().getStackDouble());
+        this.shape.getMemory().popStackShape().setXY(this.shape.getMemory().popStackDouble(), this.shape.getMemory().popStackDouble());
     }
 
 }

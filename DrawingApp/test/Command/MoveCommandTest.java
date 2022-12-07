@@ -122,13 +122,16 @@ public class MoveCommandTest {
     
     @Before
     public void setUp() {
-        selectShape = listShape.get(rand.nextInt(listShape.size()));
+        selectShape = listShape.get(0);
         selectedShape.setSelectedShape(selectShape);
+        instance = new MoveCommand(selectedShape,vect[0],vect[1],vect[2],vect[3]);
+        /*
         if(selectedShape.getSelectedShape().getType().equals("Line")){
         instance=new MoveCommand(selectedShape,vect[0]+selectShape.getSizeX()/2,vect[1],vect[2]+selectShape.getSizeX()/2,vect[3]);
         }else{
             instance=new MoveCommand(selectedShape,vect[0]+selectShape.getSizeX()/2,vect[1]+selectShape.getSizeY()/2,vect[2]+selectShape.getSizeX()/2,vect[3]+selectShape.getSizeY()/2);
         }
+        */
        }
     
     @After
@@ -136,37 +139,53 @@ public class MoveCommandTest {
     }
 
     /**
-     * Test of execute method, of class DeleteCommand.
+     * Test of execute method, of class MoveCommand.
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
+       System.out.println("TEST: Execute moveCommand");
            
-            double expectX= vect[0];
-            double expectY= vect[1];
+       double expX = vect[0] - selectedShape.getSelectedShape().getSizeX()/2;
+       double expY;
+       double expPreX = vect[2];
+       double expPreY = vect[3];
+       
+       if(selectedShape.getSelectedShape().getType().equals("Line")){
+           expY = vect[1];
+       }else{
+           expY = vect[1] - selectedShape.getSelectedShape().getSizeY()/2;
+       }
+       
+       int count = 4;
             
-        for(int i = 4; i < listShape.size(); i++){
+       for(int i = 0; i < listShape.size(); i++){
             
             instance.execute();
-           
+
             try{
                 assertTrue(listShape.contains(selectShape));
-                
-                assertEquals(expectX,selectedShape.getSelectedShape().getX(),0);
-                assertEquals(expectY,selectedShape.getSelectedShape().getY(),0);
+                assertEquals(expX,selectedShape.getSelectedShape().getX(),0);
+                assertEquals(expY,selectedShape.getSelectedShape().getY(),0);
+                assertTrue(selectedShape.getMemory().getStackDouble().contains(expPreX));
+                assertTrue(selectedShape.getMemory().getStackDouble().contains(expPreY));
             }catch(AssertionError ex){
                 fail("The excute of moveCommand failed");
             }
-        selectShape = listShape.get(rand.nextInt(listShape.size()));
-        selectedShape.setSelectedShape(selectShape);
-        expectX = vect[i+4]; 
-        expectY = vect[i+5];
-        if(selectedShape.getSelectedShape().getType().equals("Line")){
-        instance=new MoveCommand(selectedShape,expectX+selectShape.getSizeX()/2,expectY,vect[2]+selectShape.getSizeX()/2,vect[3]);
-        }else{
-            instance=new MoveCommand(selectedShape,expectX+selectShape.getSizeX()/2,expectY+selectShape.getSizeY()/2,vect[2]+selectShape.getSizeX()/2,vect[3]+selectShape.getSizeY()/2);
-        }
-        
+
+            selectShape = listShape.get(i);
+            selectedShape.setSelectedShape(selectShape);
+            instance = new MoveCommand(selectedShape,vect[count+4],vect[count+5],vect[count+6],vect[count+7]);
+
+
+            expX = vect[count+4] - selectedShape.getSelectedShape().getSizeX()/2; 
+            expPreX = vect[count+6];
+            expPreY = vect[count+7];
+
+            if(selectedShape.getSelectedShape().getType().equals("Line")){
+               expY = vect[count+5];
+            }else{
+               expY = vect[count+5] - selectedShape.getSelectedShape().getSizeY()/2;
+            }
         }
 
         

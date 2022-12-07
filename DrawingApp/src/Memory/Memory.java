@@ -24,27 +24,40 @@ public class Memory {
         this.stackColor = new Stack<>();
     }
 
-    public Shape getStackShape() {
+    public Shape popStackShape() {
         return this.stackShape.pop();
     }
 
-    public Double getStackDouble() {
+    public Double popStackDouble() {
         return this.stackDouble.pop();
     }
 
-    public ColorPicker getStackColor() {
+    public ColorPicker popStackColor() {
         return this.stackColor.pop();
     }
 
-    public void setStackShape(Shape selectedShape) {
+    public void addStackShape(Shape selectedShape) {
         this.stackShape.add(selectedShape);
     }
 
-    public void setStackDouble(Double number) {
+    public void addStackDouble(Double number) {
         this.stackDouble.add(number);
     }
 
-    public void setStackColor(ColorPicker color) {
+    public void addStackColor(ColorPicker color) {
         this.stackColor.add(color);
     }
+
+    public Stack<Shape> getStackShape() {
+        return stackShape;
+    }
+
+    public Stack<Double> getStackDouble() {
+        return stackDouble;
+    }
+
+    public Stack<ColorPicker> getStackColor() {
+        return stackColor;
+    }
+
 }
