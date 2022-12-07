@@ -136,19 +136,23 @@ public class DeleteCommandTest {
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-        
-        for(int i = 0; i < listShape.size(); i++){
+        System.out.println("TEST: Execute deleteCommand");
+    
+        for(int i = 1; i < NUM; i++){
             instance.execute();
             try{
                 assertFalse(listShape.contains(selectShape));
+                assertFalse(selectedShape.getMemory().getStackShape().isEmpty());
+                assertTrue(selectedShape.getMemory().getStackShape().contains(selectShape));
             }catch(AssertionError ex){
-                fail("The excute of deleteCommand failed");
+                fail("ERROR: The excute of deleteCommand failed");
+            }
+            if(listShape.isEmpty()){
+                break;
             }
             selectShape = listShape.get(rand.nextInt(listShape.size()));
             selectedShape.setSelectedShape(selectShape);
         }
-
     }
 
     /**
@@ -156,20 +160,55 @@ public class DeleteCommandTest {
      */
     @Test
     public void testUndo() {
-        System.out.println("undo");
-        /*
-        for(int i = 0; i < listShape.size(); i++){
+        System.out.println("TEST: Undo deleteCommand");
+        
+        for(int i = 0; i < NUM; i++){
             instance.execute();
             instance.undo();
             try{
                 assertTrue(listShape.contains(selectShape));
+                assertTrue(selectedShape.getMemory().getStackShape().isEmpty());
+                assertFalse(selectedShape.getMemory().getStackShape().contains(selectShape));
             }catch(AssertionError ex){
-                fail("The undo of deleteCommand failed");
+                fail("ERROR: The undo of deleteCommand failed");
             }
             selectShape = listShape.get(rand.nextInt(listShape.size()));
             selectedShape.setSelectedShape(selectShape);
         }
-        */
+    }
+    
+    /**
+     * Test2 of undo method, of class DeleteCommand.
+     */
+    @Test
+    public void testUndo2() {
+        System.out.println("TEST2: Undo deleteCommand");
+        
+        Shape expShape;
+        
+        for(int i = 0; i < NUM; i++){
+            instance.execute();
+            if(listShape.isEmpty()){
+                break;
+            }
+            selectShape = listShape.get(rand.nextInt(listShape.size()));
+            selectedShape.setSelectedShape(selectShape);
+        }
+        
+        assertTrue(listShape.isEmpty());
+        
+        for(int i = 0; i < NUM; i++){
+            expShape = selectedShape.getMemory().getStackShape().peek();
+            instance.undo();
+            try{
+                assertTrue(listShape.contains(expShape));
+                assertFalse(selectedShape.getMemory().getStackShape().contains(expShape));
+            }catch(AssertionError ex){
+                fail(" ERROR-2: The undo of deleteCommand failed");
+            }
+        }
+        assertFalse(listShape.isEmpty());
+        
     }
     
 }

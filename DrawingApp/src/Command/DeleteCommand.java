@@ -23,8 +23,7 @@ public class DeleteCommand implements Command {
 
    @Override
     public void undo() {
-       // shape.getShape().add(this.shape.getSelectedShape());
-        shape.getShape().add(shape.getStackShape().pop());
+        shape.getShape().add(this.shape.getMemory().popStackShape());
     }
 
 }

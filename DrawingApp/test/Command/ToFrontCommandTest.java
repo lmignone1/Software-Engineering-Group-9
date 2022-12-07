@@ -27,9 +27,9 @@ import static org.junit.Assert.*;
  *
  * @author Acer
  */
-public class ToBackCommandTest {
+public class ToFrontCommandTest {
     private JFXPanel panel = new JFXPanel();
-    private ToBackCommand instance;
+    private ToFrontCommand instance;
     
     private Select selectedShape;
     private Shape selectShape;
@@ -43,7 +43,7 @@ public class ToBackCommandTest {
     
     private final int NUM = 10;
     
-    public ToBackCommandTest() {
+    public ToFrontCommandTest() {
         vect = new double[100];
         r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
@@ -103,7 +103,7 @@ public class ToBackCommandTest {
     public void setUp() {
         selectShape = list.get(r.nextInt(list.size()));
         selectedShape.setSelectedShape(selectShape);
-        instance = new ToBackCommand(selectedShape,list.indexOf(selectedShape.getSelectedShape()));
+        instance = new ToFrontCommand(selectedShape,list.indexOf(selectedShape.getSelectedShape()),list.size());
     }
     
     @After
@@ -118,12 +118,12 @@ public class ToBackCommandTest {
         System.out.println("execute");
         for(int i = 1; i < list.size(); i++){
         instance.execute();
-        int expPosition=0;
+        int expPosition=list.size()-1;
         try {
                     assertEquals(expPosition,list.indexOf(selectedShape.getSelectedShape()));
-                    assertEquals(selectedShape.getSelectedShape(),list.get(0));
+                    assertEquals(selectedShape.getSelectedShape(),list.get(list.size()-1));
             } catch(AssertionError ex){
-                fail("ERROR-2: The execute ToBackCommand failed");
+                fail("ERROR-2: The execute ToFrontCommand failed");
             }
         selectShape = list.get(i);
         selectedShape.setSelectedShape(selectShape);
@@ -145,7 +145,7 @@ public class ToBackCommandTest {
             assertEquals(expPosition,list.indexOf(selectedShape.getSelectedShape()));
             assertEquals(selectedShape.getSelectedShape(),list.get(expPosition));
             } catch(AssertionError ex){
-                fail("ERROR-2: The undo ToBackCommand failed");
+                fail("ERROR-2: The undo ToFrontCommand failed");
             }
        selectShape = list.get(i);
        selectedShape.setSelectedShape(selectShape);

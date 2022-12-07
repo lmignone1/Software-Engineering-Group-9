@@ -40,21 +40,15 @@ public class ChangeSizeCommand implements Command {
     @Override
     public void undo() {
         if (this.shape.getSelectedShape().getType().equals("Line")){
-            //this.shape.getSelectedShape().setSizeX(shape.getPreviousSizeX());
-            //this.shape.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
-            Shape oldShape = this.shape.getStackShape().pop();
-            oldShape.setSizeX(this.shape.getMoveStack().pop());
-            oldShape.setXY(this.shape.getMoveStack().pop(), this.shape.getMoveStack().pop());
+            Shape oldShape = this.shape.getMemory().popStackShape();
+            oldShape.setSizeX(this.shape.getMemory().popStackDouble());
+            oldShape.setXY(this.shape.getMemory().popStackDouble(), this.shape.getMemory().popStackDouble());
         }
         else{
-            this.shape.getSelectedShape().setSizeX(shape.getPreviousSizeX());
-            this.shape.getSelectedShape().setSizeY(shape.getPreviousSizeY());
-            this.shape.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
-            Shape oldShape = this.shape.getStackShape().pop();
-            oldShape.setSizeX(this.shape.getMoveStack().pop());
-            oldShape.setSizeY(this.shape.getMoveStack().pop());
-            oldShape.setXY(this.shape.getMoveStack().pop(), this.shape.getMoveStack().pop());
-
+            Shape oldShape = this.shape.getMemory().popStackShape();
+            oldShape.setSizeX(this.shape.getMemory().popStackDouble());
+            oldShape.setSizeY(this.shape.getMemory().popStackDouble());
+            oldShape.setXY(this.shape.getMemory().popStackDouble(), this.shape.getMemory().popStackDouble());
         }
     }
     

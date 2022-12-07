@@ -30,7 +30,10 @@ public class ToBackCommand implements Command {
 
     @Override
     public void undo() {
-        this.shape.toBack(index);
+        //this.shape.toBack(index);
+        Shape oldShape = this.shape.getMemory().popStackShape();
+        this.shape.getShape().remove(oldShape);
+        this.shape.getShape().add((int)index,oldShape);
         
     }
 

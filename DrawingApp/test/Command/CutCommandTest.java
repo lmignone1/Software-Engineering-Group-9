@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
  */
 package Command;
-
 import Factory.Creator;
 import Shapes.Shape;
 import java.util.ArrayList;
@@ -39,11 +38,13 @@ public class CutCommandTest {
     private GraphicsContext gc;
     private List<ColorPicker> listColor = null;
     
+    private Random r;
+    
     private final int NUM = 10;
     
     public CutCommandTest() {
         vect = new double[100];
-        Random r = new Random();
+        r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
         PrimitiveIterator.OfDouble it = stream.iterator();
@@ -97,6 +98,8 @@ public class CutCommandTest {
     
     @Before
     public void setUp() {
+        selectShape = list.get(r.nextInt(list.size()));
+        selectedShape.setSelectedShape(selectShape);
         instance = new CutCommand(selectedShape);
     }
     
@@ -109,18 +112,26 @@ public class CutCommandTest {
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-        for(int i = 0; i < list.size(); i++){
-            selectShape = list.get(i);
-            selectedShape.setSelectedShape(selectShape);
+        System.out.println("TEST: execute cutCommand");
+        for(int i = 1; i < NUM; i++){
             instance.execute();
             try {
-                assertFalse(list.contains(selectShape));
-                assertEquals(selectShape, selectedShape.getCopyShape());
+                    assertEquals(selectedShape.getCopyShape(),selectedShape.getSelectedShape());
+                    assertFalse(list.contains(selectShape));
+                    assertFalse(selectedShape.getMemory().getStackShape().isEmpty());
+                    assertTrue(selectedShape.getMemory().getStackShape().contains(selectShape));
             } catch(AssertionError ex){
-                fail("The execute failed");
+                fail("ERROR-2: The execute cutCommand failed");
             }
+            if(list.isEmpty()){
+                break;
+            }
+            
+            selectShape = list.get(r.nextInt(list.size()));
+            selectedShape.setSelectedShape(selectShape);
+            instance.execute();
         }
+
     }
 
     /**
@@ -128,21 +139,59 @@ public class CutCommandTest {
      */
     @Test
     public void testUndo() {
-        System.out.println("undo");
-        /*
-        for(int i = 0; i < list.size(); i++) {
-            selectShape = list.get(i);
-            selectedShape.setSelectedShape(selectShape);
+        System.out.println("TEST: Undo cutCommand");
+        
+        for(int i = 0; i < NUM; i++){  
             instance.execute();
             instance.undo();
-            try {
+            try{
                 assertTrue(list.contains(selectShape));
+                assertTrue(selectedShape.getMemory().getStackShape().isEmpty());
+                assertFalse(selectedShape.getMemory().getStackShape().contains(selectShape));
                 assertEquals(null, selectedShape.getCopyShape());
-            } catch(AssertionError ex) {
-                fail("The undo failed");
+            }catch(AssertionError ex){
+                fail("ERROR: The undo of cutCommand failed");
+            }
+            selectShape = list.get(r.nextInt(list.size()));
+            selectedShape.setSelectedShape(selectShape);
+        }
+
+    }
+    
+    /**
+     * Test2 of undo method, of class CutCommand.
+     */
+    @Test
+    public void testUndo2() {
+        System.out.println("TEST2: Undo cutCommand");
+        
+        Shape expShape;
+        
+        for(int i = 0; i < NUM; i++){
+            instance.execute();
+            if(list.isEmpty()){
+                break;
+            }
+            selectShape = list.get(r.nextInt(list.size()));
+            selectedShape.setSelectedShape(selectShape);
+        }
+        
+        assertTrue(list.isEmpty());
+        
+        for(int i = 0; i < NUM; i++){
+            expShape = selectedShape.getMemory().getStackShape().peek();
+            instance.undo();
+            try{
+                assertTrue(list.contains(expShape));
+                assertFalse(selectedShape.getMemory().getStackShape().contains(expShape));
+            }catch(AssertionError ex){
+                fail(" ERROR-2: The undo of cutCommand failed");
             }
         }
-        */
+        assertFalse(list.isEmpty());
+
     }
+    
+    
     
 }

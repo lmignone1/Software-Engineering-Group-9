@@ -25,8 +25,8 @@ public class Invoker {
     }
     public void startUndo(){
     
-        Command command2 = stack.pop();
-        command2.undo();
+        Command command = stack.pop();
+        command.undo();
     
     }
     

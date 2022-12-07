@@ -44,6 +44,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -72,12 +73,11 @@ public class WorkspaceController implements Initializable {
     private GraphicsContext gc;
     private Creator creator;
     public List<Shape> listShape = null;
-    private String oldMod; 
+    private String oldMod;
     private Invoker invoker;
     private Select selectShape;
     private Command command = null;
     private double pastX, pastY;
-    
 
     ContextMenu contextMenu = new ContextMenu();
     MenuItem deleteMenu = new MenuItem("Delete");
@@ -94,7 +94,7 @@ public class WorkspaceController implements Initializable {
     @FXML
     private TextField sizeY;
 
-      //da cambiare 
+    //da cambiare 
     private Select changeShape = null;
     @FXML
     private MenuItem newProjectMenu;
@@ -177,20 +177,19 @@ public class WorkspaceController implements Initializable {
         drawingCanvas.setHeight(pane.getHeight());
         drawingCanvas.setLayoutX(pane.getScaleX());
         drawingCanvas.setLayoutY(pane.getScaleY());
-
+        
     }
 
     @FXML
     private void makeDraw(MouseEvent event) {
 
-
         if (event.isPrimaryButtonDown() && (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse"))) {
-            
+
             if (oldMod != null) {
                 mod = oldMod;
                 oldMod = null;
             }
-            
+
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, selectedFullColour);
             listShape.add(shapeCreated);
             shapeCreated.draw();
@@ -226,14 +225,13 @@ public class WorkspaceController implements Initializable {
         selectedFullColour.setDisable(false);
         sizeY.setDisable(false);
     }
-    private boolean flag=false;
-    
-    private void select(MouseEvent event){
+
+    private void select(MouseEvent event) {
         Iterator<Shape> it = listShape.iterator();
         while (it.hasNext()) {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
-                
+
                 selectShape.setSelectedShape(elem);
                 
             }
@@ -245,6 +243,7 @@ public class WorkspaceController implements Initializable {
             //System.out.println(selectShape.getSelectedShape());//CONTROLLARE QUANDO è NULL
             selectShape.setSelectedShape(null); //PER ESEMPIO COSì MA POI BISOGNA FARE DEI CHECK NEI NELLE VARIE OPERAZIONI
         }
+
         pastX = event.getX();
         pastY = event.getY();
     }
@@ -405,7 +404,7 @@ public class WorkspaceController implements Initializable {
         String x1 = sizeX.getText();
         String y1 = sizeY.getText();
         Double x = new Double(x1);
-        
+
         if (selectShape.getSelectedShape().getType().equals("Line")) {
             command = new ChangeSizeCommand(selectShape, x.doubleValue(), pastX, pastY);
         } else {
@@ -423,5 +422,15 @@ public class WorkspaceController implements Initializable {
         invoker.startUndo();
         drawAll();
     }
-} 
- 
+
+    @FXML
+    private void zoom(ScrollEvent event) {
+        double zoomFactor = 1.05;
+        if (event.getDeltaY() < 0) {
+            zoomFactor = 0.95;
+        }
+        drawingCanvas.setScaleX((drawingCanvas.getScaleX() * zoomFactor));
+        drawingCanvas.setScaleY(drawingCanvas.getScaleY() * zoomFactor);
+        
+    }
+}
