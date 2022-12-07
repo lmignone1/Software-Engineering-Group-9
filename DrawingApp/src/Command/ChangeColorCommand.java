@@ -32,11 +32,11 @@ public class ChangeColorCommand implements Command {
     public void undo() {
 
         if(this.shape.getSelectedShape().getType().equals("Line")){
-           this.shape.getMemory().getStackShape().setLineColor(this.shape.getMemory().getStackColor());
+           this.shape.getMemory().popStackShape().setLineColor(this.shape.getMemory().popStackColor());
         }else{
-            Shape oldShape = this.shape.getMemory().getStackShape();
-            oldShape.setFillColor(this.shape.getMemory().getStackColor());
-            oldShape.setLineColor(this.shape.getMemory().getStackColor());
+            Shape oldShape = this.shape.getMemory().popStackShape();
+            oldShape.setFillColor(this.shape.getMemory().popStackColor());
+            oldShape.setLineColor(this.shape.getMemory().popStackColor());
         }
 
     }

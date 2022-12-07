@@ -60,6 +60,10 @@ public class Select {
     public Memory getMemory() {
         return memory;
     }
+
+    public Shape getPasteShape() {
+        return pasteShape;
+    }
     
     /*
     public void setMemory(Memory memory) {
@@ -74,7 +78,7 @@ public class Select {
         }
         
         this.list.remove(this.selectedShape);
-        this.memory.setStackShape(this.selectedShape);
+        this.memory.addStackShape(this.selectedShape);
     }
 
     public void copy() {
@@ -89,7 +93,7 @@ public class Select {
             this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor(), this.selectedShape.getSizeX(), this.selectedShape.getSizeY());
         }
         
-       this.memory.setStackShape(this.copyShape);
+       this.memory.addStackShape(this.copyShape);
     }
 
 
@@ -106,7 +110,7 @@ public class Select {
             }
         this.pasteShape.setXY(x, y);
         this.list.add(this.pasteShape);
-        this.memory.setStackShape(this.pasteShape);
+        this.memory.addStackShape(this.pasteShape);
     }
 
     public void cut() {
@@ -125,11 +129,11 @@ public class Select {
             return;
         }
 
-        this.memory.setStackDouble(previousY);
-        this.memory.setStackDouble(previousX);
+        this.memory.addStackDouble(previousY);
+        this.memory.addStackDouble(previousX);
         
         this.selectedShape.setXY(newX, newY);
-        this.memory.setStackShape(this.selectedShape);
+        this.memory.addStackShape(this.selectedShape);
     }
 
     public void changeColor(ColorPicker lineColor, ColorPicker fillColor) {
@@ -140,10 +144,10 @@ public class Select {
 
         if (this.selectedShape.getType().equals("Line")) {
             
-            this.memory.setStackColor(this.selectedShape.getLineColor());
+            this.memory.addStackColor(this.selectedShape.getLineColor());
         } else {
-            this.memory.setStackColor(this.selectedShape.getLineColor());
-            this.memory.setStackColor(this.selectedShape.getFillColor());
+            this.memory.addStackColor(this.selectedShape.getLineColor());
+            this.memory.addStackColor(this.selectedShape.getFillColor());
         }
 
         if (this.selectedShape.getType().equals("Line")) {
@@ -153,7 +157,7 @@ public class Select {
             this.selectedShape.setLineColor(lineColor);
             this.selectedShape.setFillColor(fillColor);
         }
-        this.memory.setStackShape(this.selectedShape);
+        this.memory.addStackShape(this.selectedShape);
     }
 
     public void changeSize(double sizeX, double sizeY, double previousX, double previousY) {
@@ -163,15 +167,15 @@ public class Select {
         }
         
         if (this.selectedShape.getType().equals("Line")) {
-            this.memory.setStackDouble(previousY);
-            this.memory.setStackDouble(previousX);
-            this.memory.setStackDouble(this.selectedShape.getSizeX());
+            this.memory.addStackDouble(previousY);
+            this.memory.addStackDouble(previousX);
+            this.memory.addStackDouble(this.selectedShape.getSizeX());
             
         } else {
-            this.memory.setStackDouble(previousY);
-            this.memory.setStackDouble(previousX);
-            this.memory.setStackDouble(this.selectedShape.getSizeY());
-            this.memory.setStackDouble(this.selectedShape.getSizeX());
+            this.memory.addStackDouble(previousY);
+            this.memory.addStackDouble(previousX);
+            this.memory.addStackDouble(this.selectedShape.getSizeY());
+            this.memory.addStackDouble(this.selectedShape.getSizeX());
             
         }
 
@@ -183,6 +187,6 @@ public class Select {
             this.selectedShape.setSizeY(sizeY);
             this.selectedShape.setXY(this.selectedShape.getX(), this.selectedShape.getY());
         }
-        this.memory.setStackShape(this.selectedShape);
+        this.memory.addStackShape(this.selectedShape);
     }
 }

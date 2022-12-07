@@ -121,15 +121,8 @@ public class PasteCommandTest {
     @Before
     public void setUp() {
         selectShape = listShape.get(0);
-        System.out.println(selectShape);
-        selectedShape.setSelectedShape(selectShape);
-        System.out.println(selectedShape.getSelectedShape());
-        if(selectedShape.getSelectedShape().getType().equals("Line")){
-            instance = new PasteCommand(selectedShape,vect[0],vect[1]);
-        }else{
-            instance = new PasteCommand(selectedShape,vect[0]+selectShape.getSizeX()/2,vect[1]+selectShape.getSizeY()/2);
-        }
-        
+        selectedShape.setCopyShape(selectShape);
+        instance = new PasteCommand(selectedShape,vect[0],vect[1]);
     }
     
     @After
@@ -141,47 +134,45 @@ public class PasteCommandTest {
      */
     
     @Test
-    public void testExecute() { //DA RIVEDERE 
-        System.out.println("execute");
-        
-        double expX = vect[0] - selectShape.getSizeX()/2;
-        double expY = vect[1];
+    public void testExecute() {
+       System.out.println("TEST: execute pasteCommand");
 
+       double expX = vect[0] - selectedShape.getCopyShape().getSizeX()/2;
+       double expY;
+       
+       if(selectedShape.getCopyShape().getType().equals("Line")){
+           expY = vect[1];
+       }else{
+           expY = vect[1] - selectedShape.getCopyShape().getSizeY()/2;
+       }
+       
        int count = 2;
        
-       
-       for(int i = 1; i < NUM; i++){
+       for(int i = 0; i < NUM; i++){
 
             instance.execute();
             try{
-
-                assertEquals(expX, selectedShape.getCopyShape().getX(), 0);
-
-                if(!(selectedShape.getCopyShape().getType().equals("Line"))){
-                    assertEquals(expY, selectedShape.getCopyShape().getY(), 0);
-                }
-
-                assertTrue(listShape.contains(selectedShape.getCopyShape()));
-
+                assertEquals(expX, selectedShape.getPasteShape().getX(), 0);
+                assertEquals(expY, selectedShape.getPasteShape().getY(), 0);
+                assertTrue(listShape.contains(selectedShape.getPasteShape()));
+                assertFalse(selectedShape.getMemory().getStackShape().isEmpty());
+                assertTrue(selectedShape.getMemory().getStackShape().contains(selectedShape.getPasteShape()));
 
             }catch(AssertionError ex){
-                fail("The excute of PasteCommand failed");
+                fail("ERROR: The excute of PasteCommand failed");
             }
             
-            System.out.println(selectShape);
             selectShape = listShape.get(i);
-            selectedShape.setSelectedShape(selectShape);
-            System.out.println(selectedShape.getSelectedShape());
-            expX = vect[count+2]; 
-            expY = vect[count+3];
-            count = count + 2;
-
-            if(selectedShape.getSelectedShape().getType().equals("Line")){
-                instance = new PasteCommand(selectedShape,expX+selectShape.getSizeX()/2,expY);
+            selectedShape.setCopyShape(selectShape);
+            instance = new PasteCommand(selectedShape,vect[count+2],vect[count+3]);
+            
+            expX = vect[count+2] - selectedShape.getCopyShape().getSizeX()/2;
+            if(selectedShape.getCopyShape().getType().equals("Line")){
+                expY = vect[count+3];
             }else{
-                instance = new PasteCommand(selectedShape,expX+selectShape.getSizeX()/2,expY+selectShape.getSizeY()/2);
+                expY = vect[count+3] - selectedShape.getCopyShape().getSizeY()/2;
             }
-  
+            count = count + 2;
         }
     }
 
@@ -190,21 +181,60 @@ public class PasteCommandTest {
      */
     @Test
     public void testUndo() {
-        /*System.out.println("undo");
-        for(int i = 0; i < listShape.size(); i++){
-            
+       System.out.println("TEST: Undo pasteCommand");
+                
+       int count = 2;
+       
+       for(int i = 0; i < NUM; i++){
+
             instance.execute();
             instance.undo();
-
             try{
-                assertFalse(listShape.contains(selectShape));
-                
+                assertFalse(listShape.contains(selectedShape.getPasteShape()));
+                assertTrue(selectedShape.getMemory().getStackShape().isEmpty());
+                assertFalse(selectedShape.getMemory().getStackShape().contains(selectedShape.getPasteShape()));
+
             }catch(AssertionError ex){
-                fail("The excute of PasteCommand failed");
+                fail("ERROR: The Undo of PasteCommand failed");
             }
-            selectShape = listShape.get(rand.nextInt(listShape.size()));
-            selectedShape.setSelectedShape(selectShape);
-        }*/
+            
+            selectShape = listShape.get(i);
+            selectedShape.setCopyShape(selectShape);
+            instance = new PasteCommand(selectedShape,vect[count+2],vect[count+3]);
+            
+            count = count + 2;
+        }
+    }
+    
+    /**
+     * Test2 of undo method, of class PasteCommand.
+     */
+    @Test
+    public void testUndo2() {
+       System.out.println("TEST2: Undo pasteCommand");
+        
+       int count = 2;
+        
+       for(int i = 0; i < NUM; i++){
+            selectShape = listShape.get(i);
+            selectedShape.setCopyShape(selectShape);
+            instance = new PasteCommand(selectedShape,vect[count+2],vect[count+3]);
+            instance.execute();
+            count = count + 2;
+       } 
+       
+       for(int i = 0; i < NUM; i++){
+
+            instance.undo();
+            try{
+                assertFalse(listShape.contains(selectedShape.getPasteShape()));
+                assertFalse(selectedShape.getMemory().getStackShape().contains(selectedShape.getPasteShape()));
+
+            }catch(AssertionError ex){
+                fail("ERROR-2: The Undo of PasteCommand failed");
+            }
+            
+        }
     }
     
 }

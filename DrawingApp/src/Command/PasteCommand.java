@@ -26,7 +26,7 @@ public class PasteCommand implements Command {
 
     @Override
     public void undo() {
-        this.shape.getShape().remove(this.shape.getMemory().getStackShape());
+        this.shape.getShape().remove(this.shape.getMemory().popStackShape());
 
     }
     

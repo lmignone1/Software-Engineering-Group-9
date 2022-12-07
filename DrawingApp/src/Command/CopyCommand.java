@@ -26,7 +26,7 @@ public class CopyCommand implements Command {
     @Override
     public void undo() {
         this.shape.setCopyShape(null);
-        this.shape.getMemory().getStackShape();
+        this.shape.getMemory().popStackShape();
     }
 
 }

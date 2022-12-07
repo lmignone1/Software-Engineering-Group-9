@@ -139,7 +139,7 @@ public class CopyCommandTest {
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
+        System.out.println("TEST: execute copyCommand");
         String expType;
         GraphicsContext expGc;
         double expX,expY;
@@ -170,13 +170,15 @@ public class CopyCommandTest {
                 assertEquals(expX,selectedShape.getCopyShape().getX(),0);
                 assertEquals(expY,selectedShape.getCopyShape().getY(),0);
                 assertEquals(expLineColor.getValue(),selectedShape.getCopyShape().getLineColor().getValue());
+                assertFalse(selectedShape.getMemory().getStackShape().isEmpty());
+                assertTrue(selectedShape.getMemory().getStackShape().contains(selectedShape.getCopyShape()));
                 
                 if(!expType.equals("Line")){
                     assertEquals(expFillColor.getValue(),selectedShape.getCopyShape().getFillColor().getValue());
                 }
                 assertNotEquals(selectedShape.getCopyShape(),selectedShape.getSelectedShape());
             }catch(AssertionError ex){
-                fail("The excute of CopyCommand failed");
+                fail("ERROR: The excute of CopyCommand failed");
             }
             selectShape = listShape.get(i);
             selectedShape.setSelectedShape(selectShape);
@@ -188,22 +190,57 @@ public class CopyCommandTest {
      */
     @Test
     public void testUndo() {
-        System.out.println("undo");
-        /*
+        System.out.println("TEST: Undo copyCommand");
+        
         for(int i = 1; i < listShape.size(); i++){
             instance.execute();
             instance.undo();
             try{
                 assertEquals(null,selectedShape.getCopyShape());
                 assertNotEquals(selectedShape.getSelectedShape(),selectedShape.getCopyShape());
+                assertTrue(selectedShape.getMemory().getStackShape().isEmpty());
+                assertFalse(selectedShape.getMemory().getStackShape().contains(selectedShape.getCopyShape()));
+                
             }catch(AssertionError ex){
-                fail("The undo of CopyCommand failed");
+                fail("ERROR: The undo of CopyCommand failed");
             }
-            selectShape = listShape.get(rand.nextInt(listShape.size()));
+            selectShape = listShape.get(i);
             selectedShape.setSelectedShape(selectShape);
         }
-        */
+        
     }
+    
+    /**
+     * Test2 of undo method, of class CopyCommand.
+     */
+    @Test
+    public void testUndo2() {
+        System.out.println("TEST2: Undo copyCommand");
+        
+        Shape expShape;
+        
+        for(int i = 0; i < listShape.size(); i++){
+            instance.execute();
+            selectShape = listShape.get(i);
+            selectedShape.setSelectedShape(selectShape);
+        }
+        
+        for(int i = 0; i < listShape.size(); i++){
+            expShape = selectedShape.getMemory().getStackShape().peek();
+            instance.undo();
+            try{
+                assertEquals(null,selectedShape.getCopyShape());
+                assertFalse(selectedShape.getMemory().getStackShape().contains(expShape));
+                
+            }catch(AssertionError ex){
+                fail("ERROR-2: The undo of CopyCommand failed");
+            }
+        }
+        
+    }
+    
+    
+    
     
     
 }

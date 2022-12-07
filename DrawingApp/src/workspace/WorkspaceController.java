@@ -232,10 +232,12 @@ public class WorkspaceController implements Initializable {
                 initContextMenu();
             }
         }
+        
         if(selectShape.getSelectedShape() == null){
             //System.out.println(selectShape.getSelectedShape());//CONTROLLARE QUANDO è NULL
             selectShape.setSelectedShape(null); //PER ESEMPIO COSì MA POI BISOGNA FARE DEI CHECK NEI NELLE VARIE OPERAZIONI
         }
+        
         pastX = event.getX();
         pastY = event.getY();
     }
