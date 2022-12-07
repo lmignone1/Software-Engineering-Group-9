@@ -44,11 +44,11 @@ public class ConcreteShapeRectangles extends AbstractShape{
     public void setXY(double newX, double newY){
         setX(newX - this.width/2);
         setY(newY - this.height/2);
-        
-        rectangle.setFrame(getX(), getY(), getWidth(), getHeight());
-        point = new Point2D(newX, newY);
+        rectangle.setFrame(getX(), getY(), this.width, this.height);
+        point = new Point2D(getX(), getY());
     }
     
+    /*
     public double getWidth(){
         return this.width;
     }
@@ -56,14 +56,14 @@ public class ConcreteShapeRectangles extends AbstractShape{
     public double getHeight() {
         return this.height;
     }
-
+    */
     @Override
     public void draw(){
         getGraphicsContext().setStroke(getLineColor().getValue());
         getGraphicsContext().setFill(getFillColor().getValue());
         getGraphicsContext().setLineWidth(2);
-        getGraphicsContext().fillRect(getX(), getY(), getWidth(), getHeight());
-        getGraphicsContext().strokeRect(getX(), getY(), getWidth(), getHeight());
+        getGraphicsContext().fillRect(getX(), getY(), this.width, this.height);
+        getGraphicsContext().strokeRect(getX(), getY(), this.width, this.height);
     }
 
     @Override

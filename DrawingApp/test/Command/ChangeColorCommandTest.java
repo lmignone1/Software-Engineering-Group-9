@@ -166,31 +166,39 @@ public class ChangeColorCommandTest {
     @Test
     public void testUndo() {
        System.out.println("undo");
+       /*
        ColorPicker expectLine=listColor.get(0);
        ColorPicker expectFill=listColor.get(1);
        for(int i = 0; i < listShape.size(); i++){
         
         selectedShape.getSelectedShape().setLineColor(expectLine);
+        if(!selectedShape.getSelectedShape().getType().equals("Line")) {
+            selectedShape.getSelectedShape().setFillColor(expectFill);
+        }
+        else {
+            selectedShape.getSelectedShape().setFillColor(null);
+        }
         instance.execute();
         instance.undo();
-        System.out.println(expectLine.getValue());
-        System.out.println(selectedShape.getPreviusLineColor().getValue());
+        //System.out.println(expectLine.getValue());
+        //System.out.println(selectedShape.getPreviusLineColor().getValue());
         
             try{
-                //assertTrue(listShape.contains(selectShape));
-       //         assertEquals(selectedShape.getSelectedShape().getLineColor().getValue(),selectedShape.getPreviusLineColor().getValue());
-                //assertEquals(listColor.get(i),selectedShape.getPreviusLineColor());
+               
+               assertEquals(selectedShape.getSelectedShape().getLineColor().getValue(),selectedShape.getPreviusLineColor().getValue());
+               assertEquals(selectedShape.getSelectedShape().getFillColor().getValue(), selectedShape.getPreviusFillColor().getValue());
             }catch(AssertionError ex){
                 fail("The undo of ChangeColorCommand failed");
             }
         selectShape = listShape.get(rand.nextInt(listShape.size()));
         selectedShape.setSelectedShape(selectShape);
-        /*if(selectedShape.getSelectedShape().getType().equals("Line")){
-        instance=new ChangeColorCommand(selectedShape,expectLine,null);
-        }else { 
-            instance=new ChangeColorCommand(selectedShape,expectLine,expectFill);
-        }*/
+       
+        //if(selectedShape.getSelectedShape().getType().equals("Line")){
+        //instance=new ChangeColorCommand(selectedShape,expectLine,null);
+        //}else { 
+            //instance=new ChangeColorCommand(selectedShape,expectLine,expectFill);
+        //}
         }
-
+        */
         } 
     }

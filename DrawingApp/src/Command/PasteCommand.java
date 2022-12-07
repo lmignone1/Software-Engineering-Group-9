@@ -10,8 +10,8 @@ package Command;
  */
 public class PasteCommand implements Command {
     
-    Select shape;
-    double x, y;
+    private Select shape;
+    private double x, y;
 
     public PasteCommand(Select shape, double x, double y) {
         this.shape = shape;
@@ -26,7 +26,11 @@ public class PasteCommand implements Command {
 
     @Override
     public void undo() {
-        this.shape.getShape().remove(shape.getCopyShape());
+                
+        this.shape.getShape().remove(this.shape.getStackShape().pop());
+        //this.shape.getStackShape().pop();
+        //this.shape.setCopyShape(null);
+        //this.shape.getStackShape().add(this.shape.getCopyShape());
     }
     
 }

@@ -10,7 +10,7 @@ package Command;
  */
 public class CutCommand implements Command{
     
-    Select shape;
+    private Select shape;
 
     public CutCommand(Select shape) {
         this.shape = shape;
@@ -23,7 +23,7 @@ public class CutCommand implements Command{
 
     @Override
     public void undo() {
-        shape.getShape().add(shape.getCopyShape());
-        shape.setCopyShape(null);
+        shape.getShape().add(this.shape.getStackShape().pop());
+       
     }
 }

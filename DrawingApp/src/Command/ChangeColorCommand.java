@@ -4,6 +4,7 @@
  */
 package Command;
 
+import Shapes.Shape;
 import javafx.scene.control.ColorPicker;
 
 /**
@@ -29,8 +30,16 @@ public class ChangeColorCommand implements Command {
 
     @Override
     public void undo() {
-        this.shape.getSelectedShape().setLineColor(this.shape.getPreviusLineColor());
-        this.shape.getSelectedShape().setFillColor(this.shape.getPreviusFillColor());
+
+        if(this.shape.getSelectedShape().getType().equals("Line")){
+           this.shape.getStackShape().pop().setLineColor(this.shape.getColorStack().pop());
+        }else{
+            Shape oldShape = this.shape.getStackShape().pop();
+            oldShape.setFillColor(this.shape.getColorStack().pop());
+            oldShape.setLineColor(this.shape.getColorStack().pop());
+           
+        }
+
     }
     
 }

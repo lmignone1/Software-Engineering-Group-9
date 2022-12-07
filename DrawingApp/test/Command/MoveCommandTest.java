@@ -13,7 +13,6 @@ import java.util.Random;
 import java.util.stream.DoubleStream;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 import org.junit.After;
@@ -34,7 +33,7 @@ public class MoveCommandTest {
     private Select selectedShape;
     private Shape selectShape;
     private List<Shape> listShape;
-    //TEST DELETE COMMAND ATTRIBUTE
+    //TEST MOVE COMMAND ATTRIBUTE
     private JFXPanel panel; 
     private MoveCommand instance;
     //CREATION SHAPE ATTRIBUTE
@@ -142,7 +141,7 @@ public class MoveCommandTest {
     @Test
     public void testExecute() {
         System.out.println("execute");
-                 
+           
             double expectX= vect[0];
             double expectY= vect[1];
             
@@ -181,6 +180,7 @@ public class MoveCommandTest {
         System.out.println("undo");
         
         
+        /*
         for(int i = 0; i < listShape.size(); i++){
            
             instance.previousX=vect[i]+vect[i];
@@ -200,6 +200,7 @@ public class MoveCommandTest {
             selectShape = listShape.get(rand.nextInt(listShape.size()));
             selectedShape.setSelectedShape(selectShape);
         }
+        */
     }
     
 }

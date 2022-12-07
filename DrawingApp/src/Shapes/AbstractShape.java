@@ -13,21 +13,21 @@ import javafx.scene.control.ColorPicker;
  */
 public abstract class AbstractShape implements Shape{
     
-    private ColorPicker LineColor;
+    private ColorPicker lineColor;
     private GraphicsContext gc;
     private double x;
     private double y;
-    private double sizeX;
-    private double sizeY;
+    //private double sizeX;
+    //private double sizeY;
     
     @Override
     public void setLineColor(ColorPicker color){
-        LineColor = new ColorPicker(color.getValue());
+        lineColor = new ColorPicker(color.getValue());
     }
     
     @Override
     public ColorPicker getLineColor(){
-        return LineColor;
+        return lineColor;
     }
     
     @Override
@@ -70,14 +70,10 @@ public abstract class AbstractShape implements Shape{
         return this.y;
     }
     
+    /*
     @Override
     public void setSizeX(double sizeX) {
         this.sizeX = sizeX;
-    }
-    
-    @Override
-    public void setSizeY(double sizeY) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Override
@@ -85,10 +81,17 @@ public abstract class AbstractShape implements Shape{
         return this.sizeX;
     }
     
+    
+    */
+    
+    @Override
+    public void setSizeY(double sizeY) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
     @Override
     public double getSizeY(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }
 

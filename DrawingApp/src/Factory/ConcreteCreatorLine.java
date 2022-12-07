@@ -33,10 +33,9 @@ public class ConcreteCreatorLine extends Creator{
         ConcreteShapeLines line = new ConcreteShapeLines();
         
         line.setGraphicsContext(gc);
+        line.setSizeX(sizeX);
         line.setXY(x, y);
         line.setLineColor(lineColor);
-        line.setSizeX(sizeX);
-        
         
         return line;   
     }  

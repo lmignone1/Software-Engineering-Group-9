@@ -33,11 +33,12 @@ public class ConcreteCreatorEllipse extends Creator {
         ConcreteShapeEllipses ellipse = new ConcreteShapeEllipses();
         
         ellipse.setGraphicsContext(gc);
+        ellipse.setSizeX(sizeX);
+        ellipse.setSizeY(sizeY);
         ellipse.setXY(x, y);
         ellipse.setLineColor(lineColor);
         ellipse.setFillColor(fillColor);
-        ellipse.setSizeX(sizeX);
-        ellipse.setSizeY(sizeY);
+        
         
         return ellipse;   
     }
