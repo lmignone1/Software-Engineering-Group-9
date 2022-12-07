@@ -18,12 +18,12 @@
 <AnchorPane id="AnchorPane" fx:id="pane" onMouseMoved="#resizeCanvas" prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
 
    <children>
-      <BorderPane>
+      <BorderPane prefHeight="1025.6" prefWidth="1400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <Canvas fx:id="drawingCanvas" accessibleRole="PAGE_ITEM" height="1000.0" onMousePressed="#makeDraw" width="1000.0" BorderPane.alignment="CENTER" />
+            <Canvas fx:id="drawingCanvas" accessibleRole="PAGE_ITEM" height="1000.0" onMousePressed="#makeDraw" width="1400.0" BorderPane.alignment="CENTER" />
          </center>
          <top>
-            <MenuBar prefHeight="25.0" prefWidth="1400.0" BorderPane.alignment="CENTER">
+            <MenuBar prefHeight="25.0" BorderPane.alignment="CENTER">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
