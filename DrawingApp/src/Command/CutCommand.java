@@ -10,7 +10,7 @@ package Command;
  */
 public class CutCommand implements Command{
     
-    Select shape;
+    private Select shape;
 
     public CutCommand(Select shape) {
         this.shape = shape;

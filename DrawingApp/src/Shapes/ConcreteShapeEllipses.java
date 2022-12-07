@@ -18,7 +18,6 @@ public class ConcreteShapeEllipses extends AbstractShape{
     private ColorPicker fillColor;
     private double radiusX, radiusY;
     private Point2D point;
-    //private Ellipse2D ellipse = null;
     private Ellipse2D ellipse;
     private final String TYPE;
     
@@ -27,7 +26,6 @@ public class ConcreteShapeEllipses extends AbstractShape{
         this.TYPE = "Ellipse";
         this.radiusX = 150.0;
         this.radiusY = 90.0;
-        //this.point = null;
         this.ellipse = new Ellipse2D.Double();
     }
     
@@ -43,12 +41,12 @@ public class ConcreteShapeEllipses extends AbstractShape{
 
     @Override
     public void setXY(double centerX, double centerY){
-        setX(centerX - this.getRadiusX()/2);
-        setY(centerY - this.getRadiusY()/2);  
-        ellipse.setFrame(getX(), getY(), getRadiusX(), getRadiusY());
+        setX(centerX - this.getSizeX()/2);
+        setY(centerY - this.getSizeY()/2);  
+        ellipse.setFrame(getX(), getY(), this.radiusX, this.radiusY);
         point = new Point2D(getX(), getY());
     }
-
+    /*
     public double getRadiusX(){
         return this.radiusX;
     }
@@ -56,14 +54,14 @@ public class ConcreteShapeEllipses extends AbstractShape{
     public double getRadiusY(){
         return this.radiusY;
     }
-
+    */
     @Override
     public void draw(){
         getGraphicsContext().setStroke(getLineColor().getValue());
         getGraphicsContext().setFill(getFillColor().getValue());
         getGraphicsContext().setLineWidth(3);
-        getGraphicsContext().strokeOval(getX(), getY(), getRadiusX(), getRadiusY());
-        getGraphicsContext().fillOval(getX(), getY(), getRadiusX(), getRadiusY());
+        getGraphicsContext().strokeOval(getX(), getY(), this.radiusX, this.radiusY);
+        getGraphicsContext().fillOval(getX(), getY(), this.radiusX, this.radiusY);
     }
 
     @Override

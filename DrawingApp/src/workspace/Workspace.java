@@ -19,7 +19,7 @@ public class Workspace extends Application {
      */
     
     public static Stage stage;
-    static public Select selectShape;   
+    //static public Select selectShape;   
     public static void main(String[] args) {
         launch(args);
     }

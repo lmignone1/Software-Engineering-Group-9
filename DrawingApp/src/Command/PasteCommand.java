@@ -10,8 +10,8 @@ package Command;
  */
 public class PasteCommand implements Command {
     
-    Select shape;
-    double x, y;
+    private Select shape;
+    private double x, y;
 
     public PasteCommand(Select shape, double x, double y) {
         this.shape = shape;

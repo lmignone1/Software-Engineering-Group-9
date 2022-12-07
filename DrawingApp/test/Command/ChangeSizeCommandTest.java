@@ -4,9 +4,6 @@
  */
 package Command;
 
-import Factory.ConcreteCreatorEllipse;
-import Factory.ConcreteCreatorLine;
-import Factory.ConcreteCreatorRectangle;
 import Factory.Creator;
 import Shapes.Shape;
 import java.util.ArrayList;
@@ -16,7 +13,6 @@ import java.util.Random;
 import java.util.stream.DoubleStream;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 import org.junit.After;
@@ -178,6 +174,7 @@ public class ChangeSizeCommandTest {
     public void testUndo() {
         
         System.out.println("undo");
+        /*
         double prevSY = 0;
         
         
@@ -209,6 +206,7 @@ public class ChangeSizeCommandTest {
             selectShape = listShape.get(rand.nextInt(listShape.size()));
             selectedShape.setSelectedShape(selectShape);
         }
+        */
     }
     
 }

@@ -69,10 +69,10 @@ public class WorkspaceController implements Initializable {
     private String mod;
     private GraphicsContext gc;
     private Creator creator;
-    public List<Shape> shape = null;
+    public List<Shape> listShape = null;
     private String oldMod; 
     private Invoker invoker;
-    private static Select selectShape;
+    private Select selectShape;
     private Command command = null;
     private double pastX, pastY;
     
@@ -112,10 +112,10 @@ public class WorkspaceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         gc = drawingCanvas.getGraphicsContext2D();
         creator = new Creator();
-        shape = new ArrayList<>();
+        listShape = new ArrayList<>();
         invoker = new Invoker();
         pasteMenu.setDisable(true);
-        selectShape = new Select(shape, null);
+        selectShape = new Select(listShape, null);
         oldMod = null;
     }
 
@@ -177,22 +177,21 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private void makeDraw(MouseEvent event) {
-       
-        
+
 
         if (event.isPrimaryButtonDown() && (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse"))) {
-
+            
             if (oldMod != null) {
                 mod = oldMod;
                 oldMod = null;
             }
+            
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, selectedFullColour);
-            shape.add(shapeCreated);
+            listShape.add(shapeCreated);
             shapeCreated.draw();
         }
         if (event.isSecondaryButtonDown()) {
-            select(event);
-
+            select(event);//QUANDO SELEZIONI UNA SECONDA VOLTA LANCIA SEMPRE UN ECCEZIONE Exception in thread "JavaFX Application Thread" java.lang.UnsupportedOperationException
         }
         if (event.isPrimaryButtonDown() && mod.equals("Move")) {
             move(event.getX(), event.getY());
@@ -223,21 +222,26 @@ public class WorkspaceController implements Initializable {
         sizeY.setDisable(false);
     }
 
-    private void select(MouseEvent event) {
-        Iterator<Shape> it = shape.iterator();
+    private void select(MouseEvent event){
+        Iterator<Shape> it = listShape.iterator();
         while (it.hasNext()) {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
+                
                 selectShape.setSelectedShape(elem);
                 initContextMenu();
             }
+        }
+        if(selectShape.getSelectedShape() == null){
+            //System.out.println(selectShape.getSelectedShape());//CONTROLLARE QUANDO è NULL
+            selectShape.setSelectedShape(null); //PER ESEMPIO COSì MA POI BISOGNA FARE DEI CHECK NEI NELLE VARIE OPERAZIONI
         }
         pastX = event.getX();
         pastY = event.getY();
     }
 
     private void drawAll() {
-        Iterator<Shape> it = shape.iterator();
+        Iterator<Shape> it = listShape.iterator();
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
         while (it.hasNext()) {
             Shape elem = it.next();
@@ -268,20 +272,14 @@ public class WorkspaceController implements Initializable {
 
         copyMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the copyMenu item
             public void handle(ActionEvent event) {
-                /*
-            if(mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse")){
-                oldMod = mod;
-            }
-                 */
                 copy();
                 pasteMenu.setDisable(false);
-                //mod = "copy";
+
             }
         });
 
         pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
             public void handle(ActionEvent event) {
-                //move();
                 paste(pastX, pastY);
 
             }
@@ -296,9 +294,7 @@ public class WorkspaceController implements Initializable {
 
         colorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the colorMenu item
             public void handle(ActionEvent event) {
-                changeShape = new Select(shape, selectShape.getSelectedShape());
                 changeColor();
-
             }
         });
 
@@ -354,12 +350,12 @@ public class WorkspaceController implements Initializable {
 
     }
 
-    public void changeSize() {
+    public void changeSize() { //CONTROLLARE QUANDO L'UTENTE NON INSERISCE NULLA NELLE CASELLE DI TESTO DI SIZEX E SIZEY, LANCIA UN ECCEZIONE
         String x1 = sizeX.getText();
         String y1 = sizeY.getText();
         Double x = new Double(x1);
         
-        if (Select.getSelectedShape().getType().equals("Line")) {
+        if (selectShape.getSelectedShape().getType().equals("Line")) {
             command = new ChangeSizeCommand(selectShape, x.doubleValue(), pastX, pastY);
         } else {
             Double y = new Double(y1);

@@ -32,11 +32,11 @@ public class ConcreteCreatorRectangle extends Creator{
         ConcreteShapeRectangles rect = new ConcreteShapeRectangles();
         
         rect.setGraphicsContext(gc);
+        rect.setSizeX(sizeX);
+        rect.setSizeY(sizeY);
         rect.setXY(x, y);
         rect.setLineColor(lineColor);
         rect.setFillColor(fillColor);
-        rect.setSizeX(sizeX);
-        rect.setSizeY(sizeY);
         
         return rect;   
     }

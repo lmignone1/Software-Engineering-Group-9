@@ -12,11 +12,11 @@ package Command;
  */
 public class MoveCommand implements Command {
 
-    Select shape;
-    double previousX;
-    double previousY;
-    double newX;
-    double newY;
+    private Select shape;
+    private double previousX;
+    private double previousY;
+    private double newX;
+    private double newY;
 
     public MoveCommand(Select shape, double newX, double newY, double previousX, double previousY) {
         this.shape = shape;
@@ -34,7 +34,7 @@ public class MoveCommand implements Command {
 
     @Override
     public void undo() {
-        
+
         this.shape.getStackShape().pop().setXY(this.shape.getMoveStack().pop().doubleValue(), this.shape.getMoveStack().pop().doubleValue());
         
         //Select.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());

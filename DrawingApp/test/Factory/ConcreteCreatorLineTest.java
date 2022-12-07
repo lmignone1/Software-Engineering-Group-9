@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
  */
-package Command;
+package Factory;
 
-import Factory.Creator;
 import Shapes.Shape;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,33 +26,28 @@ import static org.junit.Assert.*;
  *
  * @author loren
  */
-public class CutCommandTest {
+public class ConcreteCreatorLineTest {
+
+    private ConcreteCreatorLine instance;
     private JFXPanel panel = new JFXPanel();
-    private CutCommand instance;
-    
-    private Select selectedShape;
-    private Shape selectShape;
-    private List<Shape> list;
-    
     private double[] vect;
+    private List<ColorPicker> listColor;
     private GraphicsContext gc;
-    private List<ColorPicker> listColor = null;
-    
     private final int NUM = 10;
-    
-    public CutCommandTest() {
+
+    public ConcreteCreatorLineTest() {
         vect = new double[100];
         Random r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
         PrimitiveIterator.OfDouble it = stream.iterator();
-        while(count < vect.length && it.hasNext()) {
+        while (count < vect.length && it.hasNext()) {
             vect[count] = it.nextDouble();
             count++;
         }
-        
+
         listColor = new ArrayList<>();
-        
+
         ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
         ColorPicker colorPickerRed = new ColorPicker(Color.RED);
         ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
@@ -62,87 +56,85 @@ public class CutCommandTest {
         ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
         ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
         ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
-        
+
         listColor.add(colorPickerWhite);
-        listColor.add(colorPickerRed); 
+        listColor.add(colorPickerRed);
         listColor.add(colorPickerBlue);
         listColor.add(colorPickerYellow);
         listColor.add(colorPickerOrange);
         listColor.add(colorPickerGreen);
         listColor.add(colorPickerPurple);
         listColor.add(colorPickerBlack);
-        
+
         Canvas canvas = new Canvas(1400, 1000);
         gc = canvas.getGraphicsContext2D();
-        String[] type = {"Line", "Rectangle", "Ellipse"};
-        list = new ArrayList<>();
-        Creator c = new Creator();
-        for(int i = 0; i < NUM; i++){
-            Shape shape = c.createShape(type[r.nextInt(type.length)], gc, vect[r.nextInt(vect.length)], 
-                    vect[r.nextInt(vect.length)],
-                    listColor.get(r.nextInt(listColor.size())),
-                    listColor.get(r.nextInt(listColor.size())));
-            list.add(shape);
-        }
-        selectedShape = new Select(list, null);
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
-        instance = new CutCommand(selectedShape);
+        instance = new ConcreteCreatorLine();
     }
-    
+
     @After
     public void tearDown() {
     }
 
     /**
-     * Test of execute method, of class CutCommand.
+     * Test of createShape method, of class ConcreteCreatorLine.
      */
     @Test
-    public void testExecute() {
-        System.out.println("execute");
-        for(int i = 0; i < list.size(); i++){
-            selectShape = list.get(i);
-            selectedShape.setSelectedShape(selectShape);
-            instance.execute();
+    public void testCreateShape_4args() {
+        System.out.println("createShape");
+        Random r = new Random();
+        for (int i = 0; i < NUM; i++) {
+            double x = vect[r.nextInt(vect.length)];
+            double y = vect[r.nextInt(vect.length)];
+            ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
+            Shape result = instance.createShape(gc, x, y, lineColor);
             try {
-                assertFalse(list.contains(selectShape));
-                assertEquals(selectShape, selectedShape.getCopyShape());
-            } catch(AssertionError ex){
-                fail("The execute failed");
+                assertNotNull(result);
+                assertEquals(gc, result.getGraphicsContext());
+                assertEquals(lineColor.getValue(), result.getLineColor().getValue());
+                assertEquals(x - 100.0 / 2, result.getX(), 0);
+                assertEquals(y, result.getY(), 0);
+            } catch (AssertionError ex) {
+                fail("The createShape failed");
             }
         }
     }
 
     /**
-     * Test of undo method, of class CutCommand.
+     * Test of createShape method, of class ConcreteCreatorLine.
      */
     @Test
-    public void testUndo() {
-        System.out.println("undo");
-        /*
-        for(int i = 0; i < list.size(); i++) {
-            selectShape = list.get(i);
-            selectedShape.setSelectedShape(selectShape);
-            instance.execute();
-            instance.undo();
+    public void testCreateShape_5args() {
+        System.out.println("createShape");
+        Random r = new Random();
+        for (int i = 0; i < NUM; i++) {
+            double x = vect[r.nextInt(vect.length)];
+            double y = vect[r.nextInt(vect.length)];
+            double sizeX = vect[r.nextInt(vect.length)];
+            ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
+            Shape result = instance.createShape(gc, x, y, lineColor, sizeX);
             try {
-                assertTrue(list.contains(selectShape));
-                assertEquals(null, selectedShape.getCopyShape());
-            } catch(AssertionError ex) {
-                fail("The undo failed");
+                assertNotNull(result);
+                assertEquals(gc, result.getGraphicsContext());
+                assertEquals(lineColor.getValue(), result.getLineColor().getValue());
+                assertEquals(x - sizeX / 2, result.getX(), 0);
+                assertEquals(y, result.getY(), 0);
+                assertEquals(sizeX, result.getSizeX(), 0);
+            } catch (AssertionError ex) {
+                fail("The createShape failed");
             }
         }
-        */
     }
-    
+
 }

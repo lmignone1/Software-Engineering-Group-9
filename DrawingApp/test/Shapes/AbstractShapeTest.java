@@ -27,12 +27,13 @@ import static org.junit.Assert.*;
  * @author Acer
  */
 public class AbstractShapeTest {
+
     private AbstractShapeImpl instance;
     private JFXPanel panel = new JFXPanel();
     private double[] vect = null;
     private double[] vect2 = null;
     private List<ColorPicker> listColor = null;
-    
+
     public AbstractShapeTest() {
         vect = new double[100];
         vect2 = new double[100];
@@ -40,18 +41,17 @@ public class AbstractShapeTest {
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
         PrimitiveIterator.OfDouble it = stream.iterator();
-        while(count < 2*vect.length && it.hasNext()) {
+        while (count < 2 * vect.length && it.hasNext()) {
             if (count < vect.length) {
                 vect[count] = it.nextDouble();
-            }
-            else {
-                vect2[count-vect.length] = it.nextDouble();
+            } else {
+                vect2[count - vect.length] = it.nextDouble();
             }
             count++;
         }
-        
+
         listColor = new ArrayList<>();
-        
+
         ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
         ColorPicker colorPickerRed = new ColorPicker(Color.RED);
         ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
@@ -60,31 +60,31 @@ public class AbstractShapeTest {
         ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
         ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
         ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
-        
+
         listColor.add(colorPickerWhite);
-        listColor.add(colorPickerRed); 
+        listColor.add(colorPickerRed);
         listColor.add(colorPickerBlue);
         listColor.add(colorPickerYellow);
         listColor.add(colorPickerOrange);
         listColor.add(colorPickerGreen);
         listColor.add(colorPickerPurple);
         listColor.add(colorPickerBlack);
-        
+
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
-    instance= new AbstractShapeImpl();
+        instance = new AbstractShapeImpl();
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -94,25 +94,18 @@ public class AbstractShapeTest {
      */
     @Test
     public void testSetLineColor() {
-         System.out.println("testSetLineColor");
-        
-        List<ColorPicker> listColorDefault = new ArrayList<>();
-        
-        for(int i = 0;i < 8; i++){
-            listColorDefault.add(instance.getLineColor());
-        }
-           
-       try{
-           
-           for(int i = 0; i < listColor.size(); i++){
-               instance.setLineColor(listColor.get(i));
-               assertNotEquals(listColorDefault.get(i),instance.getLineColor()); 
-               assertEquals(listColor.get(i).getValue(),instance.getLineColor().getValue()); 
-           }
-           
-       } catch (AssertionError ex){
+        System.out.println("testSetLineColor");
+        try {
+            for (int i = 0; i < listColor.size(); i++) {
+                ColorPicker currentColor = instance.getLineColor();
+                instance.setLineColor(listColor.get(i));
+                assertNotEquals(currentColor, instance.getLineColor());
+                assertEquals(listColor.get(i).getValue(), instance.getLineColor().getValue());
+            }
+
+        } catch (AssertionError ex) {
             fail("The setLineColor failed");
-       }
+        }
     }
 
     /**
@@ -120,18 +113,16 @@ public class AbstractShapeTest {
      */
     @Test
     public void testGetLineColor() {
-        System.out.println("getLineColor"); 
+        System.out.println("getLineColor");
         try {
-            for(int i = 0;i < listColor.size(); i++){
+            for (int i = 0; i < listColor.size(); i++) {
                 ColorPicker expResult = listColor.get(i);
                 instance.setLineColor(expResult);
                 ColorPicker result = instance.getLineColor();
-                
                 assertNotNull(result);
                 assertEquals(expResult.getValue(), result.getValue());
             }
-        }
-        catch (AssertionError ex) {
+        } catch (AssertionError ex) {
             fail("The getLineColor failed");
         }
     }
@@ -147,7 +138,7 @@ public class AbstractShapeTest {
         instance.setGraphicsContext(gc);
         try {
             assertNotEquals(null, instance.getGraphicsContext());
-            assertEquals(gc,instance.getGraphicsContext());
+            assertEquals(gc, instance.getGraphicsContext());
         } catch (AssertionError ex) {
             fail("The setGraphicsContext failed");
         }
@@ -176,16 +167,15 @@ public class AbstractShapeTest {
      */
     @Test
     public void testSetX() {
-         System.out.println("setX");
-        double currentX=instance.getX();
-        double[] X= vect;
-      
-        
+        System.out.println("setX");
+        double[] x = vect;
+
         try {
-            for(int i=0;i<vect.length;i++){
-            instance.setX(X[i]);
-            assertNotEquals(currentX, instance.getX());
-            assertEquals(X[i], instance.getX(),0);
+            for (int i = 0; i < vect.length; i++) {
+                double currentX = instance.getX();
+                instance.setX(x[i]);
+                assertNotEquals(currentX, instance.getX());
+                assertEquals(x[i], instance.getX(), 0);
             }
         } catch (AssertionError ex) {
             fail("The setX failed");
@@ -200,14 +190,13 @@ public class AbstractShapeTest {
         System.out.println("getX");
         double[] expResult = vect;
         try {
-            for(int i = 0;i<vect.length;i++){
-        instance.setX(expResult[i]);
-        double result = instance.getX();
-        assertNotNull(result);
-        assertEquals(expResult[i], result, 0);
+            for (int i = 0; i < vect.length; i++) {
+                instance.setX(expResult[i]);
+                double result = instance.getX();
+                assertNotNull(result);
+                assertEquals(expResult[i], result, 0);
             }
-        }
-        catch (AssertionError ex) {
+        } catch (AssertionError ex) {
             fail("The getX failed");
         }
     }
@@ -218,15 +207,14 @@ public class AbstractShapeTest {
     @Test
     public void testSetY() {
         System.out.println("setY");
-        double currentY=instance.getY();
-        double[] Y= vect;
-      
-        
+        double currentY = instance.getY();
+        double[] y = vect;
+
         try {
-            for(int i=0;i<vect.length;i++){
-            instance.setY(Y[i]);
-            assertNotEquals(currentY, instance.getY());
-            assertEquals(Y[i], instance.getY(),0);
+            for (int i = 0; i < vect.length; i++) {
+                instance.setY(y[i]);
+                assertNotEquals(currentY, instance.getY());
+                assertEquals(y[i], instance.getY(), 0);
             }
         } catch (AssertionError ex) {
             fail("The setY failed");
@@ -241,19 +229,59 @@ public class AbstractShapeTest {
         System.out.println("getY");
         double[] expResult = vect;
         try {
-            for(int i = 0;i<vect.length;i++){
-        instance.setY(expResult[i]);
-        double result = instance.getY();
-        assertNotNull(result);
-        assertEquals(expResult[i], result, 0);
+            for (int i = 0; i < vect.length; i++) {
+                instance.setY(expResult[i]);
+                double result = instance.getY();
+                assertNotNull(result);
+                assertEquals(expResult[i], result, 0);
             }
-        }
-        catch (AssertionError ex) {
+        } catch (AssertionError ex) {
             fail("The getY failed");
         }
     }
-        
-    public class AbstractShapeImpl extends AbstractShape{
+
+    /*
+    /**
+     * Test of SetSizeX method, of class AbstractShape.
+     *//*
+    @Test
+    public void testSetSizeX() {
+        System.out.println("setSizeX");
+        double currentSizeX = instance.getSizeX();
+        double[] sizeX = vect;
+        try {
+            for (int i = 0; i < vect.length; i++) {
+                instance.setSizeX(sizeX[i]);
+                assertNotEquals(currentSizeX, instance.getSizeX());
+                assertEquals(sizeX[i], instance.getSizeX(), 0);
+            }
+        } catch (AssertionError ex) {
+            fail("The setSizeX failed");
+        }
+    }
+    
+    
+    /**
+     * Test of getSizeX method, of class AbstractShape.
+     *//*
+    @Test
+    public void testGetSizeX() {
+        System.out.println("getSizeX");
+        double[] expResult = vect;
+        try {
+            for (int i = 0; i < vect.length; i++) {
+                instance.setSizeX(expResult[i]);
+                double result = instance.getSizeX();
+                assertNotNull(result);
+                assertEquals(expResult[i], result, 0);
+            }
+        } catch (AssertionError ex) {
+            fail("The getSizeX failed");
+        }
+    }
+     */
+
+    public class AbstractShapeImpl extends AbstractShape {
 
         @Override
         public void setXY(double newX, double newY) {
@@ -280,8 +308,16 @@ public class AbstractShapeTest {
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
 
-        
-       
+        @Override
+        public void setSizeX(double sizeX) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public double getSizeX() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
     }
-    
+
 }

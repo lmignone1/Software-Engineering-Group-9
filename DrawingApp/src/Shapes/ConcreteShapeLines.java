@@ -13,8 +13,8 @@ import javafx.geometry.Point2D;
  * @author Acer
  */
 
-public  class ConcreteShapeLines extends AbstractShape{
-    private double length, lengthY;
+public class ConcreteShapeLines extends AbstractShape{
+    private double length;
     private Line2D line;
     private Point2D point;
     private double endX, endY;
@@ -24,9 +24,6 @@ public  class ConcreteShapeLines extends AbstractShape{
         this.TYPE = "Line";
         this.length = 100.0;
         this.line = new Line2D.Double();
-        //point = null;
-        //this.endX = 0.0;
-        //this.endY = 0.0;
     }
 
     @Override
@@ -52,7 +49,7 @@ public  class ConcreteShapeLines extends AbstractShape{
 
     @Override
     public boolean containsPoint(double x, double y) {
-        return line.intersects(x, y, 5.0, 5.0);
+        return line.intersects(x, y, 6.0, 6.0);
     }
 
     public double getEndX() {
@@ -85,6 +82,7 @@ public  class ConcreteShapeLines extends AbstractShape{
     public double getSizeX() {
         return this.length;
     }
+
 }
 
 

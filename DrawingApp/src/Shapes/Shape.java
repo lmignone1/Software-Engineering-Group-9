@@ -20,17 +20,17 @@ public interface Shape {
     public void setLineColor(ColorPicker color);
     public ColorPicker getLineColor();
     public void setFillColor(ColorPicker color);
-    public ColorPicker getFillColor();
+    public ColorPicker getFillColor(); 
     public void setX(double newX);
     public double getX();
     public void setY(double newY);
     public double getY();
-    public void draw();
+    public void draw();                
     public boolean containsPoint(double x, double y);
-    public Point2D getPoint();
-    public String getType();
+    public Point2D getPoint();       
+    public String getType();         
     public void setSizeX(double sizeX);
     public void setSizeY(double sizeY);
-    public double getSizeX();
-    public double getSizeY();
+    public double getSizeX();  
+    public double getSizeY(); 
 }

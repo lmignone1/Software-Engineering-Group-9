@@ -8,11 +8,6 @@ import Factory.Creator;
 import Shapes.Shape;
 import java.util.List;
 import java.util.Stack;
-import javafx.geometry.Point2D;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.effect.Light.Point;
-import javafx.scene.paint.Color;
-import static javafx.scene.paint.Color.color;
 
 import javafx.scene.control.ColorPicker;
 
@@ -23,7 +18,7 @@ import javafx.scene.control.ColorPicker;
 public class Select {
 
     private List<Shape> list;
-    private static Shape selectedShape;
+    private Shape selectedShape;
     private Shape copyShape;
     private Shape changeShape;
     private Creator creator = new Creator();
@@ -34,12 +29,14 @@ public class Select {
     private Stack<Shape> stackShape;
     private Shape pasteShape;
     private Stack<Double> moveStack;
+    private Stack<ColorPicker> colorStack;
 
-    public Select(List<Shape> shape, Shape selectedShape) {
-        this.list = shape;
-        Select.selectedShape = selectedShape;
+    public Select(List<Shape> listShape, Shape selectedShape) {
+        this.list = listShape;
+        this.selectedShape = selectedShape;
         this.stackShape = new Stack<>();
         this.moveStack = new Stack<>();
+        this.colorStack = new Stack<>();
     }
 
     public List<Shape> getShape() {
@@ -52,12 +49,12 @@ public class Select {
     }
     */
     
-    public static Shape getSelectedShape() {
+    public Shape getSelectedShape() {
         return selectedShape;
     }
 
-    public static void setSelectedShape(Shape selectedShape) {
-        Select.selectedShape = selectedShape;
+    public void setSelectedShape(Shape selectedShape) {
+        this.selectedShape = selectedShape;
     }
 
     public Shape getCopyShape() {
@@ -131,18 +128,27 @@ public class Select {
     public void setMoveStack(Stack<Double> moveStack) {
         this.moveStack = moveStack;
     }
+
+    public Stack<ColorPicker> getColorStack() {
+        return colorStack;
+    }
+
+    public void setColorStack(Stack<ColorPicker> colorStack) {
+        this.colorStack = colorStack;
+    }
     
     public void delete() {
-        list.remove(Select.selectedShape);
-        stackShape.add(Select.selectedShape);
+        list.remove(this.selectedShape);
+       
+        stackShape.add(this.selectedShape);
     }
 
     public void copy() {
 
-        if (Select.getSelectedShape().getType().equals("Line")) {
-            this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), Select.selectedShape.getX(), Select.selectedShape.getY(), Select.selectedShape.getLineColor(), null, Select.selectedShape.getSizeX(), 0);
+        if (this.getSelectedShape().getType().equals("Line")) {
+            this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), null, this.selectedShape.getSizeX(), 0);
         } else {
-            this.copyShape = creator.createShape(Select.selectedShape.getType(), Select.selectedShape.getGraphicsContext(), Select.selectedShape.getX(), Select.selectedShape.getY(), Select.selectedShape.getLineColor(), Select.selectedShape.getFillColor(), Select.selectedShape.getSizeX(), Select.selectedShape.getSizeY());
+            this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor(), this.selectedShape.getSizeX(), this.selectedShape.getSizeY());
         }
         
         this.stackShape.add(this.copyShape);
@@ -163,7 +169,7 @@ public class Select {
     }
 
     public void cut() {
-        this.copyShape = Select.selectedShape;
+        this.copyShape = this.selectedShape;
         delete();
     }
 
@@ -171,53 +177,70 @@ public class Select {
         setPreviousX(previousX);
         setPreviousY(previousY);
         
-        Double provaX = new Double(previousX);
+        //cambiare nome di provaX e provaY
+        Double provaX = new Double(previousX); 
         Double provaY = new Double(previousY);
         
         
         this.moveStack.add(provaY);
         this.moveStack.add(provaX);
         
-        selectedShape.setXY(newX, newY);
-        this.stackShape.add(selectedShape);
+        this.selectedShape.setXY(newX, newY);
+        this.stackShape.add(this.selectedShape);
     }
 
     public void changeColor(ColorPicker lineColor, ColorPicker fillColor) {
 
-        if (Select.selectedShape.getType().equals("Line")) {
-            setPreviusLineColor(Select.selectedShape.getLineColor());
+        if (this.selectedShape.getType().equals("Line")) {
+            setPreviusLineColor(this.selectedShape.getLineColor());
+            
+            this.colorStack.add(this.selectedShape.getLineColor());
         } else {
-            setPreviusLineColor(Select.selectedShape.getLineColor());
-            setPreviusFillColor(Select.selectedShape.getFillColor());
+            setPreviusLineColor(this.selectedShape.getLineColor());
+            setPreviusFillColor(this.selectedShape.getFillColor());
+            
+            
+            this.colorStack.add(this.selectedShape.getLineColor());
+            this.colorStack.add(this.selectedShape.getFillColor());
         }
 
-        if (Select.selectedShape.getType().equals("Line")) {
-            Select.selectedShape.setLineColor(lineColor);
+        if (this.selectedShape.getType().equals("Line")) {
+            this.selectedShape.setLineColor(lineColor);
+            
         } else {
-            Select.selectedShape.setLineColor(lineColor);
-            Select.selectedShape.setFillColor(fillColor);
+            this.selectedShape.setLineColor(lineColor);
+            this.selectedShape.setFillColor(fillColor);
         }
+        this.stackShape.add(this.selectedShape);
     }
 
     public void changeSize(double sizeX, double sizeY, double previousX, double previousY) {
-        if (Select.selectedShape.getType().equals("Line")) {
-            setPreviousSizeX(Select.selectedShape.getSizeX());
+        if (this.selectedShape.getType().equals("Line")) {
+            setPreviousSizeX(this.selectedShape.getSizeX());
             setPreviousX(previousX);
             setPreviousY(previousY);
+            this.moveStack.add(previousY);
+            this.moveStack.add(previousX);
+            this.moveStack.add(this.selectedShape.getSizeX());
         } else {
-            setPreviousSizeX(Select.selectedShape.getSizeX());
-            setPreviousSizeY(Select.selectedShape.getSizeY());
+            setPreviousSizeX(this.selectedShape.getSizeX());
+            setPreviousSizeY(this.selectedShape.getSizeY());
             setPreviousX(previousX);
             setPreviousY(previousY);
+            this.moveStack.add(previousY);
+            this.moveStack.add(previousX);
+            this.moveStack.add(this.selectedShape.getSizeY());
+            this.moveStack.add(this.selectedShape.getSizeX());
         }
 
-        if (Select.selectedShape.getType().equals("Line")) {
-            Select.selectedShape.setSizeX(sizeX);
-            Select.selectedShape.setXY(Select.selectedShape.getX(), Select.selectedShape.getY());
+        if (this.selectedShape.getType().equals("Line")) {
+            this.selectedShape.setSizeX(sizeX);
+            this.selectedShape.setXY(this.selectedShape.getX(), this.selectedShape.getY());
         } else {
-            Select.selectedShape.setSizeX(sizeX);
-            Select.selectedShape.setSizeY(sizeY);
-            Select.selectedShape.setXY(Select.selectedShape.getX(), Select.selectedShape.getY());
+            this.selectedShape.setSizeX(sizeX);
+            this.selectedShape.setSizeY(sizeY);
+            this.selectedShape.setXY(this.selectedShape.getX(), this.selectedShape.getY());
         }
+        this.stackShape.add(this.selectedShape);
     }
 }

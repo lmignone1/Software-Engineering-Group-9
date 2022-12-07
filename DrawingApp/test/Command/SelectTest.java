@@ -32,7 +32,7 @@ public class SelectTest {
     private JFXPanel panel = new JFXPanel();
     private Select instance;
     private List<Shape> list;
-    private static Shape selectShape;
+    private Shape selectShape;
 
     private double[] vect;
     private GraphicsContext gc;

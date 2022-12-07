@@ -4,13 +4,15 @@
  */
 package Command;
 
+import Shapes.Shape;
+
 /**
  *
  * @author artem
  */
 public class ChangeSizeCommand implements Command {
     
-    Select shape;
+    private Select shape;
     double sizeX, sizeY;
     double previousX, previousY;
 
@@ -38,13 +40,21 @@ public class ChangeSizeCommand implements Command {
     @Override
     public void undo() {
         if (this.shape.getSelectedShape().getType().equals("Line")){
-            this.shape.getSelectedShape().setSizeX(shape.getPreviousSizeX());
-            Select.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
+            //this.shape.getSelectedShape().setSizeX(shape.getPreviousSizeX());
+            //this.shape.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
+            Shape oldShape = this.shape.getStackShape().pop();
+            oldShape.setSizeX(this.shape.getMoveStack().pop());
+            oldShape.setXY(this.shape.getMoveStack().pop(), this.shape.getMoveStack().pop());
         }
         else{
             this.shape.getSelectedShape().setSizeX(shape.getPreviousSizeX());
             this.shape.getSelectedShape().setSizeY(shape.getPreviousSizeY());
-            Select.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
+            this.shape.getSelectedShape().setXY(this.shape.getPreviousX(), this.shape.getPreviousY());
+            Shape oldShape = this.shape.getStackShape().pop();
+            oldShape.setSizeX(this.shape.getMoveStack().pop());
+            oldShape.setSizeY(this.shape.getMoveStack().pop());
+            oldShape.setXY(this.shape.getMoveStack().pop(), this.shape.getMoveStack().pop());
+
         }
     }
     
