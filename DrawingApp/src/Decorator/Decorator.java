@@ -17,16 +17,21 @@ public class Decorator implements Component {
     public void execute(){
         this.component.execute();
     }
-    
-    /*@Override
-    public Canvas getCanvas(){
+
+    @Override
+    public Canvas getCanvas() {
         return component.getCanvas();
     }
-    
+
     @Override
-    public AnchorPane getPane(){
-        return component.getPane();
-    }*/
+    public void setGridSizeInput(int size) {
+        component.setGridSizeInput(size);    
+    }
+
+    @Override
+    public int getGridSizeInput() {
+        return component.getGridSizeInput();
+    }
     
 
 }

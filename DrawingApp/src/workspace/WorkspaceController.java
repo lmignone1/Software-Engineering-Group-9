@@ -14,6 +14,11 @@ import Command.Invoker;
 import Command.MoveCommand;
 import Command.PasteCommand;
 import Command.Select;
+import Decorator.Component;
+import Decorator.ConcreteComponent;
+import Decorator.GridDecorator;
+import Command.ToBackCommand;
+import Command.ToFrontCommand;
 import Factory.Creator;
 import Shapes.Shape;
 import java.io.File;
@@ -35,6 +40,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -44,6 +50,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -85,6 +92,8 @@ public class WorkspaceController implements Initializable {
     MenuItem cutMenu = new MenuItem("Cut");
     MenuItem colorMenu = new MenuItem("Change colour");
     MenuItem sizeMenu = new MenuItem("Change size");
+    MenuItem toFrontMenu = new MenuItem("To Front");
+    MenuItem toBackMenu = new MenuItem("To Back");
     @FXML
     private TextField sizeX;
     @FXML
@@ -98,12 +107,13 @@ public class WorkspaceController implements Initializable {
     private MenuItem loadProjectMenu;
     @FXML
     private MenuItem saveProjectMenu;
+    
+    private Component component;
+    private Component gridDecorator;
     @FXML
-    private MenuItem lineSegmentMenu;
+    private Button zoom;
     @FXML
-    private MenuItem rectangleMenu;
-    @FXML
-    private MenuItem ellipseMenu;
+    private TextField gridSize;
 
     /**
      * Initializes the controller class.
@@ -117,6 +127,9 @@ public class WorkspaceController implements Initializable {
         pasteMenu.setDisable(true);
         selectShape = new Select(listShape, null);
         oldMod = null;
+        
+        component = new ConcreteComponent(drawingCanvas);
+        gridDecorator = new GridDecorator(component);
     }
 
     private void loadWindow(String location, String title) throws IOException { //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -168,10 +181,14 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private void resizeCanvas(MouseEvent event) {
-        drawingCanvas.setWidth(pane.getWidth());
-        drawingCanvas.setHeight(pane.getHeight());
-        drawingCanvas.setLayoutX(pane.getScaleX());
-        drawingCanvas.setLayoutY(pane.getScaleY());
+        if(pane.getWidth() != 800){
+            drawingCanvas.setWidth(pane.getWidth());
+            drawingCanvas.setHeight(pane.getHeight());
+            drawingCanvas.setLayoutX(pane.getScaleX());
+            drawingCanvas.setLayoutY(pane.getScaleY());
+            System.out.println("heiii");
+        }
+        
 
     }
 
@@ -200,27 +217,6 @@ public class WorkspaceController implements Initializable {
 
     }
 
-    @FXML
-    private void lineSegment(ActionEvent event) {
-        mod = "Line";
-        selectedFullColour.setDisable(true);
-        sizeY.setDisable(true);
-    }
-
-    @FXML
-    private void rectangle(ActionEvent event) {
-        mod = "Rectangle";
-        selectedFullColour.setDisable(false);
-        sizeY.setDisable(false);
-    }
-
-    @FXML
-    private void ellipse(ActionEvent event) {
-        mod = "Ellipse";
-        selectedFullColour.setDisable(false);
-        sizeY.setDisable(false);
-    }
-
     private void select(MouseEvent event) {
         Iterator<Shape> it = listShape.iterator();
         while (it.hasNext()) {
@@ -228,11 +224,13 @@ public class WorkspaceController implements Initializable {
             if (elem.containsPoint(event.getX(), event.getY())) {
 
                 selectShape.setSelectedShape(elem);
-                initContextMenu();
+                
             }
         }
-
-        if (selectShape.getSelectedShape() == null) {
+       
+        
+        initContextMenu();
+        if(selectShape.getSelectedShape() == null){
             //System.out.println(selectShape.getSelectedShape());//CONTROLLARE QUANDO è NULL
             selectShape.setSelectedShape(null); //PER ESEMPIO COSì MA POI BISOGNA FARE DEI CHECK NEI NELLE VARIE OPERAZIONI
         }
@@ -240,7 +238,14 @@ public class WorkspaceController implements Initializable {
         pastX = event.getX();
         pastY = event.getY();
     }
-
+   /* private void sel(){
+           
+            toFront(listShape.indexOf(selectShape.getSelectedShape()),listShape.size());
+            
+        }
+    private void desel(){
+        toFront(previousPosition,previousPosition);
+    }*/
     private void drawAll() {
         Iterator<Shape> it = listShape.iterator();
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
@@ -248,12 +253,49 @@ public class WorkspaceController implements Initializable {
             Shape elem = it.next();
             elem.draw();
         }
+    }private int previousPosition;
+    @FXML
+    private void sel(MouseEvent event){
+        
+        if(selectShape.getSelectedShape().containsPoint(event.getX(), event.getY())){
+            listShape.add(listShape.size()-1,selectShape.getSelectedShape() );
+        }
+            
+        
+    }      
+   
+    
+    
+    @FXML
+    private void rectangle(MouseEvent event) {
+        mod = "Rectangle";
+        selectedFullColour.setDisable(false);
+        sizeY.setDisable(false);
+    }
+
+    @FXML
+    private void lineSegment(MouseEvent event) {
+        mod = "Line";
+        selectedFullColour.setDisable(true);
+        sizeY.setDisable(true);
+    }
+
+    @FXML
+    private void ellipse(MouseEvent event) {
+        mod = "Ellipse";
+        selectedFullColour.setDisable(false);
+        sizeY.setDisable(false);
     }
 
     private void initContextMenu() {
-        contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu);
+        contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu, toFrontMenu, toBackMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
-
+      /* contextMenu.showingProperty().addListener((observable, oldValue, newValue) -> {
+        if(newValue==false&&flag==true){
+        
+        flag=false;
+        }
+    });*/
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
             public void handle(ActionEvent event) {
                 delete();
@@ -305,9 +347,30 @@ public class WorkspaceController implements Initializable {
 
             }
         });
+        toFrontMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
+            public void handle(ActionEvent event) {
+                toFront(listShape.indexOf(selectShape.getSelectedShape()),listShape.size());
+            }
+        });
+        toBackMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
+            public void handle(ActionEvent event) {
+                toBack(listShape.indexOf(selectShape.getSelectedShape()));
+            }
+        });
+    }
+   public void toFront(double index,double size){
+        command = new ToFrontCommand(selectShape, index, size);
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll();
+    }
+    public void toBack(double index){
+        command = new ToBackCommand(selectShape, index);
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll();
 
     }
-
     public void delete() {
         command = new DeleteCommand(selectShape);
         invoker.setCommand(command);
@@ -382,5 +445,30 @@ public class WorkspaceController implements Initializable {
         }
         drawingCanvas.setScaleX((drawingCanvas.getScaleX() * zoomFactor));
         drawingCanvas.setScaleY(drawingCanvas.getScaleY() * zoomFactor);
+        
     }
+    
+    @FXML
+    private void enableGrid(ActionEvent event) {
+        
+        Iterator<Shape> it = listShape.iterator();
+        
+        String g = gridSize.getText();
+        Integer grid = new Integer(g);
+        component.setGridSizeInput(grid.intValue());
+        gridDecorator.execute();
+        System.out.println(grid.intValue());
+        
+        while (it.hasNext()) {
+            Shape elem = it.next();
+            elem.draw();
+        }
+    }
+
+    @FXML
+    private void disableGrid(ActionEvent event) {
+        gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
+        drawAll();
+    }
+
 }

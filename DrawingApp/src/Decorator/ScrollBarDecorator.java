@@ -22,8 +22,7 @@ public class ScrollBarDecorator extends Decorator {
     
     @Override
     public void execute(){
-        super.execute();
-        setScrollBar();
+        
     }
     
     private void setScrollBar(){

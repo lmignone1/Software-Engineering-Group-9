@@ -80,7 +80,7 @@ public class Select {
         this.list.remove(this.selectedShape);
         this.memory.addStackShape(this.selectedShape);
     }
-
+    
     public void copy() {
         
         if(this.selectedShape == null){
@@ -188,5 +188,20 @@ public class Select {
             this.selectedShape.setXY(this.selectedShape.getX(), this.selectedShape.getY());
         }
         this.memory.addStackShape(this.selectedShape);
+    }
+   /* public void toFront(){
+        selectedShape.setToFront();
+    }*/
+
+   public void toFront(double index) {
+        list.remove(selectedShape);
+        list.add((int)index-1,selectedShape);
+        this.memory.addStackShape(selectedShape);
+    }
+
+   public void toBack(double index) {
+        list.remove(selectedShape);
+        list.add((int)index,selectedShape);
+        this.memory.addStackShape(selectedShape);
     }
 }

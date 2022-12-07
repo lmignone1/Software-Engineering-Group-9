@@ -31,6 +31,7 @@ public interface Shape {
     public String getType();         
     public void setSizeX(double sizeX);
     public void setSizeY(double sizeY);
-    public double getSizeX();  
-    public double getSizeY(); 
+    public double getSizeX();
+    public double getSizeY();
+    
 }
