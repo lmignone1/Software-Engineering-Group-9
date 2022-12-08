@@ -19,6 +19,9 @@ import Decorator.ConcreteComponent;
 import Decorator.GridDecorator;
 import Command.ToBackCommand;
 import Command.ToFrontCommand;
+import Decorator.BorderPaneComponent;
+import Decorator.ConcreteBorderPane;
+import Decorator.ScrollBarsBorderPane;
 import Factory.Creator;
 import Shapes.Shape;
 import java.io.File;
@@ -44,16 +47,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
 
 /**
@@ -114,10 +122,18 @@ public class WorkspaceController implements Initializable {
     private Button zoom;
     @FXML
     private TextField gridSize;
-
+    @FXML
+    private BorderPane borderPane;
+    
+    public BorderPaneComponent componentBorderPane;
+    
     /**
      * Initializes the controller class.
      */
+    
+
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         gc = drawingCanvas.getGraphicsContext2D();
@@ -127,6 +143,11 @@ public class WorkspaceController implements Initializable {
         pasteMenu.setDisable(true);
         selectShape = new Select(listShape, null);
         oldMod = null;
+        
+        //scrollPane.setContent(drawingCanvas);
+        componentBorderPane = new ScrollBarsBorderPane(new ConcreteBorderPane(borderPane),drawingCanvas);
+        //borderPane.setCenter(scrollPane);
+
         
         component = new ConcreteComponent(drawingCanvas);
         gridDecorator = new GridDecorator(component);
@@ -178,19 +199,31 @@ public class WorkspaceController implements Initializable {
             }
         }
     }
+    
 
+    
     @FXML
     private void resizeCanvas(MouseEvent event) {
-        if(pane.getWidth() != 800){
-            drawingCanvas.setWidth(pane.getWidth());
-            drawingCanvas.setHeight(pane.getHeight());
-            drawingCanvas.setLayoutX(pane.getScaleX());
-            drawingCanvas.setLayoutY(pane.getScaleY());
-            System.out.println("heiii");
-        }
         
 
+
+        /*
+        if(pane.getWidth() < 800 && pane.getHeight() < 600){
+            //drawingCanvas.setWidth(pane.getWidth());
+            //drawingCanvas.setHeight(pane.getHeight());
+            //System.out.println(componentBorderPane.test());
+            componentBorderPane.addProperty();
+            //drawingCanvas.setLayoutX(pane.getScaleX());
+            //drawingCanvas.setLayoutY(pane.getScaleY());
+            //drawAll();
+           
+              
+       }
+        */
+        
+        
     }
+
 
     @FXML
     private void makeDraw(MouseEvent event) {
@@ -253,15 +286,13 @@ public class WorkspaceController implements Initializable {
             Shape elem = it.next();
             elem.draw();
         }
-    }private int previousPosition;
-    @FXML
+    }
+    private int previousPosition;
     private void sel(MouseEvent event){
         
         if(selectShape.getSelectedShape().containsPoint(event.getX(), event.getY())){
             listShape.add(listShape.size()-1,selectShape.getSelectedShape() );
-        }
-            
-        
+        }  
     }      
    
     
@@ -296,6 +327,9 @@ public class WorkspaceController implements Initializable {
         flag=false;
         }
     });*/
+      
+
+      
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
             public void handle(ActionEvent event) {
                 delete();
