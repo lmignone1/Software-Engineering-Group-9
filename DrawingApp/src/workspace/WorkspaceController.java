@@ -58,6 +58,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -90,6 +91,7 @@ public class WorkspaceController implements Initializable {
     private Select selectShape;
     private Command command = null;
     private double pastX, pastY;
+    private Scale scale;
 
     ContextMenu contextMenu = new ContextMenu();
     MenuItem deleteMenu = new MenuItem("Delete");
@@ -137,6 +139,8 @@ public class WorkspaceController implements Initializable {
 
         component = new ConcreteComponent(drawingCanvas);
         gridDecorator = new GridDecorator(component);
+        scale = new Scale();
+        drawingCanvas.getTransforms().add(scale);
     }
 
     private void loadWindow(String location, String title) throws IOException { //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -460,6 +464,30 @@ public class WorkspaceController implements Initializable {
     private void zoom(ScrollEvent event) {
         double zoomFactor = 1.05;
         double wheel = event.getDeltaY();
+        double currentScaleX = scale.getX();
+        double currentScaleY = scale.getY();
+        
+        if (wheel < 0) {
+            zoomFactor = 0.95;
+        }
+ 
+        if (currentScaleX >= 1.0) {
+            if (currentScaleX == 1.0 && wheel < 0) {
+                return;
+            }
+            scale.setX(currentScaleX * zoomFactor);
+            scale.setY(currentScaleY * zoomFactor);
+        } else {
+            scale.setX(1.0);
+            scale.setY(1.0);
+        }
+        
+        scale.setPivotX(event.getX());
+        scale.setPivotY(event.getY());
+
+        /*
+        double zoomFactor = 1.05;
+        double wheel = event.getDeltaY();
         if (wheel < 0) {
             zoomFactor = 0.95;
         }
@@ -475,6 +503,7 @@ public class WorkspaceController implements Initializable {
             drawingCanvas.setScaleX(1.0);
             drawingCanvas.setScaleY(1.0);
         }
+        */
     }
 
     @FXML
