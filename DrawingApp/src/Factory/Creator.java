@@ -30,6 +30,9 @@ public class Creator {
         if(mode.equals("Ellipse")){
             shape = ConcreteCreatorEllipse.createShape(gc, x, y, lineColor, fillColor);
         }
+        if(mode.equals("Text")){
+            shape = ConcreteCreatorText.createShape(gc, x, y, lineColor, fillColor);
+        }
         
         return shape;
     }
@@ -46,6 +49,9 @@ public class Creator {
         }
         if(mode.equals("Ellipse")){
             shape = ConcreteCreatorEllipse.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY);
+        }
+        if(mode.equals("Text")){
+            shape = ConcreteCreatorText.createShape(gc, x, y, lineColor, fillColor);
         }
         
         return shape;
@@ -64,16 +70,6 @@ public class Creator {
         if(mode.equals("Ellipse")){
             shape = ConcreteCreatorEllipse.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY);
         }
-        if(mode.equals("Text")){
-            shape = ConcreteCreatorText.createShape(gc, x, y, lineColor, fillColor, string);
-        }
-        
-        return shape;
-    }
-
-    public Shape createShape(String mode, GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, String string) {
-        Shape shape = null;
-        
         if(mode.equals("Text")){
             shape = ConcreteCreatorText.createShape(gc, x, y, lineColor, fillColor, string);
         }

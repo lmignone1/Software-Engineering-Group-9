@@ -275,7 +275,7 @@ public class WorkspaceController implements Initializable {
                 oldMod = null;
             }
 
-            Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, textPicker, text.getText());
+            Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, textPicker, 10, 10, text.getText());
             listShape.add(shapeCreated);
             shapeCreated.draw();
         }

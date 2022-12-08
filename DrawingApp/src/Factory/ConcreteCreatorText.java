@@ -27,4 +27,15 @@ public class ConcreteCreatorText extends Creator{
         
         return text;   
     }
+
+    static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor) {
+        ConcreteText text = new ConcreteText();
+        
+        text.setGraphicsContext(gc);
+        text.setXY(x, y);
+        text.setLineColor(lineColor);
+        text.setFillColor(fillColor);
+        
+        return text;
+    }
 }

@@ -90,7 +90,7 @@ public class ConcreteCreatorTextTest {
      * Test of createShape method, of class ConcreteCreatorText.
      */
     @Test
-    public void testCreateShape() {
+    public void testCreateShape_6args() {
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
@@ -116,6 +116,32 @@ public class ConcreteCreatorTextTest {
                 assertEquals(lineColor.getValue(), result.getLineColor().getValue());
                 assertEquals(fillColor.getValue(), result.getFillColor().getValue());
                 assertEquals(generatedString, result.getText());
+            } catch (AssertionError ex) {
+                fail("The createShape failed");
+            }
+        }
+    }
+
+    /**
+     * Test of createShape method, of class ConcreteCreatorText.
+     */
+    @Test
+    public void testCreateShape_5args() {
+        System.out.println("createShape");
+        Random r = new Random();
+        for (int i = 0; i < NUM; i++) {
+            double x = vect[r.nextInt(vect.length)];
+            double y = vect[r.nextInt(vect.length)];
+            ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
+            ColorPicker fillColor = listColor.get(r.nextInt(listColor.size()));
+            Shape result = instance.createShape(gc, x, y, lineColor, fillColor);
+            try {
+                assertNotNull(result);
+                assertEquals(gc, result.getGraphicsContext());
+                assertEquals(lineColor.getValue(), result.getLineColor().getValue());
+                assertEquals(fillColor.getValue(), result.getFillColor().getValue());
+                assertEquals(x - 30.0 / 2, result.getX(), 0);
+                assertEquals(y - 0.1 / 2, result.getY(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }
