@@ -99,6 +99,16 @@ public abstract class AbstractShape implements Shape{
         return x + " " + y + " " + lineColor.getValue();
     }
     
+    @Override
+    public void setText(String string){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public String getText(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
     
 }
 

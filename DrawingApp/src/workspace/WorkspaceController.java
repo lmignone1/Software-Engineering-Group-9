@@ -131,17 +131,19 @@ public class WorkspaceController implements Initializable {
     private Button zoom;
     @FXML
     private TextField gridSize;
-    @FXML
     private BorderPane borderPane;
     
     public static BorderPaneComponent componentBorderPane;
+    @FXML
+    private TextField text;
+    @FXML
+    private ColorPicker textPicker;
+    @FXML
+    private Button textButton;
     
     /**
      * Initializes the controller class.
      */
-    
-
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -157,11 +159,12 @@ public class WorkspaceController implements Initializable {
         componentBorderPane = new ScrollBarsBorderPane(new ConcreteBorderPane(borderPane),drawingCanvas);
         //borderPane.setCenter(scrollPane);
 
-        
+        gridSize.setText("50");
         component = new ConcreteComponent(drawingCanvas);
         gridDecorator = new GridDecorator(component);
         scale = new Scale();
         drawingCanvas.getTransforms().add(scale);
+        textPicker.setValue(Color.BLACK);
     }
    
     private void loadWindow(String location, String title) throws IOException { //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -262,6 +265,17 @@ public class WorkspaceController implements Initializable {
             }
 
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, selectedFullColour);
+            listShape.add(shapeCreated);
+            shapeCreated.draw();
+        }
+        else if (event.isPrimaryButtonDown() && mod.equals("Text")){
+            
+            if (oldMod != null) {
+                mod = oldMod;
+                oldMod = null;
+            }
+
+            Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, textPicker, text.getText());
             listShape.add(shapeCreated);
             shapeCreated.draw();
         }
@@ -569,6 +583,11 @@ public class WorkspaceController implements Initializable {
     private void disableGrid(ActionEvent event) {
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
         drawAll();
+    }
+
+    @FXML
+    private void addText(ActionEvent event) {
+        mod = "Text";
     }
 
 }
