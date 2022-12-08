@@ -459,12 +459,22 @@ public class WorkspaceController implements Initializable {
     @FXML
     private void zoom(ScrollEvent event) {
         double zoomFactor = 1.05;
-        if (event.getDeltaY() < 0) {
+        double wheel = event.getDeltaY();
+        if (wheel < 0) {
             zoomFactor = 0.95;
         }
-        drawingCanvas.setScaleX((drawingCanvas.getScaleX() * zoomFactor));
-        drawingCanvas.setScaleY(drawingCanvas.getScaleY() * zoomFactor);
-
+        double currentScaleX = drawingCanvas.getScaleX();
+        double currentScaleY = drawingCanvas.getScaleY();
+        if (currentScaleX >= 1.0) {
+            if (currentScaleX == 1.0 && wheel < 0) {
+                return;
+            }
+            drawingCanvas.setScaleX(currentScaleX * zoomFactor);
+            drawingCanvas.setScaleY(currentScaleY * zoomFactor);
+        } else {
+            drawingCanvas.setScaleX(1.0);
+            drawingCanvas.setScaleY(1.0);
+        }
     }
 
     @FXML
