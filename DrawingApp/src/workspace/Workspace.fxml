@@ -23,20 +23,24 @@
 <?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane id="AnchorPane" fx:id="pane" onMouseMoved="#resizeCanvas" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
+
    <children>
       <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <Canvas fx:id="drawingCanvas" accessibleRole="PAGE_ITEM" height="600.0" onMousePressed="#makeDraw" onScroll="#zoom" width="800.0" BorderPane.alignment="CENTER" />
+         </center>
          <top>
             <ToolBar prefHeight="36.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-               <items>
+              <items>
                   <MenuBar prefHeight="25.0">
-                     <menus>
-                        <Menu mnemonicParsing="false" text="File">
-                           <items>
+                    <menus>
+                      <Menu mnemonicParsing="false" text="File">
+                        <items>
                               <MenuItem fx:id="newProjectMenu" mnemonicParsing="false" onAction="#newProject" text="New project" />
-                              <MenuItem fx:id="loadProjectMenu" mnemonicParsing="false" onAction="#loadProject" text="Load project" />
+                          <MenuItem fx:id="loadProjectMenu" mnemonicParsing="false" onAction="#loadProject" text="Load project" />
                               <MenuItem fx:id="saveProjectMenu" mnemonicParsing="false" onAction="#saveProject" text="Save project" />
-                           </items>
-                        </Menu>
+                        </items>
+                      </Menu>
                         <Menu mnemonicParsing="false" text="Colour">
                            <items>
                               <MenuItem mnemonicParsing="false" text="Contour colour">
@@ -56,8 +60,8 @@
                            </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Size">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="Size X">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Size X">
                                  <graphic>
                                     <TextField fx:id="sizeX" />
                                  </graphic>
@@ -67,15 +71,14 @@
                                     <TextField fx:id="sizeY" />
                                  </graphic>
                               </MenuItem>
-                           </items>
+                          </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Grid">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="Grid size">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Grid size">
                                  <graphic>
                                     <TextField fx:id="gridSize" />
-                                 </graphic>
-                              </MenuItem>
+                                 </graphic></MenuItem>
                               <MenuItem mnemonicParsing="false">
                                  <graphic>
                                     <Button mnemonicParsing="false" onAction="#enableGrid" text="Enable grid" />
@@ -86,9 +89,9 @@
                                     <Button mnemonicParsing="false" onAction="#disableGrid" text="Disable grid" />
                                  </graphic>
                               </MenuItem>
-                           </items>
+                          </items>
                         </Menu>
-                     </menus>
+                    </menus>
                   </MenuBar>
                   <HBox prefHeight="70.0" prefWidth="474.0">
                      <children>
@@ -107,7 +110,7 @@
                               <Insets right="10.0" top="15.0" />
                            </HBox.margin>
                         </Ellipse>
-                        <Button mnemonicParsing="false" onAction="#undoCommand" text="Undo">
+                      <Button mnemonicParsing="false" onAction="#undoCommand" text="Undo">
                            <HBox.margin>
                               <Insets bottom="20.0" top="20.0" />
                            </HBox.margin>
@@ -119,12 +122,9 @@
                         </Button>
                      </children>
                   </HBox>
-               </items>
+              </items>
             </ToolBar>
          </top>
-         <center>
-            <Canvas fx:id="drawingCanvas" accessibleRole="PAGE_ITEM" height="800.0" onMousePressed="#makeDraw" onScroll="#zoom" width="1200.0" BorderPane.alignment="CENTER" />
-         </center>
       </BorderPane>
    </children>
 </AnchorPane>

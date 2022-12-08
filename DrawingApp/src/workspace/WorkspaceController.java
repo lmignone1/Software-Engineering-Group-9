@@ -134,7 +134,7 @@ public class WorkspaceController implements Initializable {
     @FXML
     private BorderPane borderPane;
     
-    public BorderPaneComponent componentBorderPane;
+    public static BorderPaneComponent componentBorderPane;
     
     /**
      * Initializes the controller class.
@@ -163,7 +163,7 @@ public class WorkspaceController implements Initializable {
         scale = new Scale();
         drawingCanvas.getTransforms().add(scale);
     }
-
+   
     private void loadWindow(String location, String title) throws IOException { //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
         Parent root = FXMLLoader.load(getClass().getResource(location));
         Scene scene = new Scene(root);
@@ -226,19 +226,26 @@ public class WorkspaceController implements Initializable {
     
     @FXML
     private void resizeCanvas(MouseEvent event) {
-
+        
+        if(pane.getWidth() > 800 && pane.getHeight() > 600){
+            drawingCanvas.setWidth(pane.getWidth());
+            drawingCanvas.setHeight(pane.getHeight());
+             //drawAll();
+        }
+        
         /*
         if(pane.getWidth() < 800 && pane.getHeight() < 600){
-            //drawingCanvas.setWidth(pane.getWidth());
-            //drawingCanvas.setHeight(pane.getHeight());
+
             //System.out.println(componentBorderPane.test());
             componentBorderPane.addProperty();
+            //drawAll();
             //drawingCanvas.setLayoutX(pane.getScaleX());
             //drawingCanvas.setLayoutY(pane.getScaleY());
-            //drawAll();
+            //
               
        }
         */
+       
         
         
     }
@@ -309,7 +316,6 @@ public class WorkspaceController implements Initializable {
     private int previousPosition;
 
 
-    @FXML
     private void sel(MouseEvent event) {
 
         if (selectShape.getSelectedShape().containsPoint(event.getX(), event.getY())) {

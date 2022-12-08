@@ -6,6 +6,7 @@ package Decorator;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
 /**
  *
@@ -33,6 +34,8 @@ public class ScrollBarsBorderPane extends DecoratorBorderPane {
     private void setScrollBars() {
         scrollPane = new ScrollPane();
         scrollPane.setContent(this.canvas);
+        scrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
         borderPane.getBorderPane().setCenter(scrollPane); 
     }
    
