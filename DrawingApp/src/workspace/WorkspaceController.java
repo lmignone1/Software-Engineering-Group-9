@@ -24,8 +24,13 @@ import Decorator.ConcreteBorderPane;
 import Decorator.ScrollBarsBorderPane;
 import Factory.Creator;
 import Shapes.Shape;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -33,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -58,6 +65,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -91,6 +99,7 @@ public class WorkspaceController implements Initializable {
     private Select selectShape;
     private Command command = null;
     private double pastX, pastY;
+    private Scale scale;
 
     ContextMenu contextMenu = new ContextMenu();
     MenuItem deleteMenu = new MenuItem("Delete");
@@ -115,7 +124,7 @@ public class WorkspaceController implements Initializable {
     private MenuItem loadProjectMenu;
     @FXML
     private MenuItem saveProjectMenu;
-    
+
     private Component component;
     private Component gridDecorator;
     @FXML
@@ -151,6 +160,8 @@ public class WorkspaceController implements Initializable {
         
         component = new ConcreteComponent(drawingCanvas);
         gridDecorator = new GridDecorator(component);
+        scale = new Scale();
+        drawingCanvas.getTransforms().add(scale);
     }
 
     private void loadWindow(String location, String title) throws IOException { //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
@@ -169,18 +180,30 @@ public class WorkspaceController implements Initializable {
     }
 
     @FXML
-    private void loadProject(ActionEvent event) { //metodo per aprire un progetto esistente
+    private void loadProject(ActionEvent event) throws IOException { //metodo per aprire un progetto esistente
         FileChooser openFile = new FileChooser();
         openFile.setTitle("Open File");
         File file = openFile.showOpenDialog(Workspace.stage);
-        if (file != null) {
+        FileReader f = null;
+        BufferedReader b = null;
+        if (file != null)
             try {
-                InputStream io = new FileInputStream(file);
-                Image img = new Image(io);
-                drawingCanvas.getGraphicsContext2D().drawImage(img, 0, 0);
-            } catch (IOException ex) {
-                System.out.println("Error!");
+            f = new FileReader(file.getAbsolutePath());
+            b = new BufferedReader(f);
+            while (true) {
+                String line = b.readLine();
+                String[] split = line.split(" ");
+                Shape s = Creator.createShape(split[0], gc, Double.parseDouble(split[1]), Double.parseDouble(split[2]),
+                        new ColorPicker(Color.valueOf(split[3])), new ColorPicker(Color.valueOf(split[4])),
+                        Double.parseDouble(split[5]), Double.parseDouble(split[6]));
+                s.draw();
+                listShape.add(s);
             }
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error");
+        } catch (NullPointerException e2) {
+            f.close();
+            b.close();
         }
     }
 
@@ -189,13 +212,12 @@ public class WorkspaceController implements Initializable {
         FileChooser save = new FileChooser();
         save.setTitle("Save Image");
         File file = save.showSaveDialog(Workspace.stage);
+
         if (file != null) {
-            try {
-                WritableImage image = new WritableImage(1400, 1000); //empty image
-                drawingCanvas.snapshot(null, image); //screenshot saved in the image
-                ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);  // save an image after that the image object has been converted from a javafx image 
-            } catch (IOException e) {
-                System.out.println("Error");
+            try ( FileWriter f = new FileWriter(file.getAbsolutePath() + ".txt")) {
+                for (Shape elem : listShape) {
+                    f.write(elem.toString() + "\n");
+                }
             }
         }
     }
@@ -204,8 +226,6 @@ public class WorkspaceController implements Initializable {
     
     @FXML
     private void resizeCanvas(MouseEvent event) {
-        
-
 
         /*
         if(pane.getWidth() < 800 && pane.getHeight() < 600){
@@ -216,7 +236,6 @@ public class WorkspaceController implements Initializable {
             //drawingCanvas.setLayoutX(pane.getScaleX());
             //drawingCanvas.setLayoutY(pane.getScaleY());
             //drawAll();
-           
               
        }
         */
@@ -257,13 +276,12 @@ public class WorkspaceController implements Initializable {
             if (elem.containsPoint(event.getX(), event.getY())) {
 
                 selectShape.setSelectedShape(elem);
-                
+
             }
         }
-       
-        
+
         initContextMenu();
-        if(selectShape.getSelectedShape() == null){
+        if (selectShape.getSelectedShape() == null) {
             //System.out.println(selectShape.getSelectedShape());//CONTROLLARE QUANDO è NULL
             selectShape.setSelectedShape(null); //PER ESEMPIO COSì MA POI BISOGNA FARE DEI CHECK NEI NELLE VARIE OPERAZIONI
         }
@@ -271,7 +289,8 @@ public class WorkspaceController implements Initializable {
         pastX = event.getX();
         pastY = event.getY();
     }
-   /* private void sel(){
+
+    /* private void sel(){
            
             toFront(listShape.indexOf(selectShape.getSelectedShape()),listShape.size());
             
@@ -288,15 +307,18 @@ public class WorkspaceController implements Initializable {
         }
     }
     private int previousPosition;
-    private void sel(MouseEvent event){
-        
-        if(selectShape.getSelectedShape().containsPoint(event.getX(), event.getY())){
-            listShape.add(listShape.size()-1,selectShape.getSelectedShape() );
-        }  
-    }      
-   
-    
-    
+
+
+    @FXML
+    private void sel(MouseEvent event) {
+
+        if (selectShape.getSelectedShape().containsPoint(event.getX(), event.getY())) {
+            listShape.add(listShape.size() - 1, selectShape.getSelectedShape());
+        }
+
+    }
+
+
     @FXML
     private void rectangle(MouseEvent event) {
         mod = "Rectangle";
@@ -321,7 +343,7 @@ public class WorkspaceController implements Initializable {
     private void initContextMenu() {
         contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu, toFrontMenu, toBackMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
-      /* contextMenu.showingProperty().addListener((observable, oldValue, newValue) -> {
+        /* contextMenu.showingProperty().addListener((observable, oldValue, newValue) -> {
         if(newValue==false&&flag==true){
         
         flag=false;
@@ -383,7 +405,7 @@ public class WorkspaceController implements Initializable {
         });
         toFrontMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
-                toFront(listShape.indexOf(selectShape.getSelectedShape()),listShape.size());
+                toFront(listShape.indexOf(selectShape.getSelectedShape()), listShape.size());
             }
         });
         toBackMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
@@ -392,19 +414,22 @@ public class WorkspaceController implements Initializable {
             }
         });
     }
-   public void toFront(double index,double size){
+
+    public void toFront(double index, double size) {
         command = new ToFrontCommand(selectShape, index, size);
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
     }
-    public void toBack(double index){
+
+    public void toBack(double index) {
         command = new ToBackCommand(selectShape, index);
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
 
     }
+
     public void delete() {
         command = new DeleteCommand(selectShape);
         invoker.setCommand(command);
@@ -474,25 +499,60 @@ public class WorkspaceController implements Initializable {
     @FXML
     private void zoom(ScrollEvent event) {
         double zoomFactor = 1.05;
-        if (event.getDeltaY() < 0) {
+        double wheel = event.getDeltaY();
+        double currentScaleX = scale.getX();
+        double currentScaleY = scale.getY();
+        
+        if (wheel < 0) {
             zoomFactor = 0.95;
         }
-        drawingCanvas.setScaleX((drawingCanvas.getScaleX() * zoomFactor));
-        drawingCanvas.setScaleY(drawingCanvas.getScaleY() * zoomFactor);
+ 
+        if (currentScaleX >= 1.0) {
+            if (currentScaleX == 1.0 && wheel < 0) {
+                return;
+            }
+            scale.setX(currentScaleX * zoomFactor);
+            scale.setY(currentScaleY * zoomFactor);
+        } else {
+            scale.setX(1.0);
+            scale.setY(1.0);
+        }
         
+        scale.setPivotX(event.getX());
+        scale.setPivotY(event.getY());
+
+        /*
+        double zoomFactor = 1.05;
+        double wheel = event.getDeltaY();
+        if (wheel < 0) {
+            zoomFactor = 0.95;
+        }
+        double currentScaleX = drawingCanvas.getScaleX();
+        double currentScaleY = drawingCanvas.getScaleY();
+        if (currentScaleX >= 1.0) {
+            if (currentScaleX == 1.0 && wheel < 0) {
+                return;
+            }
+            drawingCanvas.setScaleX(currentScaleX * zoomFactor);
+            drawingCanvas.setScaleY(currentScaleY * zoomFactor);
+        } else {
+            drawingCanvas.setScaleX(1.0);
+            drawingCanvas.setScaleY(1.0);
+        }
+        */
     }
-    
+
     @FXML
     private void enableGrid(ActionEvent event) {
-        
+
         Iterator<Shape> it = listShape.iterator();
-        
+
         String g = gridSize.getText();
         Integer grid = new Integer(g);
         component.setGridSizeInput(grid.intValue());
         gridDecorator.execute();
         System.out.println(grid.intValue());
-        
+
         while (it.hasNext()) {
             Shape elem = it.next();
             elem.draw();

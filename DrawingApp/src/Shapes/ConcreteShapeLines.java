@@ -7,6 +7,7 @@ package Shapes;
 
 import java.awt.geom.Line2D;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -81,6 +82,11 @@ public class ConcreteShapeLines extends AbstractShape{
     @Override
     public double getSizeX() {
         return this.length;
+    }
+
+    @Override
+    public String toString() {
+        return TYPE + " " + super.toString() + " " + Color.WHITE + " " + length + " " + "0.0";
     }
 
 }
