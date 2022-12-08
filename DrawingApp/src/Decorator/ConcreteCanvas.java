@@ -14,13 +14,13 @@ import javafx.scene.layout.AnchorPane;
  */
 
 //rappresenta la canvas: oggetto che deve essere decorato
-public class ConcreteComponent implements Component {
+public class ConcreteCanvas implements CanvasComponent {
     
     Canvas canvas;
     int gridSize;
     
 
-    public ConcreteComponent(Canvas canvas) {
+    public ConcreteCanvas(Canvas canvas) {
         this.canvas = canvas;
     }
 
@@ -31,7 +31,6 @@ public class ConcreteComponent implements Component {
 
     @Override
     public void execute() {
-        System.out.println("Concrete component");
     }
 
     @Override

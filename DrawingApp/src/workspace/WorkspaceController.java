@@ -14,8 +14,7 @@ import Command.Invoker;
 import Command.MoveCommand;
 import Command.PasteCommand;
 import Command.Select;
-import Decorator.Component;
-import Decorator.ConcreteComponent;
+import Decorator.ConcreteCanvas;
 import Decorator.GridDecorator;
 import Command.ToBackCommand;
 import Command.ToFrontCommand;
@@ -71,6 +70,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
+import Decorator.CanvasComponent;
 
 /**
  * FXML Controller class
@@ -125,8 +125,8 @@ public class WorkspaceController implements Initializable {
     @FXML
     private MenuItem saveProjectMenu;
 
-    private Component component;
-    private Component gridDecorator;
+    private CanvasComponent component;
+    private CanvasComponent gridDecorator;
     @FXML
     private Button zoom;
     @FXML
@@ -160,7 +160,7 @@ public class WorkspaceController implements Initializable {
         //borderPane.setCenter(scrollPane);
 
         gridSize.setText("50");
-        component = new ConcreteComponent(drawingCanvas);
+        component = new ConcreteCanvas(drawingCanvas);
         gridDecorator = new GridDecorator(component);
         scale = new Scale();
         drawingCanvas.getTransforms().add(scale);

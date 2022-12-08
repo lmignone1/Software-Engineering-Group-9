@@ -17,10 +17,10 @@ import javafx.scene.paint.Color;
  *
  * @author artem
  */
-public class GridDecorator extends Decorator {
+public class GridDecorator extends DecoratorCanvas {
     //int gridSize;
     
-    public GridDecorator(Component component){
+    public GridDecorator(CanvasComponent component){
         super(component);
     }
     
