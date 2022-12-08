@@ -99,4 +99,8 @@ public class ConcreteShapeEllipses extends AbstractShape{
         return this.radiusY;
     }
 
+    @Override
+    public String toString() {
+        return TYPE + " " + super.toString() + " " + fillColor.getValue() + " " + radiusX + " " + radiusY;
+    }
 }

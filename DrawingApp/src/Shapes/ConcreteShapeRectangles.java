@@ -100,5 +100,11 @@ public class ConcreteShapeRectangles extends AbstractShape{
     public double getSizeY() {
         return this.height;
     }
+
+    @Override
+    public String toString() {
+        return TYPE + " " + super.toString() + " " + fillColor.getValue() + " " + width + " " + height;
+    }
+    
     
 }
