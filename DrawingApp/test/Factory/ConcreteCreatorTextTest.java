@@ -140,7 +140,7 @@ public class ConcreteCreatorTextTest {
                 assertEquals(gc, result.getGraphicsContext());
                 assertEquals(lineColor.getValue(), result.getLineColor().getValue());
                 assertEquals(fillColor.getValue(), result.getFillColor().getValue());
-                assertEquals(x - 30.0 / 2, result.getX(), 0);
+                assertEquals(x - 50.0 / 2, result.getX(), 0);
                 assertEquals(y - 0.1 / 2, result.getY(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");

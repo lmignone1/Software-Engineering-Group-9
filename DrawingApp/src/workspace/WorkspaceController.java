@@ -380,7 +380,7 @@ public class WorkspaceController implements Initializable {
 
         moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
             public void handle(ActionEvent event) {
-                if (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse")) {
+                if (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse") || mod.equals("Text")) {
                     oldMod = mod;
                 }
 
@@ -486,7 +486,12 @@ public class WorkspaceController implements Initializable {
     }
 
     public void changeColor() {
-        command = new ChangeColorCommand(selectShape, selectedContourColour, selectedFullColour);
+        if(selectShape.getSelectedShape().getType().equals("Text")){
+            command = new ChangeColorCommand(selectShape, selectShape.getSelectedShape().getLineColor(), textPicker);
+        }
+        else {
+            command = new ChangeColorCommand(selectShape, selectedContourColour, selectedFullColour);
+        }
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();

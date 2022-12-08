@@ -142,7 +142,7 @@ public class ConcreteTextTest {
             try {
                 assertNotEquals(currentX, instance.getX());
                 assertNotEquals(currentY, instance.getY());
-                assertEquals(x[i] - 30.0 / 2, instance.getX(), 0);
+                assertEquals(x[i] - 50.0 / 2, instance.getX(), 0);
                 assertEquals(y[i] - 0.1 / 2, instance.getY(), 0);
             } catch (AssertionError ex) {
                 fail("The setXY failed");
@@ -163,7 +163,7 @@ public class ConcreteTextTest {
         instance.setGraphicsContext(gc);
 
         expGC.setLineWidth(2);
-        double w = 30.0;
+        double w = 50.0;
         double h = 0.1;
         Iterator<ColorPicker> it = listColor.iterator();
         
@@ -237,7 +237,7 @@ public class ConcreteTextTest {
         System.out.println("getPoint");
         for (int i = 0; i < vect.length; i++) {
             instance.setXY(vect[i], vect2[i]);
-            Point2D expResult = new Point2D(vect[i] - 30.0 / 2, vect2[i] - 0.1 / 2);
+            Point2D expResult = new Point2D(vect[i] - 50.0 / 2, vect2[i] - 0.1 / 2);
             Point2D result = instance.getPoint();
             try {
                 assertNotNull(result);

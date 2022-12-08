@@ -19,7 +19,6 @@ public class ConcreteText extends AbstractShape {
 
     private double width, height;
     private ColorPicker fillColor;
-    private ColorPicker textColor;
     private Rectangle2D rectangle = null;
     private Point2D point;
     private String string;
@@ -28,7 +27,7 @@ public class ConcreteText extends AbstractShape {
 
     public ConcreteText(){
         this.TYPE = "Text";
-        this.width = 30.0;
+        this.width = 50.0;
         this.height = 0.1;
         this.rectangle = new Rectangle2D.Double();
     }
@@ -63,8 +62,7 @@ public class ConcreteText extends AbstractShape {
         getGraphicsContext().setLineWidth(2);
         getGraphicsContext().fillRect(getX(), getY(), this.width, this.height);
         getGraphicsContext().strokeRect(getX(), getY(), this.width, this.height);
-        getGraphicsContext().fillText(string, getX() + this.width/2, getY() + this.height/2);
-        //getGraphicsContext().strokeText(string, getX() + this.width/2, getY() + this.height/2);
+        getGraphicsContext().fillText(string, getX(), getY());
     }
 
     @Override
