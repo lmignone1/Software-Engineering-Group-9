@@ -18,6 +18,7 @@ public class ConcreteBorderPane implements BorderPaneComponent {
         this.borderPane = borderPane;
     }
 
+    @Override
     public BorderPane getBorderPane() {
         return borderPane;
     }

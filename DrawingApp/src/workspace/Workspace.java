@@ -58,9 +58,7 @@ public class Workspace extends Application {
                     Platform.runLater(() -> {
 
                         if((stageSize.getX() < 800) && (stageSize.getY() < 600) ){
-                            //System.out.println(WorkspaceController.componentBorderPane);
                             WorkspaceController.componentBorderPane.addProperty();
-                            //System.out.println( controller.componentBorderPane);
                             //controller.componentBorderPane.addProperty();
                         }
                         /*

@@ -131,6 +131,7 @@ public class WorkspaceController implements Initializable {
     private Button zoom;
     @FXML
     private TextField gridSize;
+    @FXML
     private BorderPane borderPane;
     
     public static BorderPaneComponent componentBorderPane;

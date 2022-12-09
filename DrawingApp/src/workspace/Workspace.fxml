@@ -23,10 +23,10 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" fx:id="pane" onMouseMoved="#resizeCanvas" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
+<AnchorPane id="AnchorPane" fx:id="pane" onMouseMoved="#resizeCanvas" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workspace.WorkspaceController">
 
    <children>
-      <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <Canvas fx:id="drawingCanvas" accessibleRole="PAGE_ITEM" height="600.0" onMousePressed="#makeDraw" onScroll="#zoom" width="800.0" BorderPane.alignment="CENTER" />
          </center>
