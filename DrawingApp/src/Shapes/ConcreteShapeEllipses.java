@@ -101,6 +101,12 @@ public class ConcreteShapeEllipses extends AbstractShape{
 
     @Override
     public String toString() {
-        return TYPE + " " + super.toString() + " " + fillColor.getValue() + " " + radiusX + " " + radiusY;
+        String s = super.toString();
+        String[] split = s.split(" ");
+        double x = Double.parseDouble(split[0]);
+        double y = Double.parseDouble(split[1]);
+        x = x + (this.radiusX/2);
+        y = y + (this.radiusY/2);
+        return TYPE + " " + x + " " + y + " " + split[2] + " " + fillColor.getValue() + " " + radiusX + " " + radiusY;
     }
 }

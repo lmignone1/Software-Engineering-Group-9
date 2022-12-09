@@ -22,6 +22,8 @@ import Decorator.BorderPaneComponent;
 import Decorator.ConcreteBorderPane;
 import Decorator.ScrollBarsBorderPane;
 import Factory.Creator;
+import Functions.FileDraw;
+import Functions.Zoom;
 import Shapes.Shape;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -187,28 +189,11 @@ public class WorkspaceController implements Initializable {
     private void loadProject(ActionEvent event) throws IOException { //metodo per aprire un progetto esistente
         FileChooser openFile = new FileChooser();
         openFile.setTitle("Open File");
-        File file = openFile.showOpenDialog(Workspace.stage);
-        FileReader f = null;
-        BufferedReader b = null;
-        if (file != null)
-            try {
-            f = new FileReader(file.getAbsolutePath());
-            b = new BufferedReader(f);
-            while (true) {
-                String line = b.readLine();
-                String[] split = line.split(" ");
-                Shape s = Creator.createShape(split[0], gc, Double.parseDouble(split[1]), Double.parseDouble(split[2]),
-                        new ColorPicker(Color.valueOf(split[3])), new ColorPicker(Color.valueOf(split[4])),
-                        Double.parseDouble(split[5]), Double.parseDouble(split[6]));
-                s.draw();
-                listShape.add(s);
-            }
-        } catch (FileNotFoundException ex) {
-            System.out.println("Error");
-        } catch (NullPointerException e2) {
-            f.close();
-            b.close();
-        }
+        File file = null;
+        do {
+            file = openFile.showOpenDialog(Workspace.stage);
+        } while(!file.getName().contains(".txt"));
+        FileDraw.loadDraw(listShape, file.getAbsolutePath(), gc);
     }
 
     @FXML
@@ -216,13 +201,8 @@ public class WorkspaceController implements Initializable {
         FileChooser save = new FileChooser();
         save.setTitle("Save Image");
         File file = save.showSaveDialog(Workspace.stage);
-
         if (file != null) {
-            try ( FileWriter f = new FileWriter(file.getAbsolutePath() + ".txt")) {
-                for (Shape elem : listShape) {
-                    f.write(elem.toString() + "\n");
-                }
-            }
+            FileDraw.saveDraw(listShape, file.getAbsolutePath());
         }
     }
     
@@ -525,48 +505,7 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private void zoom(ScrollEvent event) {
-        double zoomFactor = 1.05;
-        double wheel = event.getDeltaY();
-        double currentScaleX = scale.getX();
-        double currentScaleY = scale.getY();
-        
-        if (wheel < 0) {
-            zoomFactor = 0.95;
-        }
- 
-        if (currentScaleX >= 1.0) {
-            if (currentScaleX == 1.0 && wheel < 0) {
-                return;
-            }
-            scale.setX(currentScaleX * zoomFactor);
-            scale.setY(currentScaleY * zoomFactor);
-        } else {
-            scale.setX(1.0);
-            scale.setY(1.0);
-        }
-        
-        scale.setPivotX(event.getX());
-        scale.setPivotY(event.getY());
-
-        /*
-        double zoomFactor = 1.05;
-        double wheel = event.getDeltaY();
-        if (wheel < 0) {
-            zoomFactor = 0.95;
-        }
-        double currentScaleX = drawingCanvas.getScaleX();
-        double currentScaleY = drawingCanvas.getScaleY();
-        if (currentScaleX >= 1.0) {
-            if (currentScaleX == 1.0 && wheel < 0) {
-                return;
-            }
-            drawingCanvas.setScaleX(currentScaleX * zoomFactor);
-            drawingCanvas.setScaleY(currentScaleY * zoomFactor);
-        } else {
-            drawingCanvas.setScaleX(1.0);
-            drawingCanvas.setScaleY(1.0);
-        }
-        */
+        Zoom.zoom(scale, event.getX(), event.getY(), event.getDeltaY());
     }
 
     @FXML
