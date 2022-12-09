@@ -25,11 +25,10 @@ public class Zoom {
         }
 
         if (currentScaleX >= 1.0) {
-            if (currentScaleX == 1.0 && wheel < 0) {
-                return;
+            if (!(currentScaleX == 1.0 && wheel < 0)) {
+                scale.setX(currentScaleX * zoomFactor);
+                scale.setY(currentScaleY * zoomFactor);
             }
-            scale.setX(currentScaleX * zoomFactor);
-            scale.setY(currentScaleY * zoomFactor);
         } else {
             scale.setX(1.0);
             scale.setY(1.0);
@@ -37,8 +36,7 @@ public class Zoom {
 
         scale.setPivotX(newX);
         scale.setPivotY(newY);
-        
-        
+
         /*
         double zoomFactor = 1.05;
         double wheel = event.getDeltaY();
@@ -57,6 +55,6 @@ public class Zoom {
             drawingCanvas.setScaleX(1.0);
             drawingCanvas.setScaleY(1.0);
         }
-        */
+         */
     }
 }

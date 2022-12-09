@@ -107,6 +107,6 @@ public class ConcreteShapeEllipses extends AbstractShape{
         double y = Double.parseDouble(split[1]);
         x = x + (this.radiusX/2);
         y = y + (this.radiusY/2);
-        return TYPE + " " + x + " " + y + " " + split[2] + " " + fillColor.getValue() + " " + radiusX + " " + radiusY;
+        return TYPE + " " + x + " " + y + " " + split[2] + " " + fillColor.getValue() + " " + radiusX + " " + radiusY + " " + "nothing";
     }
 }
