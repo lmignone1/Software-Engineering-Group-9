@@ -276,17 +276,22 @@ public class WorkspaceController implements Initializable {
         while (it.hasNext()) {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
-
                 selectShape.setSelectedShape(elem);
-
+                if (elem.getType().equals("Text")){
+                    sizeMenu.setDisable(true);
+                }
+                else
+                    sizeMenu.setDisable(false);
             }
+            else
+                selectShape.setSelectedShape(null);
         }
 
         initContextMenu();
-        if (selectShape.getSelectedShape() == null) {
+        /*if (selectShape.getSelectedShape() == null) {
             //System.out.println(selectShape.getSelectedShape());//CONTROLLARE QUANDO è NULL
             selectShape.setSelectedShape(null); //PER ESEMPIO COSì MA POI BISOGNA FARE DEI CHECK NEI NELLE VARIE OPERAZIONI
-        }
+        }*/
 
         pastX = event.getX();
         pastY = event.getY();

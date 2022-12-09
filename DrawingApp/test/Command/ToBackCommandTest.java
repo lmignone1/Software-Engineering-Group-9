@@ -74,16 +74,28 @@ public class ToBackCommandTest {
         listColor.add(colorPickerPurple);
         listColor.add(colorPickerBlack);
         
+        int leftLimit = 97; //letter a
+        int rightLimit = 122; //letter z
+        int targetStringLength = 10;
+        Random random = new Random();
+        
         Canvas canvas = new Canvas(1400, 1000);
         gc = canvas.getGraphicsContext2D();
-        String[] type = {"Line", "Rectangle", "Ellipse"};
+        String[] type = {"Line", "Rectangle", "Ellipse", "Text"};
         list = new ArrayList<>();
         Creator c = new Creator();
         for(int i = 0; i < NUM; i++){
+            String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+            
             Shape shape = c.createShape(type[r.nextInt(type.length)], gc, vect[r.nextInt(vect.length)], 
                     vect[r.nextInt(vect.length)],
                     listColor.get(r.nextInt(listColor.size())),
-                    listColor.get(r.nextInt(listColor.size())));
+                    listColor.get(r.nextInt(listColor.size())),
+                    vect[r.nextInt(vect.length)], vect[r.nextInt(vect.length)],
+                    generatedString);
             list.add(shape);
         }
         selectedShape = new Select(list, null);
