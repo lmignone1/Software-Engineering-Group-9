@@ -3,13 +3,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.AnchorPane;
 
 //Decorator: modella ogni possibile aggiunta non prevista ad un prodotto (es ingrediente aggiuntivo di un panino)
-//l'interfaccia tra il Component e il ConcreteDecorator: possiede un riferimento al Component e un'interfaccia ad esso conforme
+//l'interfaccia tra il CanvasComponent e il ConcreteDecorator: possiede un riferimento al CanvasComponent e un'interfaccia ad esso conforme
 
-public class Decorator implements Component {
+public class DecoratorCanvas implements CanvasComponent {
     
-    protected Component component;
+    protected CanvasComponent component;
 
-    public Decorator(Component decoratedComponent) {
+    public DecoratorCanvas(CanvasComponent decoratedComponent) {
         this.component = decoratedComponent;
     }
     
@@ -32,5 +32,6 @@ public class Decorator implements Component {
     public int getGridSizeInput() {
         return component.getGridSizeInput();
     }
+    
 
 }

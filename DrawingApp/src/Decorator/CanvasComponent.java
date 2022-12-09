@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author artem
  */
-public interface Component {
+public interface CanvasComponent {
     
     public void execute();
     public Canvas getCanvas();
