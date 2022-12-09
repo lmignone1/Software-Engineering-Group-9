@@ -103,7 +103,13 @@ public class ConcreteShapeRectangles extends AbstractShape{
 
     @Override
     public String toString() {
-        return TYPE + " " + super.toString() + " " + fillColor.getValue() + " " + width + " " + height;
+        String s = super.toString();
+        String[] split = s.split(" ");
+        double x = Double.parseDouble(split[0]);
+        double y = Double.parseDouble(split[1]);
+        x = x + (this.width/2);
+        y = y + (this.height/2);
+        return TYPE + " " + x + " " + y + " " + split[2] + " " + fillColor.getValue() + " " + this.width + " " + this.height;
     }
     
     
