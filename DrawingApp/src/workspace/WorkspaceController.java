@@ -283,8 +283,9 @@ public class WorkspaceController implements Initializable {
                 else
                     sizeMenu.setDisable(false);
             }
-            else
+            else if (selectShape.getSelectedShape() == null){
                 selectShape.setSelectedShape(null);
+            }
         }
 
         initContextMenu();
