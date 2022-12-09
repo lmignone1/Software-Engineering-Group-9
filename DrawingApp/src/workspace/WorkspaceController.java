@@ -296,9 +296,10 @@ public class WorkspaceController implements Initializable {
         while (it.hasNext()) {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
-
                 selectShape.setSelectedShape(elem);
-
+                if (elem.getType().equals("Text")){
+                    sizeMenu.setDisable(true);
+                }
             }
         }
 

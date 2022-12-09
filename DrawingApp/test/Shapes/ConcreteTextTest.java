@@ -33,6 +33,7 @@ public class ConcreteTextTest {
     private double[] vect = null;
     private double[] vect2 = null;
     private List<ColorPicker> listColor = null;
+    private String string;
     
     public ConcreteTextTest() {
         vect = new double[100];
@@ -182,7 +183,7 @@ public class ConcreteTextTest {
             cp.setValue(Color.TRANSPARENT);
             instance.setLineColor(color);
             instance.setFillColor(color);
-            instance.draw();
+            
             GraphicsContext instanceGC = instance.getGraphicsContext();
             expGC.setStroke(cp.getValue());
             double x = vect[i] - w / 2;
@@ -191,11 +192,15 @@ public class ConcreteTextTest {
             expGC.strokeRect(x, y, w, h);
             expGC.fillRect(x, y, w, h);
             
-            /*String generatedString = random.ints(leftLimit, rightLimit + 1)
+            String generatedString = random.ints(leftLimit, rightLimit + 1)
                 .limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
-            expGC.fillText(generatedString, x + w / 2, y + h / 2);*/
+            
+            instance.setText(generatedString);
+            expGC.fillText(generatedString, x, y);            
+            
+            instance.draw();
             
             try {
                 assertEquals(expGC.getStroke(), instanceGC.getStroke());
@@ -205,7 +210,7 @@ public class ConcreteTextTest {
                 assertEquals(y, instance.getY(), 0);
                 assertEquals(w, instance.getSizeX(), 0);
                 assertEquals(h, instance.getSizeY(), 0);
-                //assertEquals(generatedString, instance.getText());
+                assertEquals(generatedString, instance.getText());
             } catch (AssertionError ex) {
                 fail("The drawShape failed");
             }
