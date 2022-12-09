@@ -198,7 +198,7 @@ public class ConcreteTextTest {
                 .toString();
             
             instance.setText(generatedString);
-            expGC.fillText(generatedString, x, y);            
+            expGC.fillText(generatedString, x + w/4, y);            
             
             instance.draw();
             

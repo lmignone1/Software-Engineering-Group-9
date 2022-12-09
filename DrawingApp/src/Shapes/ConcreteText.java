@@ -62,12 +62,12 @@ public class ConcreteText extends AbstractShape {
         getGraphicsContext().setLineWidth(2);
         getGraphicsContext().fillRect(getX(), getY(), this.width, this.height);
         getGraphicsContext().strokeRect(getX(), getY(), this.width, this.height);
-        getGraphicsContext().fillText(string, getX(), getY());
+        getGraphicsContext().fillText(string, getX() + this.width / 4, getY());
     }
 
     @Override
     public boolean containsPoint(double x, double y) {
-        return rectangle.contains(x, y);
+        return rectangle.intersects(x, y, 10.0, 25.0);
     }
 
     @Override
