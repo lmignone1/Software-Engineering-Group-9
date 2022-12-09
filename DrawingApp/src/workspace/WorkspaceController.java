@@ -14,11 +14,13 @@ import Command.Invoker;
 import Command.MoveCommand;
 import Command.PasteCommand;
 import Command.Select;
-import Decorator.Component;
-import Decorator.ConcreteComponent;
+import Decorator.ConcreteCanvas;
 import Decorator.GridDecorator;
 import Command.ToBackCommand;
 import Command.ToFrontCommand;
+import Decorator.BorderPaneComponent;
+import Decorator.ConcreteBorderPane;
+import Decorator.ScrollBarsBorderPane;
 import Factory.Creator;
 import Functions.FileDraw;
 import Functions.Zoom;
@@ -53,18 +55,24 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
+import Decorator.CanvasComponent;
 
 /**
  * FXML Controller class
@@ -119,16 +127,27 @@ public class WorkspaceController implements Initializable {
     @FXML
     private MenuItem saveProjectMenu;
 
-    private Component component;
-    private Component gridDecorator;
+    private CanvasComponent component;
+    private CanvasComponent gridDecorator;
     @FXML
     private Button zoom;
     @FXML
     private TextField gridSize;
-
+    @FXML
+    private BorderPane borderPane;
+    
+    public static BorderPaneComponent componentBorderPane;
+    @FXML
+    private TextField text;
+    @FXML
+    private ColorPicker textPicker;
+    @FXML
+    private Button textButton;
+    
     /**
      * Initializes the controller class.
      */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         gc = drawingCanvas.getGraphicsContext2D();
@@ -138,13 +157,19 @@ public class WorkspaceController implements Initializable {
         pasteMenu.setDisable(true);
         selectShape = new Select(listShape, null);
         oldMod = null;
+        
+        //scrollPane.setContent(drawingCanvas);
+        componentBorderPane = new ScrollBarsBorderPane(new ConcreteBorderPane(borderPane),drawingCanvas);
+        //borderPane.setCenter(scrollPane);
 
-        component = new ConcreteComponent(drawingCanvas);
+        gridSize.setText("50");
+        component = new ConcreteCanvas(drawingCanvas);
         gridDecorator = new GridDecorator(component);
         scale = new Scale();
         drawingCanvas.getTransforms().add(scale);
+        textPicker.setValue(Color.BLACK);
     }
-
+   
     private void loadWindow(String location, String title) throws IOException { //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
         Parent root = FXMLLoader.load(getClass().getResource(location));
         Scene scene = new Scene(root);
@@ -180,18 +205,35 @@ public class WorkspaceController implements Initializable {
             FileDraw.saveDraw(listShape, file.getAbsolutePath());
         }
     }
+    
 
+    
     @FXML
     private void resizeCanvas(MouseEvent event) {
-        if (pane.getWidth() != 800) {
+        
+        if(pane.getWidth() > 800 && pane.getHeight() > 600){
             drawingCanvas.setWidth(pane.getWidth());
             drawingCanvas.setHeight(pane.getHeight());
+             //drawAll();
+        }
+        
+        /*
+        if(pane.getWidth() < 800 && pane.getHeight() < 600){
+
+            //System.out.println(componentBorderPane.test());
+            componentBorderPane.addProperty();
+            //drawAll();
             //drawingCanvas.setLayoutX(pane.getScaleX());
             //drawingCanvas.setLayoutY(pane.getScaleY());
-            System.out.println("heiii");
-        }
-
+            //
+              
+       }
+        */
+       
+        
+        
     }
+
 
     @FXML
     private void makeDraw(MouseEvent event) {
@@ -204,6 +246,17 @@ public class WorkspaceController implements Initializable {
             }
 
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, selectedFullColour);
+            listShape.add(shapeCreated);
+            shapeCreated.draw();
+        }
+        else if (event.isPrimaryButtonDown() && mod.equals("Text")){
+            
+            if (oldMod != null) {
+                mod = oldMod;
+                oldMod = null;
+            }
+
+            Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, textPicker, 10, 10, text.getText());
             listShape.add(shapeCreated);
             shapeCreated.draw();
         }
@@ -257,7 +310,7 @@ public class WorkspaceController implements Initializable {
     }
     private int previousPosition;
 
-    @FXML
+
     private void sel(MouseEvent event) {
 
         if (selectShape.getSelectedShape().containsPoint(event.getX(), event.getY())) {
@@ -265,6 +318,7 @@ public class WorkspaceController implements Initializable {
         }
 
     }
+
 
     @FXML
     private void rectangle(MouseEvent event) {
@@ -296,6 +350,9 @@ public class WorkspaceController implements Initializable {
         flag=false;
         }
     });*/
+      
+
+      
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
             public void handle(ActionEvent event) {
                 delete();
@@ -304,7 +361,7 @@ public class WorkspaceController implements Initializable {
 
         moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
             public void handle(ActionEvent event) {
-                if (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse")) {
+                if (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse") || mod.equals("Text")) {
                     oldMod = mod;
                 }
 
@@ -410,7 +467,12 @@ public class WorkspaceController implements Initializable {
     }
 
     public void changeColor() {
-        command = new ChangeColorCommand(selectShape, selectedContourColour, selectedFullColour);
+        if(selectShape.getSelectedShape().getType().equals("Text")){
+            command = new ChangeColorCommand(selectShape, selectShape.getSelectedShape().getLineColor(), textPicker);
+        }
+        else {
+            command = new ChangeColorCommand(selectShape, selectedContourColour, selectedFullColour);
+        }
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
@@ -466,6 +528,11 @@ public class WorkspaceController implements Initializable {
     private void disableGrid(ActionEvent event) {
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
         drawAll();
+    }
+
+    @FXML
+    private void addText(ActionEvent event) {
+        mod = "Text";
     }
 
 }

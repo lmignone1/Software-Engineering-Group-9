@@ -25,17 +25,16 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Acer
+ * @author artem
  */
-public class ConcreteShapeRectanglesTest {
-
-    private ConcreteShapeRectangles instance;
+public class ConcreteTextTest {
+    private ConcreteText instance;
     private JFXPanel panel = new JFXPanel();
     private double[] vect = null;
     private double[] vect2 = null;
     private List<ColorPicker> listColor = null;
-
-    public ConcreteShapeRectanglesTest() {
+    
+    public ConcreteTextTest() {
         vect = new double[100];
         vect2 = new double[100];
         Random r = new Random();
@@ -71,26 +70,26 @@ public class ConcreteShapeRectanglesTest {
         listColor.add(colorPickerPurple);
         listColor.add(colorPickerBlack);
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
-        instance = new ConcreteShapeRectangles();
+        instance = new ConcreteText();
     }
-
+    
     @After
     public void tearDown() {
     }
 
     /**
-     * Test of setFillColor method, of class ConcreteShapeRectangles.
+     * Test of setFillColor method, of class ConcreteText.
      */
     @Test
     public void testSetFillColor() {
@@ -109,7 +108,7 @@ public class ConcreteShapeRectanglesTest {
     }
 
     /**
-     * Test of getFillColor method, of class ConcreteShapeRectangles.
+     * Test of getFillColor method, of class ConcreteText.
      */
     @Test
     public void testGetFillColor() {
@@ -128,7 +127,7 @@ public class ConcreteShapeRectanglesTest {
     }
 
     /**
-     * Test of setXY method, of class ConcreteShapeRectangles.
+     * Test of setXY method, of class ConcreteText.
      */
     @Test
     public void testSetXY() {
@@ -143,8 +142,8 @@ public class ConcreteShapeRectanglesTest {
             try {
                 assertNotEquals(currentX, instance.getX());
                 assertNotEquals(currentY, instance.getY());
-                assertEquals(x[i] - 100.0 / 2, instance.getX(), 0);
-                assertEquals(y[i] - 50.0 / 2, instance.getY(), 0);
+                assertEquals(x[i] - 50.0 / 2, instance.getX(), 0);
+                assertEquals(y[i] - 0.1 / 2, instance.getY(), 0);
             } catch (AssertionError ex) {
                 fail("The setXY failed");
             }
@@ -152,7 +151,7 @@ public class ConcreteShapeRectanglesTest {
     }
 
     /**
-     * Test of draw method, of class ConcreteShapeRectangles.
+     * Test of draw method, of class ConcreteText.
      */
     @Test
     public void testDraw() {
@@ -164,9 +163,14 @@ public class ConcreteShapeRectanglesTest {
         instance.setGraphicsContext(gc);
 
         expGC.setLineWidth(2);
-        double w = 100.0;
-        double h = 50.0;
+        double w = 50.0;
+        double h = 0.1;
         Iterator<ColorPicker> it = listColor.iterator();
+        
+        int leftLimit = 97; //letter a
+        int rightLimit = 122; //letter z
+        int targetStringLength = 10;
+        Random random = new Random();
 
         for (int i = 0; i < vect.length; i++) {
             instance.setXY(vect[i], vect2[i]);
@@ -174,16 +178,25 @@ public class ConcreteShapeRectanglesTest {
                 it = listColor.iterator();
             }
             ColorPicker color = it.next();
+            ColorPicker cp = new ColorPicker();
+            cp.setValue(Color.TRANSPARENT);
             instance.setLineColor(color);
             instance.setFillColor(color);
             instance.draw();
             GraphicsContext instanceGC = instance.getGraphicsContext();
-            expGC.setStroke(color.getValue());
+            expGC.setStroke(cp.getValue());
             double x = vect[i] - w / 2;
             double y = vect2[i] - h / 2;
             expGC.setFill(color.getValue());
             expGC.strokeRect(x, y, w, h);
             expGC.fillRect(x, y, w, h);
+            
+            /*String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+            expGC.fillText(generatedString, x + w / 2, y + h / 2);*/
+            
             try {
                 assertEquals(expGC.getStroke(), instanceGC.getStroke());
                 assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
@@ -192,6 +205,7 @@ public class ConcreteShapeRectanglesTest {
                 assertEquals(y, instance.getY(), 0);
                 assertEquals(w, instance.getSizeX(), 0);
                 assertEquals(h, instance.getSizeY(), 0);
+                //assertEquals(generatedString, instance.getText());
             } catch (AssertionError ex) {
                 fail("The drawShape failed");
             }
@@ -199,7 +213,58 @@ public class ConcreteShapeRectanglesTest {
     }
 
     /**
-     * Test of SetSizeX method, of class ConcreteShapeRectangless.
+     * Test of containsPoint method, of class ConcreteText.
+     */
+    @Test
+    public void testContainsPoint() {
+        System.out.println("containsPoint");
+        Random r = new Random();
+        instance.setXY(vect[r.nextInt(vect.length)], vect[r.nextInt(vect.length)]);
+        Point2D midPoint = instance.getPoint().midpoint(instance.getX() + instance.getSizeX(), instance.getY() + instance.getSizeY());
+        try {
+            assertTrue(instance.containsPoint(midPoint.getX(), midPoint.getY()));
+            assertFalse(instance.containsPoint(10 * midPoint.getX(), 10 * midPoint.getY()));
+        } catch (AssertionError ex) {
+            fail("The containsPoint failed");
+        }
+    }
+
+    /**
+     * Test of getPoint method, of class ConcreteText.
+     */
+    @Test
+    public void testGetPoint() {
+        System.out.println("getPoint");
+        for (int i = 0; i < vect.length; i++) {
+            instance.setXY(vect[i], vect2[i]);
+            Point2D expResult = new Point2D(vect[i] - 50.0 / 2, vect2[i] - 0.1 / 2);
+            Point2D result = instance.getPoint();
+            try {
+                assertNotNull(result);
+                assertEquals(expResult.getX(), result.getX(), 0);
+                assertEquals(expResult.getY(), result.getY(), 0);
+            } catch (AssertionError ex) {
+                fail("The getPoint failed");
+            }
+        }
+    }
+
+    /**
+     * Test of getType method, of class ConcreteText.
+     */
+    @Test
+    public void testGetType() {
+        System.out.println("getType");
+        try {
+            assertNotNull(instance.getType());
+            assertEquals("Text", instance.getType());
+        } catch (AssertionError ex) {
+            fail("The getType failed");
+        }
+    }
+
+    /**
+     * Test of SetSizeX method, of class ConcreteText.
      */
     @Test
     public void testSetSizeX() {
@@ -218,7 +283,7 @@ public class ConcreteShapeRectanglesTest {
     }
 
     /**
-     * Test of getSizeX method, of class ConcreteShapeRectangles.
+     * Test of getSizeX method, of class ConcreteText.
      */
     @Test
     public void testGetSizeX() {
@@ -237,7 +302,7 @@ public class ConcreteShapeRectanglesTest {
     }
 
     /**
-     * Test of SetSizeY method, of class ConcreteShapeRectangles.
+     * Test of setSizeY method, of class ConcreteText.
      */
     @Test
     public void testSetSizeY() {
@@ -256,7 +321,7 @@ public class ConcreteShapeRectanglesTest {
     }
 
     /**
-     * Test of getSizeY method, of class ConcreteShapeRectangles.
+     * Test of getSizeY method, of class ConcreteText.
      */
     @Test
     public void testGetSizeY() {
@@ -275,53 +340,63 @@ public class ConcreteShapeRectanglesTest {
     }
 
     /**
-     * Test of getType method, of class ConcreteShapeRectangles.
+     * Test of setText method, of class ConcreteText.
      */
     @Test
-    public void testGetType() {
-        System.out.println("getType");
-        try {
-            assertNotNull(instance.getType());
-            assertEquals("Rectangle", instance.getType());
-        } catch (AssertionError ex) {
-            fail("The getType failed");
-        }
-    }
-
-    /**
-     * Test of containsPoint method, of class ConcreteShapeRectangles.
-     */
-    @Test
-    public void testContainsPoint() {
-        System.out.println("containsPoint");
-        Random r = new Random();
-        instance.setXY(vect[r.nextInt(vect.length)], vect[r.nextInt(vect.length)]);
-        Point2D midPoint = instance.getPoint().midpoint(instance.getX() + instance.getSizeX(), instance.getY() + instance.getSizeY());
-        try {
-            assertTrue(instance.containsPoint(midPoint.getX(), midPoint.getY()));
-            assertFalse(instance.containsPoint(10 * midPoint.getX(), 10 * midPoint.getY()));
-        } catch (AssertionError ex) {
-            fail("The containsPoint failed");
-        }
-    }
-
-    /**
-     * Test of getPoint method, of class ConcreteShapeRectangles.
-     */
-    @Test
-    public void testGetPoint() {
-        System.out.println("getPoint");
-        for (int i = 0; i < vect.length; i++) {
-            instance.setXY(vect[i], vect2[i]);
-            Point2D expResult = new Point2D(vect[i] - 100.0 / 2, vect2[i] - 50.0 / 2);
-            Point2D result = instance.getPoint();
-            try {
-                assertNotNull(result);
-                assertEquals(expResult.getX(), result.getX(), 0);
-                assertEquals(expResult.getY(), result.getY(), 0);
-            } catch (AssertionError ex) {
-                fail("The getPoint failed");
+    public void testSetText() {
+        System.out.println("getText");
+        int leftLimit = 97; //letter a
+        int rightLimit = 122; //letter z
+        int targetStringLength = 10;
+        Random random = new Random();
+        
+        try{
+            for(int i = 0; i < 10; i++) {
+                String generatedString = random.ints(leftLimit, rightLimit + 1)
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+                
+                String currentString = instance.getText();
+                instance.setText(generatedString);
+                
+                assertNotEquals(currentString, instance.getText());
+                assertEquals(generatedString, instance.getText());
+                
             }
+        } catch (AssertionError ex) {
+            fail("The setText failed");
+        }
+        
+    }
+
+    /**
+     * Test of getText method, of class ConcreteText.
+     */
+    @Test
+    public void testGetText() {
+        System.out.println("getText");
+        int leftLimit = 97; //letter a
+        int rightLimit = 122; //letter z
+        int targetStringLength = 10;
+        Random random = new Random();
+        
+        try{
+            for(int i = 0; i < 10; i++) {
+                String generatedString = random.ints(leftLimit, rightLimit + 1)
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+                
+                instance.setText(generatedString);
+                String result = instance.getText();
+                assertNotNull(result);
+                assertEquals(generatedString, result);
+                
+            }
+        } catch (AssertionError ex) {
+            fail("The getText failed");
         }
     }
+    
 }
