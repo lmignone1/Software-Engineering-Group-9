@@ -90,7 +90,7 @@ public class ConcreteShapeLines extends AbstractShape{
         String[] split = s.split(" ");
         double x = Double.parseDouble(split[0]);
         x = x + this.length/2;
-        return TYPE + " " + x + " " + split[1] + " " + split[2] + " " + Color.WHITE + " " + length + " " + "0.0";
+        return TYPE + " " + x + " " + split[1] + " " + split[2] + " " + Color.WHITE + " " + length + " " + "0.0" + " " + "nothing";
     }
 
 }

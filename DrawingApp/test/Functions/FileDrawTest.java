@@ -34,20 +34,22 @@ public class FileDrawTest {
     private JFXPanel panel = new JFXPanel();
     private List<Shape> listShape;
     private List<Shape> listShapeResult;
-    private String line1, line2, line3, path, completePath;
+    private String line1, line2, line3, line4, path, completePath;
     private GraphicsContext gc;
     private List<String> type;
 
     public FileDrawTest() {
 
-        line1 = "Line 410.9523809523809 53.01587301587302 0x1a3399ff 0xffffffff 100.0 0.0";
-        line2 = "Rectangle 130.95238095238093 237.53968253968253 0x4d804dff 0x4d1a4dff 100.0 50.0";
-        line3 = "Ellipse 415.15873015873024 362.9365079365079 0x1a3399ff 0xe64d4dff 150.0 90.0";
-
+        line1 = "Line 410.9523809523809 53.01587301587302 0x1a3399ff 0xffffffff 100.0 0.0 nothing";
+        line2 = "Rectangle 130.95238095238093 237.53968253968253 0x4d804dff 0x4d1a4dff 100.0 50.0 nothing";
+        line3 = "Ellipse 415.15873015873024 362.9365079365079 0x1a3399ff 0xe64d4dff 150.0 90.0 nothing";
+        line4 = "Text 458.6666666666667 148.0 0x000000ff 0xe64d4dff 50.0 0.1 Test";
+        
         type = new ArrayList<>();
         type.add("Line");
         type.add("Rectangle");
         type.add("Ellipse");
+        type.add("Text");
 
         listShape = new ArrayList<>();
         Canvas c = new Canvas(1400, 1000);
@@ -62,6 +64,9 @@ public class FileDrawTest {
         listShape.add(Creator.createShape(type.get(2), gc, 415.15873015873024, 362.9365079365079,
                 new ColorPicker(Color.valueOf("0x1a3399ff")), new ColorPicker(Color.valueOf("0xe64d4dff")), 150.0, 90.0));
 
+        listShape.add(Creator.createShape(type.get(3), gc, 458.6666666666667, 148.0, 
+                new ColorPicker(Color.valueOf("0x000000ff")), new ColorPicker(Color.valueOf("0xe64d4dff")), 50.0, 0.1, "Test"));
+        
         path = "prova";
         completePath = path + ".txt";
     }
@@ -105,8 +110,11 @@ public class FileDrawTest {
                     case "Rectangle":
                         assertEquals(line2, line);
                         break;
-                    default:
+                    case "Ellipse":
                         assertEquals(line3, line);
+                        break;
+                    case "Text":
+                        assertEquals(line4, line);
                         break;
                 }
             }
@@ -136,8 +144,14 @@ public class FileDrawTest {
                 assertEquals(listShape.get(i).getLineColor().getValue(), listShapeResult.get(i).getLineColor().getValue());
                 assertEquals(listShape.get(i).getX(), listShapeResult.get(i).getX(), 0);
                 assertEquals(listShape.get(i).getY(), listShapeResult.get(i).getY(), 0);
+                assertEquals(listShape.get(i).getSizeX(), listShapeResult.get(i).getSizeX(), 0);
+                assertEquals(listShape.get(i).getPoint(), listShapeResult.get(i).getPoint());
                 if(!listShape.get(i).getType().equals(type.get(0))){
+                    assertEquals(listShape.get(i).getSizeY(), listShapeResult.get(i).getSizeY(), 0);
                     assertEquals(listShape.get(i).getFillColor().getValue(), listShapeResult.get(i).getFillColor().getValue());
+                }
+                if(listShape.get(i).getType().equals(type.get(3))){
+                    assertEquals(listShape.get(i).getText(), listShapeResult.get(i).getText());
                 }
             }
         } catch (AssertionError ex){

@@ -37,10 +37,9 @@ public class ZoomTest {
         while (count < vect.length / 2 && it.hasNext()) {
             vect[count] = it.nextDouble();
             count++;
-
         }
         stream = r.doubles(-999.999, 0);
-        count = vect.length / 2 + 1;
+        count = vect.length / 2;
         it = stream.iterator();
         while (count < vect.length && it.hasNext()) {
             vect[count] = it.nextDouble();
@@ -81,7 +80,7 @@ public class ZoomTest {
         System.out.println("zoom");
         Random r = new Random();
         Scale expResult = new Scale();
-        
+
         for (int i = 0; i < vect.length; i++) {
             double newX = vect2[r.nextInt(vect2.length)];
             double newY = vect2[r.nextInt(vect2.length)];
@@ -89,9 +88,6 @@ public class ZoomTest {
             double zoomFactor = 1.05;
 
             Zoom.zoom(scale, newX, newY, wheel);
-
-            expResult.setPivotX(newX);
-            expResult.setPivotY(newY);
 
             double currentScaleX = expResult.getX();
             double currentScaleY = expResult.getY();
@@ -101,13 +97,17 @@ public class ZoomTest {
             }
 
             if (currentScaleX >= 1.0) {
-                expResult.setX(currentScaleX * zoomFactor);
-                expResult.setY(currentScaleY * zoomFactor);
-                // "if" can be removed from test because it's only a solution for a "visual bug"
+                if (!(currentScaleX == 1.0 && wheel < 0)) {
+                    expResult.setX(currentScaleX * zoomFactor);
+                    expResult.setY(currentScaleY * zoomFactor);
+                }
             } else {
                 expResult.setX(1.0);
                 expResult.setY(1.0);
             }
+            
+            expResult.setPivotX(newX);
+            expResult.setPivotY(newY);
 
             try {
                 assertEquals(expResult.getX(), scale.getX(), 0);
