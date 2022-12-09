@@ -32,6 +32,5 @@ public class Decorator implements Component {
     public int getGridSizeInput() {
         return component.getGridSizeInput();
     }
-    
 
 }

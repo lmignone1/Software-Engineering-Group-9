@@ -15,7 +15,4 @@ public interface BorderPaneComponent {
     
     public void addProperty();
     public BorderPane getBorderPane();
-    
-    public String test();
-    
 }

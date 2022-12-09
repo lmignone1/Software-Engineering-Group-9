@@ -43,8 +43,5 @@ public class ConcreteComponent implements Component {
     public int getGridSizeInput() {
         return this.gridSize;
     }
-    
-    
 
-    
 }

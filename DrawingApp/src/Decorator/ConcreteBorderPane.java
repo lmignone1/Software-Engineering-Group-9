@@ -26,10 +26,4 @@ public class ConcreteBorderPane implements BorderPaneComponent {
     public void addProperty() { 
     }
 
-    @Override
-    public String test() {
-       return "sono in ConcreteBorderPane";
-    }
-    
-    
 }

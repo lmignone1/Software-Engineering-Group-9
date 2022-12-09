@@ -20,10 +20,10 @@ public class ScrollBarsBorderPane extends DecoratorBorderPane {
     public ScrollBarsBorderPane(BorderPaneComponent borderPane, Canvas canvas) {
         super(borderPane);
         this.canvas = canvas;
+        this.scrollPane = new ScrollPane();
         
     }
-    
-    
+
     @Override
     public void addProperty(){
         super.addProperty();
@@ -31,16 +31,11 @@ public class ScrollBarsBorderPane extends DecoratorBorderPane {
         
     }
 
-    private void setScrollBars() {
-        scrollPane = new ScrollPane();
+    protected void setScrollBars() {
         scrollPane.setContent(this.canvas);
         scrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
         scrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
         borderPane.getBorderPane().setCenter(scrollPane); 
     }
    
-    @Override
-    public String test(){
-        return super.test() + " ,sono in scrollBars";
-    }
 }

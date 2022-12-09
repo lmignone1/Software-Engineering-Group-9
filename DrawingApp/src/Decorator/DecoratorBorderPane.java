@@ -29,12 +29,5 @@ public class DecoratorBorderPane implements BorderPaneComponent {
     public BorderPane getBorderPane() {
         return borderPane.getBorderPane();
     }
-
-    @Override
-    public String test() {
-        return borderPane.test();
-    }
-
-
     
 }
