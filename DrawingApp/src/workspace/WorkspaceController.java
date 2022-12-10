@@ -13,6 +13,7 @@ import Command.DeleteCommand;
 import Command.Invoker;
 import Command.MoveCommand;
 import Command.PasteCommand;
+import Command.RotateCommand;
 import Command.Select;
 import Decorator.ConcreteCanvas;
 import Decorator.GridDecorator;
@@ -73,6 +74,8 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
 import Decorator.CanvasComponent;
+import javafx.scene.transform.Affine;
+import javafx.scene.transform.Rotate;
 
 /**
  * FXML Controller class
@@ -113,6 +116,8 @@ public class WorkspaceController implements Initializable {
     MenuItem sizeMenu = new MenuItem("Change size");
     MenuItem toFrontMenu = new MenuItem("To Front");
     MenuItem toBackMenu = new MenuItem("To Back");
+    MenuItem rotateMenu = new MenuItem("Rotate");
+    
     @FXML
     private TextField sizeX;
     @FXML
@@ -130,24 +135,23 @@ public class WorkspaceController implements Initializable {
     private CanvasComponent component;
     private CanvasComponent gridDecorator;
     @FXML
-    private Button zoom;
-    @FXML
     private TextField gridSize;
     @FXML
     private BorderPane borderPane;
-    
+
     public static BorderPaneComponent componentBorderPane;
     @FXML
     private TextField text;
     @FXML
     private ColorPicker textPicker;
     @FXML
+    private TextField rotateField;
+    @FXML
     private Button textButton;
-    
+
     /**
      * Initializes the controller class.
      */
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         gc = drawingCanvas.getGraphicsContext2D();
@@ -157,9 +161,9 @@ public class WorkspaceController implements Initializable {
         pasteMenu.setDisable(true);
         selectShape = new Select(listShape, null);
         oldMod = null;
-        
+
         //scrollPane.setContent(drawingCanvas);
-        componentBorderPane = new ScrollBarsBorderPane(new ConcreteBorderPane(borderPane),drawingCanvas);
+        componentBorderPane = new ScrollBarsBorderPane(new ConcreteBorderPane(borderPane), drawingCanvas);
         //borderPane.setCenter(scrollPane);
 
         gridSize.setText("50");
@@ -168,8 +172,10 @@ public class WorkspaceController implements Initializable {
         scale = new Scale();
         drawingCanvas.getTransforms().add(scale);
         textPicker.setValue(Color.BLACK);
+
+        gc.setTransform(new Affine());
     }
-   
+
     private void loadWindow(String location, String title) throws IOException { //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
         Parent root = FXMLLoader.load(getClass().getResource(location));
         Scene scene = new Scene(root);
@@ -192,7 +198,7 @@ public class WorkspaceController implements Initializable {
         File file = null;
         do {
             file = openFile.showOpenDialog(Workspace.stage);
-        } while(!file.getName().contains(".txt"));
+        } while (!file.getName().contains(".txt"));
         FileDraw.loadDraw(listShape, file.getAbsolutePath(), gc);
     }
 
@@ -201,22 +207,22 @@ public class WorkspaceController implements Initializable {
         FileChooser save = new FileChooser();
         save.setTitle("Save Image");
         File file = save.showSaveDialog(Workspace.stage);
+        
         if (file != null) {
             FileDraw.saveDraw(listShape, file.getAbsolutePath());
         }
+        
     }
-    
 
-    
     @FXML
     private void resizeCanvas(MouseEvent event) {
-        
-        if(pane.getWidth() > 800 && pane.getHeight() > 600){
+
+        if (pane.getWidth() > 800 && pane.getHeight() > 600) {
             drawingCanvas.setWidth(pane.getWidth());
             drawingCanvas.setHeight(pane.getHeight());
-             //drawAll();
+            //drawAll();
         }
-        
+
         /*
         if(pane.getWidth() < 800 && pane.getHeight() < 600){
 
@@ -228,16 +234,12 @@ public class WorkspaceController implements Initializable {
             //
               
        }
-        */
-       
-        
-        
+         */
     }
-
 
     @FXML
     private void makeDraw(MouseEvent event) {
-
+        
         if (event.isPrimaryButtonDown() && (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse"))) {
 
             if (oldMod != null) {
@@ -248,15 +250,14 @@ public class WorkspaceController implements Initializable {
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, selectedFullColour);
             listShape.add(shapeCreated);
             shapeCreated.draw();
-        }
-        else if (event.isPrimaryButtonDown() && mod.equals("Text")){
-            
+        } else if (event.isPrimaryButtonDown() && mod.equals("Text")) {
+
             if (oldMod != null) {
                 mod = oldMod;
                 oldMod = null;
             }
 
-            Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, textPicker, 10, 10, text.getText());
+            Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, textPicker, 10, 10, text.getText(), 0.0);
             listShape.add(shapeCreated);
             shapeCreated.draw();
         }
@@ -277,13 +278,13 @@ public class WorkspaceController implements Initializable {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
                 selectShape.setSelectedShape(elem);
-                if (elem.getType().equals("Text")){
+                if (elem.getType().equals("Text")) {
                     sizeMenu.setDisable(true);
-                }
-                else
+                    
+                } else {
                     sizeMenu.setDisable(false);
-            }
-            else if (selectShape.getSelectedShape() == null){
+                }
+            } else if (selectShape.getSelectedShape() == null) {
                 selectShape.setSelectedShape(null);
             }
         }
@@ -316,7 +317,6 @@ public class WorkspaceController implements Initializable {
     }
     private int previousPosition;
 
-
     private void sel(MouseEvent event) {
 
         if (selectShape.getSelectedShape().containsPoint(event.getX(), event.getY())) {
@@ -324,7 +324,6 @@ public class WorkspaceController implements Initializable {
         }
 
     }
-
 
     @FXML
     private void rectangle(MouseEvent event) {
@@ -348,7 +347,7 @@ public class WorkspaceController implements Initializable {
     }
 
     private void initContextMenu() {
-        contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu, toFrontMenu, toBackMenu);
+        contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu, rotateMenu, toFrontMenu, toBackMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
         /* contextMenu.showingProperty().addListener((observable, oldValue, newValue) -> {
         if(newValue==false&&flag==true){
@@ -356,9 +355,7 @@ public class WorkspaceController implements Initializable {
         flag=false;
         }
     });*/
-      
 
-      
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
             public void handle(ActionEvent event) {
                 delete();
@@ -407,17 +404,25 @@ public class WorkspaceController implements Initializable {
         sizeMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
                 changeSize();
-
+                
             }
         });
+        
         toFrontMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
                 toFront(listShape.indexOf(selectShape.getSelectedShape()), listShape.size());
             }
         });
+        
         toBackMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
                 toBack(listShape.indexOf(selectShape.getSelectedShape()));
+            }
+        });
+        
+        rotateMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the rotateMenu item
+            public void handle(ActionEvent event) {
+                rotate();
             }
         });
     }
@@ -473,10 +478,9 @@ public class WorkspaceController implements Initializable {
     }
 
     public void changeColor() {
-        if(selectShape.getSelectedShape().getType().equals("Text")){
+        if (selectShape.getSelectedShape().getType().equals("Text")) {
             command = new ChangeColorCommand(selectShape, selectShape.getSelectedShape().getLineColor(), textPicker);
-        }
-        else {
+        } else {
             command = new ChangeColorCommand(selectShape, selectedContourColour, selectedFullColour);
         }
         invoker.setCommand(command);
@@ -487,7 +491,7 @@ public class WorkspaceController implements Initializable {
 
     public void changeSize() { //CONTROLLARE QUANDO L'UTENTE NON INSERISCE NULLA NELLE CASELLE DI TESTO DI SIZEX E SIZEY, LANCIA UN ECCEZIONE
         String x1 = sizeX.getText();
-        String y1 = sizeY.getText();
+        String y1 = sizeY.getText(); 
         Double x = new Double(x1);
 
         if (selectShape.getSelectedShape().getType().equals("Line")) {
@@ -497,6 +501,14 @@ public class WorkspaceController implements Initializable {
             command = new ChangeSizeCommand(selectShape, x.doubleValue(), y.doubleValue(), pastX, pastY);
 
         }
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll();
+    }
+
+    public void rotate() {
+        String x = rotateField.getText();
+        command = new RotateCommand(selectShape, Double.parseDouble(x));
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
@@ -539,6 +551,10 @@ public class WorkspaceController implements Initializable {
     @FXML
     private void addText(ActionEvent event) {
         mod = "Text";
+    }
+
+    @FXML
+    private void irregularPolygon(ActionEvent event) {
     }
 
 }

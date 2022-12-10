@@ -28,12 +28,13 @@ public class ConcreteCreatorLine extends Creator{
         return line;   
     }
     
-    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, double sizeX) {
+    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, double sizeX, double degrees) {
         
         ConcreteShapeLines line = new ConcreteShapeLines();
         
         line.setGraphicsContext(gc);
         line.setSizeX(sizeX);
+        line.setDegrees(degrees);
         line.setXY(x, y);
         line.setLineColor(lineColor);
         

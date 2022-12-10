@@ -44,7 +44,7 @@ public class FileDraw {
                 String[] split = line.split(" ");
                 Shape s = Creator.createShape(split[0], gc, Double.parseDouble(split[1]), Double.parseDouble(split[2]),
                         new ColorPicker(Color.valueOf(split[3])), new ColorPicker(Color.valueOf(split[4])),
-                        Double.parseDouble(split[5]), Double.parseDouble(split[6]), split[7]);
+                        Double.parseDouble(split[5]), Double.parseDouble(split[6]), split[7], Double.parseDouble(split[8]));
                 s.draw();
                 listShape.add(s);
             }

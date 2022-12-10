@@ -8,8 +8,10 @@ import Factory.Creator;
 import Memory.Memory;
 import Shapes.Shape;
 import java.util.List;
+import javafx.scene.canvas.GraphicsContext;
 
 import javafx.scene.control.ColorPicker;
+import javafx.scene.transform.Affine;
 
 /**
  *
@@ -88,12 +90,12 @@ public class Select {
         }
         
         if (this.getSelectedShape().getType().equals("Line")) {
-            this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), null, this.selectedShape.getSizeX(), 0);
+            this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), null, this.selectedShape.getSizeX(), 0, this.selectedShape.getDegrees());
         } else if(this.getSelectedShape().getType().equals("Text")) {
-            this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor(), this.selectedShape.getSizeX(), this.selectedShape.getSizeY(), this.selectedShape.getText());
+            this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor(), this.selectedShape.getSizeX(), this.selectedShape.getSizeY(), this.selectedShape.getText(), this.getSelectedShape().getDegrees());
         } 
         else {
-            this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor(), this.selectedShape.getSizeX(), this.selectedShape.getSizeY());
+            this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor(), this.selectedShape.getSizeX(), this.selectedShape.getSizeY(), this.getSelectedShape().getDegrees());
         }
         
        this.memory.addStackShape(this.copyShape);
@@ -107,11 +109,11 @@ public class Select {
         }
         
         if (this.copyShape.getType().equals("Line")) {
-                this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), null, this.copyShape.getSizeX(), 0);
+                this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), null, this.copyShape.getSizeX(), 0, this.getSelectedShape().getDegrees());
         } else if(this.copyShape.getType().equals("Text")) {
-            this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY(), this.copyShape.getText());
+            this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY(), this.copyShape.getText(), this.getSelectedShape().getDegrees());
         } else {
-                this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY());
+                this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY(), this.getSelectedShape().getDegrees());
             }
         this.pasteShape.setXY(x, y);
         this.list.add(this.pasteShape);
@@ -209,4 +211,15 @@ public class Select {
         list.add((int)index,selectedShape);
         this.memory.addStackShape(selectedShape);
     }
+   
+   public void rotate(double degrees) {
+       
+       if(this.selectedShape == null){
+            return;
+        }
+       
+       this.memory.addStackDouble(selectedShape.getDegrees());
+       this.selectedShape.setDegrees(degrees);
+       this.memory.addStackShape(selectedShape);
+   }
 }

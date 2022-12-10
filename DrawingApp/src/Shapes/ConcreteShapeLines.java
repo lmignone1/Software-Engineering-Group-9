@@ -7,7 +7,9 @@ package Shapes;
 
 import java.awt.geom.Line2D;
 import javafx.geometry.Point2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Affine;
 
 /**
  *
@@ -25,6 +27,7 @@ public class ConcreteShapeLines extends AbstractShape{
         this.TYPE = "Line";
         this.length = 100.0;
         this.line = new Line2D.Double();
+        this.setDegrees(0.0);
     }
 
     @Override
@@ -38,9 +41,24 @@ public class ConcreteShapeLines extends AbstractShape{
     }
     @Override
     public void draw() {
-        getGraphicsContext().setStroke(getLineColor().getValue());
-        getGraphicsContext().setLineWidth(2);
-        getGraphicsContext().strokeLine(getX(), getY(), getEndX(), getEndY());
+        GraphicsContext gc = getGraphicsContext();
+        double deg = this.getDegrees();
+        Affine a = gc.getTransform();
+
+        gc.setStroke(getLineColor().getValue());
+        gc.setLineWidth(2);
+        
+        if (deg != 0.0) {
+            a.appendRotation(deg, this.getX() + length / 2, this.getY());
+            gc.setTransform(a);
+        }
+        
+        gc.strokeLine(getX(), getY(), getEndX(), getEndY());
+        
+        if(deg != 0.0){
+            a.setToIdentity();
+            gc.setTransform(a);
+        }
     }
 
     @Override
@@ -50,7 +68,7 @@ public class ConcreteShapeLines extends AbstractShape{
 
     @Override
     public boolean containsPoint(double x, double y) {
-        return line.intersects(x, y, 6.0, 6.0);
+        return line.intersects(x, y, 8.0, 8.0);
     }
 
     public double getEndX() {
@@ -90,7 +108,7 @@ public class ConcreteShapeLines extends AbstractShape{
         String[] split = s.split(" ");
         double x = Double.parseDouble(split[0]);
         x = x + this.length/2;
-        return TYPE + " " + x + " " + split[1] + " " + split[2] + " " + Color.WHITE + " " + length + " " + "0.0" + " " + "nothing";
+        return TYPE + " " + x + " " + split[1] + " " + split[2] + " " + Color.WHITE + " " + length + " " + "0.0" + " " + "nothing" + " " + split[3];
     }
 
 }

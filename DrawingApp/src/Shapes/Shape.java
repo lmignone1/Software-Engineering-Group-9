@@ -8,6 +8,7 @@ package Shapes;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.transform.Affine;
 
 /**
  *
@@ -35,5 +36,6 @@ public interface Shape {
     public double getSizeY();
     public void setText(String string);
     public String getText();
-    
+    public double getDegrees();
+    public void setDegrees(double degrees);
 }
