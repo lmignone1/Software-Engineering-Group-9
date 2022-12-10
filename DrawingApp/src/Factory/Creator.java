@@ -33,6 +33,9 @@ public class Creator {
         if(mode.equals("Text")){
             shape = ConcreteCreatorText.createShape(gc, x, y, lineColor, fillColor);
         }
+        if(mode.equals("IrregularPolygon")){
+            shape = ConcreteCreatorIrregularPolygon.createShape(gc, x, y, lineColor, fillColor);
+        }
         
         return shape;
     }
@@ -76,5 +79,5 @@ public class Creator {
         
         return shape;
     }
-
+    
 }

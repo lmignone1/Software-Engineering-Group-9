@@ -142,6 +142,8 @@ public class WorkspaceController implements Initializable {
     @FXML
     private Button textButton;
     
+    private Shape shape;
+    
     /**
      * Initializes the controller class.
      */
@@ -250,15 +252,12 @@ public class WorkspaceController implements Initializable {
        }
         */
        
-        
-        
     }
-
 
     @FXML
     private void makeDraw(MouseEvent event) {
 
-        if (event.isPrimaryButtonDown() && (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse"))) {
+        if (event.isPrimaryButtonDown() && (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse") || mod.equals("IrregularPolygon"))) {
 
             if (oldMod != null) {
                 mod = oldMod;
@@ -267,7 +266,13 @@ public class WorkspaceController implements Initializable {
 
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, selectedFullColour);
             listShape.add(shapeCreated);
-            shapeCreated.draw();
+            if(shapeCreated.getType().equals("IrregularPolygon")){
+                shape = shapeCreated;
+            }else{
+                //listShape.add(shapeCreated);
+                shapeCreated.draw();
+            }
+           
         }
         else if (event.isPrimaryButtonDown() && mod.equals("Text")){
             
@@ -290,6 +295,28 @@ public class WorkspaceController implements Initializable {
         }
 
     }
+    @FXML
+    private void drag(MouseEvent event) {
+        if(mod.equals("IrregularPolygon")){
+            shape.setXY(event.getX(), event.getY());
+            try{
+                Thread.sleep(250);
+            }
+            catch (Exception e){ }
+            }
+    }
+
+    @FXML
+    private void endDrawPolygon(MouseEvent event) {
+        
+        if(mod.equals("IrregularPolygon")){
+            //shape.setXY(event.getX(), event.getY());
+            shape.draw();
+            
+        }    
+
+    }
+
 
     private void select(MouseEvent event) {
         Iterator<Shape> it = listShape.iterator();
@@ -360,6 +387,14 @@ public class WorkspaceController implements Initializable {
         selectedFullColour.setDisable(false);
         sizeY.setDisable(false);
     }
+    
+    @FXML
+    private void irregularPolygon(ActionEvent event) {
+        mod = "IrregularPolygon";
+        selectedFullColour.setDisable(false);
+        sizeY.setDisable(false);
+    }
+
 
     private void initContextMenu() {
         contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu, toFrontMenu, toBackMenu);
@@ -595,5 +630,4 @@ public class WorkspaceController implements Initializable {
     private void addText(ActionEvent event) {
         mod = "Text";
     }
-
 }

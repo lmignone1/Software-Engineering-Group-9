@@ -28,7 +28,7 @@
    <children>
       <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <Canvas fx:id="drawingCanvas" accessibleRole="PAGE_ITEM" height="600.0" onMousePressed="#makeDraw" onScroll="#zoom" width="800.0" BorderPane.alignment="CENTER" />
+            <Canvas fx:id="drawingCanvas" accessibleRole="PAGE_ITEM" height="600.0" onMouseDragged="#drag" onMousePressed="#makeDraw" onMouseReleased="#endDrawPolygon" onScroll="#zoom" width="800.0" BorderPane.alignment="CENTER" />
          </center>
          <top>
             <ToolBar prefHeight="36.0" prefWidth="800.0" BorderPane.alignment="CENTER">
@@ -95,7 +95,7 @@
                         </Menu>
                      </menus>
                   </MenuBar>
-                  <HBox prefHeight="70.0" prefWidth="474.0">
+                  <HBox prefHeight="71.0" prefWidth="586.0">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fff99" height="29.0" onMouseClicked="#rectangle" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.5" width="53.0">
                            <HBox.margin>
@@ -112,6 +112,7 @@
                               <Insets right="10.0" top="15.0" />
                            </HBox.margin>
                         </Ellipse>
+                        <Button mnemonicParsing="false" onAction="#irregularPolygon" text="Irregular Polygon" />
                         <Button mnemonicParsing="false" onAction="#undoCommand" text="Undo">
                            <HBox.margin>
                               <Insets bottom="20.0" top="20.0" />

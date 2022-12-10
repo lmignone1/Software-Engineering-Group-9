@@ -5,6 +5,7 @@
 package Shapes;
 
 
+import java.util.ArrayList;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
@@ -36,4 +37,10 @@ public interface Shape {
     public void setText(String string);
     public String getText();
     
+    public int getVertices();
+    
+    public float[] getAllX();
+    public float[] getAllY();
+    
+    public Shape clone();
 }

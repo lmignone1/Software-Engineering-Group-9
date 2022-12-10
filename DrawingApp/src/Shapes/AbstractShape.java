@@ -110,5 +110,27 @@ public abstract class AbstractShape implements Shape{
     }
     
     
+    @Override
+    public float[] getAllX(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public float[] getAllY(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
+    @Override
+    public int getVertices(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
+    @Override
+    public Shape clone(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
 }
 

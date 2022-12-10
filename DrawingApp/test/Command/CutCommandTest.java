@@ -129,7 +129,7 @@ public class CutCommandTest {
             
             selectShape = list.get(r.nextInt(list.size()));
             selectedShape.setSelectedShape(selectShape);
-            instance.execute();
+            //instance.execute();
         }
 
     }

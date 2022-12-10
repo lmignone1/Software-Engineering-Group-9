@@ -8,6 +8,9 @@ import Factory.Creator;
 import Memory.Memory;
 import Shapes.Shape;
 import java.util.List;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import javafx.geometry.Point2D;
 
 import javafx.scene.control.ColorPicker;
 
@@ -17,7 +20,6 @@ import javafx.scene.control.ColorPicker;
  * //Receiver
  */
 public class Select {
-
     private List<Shape> list;
     private Shape selectedShape;
     private Shape copyShape;
@@ -92,10 +94,16 @@ public class Select {
         } else if(this.getSelectedShape().getType().equals("Text")) {
             this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor(), this.selectedShape.getSizeX(), this.selectedShape.getSizeY(), this.selectedShape.getText());
         } 
-        else {
+        else if(this.getSelectedShape().getType().equals("IrregularPolygon")){
+            //this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor());
+            this.copyShape = this.selectedShape.clone();
+ 
+        }else{
             this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor(), this.selectedShape.getSizeX(), this.selectedShape.getSizeY());
+
         }
-        
+       System.out.println("clone: " + this.copyShape + " allX: " + Arrays.toString(this.copyShape.getAllX()) + " allY: " + Arrays.toString(this.copyShape.getAllY()));
+       System.out.println("selectedShape: " + this.selectedShape + " allX: " + Arrays.toString(this.selectedShape.getAllX()) + " allY: " + Arrays.toString(this.selectedShape.getAllY()));
        this.memory.addStackShape(this.copyShape);
     }
 
@@ -106,14 +114,63 @@ public class Select {
             return;
         }
         
+        double distTmp;
+        double distX;
+        double distY;
+        
+        
         if (this.copyShape.getType().equals("Line")) {
                 this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), null, this.copyShape.getSizeX(), 0);
         } else if(this.copyShape.getType().equals("Text")) {
             this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY(), this.copyShape.getText());
-        } else {
-                this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY());
+        } else if(this.copyShape.getType().equals("IrregularPolygon")) {
+            //this.pasteShape = this.copyShape.clone();
+            this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), 0, 0, this.copyShape.getLineColor(), this.copyShape.getFillColor());
+
+        }else{
+            this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY());
+        }
+        if(this.pasteShape.getType().equals("IrregularPolygon")){
+            double startX = (double) this.copyShape.getAllX()[0];
+            double startY = (double) this.copyShape.getAllY()[0];
+            Point2D point = new Point2D(startX, startY);
+            Point2D clickPointX = new Point2D(x,startY);
+            Point2D clickPointY = new Point2D(startX,y);
+            distX = point.distance(clickPointX);
+            distY = point.distance(clickPointY);
+            
+            if(x > startX && y > startY){
+                
+            }else if(x < startX && y < startY){
+                distX = -distX;
+                distY = -distY;
+            }else if(x < startX && y > startY){
+                distX = -distX;
+            }else if(x > startX && y < startY){
+                distY = - distY;
             }
-        this.pasteShape.setXY(x, y);
+            
+            //System.out.println("distX:" + distX);
+            //System.out.println("distY" + distY);
+            
+            for(int i = 0; i < this.copyShape.getVertices(); i++){
+                
+                float pastX = this.copyShape.getAllX()[i];
+                float pastY = this.copyShape.getAllY()[i];
+                
+                
+                double newX = pastX + distX;
+                double newY = pastY + distY;
+                
+                this.pasteShape.setXY(newX, newY);
+                
+            }
+            
+            
+        }else
+            this.pasteShape.setXY(x, y);
+        
+       
         this.list.add(this.pasteShape);
         this.memory.addStackShape(this.pasteShape);
     }
