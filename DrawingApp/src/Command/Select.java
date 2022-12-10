@@ -7,6 +7,7 @@ package Command;
 import Factory.Creator;
 import Memory.Memory;
 import Shapes.Shape;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import javafx.geometry.Point2D;
@@ -114,15 +115,14 @@ public class Select {
         } else if (this.copyShape.getType().equals("Text")) {
             this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY(), this.copyShape.getText(), this.copyShape.getDegrees());
         } else if (this.copyShape.getType().equals("IrregularPolygon")) {
-            //this.pasteShape = this.copyShape.clone();
             this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), 0, 0, this.copyShape.getLineColor(), this.copyShape.getFillColor());
 
         } else {
             this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY(), this.copyShape.getDegrees());
         }
         if (this.pasteShape.getType().equals("IrregularPolygon")) {
-            double startX = (double) this.copyShape.getAllX()[0];
-            double startY = (double) this.copyShape.getAllY()[0];
+            double startX = this.copyShape.getAllX()[0];
+            double startY = this.copyShape.getAllY()[0];
             Point2D point = new Point2D(startX, startY);
             Point2D clickPointX = new Point2D(x, startY);
             Point2D clickPointY = new Point2D(startX, y);
@@ -142,8 +142,8 @@ public class Select {
 
             for (int i = 0; i < this.copyShape.getVertices(); i++) {
 
-                float pastX = this.copyShape.getAllX()[i];
-                float pastY = this.copyShape.getAllY()[i];
+                double pastX = this.copyShape.getAllX()[i];
+                double pastY = this.copyShape.getAllY()[i];
 
                 double newX = pastX + distX;
                 double newY = pastY + distY;
@@ -176,10 +176,60 @@ public class Select {
             return;
         }
 
-        this.memory.addStackDouble(previousY);
-        this.memory.addStackDouble(previousX);
+        double distX;
+        double distY;
+        if(this.selectedShape.getType().equals("IrregularPolygon")){
+            
+            double startX = this.selectedShape.getAllX()[0];
+            double startY = this.selectedShape.getAllY()[0];
+            
+            Point2D point = new Point2D(startX, startY);
+            Point2D clickPointX = new Point2D(newX, startY);
+            Point2D clickPointY = new Point2D(startX, newY);
+            distX = point.distance(clickPointX);
+            distY = point.distance(clickPointY);
+      
+            if (newX > startX && newY > startY) {
 
-        this.selectedShape.setXY(newX, newY);
+            } else if (newX < startX && newY < startY) {
+                distX = -distX;
+                distY = -distY;
+            } else if (newX < startX && newY > startY) {
+                distX = -distX;
+            } else if (newX > startX && newY < startY) {
+                distY = -distY;
+            }
+
+            ArrayList<Double> arrayListX = new ArrayList<>();
+            ArrayList<Double> arrayListY = new ArrayList<>();
+            this.selectedShape.setPolygonX(arrayListX);
+            this.selectedShape.setPolygonY(arrayListY);
+            for (int i = 0; i < this.selectedShape.getVertices(); i++) {
+
+                double pastX = this.selectedShape.getAllX()[i];
+                double pastY = this.selectedShape.getAllY()[i];
+                
+                this.memory.addStackDouble(pastY);
+                this.memory.addStackDouble(pastX);
+
+                double setX = pastX + distX;
+                double setY = pastY + distY;
+
+                this.selectedShape.setXY(setX, setY);
+
+            }
+            
+            this.memory.addStackDouble(startY);
+            this.memory.addStackDouble(startX);
+            
+            
+        }else{
+            this.selectedShape.setXY(newX, newY);
+            this.memory.addStackDouble(previousY);
+            this.memory.addStackDouble(previousX);
+        }
+        
+
         this.memory.addStackShape(this.selectedShape);
     }
 

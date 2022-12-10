@@ -165,9 +165,7 @@ public class WorkspaceController implements Initializable {
         selectShape = new Select(listShape, null);
         oldMod = null;
 
-        //scrollPane.setContent(drawingCanvas);
         componentBorderPane = new ScrollBarsBorderPane(new ConcreteBorderPane(borderPane), drawingCanvas);
-        //borderPane.setCenter(scrollPane);
 
         gridSize.setText("50");
         component = new ConcreteCanvas(drawingCanvas);
@@ -226,19 +224,6 @@ public class WorkspaceController implements Initializable {
             //drawAll();
         }
 
-        /*
-        if(pane.getWidth() < 800 && pane.getHeight() < 600){
-
-            //System.out.println(componentBorderPane.test());
-            componentBorderPane.addProperty();
-            //drawAll();
-            //drawingCanvas.setLayoutX(pane.getScaleX());
-            //drawingCanvas.setLayoutY(pane.getScaleY());
-            //
-              
-       }
-        */
-       
     }
 
     @FXML
@@ -255,6 +240,7 @@ public class WorkspaceController implements Initializable {
             listShape.add(shapeCreated);
             if(shapeCreated.getType().equals("IrregularPolygon")){
                 shape = shapeCreated;
+                 flagIrregular = true;
             }else{
                 //listShape.add(shapeCreated);
                 shapeCreated.draw();
@@ -284,26 +270,29 @@ public class WorkspaceController implements Initializable {
     }
     @FXML
     private void drag(MouseEvent event) {
-        if(mod.equals("IrregularPolygon")){
+        if(mod.equals("IrregularPolygon") && !mod.equals("Move")){
             shape.setXY(event.getX(), event.getY());
             try{
                 Thread.sleep(250);
             }
             catch (Exception e){ }
             }
-            flagIrregular = true;
+            System.out.println("sono in drag");
     }
 
     @FXML
     private void endDrawPolygon(MouseEvent event) {
         
-        if(mod.equals("IrregularPolygon") && flagIrregular){
+        if(mod.equals("IrregularPolygon") && flagIrregular && !mod.equals("Move") ){
             //shape.setXY(event.getX(), event.getY());
+             
             shape.draw();
             flagIrregular = false;
+            shape = null; // non so se migliora o no 
             
         }
         //mod = "";
+       
 
     }
 
@@ -314,7 +303,7 @@ public class WorkspaceController implements Initializable {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
                 selectShape.setSelectedShape(elem);
-                if (elem.getType().equals("Text")) {
+                if (elem.getType().equals("Text") || elem.getType().equals("IrregularPolygon")) {
                     sizeMenu.setDisable(true);
                     
                 } else {
@@ -365,6 +354,7 @@ public class WorkspaceController implements Initializable {
     private void rectangle(MouseEvent event) {
         mod = "Rectangle";
         selectedFullColour.setDisable(false);
+        sizeX.setDisable(false);
         sizeY.setDisable(false);
     }
 
@@ -372,6 +362,7 @@ public class WorkspaceController implements Initializable {
     private void lineSegment(MouseEvent event) {
         mod = "Line";
         selectedFullColour.setDisable(true);
+        sizeX.setDisable(false);
         sizeY.setDisable(true);
     }
 
@@ -379,6 +370,7 @@ public class WorkspaceController implements Initializable {
     private void ellipse(MouseEvent event) {
         mod = "Ellipse";
         selectedFullColour.setDisable(false);
+        sizeX.setDisable(false);
         sizeY.setDisable(false);
     }
     
@@ -386,7 +378,9 @@ public class WorkspaceController implements Initializable {
     private void irregularPolygon(ActionEvent event) {
         mod = "IrregularPolygon";
         selectedFullColour.setDisable(false);
-        sizeY.setDisable(false);
+        sizeX.setDisable(true);
+        sizeY.setDisable(true);
+       
     }
 
 
@@ -408,10 +402,9 @@ public class WorkspaceController implements Initializable {
 
         moveMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
             public void handle(ActionEvent event) {
-                if (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse") || mod.equals("Text")) {
+                if (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse") || mod.equals("Text") || mod.equals("IrregularPolygon")) {
                     oldMod = mod;
                 }
-
                 mod = "Move";
 
             }
@@ -428,7 +421,6 @@ public class WorkspaceController implements Initializable {
         pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
             public void handle(ActionEvent event) {
                 paste(pastX, pastY);
-
             }
         });
 
