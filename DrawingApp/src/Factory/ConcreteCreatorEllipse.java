@@ -28,17 +28,17 @@ public class ConcreteCreatorEllipse extends Creator {
         
         return ellipse;   
     }
-    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, double sizeX, double sizeY) {
+    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, double sizeX, double sizeY, double degrees) {
         
         ConcreteShapeEllipses ellipse = new ConcreteShapeEllipses();
         
         ellipse.setGraphicsContext(gc);
         ellipse.setSizeX(sizeX);
         ellipse.setSizeY(sizeY);
+        ellipse.setDegrees(degrees);
         ellipse.setXY(x, y);
         ellipse.setLineColor(lineColor);
         ellipse.setFillColor(fillColor);
-        
         
         return ellipse;   
     }

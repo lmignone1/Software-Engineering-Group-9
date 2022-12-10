@@ -85,6 +85,12 @@ public class ChangeColorCommandTest {
         type.add("Line");
         type.add("Rectangle");
         type.add("Ellipse");
+        type.add("Text");
+        
+        int leftLimit = 97; //letter a
+        int rightLimit = 122; //letter z
+        int targetStringLength = 10;
+        Random random = new Random();
         
         rand = new Random();
         vect = new double[100];
@@ -96,10 +102,16 @@ public class ChangeColorCommandTest {
             count++;
         }
         for(int i = 0; i<NUM; i++){
+            String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+            
             createdShape = Creator.createShape(type.get(rand.nextInt(type.size())), 
                     canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)], 
                     vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())), 
-                    listColor.get(rand.nextInt(listColor.size())));
+                    listColor.get(rand.nextInt(listColor.size())), vect[rand.nextInt(vect.length)],
+                    vect[rand.nextInt(vect.length)], generatedString);
             listShape.add(createdShape);
         }
         

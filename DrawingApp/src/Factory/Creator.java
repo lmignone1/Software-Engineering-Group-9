@@ -40,18 +40,18 @@ public class Creator {
         return shape;
     }
     
-    public static Shape createShape(String mode, GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, double sizeX, double sizeY){
+    public static Shape createShape(String mode, GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, double sizeX, double sizeY, double degrees){
         
         Shape shape = null;
         
         if(mode.equals("Line")){
-            shape = ConcreteCreatorLine.createShape(gc, x, y, lineColor, sizeX);
+            shape = ConcreteCreatorLine.createShape(gc, x, y, lineColor, sizeX, degrees);
         }
         if(mode.equals("Rectangle")){
-            shape = ConcreteCreatorRectangle.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY);
+            shape = ConcreteCreatorRectangle.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY, degrees);
         }
         if(mode.equals("Ellipse")){
-            shape = ConcreteCreatorEllipse.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY);
+            shape = ConcreteCreatorEllipse.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY, degrees);
         }
         if(mode.equals("Text")){
             shape = ConcreteCreatorText.createShape(gc, x, y, lineColor, fillColor);
@@ -60,21 +60,21 @@ public class Creator {
         return shape;
     }
     
-    public static Shape createShape(String mode, GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, double sizeX, double sizeY, String string){
+    public static Shape createShape(String mode, GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, double sizeX, double sizeY, String string, double degrees){
         
         Shape shape = null;
         
         if(mode.equals("Line")){
-            shape = ConcreteCreatorLine.createShape(gc, x, y, lineColor, sizeX);
+            shape = ConcreteCreatorLine.createShape(gc, x, y, lineColor, sizeX, degrees);
         }
         if(mode.equals("Rectangle")){
-            shape = ConcreteCreatorRectangle.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY);
+            shape = ConcreteCreatorRectangle.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY, degrees);
         }
         if(mode.equals("Ellipse")){
-            shape = ConcreteCreatorEllipse.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY);
+            shape = ConcreteCreatorEllipse.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY, degrees);
         }
         if(mode.equals("Text")){
-            shape = ConcreteCreatorText.createShape(gc, x, y, lineColor, fillColor, string);
+            shape = ConcreteCreatorText.createShape(gc, x, y, lineColor, fillColor, string, degrees);
         }
         
         return shape;

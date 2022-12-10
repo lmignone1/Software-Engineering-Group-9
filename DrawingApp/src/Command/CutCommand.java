@@ -6,7 +6,7 @@ package Command;
 
 /**
  *
- * @author Davide
+ * @author loren
  */
 public class CutCommand implements Command{
     
@@ -23,7 +23,7 @@ public class CutCommand implements Command{
 
     @Override
     public void undo() {
-        this.shape.setCopyShape(null);
+        //this.shape.setCopyShape(null);
         this.shape.getShape().add(this.shape.getMemory().popStackShape());
        
     }

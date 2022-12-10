@@ -17,6 +17,7 @@ public abstract class AbstractShape implements Shape{
     private GraphicsContext gc;
     private double x;
     private double y;
+    private double degrees;
     //private double sizeX;
     //private double sizeY;
     
@@ -69,6 +70,16 @@ public abstract class AbstractShape implements Shape{
     public double getY() {
         return this.y;
     }
+
+    @Override
+    public double getDegrees() {
+        return this.degrees;
+    }
+    
+    @Override
+    public void setDegrees(double degrees) {
+        this.degrees = degrees;
+    }
     
     /*
     @Override
@@ -96,7 +107,7 @@ public abstract class AbstractShape implements Shape{
 
     @Override
     public String toString() {
-        return x + " " + y + " " + lineColor.getValue();
+        return x + " " + y + " " + lineColor.getValue() + " " + this.degrees;
     }
     
     @Override

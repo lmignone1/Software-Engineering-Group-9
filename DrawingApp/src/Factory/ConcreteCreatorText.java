@@ -15,12 +15,13 @@ import javafx.scene.control.ColorPicker;
  */
 public class ConcreteCreatorText extends Creator{
     
-    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, String string) {
+    public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, String string, double degrees) {
         
         ConcreteText text = new ConcreteText();
         
         text.setGraphicsContext(gc);
         text.setXY(x, y);
+        text.setDegrees(degrees);
         text.setLineColor(lineColor);
         text.setFillColor(fillColor);
         text.setText(string);

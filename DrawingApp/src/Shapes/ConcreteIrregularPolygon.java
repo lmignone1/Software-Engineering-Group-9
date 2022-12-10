@@ -7,7 +7,9 @@ package Shapes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.geometry.Point2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.transform.Affine;
 
 /**
  *
@@ -113,6 +115,12 @@ public class ConcreteIrregularPolygon extends AbstractShape{
 
     @Override
     public void draw() {
+        
+        GraphicsContext gc = getGraphicsContext();
+        double deg = this.getDegrees();
+        Affine a = gc.getTransform();
+        
+        
         getGraphicsContext().setStroke(getLineColor().getValue());
         getGraphicsContext().setFill(fillColor.getValue());
 
@@ -129,8 +137,22 @@ public class ConcreteIrregularPolygon extends AbstractShape{
             
         }
         nPoints = polyX.length;
+        
+        if(deg != 0.0){
+            a.appendRotation(deg, polyX[0], polyY[0]);
+            gc.setTransform(a);
+        }
+        
+        
+        
         getGraphicsContext().strokePolygon(polyX, polyY, polyX.length);
         getGraphicsContext().fillPolygon(polyX, polyY, polyX.length);
+        
+        if(deg != 0.0){
+            a.setToIdentity();
+            gc.setTransform(a);
+        }
+        
     }    
 
 

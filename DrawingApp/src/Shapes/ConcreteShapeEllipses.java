@@ -7,8 +7,10 @@ package Shapes;
 
 import java.awt.geom.Ellipse2D;
 import javafx.geometry.Point2D;
+import javafx.scene.canvas.GraphicsContext;
 
 import javafx.scene.control.ColorPicker;
+import javafx.scene.transform.Affine;
 
 /**
  *
@@ -27,6 +29,7 @@ public class ConcreteShapeEllipses extends AbstractShape{
         this.radiusX = 150.0;
         this.radiusY = 90.0;
         this.ellipse = new Ellipse2D.Double();
+        this.setDegrees(0.0);
     }
     
     @Override
@@ -57,11 +60,26 @@ public class ConcreteShapeEllipses extends AbstractShape{
     */
     @Override
     public void draw(){
-        getGraphicsContext().setStroke(getLineColor().getValue());
-        getGraphicsContext().setFill(getFillColor().getValue());
-        getGraphicsContext().setLineWidth(3);
-        getGraphicsContext().strokeOval(getX(), getY(), this.radiusX, this.radiusY);
-        getGraphicsContext().fillOval(getX(), getY(), this.radiusX, this.radiusY);
+        GraphicsContext gc = getGraphicsContext();
+        double deg = this.getDegrees();
+        Affine a = gc.getTransform();
+        
+        gc.setStroke(getLineColor().getValue());
+        gc.setFill(getFillColor().getValue());
+        gc.setLineWidth(3);
+
+        if(deg != 0.0){
+            a.appendRotation(deg, this.getX() + radiusX/2, this.getY() + radiusY/2);
+            gc.setTransform(a);
+        }
+        
+        gc.strokeOval(getX(), getY(), this.radiusX, this.radiusY);
+        gc.fillOval(getX(), getY(), this.radiusX, this.radiusY);
+        
+        if(deg != 0.0){
+            a.setToIdentity();
+            gc.setTransform(a);
+        }
     }
 
     @Override
@@ -101,6 +119,12 @@ public class ConcreteShapeEllipses extends AbstractShape{
 
     @Override
     public String toString() {
-        return TYPE + " " + super.toString() + " " + fillColor.getValue() + " " + radiusX + " " + radiusY;
+        String s = super.toString();
+        String[] split = s.split(" ");
+        double x = Double.parseDouble(split[0]);
+        double y = Double.parseDouble(split[1]);
+        x = x + (this.radiusX/2);
+        y = y + (this.radiusY/2);
+        return TYPE + " " + x + " " + y + " " + split[2] + " " + fillColor.getValue() + " " + radiusX + " " + radiusY + " " + "nothing" + " " + split[3];
     }
 }

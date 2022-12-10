@@ -9,6 +9,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Affine;
 
 /**
  *
@@ -30,6 +31,7 @@ public class ConcreteText extends AbstractShape {
         this.width = 50.0;
         this.height = 0.1;
         this.rectangle = new Rectangle2D.Double();
+        this.setDegrees(0.0);
     }
     
     @Override
@@ -55,19 +57,34 @@ public class ConcreteText extends AbstractShape {
     
     @Override
     public void draw(){
+        GraphicsContext gc = getGraphicsContext();
+        double deg = this.getDegrees();
+        Affine a = gc.getTransform();
+        
         ColorPicker cp = new ColorPicker();
         cp.setValue(Color.TRANSPARENT);
-        getGraphicsContext().setStroke(cp.getValue());
-        getGraphicsContext().setFill(getFillColor().getValue());
-        getGraphicsContext().setLineWidth(2);
-        getGraphicsContext().fillRect(getX(), getY(), this.width, this.height);
-        getGraphicsContext().strokeRect(getX(), getY(), this.width, this.height);
-        getGraphicsContext().fillText(string, getX(), getY());
+        gc.setStroke(cp.getValue());
+        gc.setFill(getFillColor().getValue());
+        gc.setLineWidth(2);
+        
+        if (deg != 0.0) {
+            a.appendRotation(deg, this.getX() + width / 2, this.getY() + height / 2);
+            gc.setTransform(a);
+        }
+        
+        gc.fillRect(getX(), getY(), this.width, this.height);
+        gc.strokeRect(getX(), getY(), this.width, this.height);
+        gc.fillText(string, getX() + this.width / 4, getY());
+        
+        if(deg != 0.0){
+            a.setToIdentity();
+            gc.setTransform(a);
+        }
     }
 
     @Override
     public boolean containsPoint(double x, double y) {
-        return rectangle.contains(x, y);
+        return rectangle.intersects(x, y, 10.0, 25.0);
     }
 
     @Override
@@ -107,6 +124,19 @@ public class ConcreteText extends AbstractShape {
     public String getText() {
         return this.string;
     }
+
+    @Override
+    public String toString() {
+        String s = super.toString();
+        String[] split = s.split(" ");
+        double x = Double.parseDouble(split[0]);
+        double y = Double.parseDouble(split[1]);
+        x = x + (this.width/2);
+        y = y + (this.height/2);
+        return TYPE + " " + x + " " + y + " " + split[2] + " " + fillColor.getValue() + " " + this.width + " " + this.height + " " + string + " " + split[3];
+    }
+    
+    
     
 }
 
