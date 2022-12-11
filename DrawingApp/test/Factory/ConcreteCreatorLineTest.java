@@ -34,15 +34,25 @@ public class ConcreteCreatorLineTest {
     private List<ColorPicker> listColor;
     private GraphicsContext gc;
     private final int NUM = 10;
+    private double[] degreesVect;
 
     public ConcreteCreatorLineTest() {
         vect = new double[100];
+        degreesVect = new double[100];
         Random r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
         PrimitiveIterator.OfDouble it = stream.iterator();
         while (count < vect.length && it.hasNext()) {
             vect[count] = it.nextDouble();
+            count++;
+        }
+
+        count = 0;
+        stream = r.doubles(0, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
             count++;
         }
 
@@ -105,6 +115,7 @@ public class ConcreteCreatorLineTest {
                 assertEquals(lineColor.getValue(), result.getLineColor().getValue());
                 assertEquals(x - 100.0 / 2, result.getX(), 0);
                 assertEquals(y, result.getY(), 0);
+                assertEquals(0.0, result.getDegrees(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }
@@ -123,7 +134,8 @@ public class ConcreteCreatorLineTest {
             double y = vect[r.nextInt(vect.length)];
             double sizeX = vect[r.nextInt(vect.length)];
             ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
-            Shape result = instance.createShape(gc, x, y, lineColor, sizeX);
+            double degrees = degreesVect[r.nextInt(degreesVect.length)];
+            Shape result = instance.createShape(gc, x, y, lineColor, sizeX, degrees);
             try {
                 assertNotNull(result);
                 assertEquals(gc, result.getGraphicsContext());
@@ -131,6 +143,7 @@ public class ConcreteCreatorLineTest {
                 assertEquals(x - sizeX / 2, result.getX(), 0);
                 assertEquals(y, result.getY(), 0);
                 assertEquals(sizeX, result.getSizeX(), 0);
+                assertEquals(degrees, result.getDegrees(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }

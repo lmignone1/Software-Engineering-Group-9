@@ -34,15 +34,25 @@ public class ConcreteCreatorEllipseTest {
     private List<ColorPicker> listColor;
     private GraphicsContext gc;
     private final int NUM = 10;
+    private double[] degreesVect;
 
     public ConcreteCreatorEllipseTest() {
         vect = new double[100];
+        degreesVect = new double[100];
         Random r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
         PrimitiveIterator.OfDouble it = stream.iterator();
         while (count < vect.length && it.hasNext()) {
             vect[count] = it.nextDouble();
+            count++;
+        }
+        
+        count = 0;
+        stream = r.doubles(0, 360.001);
+        it = stream.iterator();
+        while (count < vect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
             count++;
         }
 
@@ -107,6 +117,7 @@ public class ConcreteCreatorEllipseTest {
                 assertEquals(fillColor.getValue(), result.getFillColor().getValue());
                 assertEquals(x - 150.0 / 2, result.getX(), 0);
                 assertEquals(y - 90.0 / 2, result.getY(), 0);
+                assertEquals(0.0, result.getDegrees(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }
@@ -127,7 +138,8 @@ public class ConcreteCreatorEllipseTest {
             double sizeY = vect[r.nextInt(vect.length)];
             ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
             ColorPicker fillColor = listColor.get(r.nextInt(listColor.size()));
-            Shape result = instance.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY);
+            double degrees = degreesVect[r.nextInt(degreesVect.length)];
+            Shape result = instance.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY, degrees);
             try {
                 assertNotNull(result);
                 assertEquals(gc, result.getGraphicsContext());
@@ -137,6 +149,7 @@ public class ConcreteCreatorEllipseTest {
                 assertEquals(y - sizeY / 2, result.getY(), 0);
                 assertEquals(sizeX, result.getSizeX(), 0);
                 assertEquals(sizeY, result.getSizeY(), 0);
+                assertEquals(degrees, result.getDegrees(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }

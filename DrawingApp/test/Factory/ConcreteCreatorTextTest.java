@@ -27,15 +27,18 @@ import static org.junit.Assert.*;
  * @author artem
  */
 public class ConcreteCreatorTextTest {
+
     private ConcreteCreatorText instance;
     private JFXPanel panel = new JFXPanel();
     private double[] vect;
     private List<ColorPicker> listColor;
     private GraphicsContext gc;
     private final int NUM = 10;
-    
+    private double[] degreesVect;
+
     public ConcreteCreatorTextTest() {
         vect = new double[100];
+        degreesVect = new double[100];
         Random r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
@@ -44,7 +47,15 @@ public class ConcreteCreatorTextTest {
             vect[count] = it.nextDouble();
             count++;
         }
-
+        
+        count = 0;
+        stream = r.doubles(0, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
+            count++;
+        }
+        
         listColor = new ArrayList<>();
 
         ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
@@ -68,20 +79,20 @@ public class ConcreteCreatorTextTest {
         Canvas canvas = new Canvas(1400, 1000);
         gc = canvas.getGraphicsContext2D();
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         instance = new ConcreteCreatorText();
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -90,32 +101,34 @@ public class ConcreteCreatorTextTest {
      * Test of createShape method, of class ConcreteCreatorText.
      */
     @Test
-    public void testCreateShape_6args() {
+    public void testCreateShape_7args() {
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
         Random random = new Random();
-        
+
         System.out.println("createShape");
         Random r = new Random();
-        
+
         for (int i = 0; i < NUM; i++) {
             double x = vect[r.nextInt(vect.length)];
             double y = vect[r.nextInt(vect.length)];
             ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
             ColorPicker fillColor = listColor.get(r.nextInt(listColor.size()));
+            double degrees = degreesVect[r.nextInt(degreesVect.length)];
             String generatedString = random.ints(leftLimit, rightLimit + 1)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-            
-            Shape result = instance.createShape(gc, x, y, lineColor, fillColor, generatedString);
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+
+            Shape result = instance.createShape(gc, x, y, lineColor, fillColor, generatedString, degrees);
             try {
                 assertNotNull(result);
                 assertEquals(gc, result.getGraphicsContext());
                 assertEquals(lineColor.getValue(), result.getLineColor().getValue());
                 assertEquals(fillColor.getValue(), result.getFillColor().getValue());
                 assertEquals(generatedString, result.getText());
+                assertEquals(degrees, result.getDegrees(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }
@@ -147,5 +160,4 @@ public class ConcreteCreatorTextTest {
             }
         }
     }
-    
 }
