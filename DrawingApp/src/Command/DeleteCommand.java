@@ -12,7 +12,7 @@ public class DeleteCommand implements Command {
     
     private Select shape;
     private double pos;
-    public DeleteCommand(Select shape, double pos) {
+    public DeleteCommand(Select shape) {
         this.shape = shape;
         this.pos = pos;
     }

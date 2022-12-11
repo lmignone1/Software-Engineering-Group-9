@@ -158,18 +158,5 @@ public class FileDrawTest {
         } catch (AssertionError ex){
             fail("The loadFile failed");
         }
-       
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }
-
 }

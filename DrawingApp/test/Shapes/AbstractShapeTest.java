@@ -33,20 +33,32 @@ public class AbstractShapeTest {
     private double[] vect = null;
     private double[] vect2 = null;
     private List<ColorPicker> listColor = null;
-
+    private double[] degreesVect;
+    private final int NUM = 10;
+    
     public AbstractShapeTest() {
         vect = new double[100];
         vect2 = new double[100];
+        degreesVect = new double[100];
         Random r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
         PrimitiveIterator.OfDouble it = stream.iterator();
+
         while (count < 2 * vect.length && it.hasNext()) {
             if (count < vect.length) {
                 vect[count] = it.nextDouble();
             } else {
                 vect2[count - vect.length] = it.nextDouble();
             }
+            count++;
+        }
+
+        count = 0;
+        stream = r.doubles(-360.001, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
             count++;
         }
 
@@ -240,46 +252,69 @@ public class AbstractShapeTest {
         }
     }
 
-    /*
     /**
-     * Test of SetSizeX method, of class AbstractShape.
-     *//*
+     * Test of getDegrees method, of class AbstractShape.
+     */
     @Test
-    public void testSetSizeX() {
-        System.out.println("setSizeX");
-        double currentSizeX = instance.getSizeX();
-        double[] sizeX = vect;
+    public void testGetDegrees() {
+        System.out.println("getDegrees");
+        double[] expResult = degreesVect;
         try {
-            for (int i = 0; i < vect.length; i++) {
-                instance.setSizeX(sizeX[i]);
-                assertNotEquals(currentSizeX, instance.getSizeX());
-                assertEquals(sizeX[i], instance.getSizeX(), 0);
-            }
-        } catch (AssertionError ex) {
-            fail("The setSizeX failed");
-        }
-    }
-    
-    
-    /**
-     * Test of getSizeX method, of class AbstractShape.
-     *//*
-    @Test
-    public void testGetSizeX() {
-        System.out.println("getSizeX");
-        double[] expResult = vect;
-        try {
-            for (int i = 0; i < vect.length; i++) {
-                instance.setSizeX(expResult[i]);
-                double result = instance.getSizeX();
+            for (int i = 0; i < degreesVect.length; i++) {
+                instance.setDegrees(expResult[i]);
+                double result = instance.getDegrees();
                 assertNotNull(result);
                 assertEquals(expResult[i], result, 0);
             }
         } catch (AssertionError ex) {
-            fail("The getSizeX failed");
+            fail("The getDegrees failed");
         }
     }
+
+    /**
+     * Test of setDegrees method, of class AbstractShape.
      */
+    @Test
+    public void testSetDegrees() {
+        System.out.println("setDegrees");
+        double currentDegrees = instance.getDegrees();
+        double[] deg = degreesVect;
+
+        try {
+            for (int i = 0; i < degreesVect.length; i++) {
+                instance.setDegrees(deg[i]);
+                assertNotEquals(currentDegrees, instance.getDegrees());
+                assertEquals(deg[i], instance.getDegrees(), 0);
+            }
+        } catch (AssertionError ex) {
+            fail("The setDegrees failed");
+        }
+    }
+
+    /**
+     * Test of toString method, of class AbstractShape.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Random r = new Random();
+        for(int i = 0; i < NUM; i++){
+            double x = vect[r.nextInt(vect.length)];
+            double y = vect[r.nextInt(vect.length)];
+            ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
+            double deg = degreesVect[r.nextInt(degreesVect.length)];
+            String s = x + " " + y + " " + lineColor.getValue() + " " + deg;
+            instance.setX(x);
+            instance.setY(y);
+            instance.setLineColor(lineColor);
+            instance.setDegrees(deg);
+            try {
+                assertEquals(s, instance.toString());
+            } catch (AssertionError ex){
+                fail("The toString failed");
+            } 
+        }
+    }
 
     public class AbstractShapeImpl extends AbstractShape {
 

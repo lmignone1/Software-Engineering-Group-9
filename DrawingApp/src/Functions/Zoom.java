@@ -4,13 +4,15 @@
  */
 package Functions;
 
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Scale;
 
 /**
  *
- * @author Davide
+ * @author loren
  */
 public class Zoom {
+
     private double zoomFactor;
 
     public static void zoom(Scale scale, double newX, double newY, double wheel) {
@@ -35,24 +37,5 @@ public class Zoom {
         scale.setPivotX(newX);
         scale.setPivotY(newY);
 
-        /*
-        double zoomFactor = 1.05;
-        double wheel = event.getDeltaY();
-        if (wheel < 0) {
-            zoomFactor = 0.95;
-        }
-        double currentScaleX = drawingCanvas.getScaleX();
-        double currentScaleY = drawingCanvas.getScaleY();
-        if (currentScaleX >= 1.0) {
-            if (currentScaleX == 1.0 && wheel < 0) {
-                return;
-            }
-            drawingCanvas.setScaleX(currentScaleX * zoomFactor);
-            drawingCanvas.setScaleY(currentScaleY * zoomFactor);
-        } else {
-            drawingCanvas.setScaleX(1.0);
-            drawingCanvas.setScaleY(1.0);
-        }
-         */
     }
 }

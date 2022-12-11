@@ -261,8 +261,12 @@ public class SelectTest {
     @Test
     public void testGetPasteShape() {
         System.out.println("getPasteShape");
+        
+        
+        
+        
       try{
-           assertTrue(instance.getPasteShape() instanceof Shape);
+           assertTrue( instanceof Shape);
            assertNotEquals(instance.getMemory(),null);
         }catch(AssertionError ex){
             fail("The test case is a prototype.");

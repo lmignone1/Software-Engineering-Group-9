@@ -47,15 +47,15 @@ public class ConcreteCreatorTextTest {
             vect[count] = it.nextDouble();
             count++;
         }
-        
+
         count = 0;
-        stream = r.doubles(0, 360.001);
+        stream = r.doubles(-360.001, 360.001);
         it = stream.iterator();
         while (count < degreesVect.length && it.hasNext()) {
             degreesVect[count] = it.nextDouble();
             count++;
         }
-        
+
         listColor = new ArrayList<>();
 
         ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
@@ -127,8 +127,12 @@ public class ConcreteCreatorTextTest {
                 assertEquals(gc, result.getGraphicsContext());
                 assertEquals(lineColor.getValue(), result.getLineColor().getValue());
                 assertEquals(fillColor.getValue(), result.getFillColor().getValue());
+                assertEquals(x - 50.0 / 2, result.getX(), 0);
+                assertEquals(y - 0.1 / 2, result.getY(), 0);
                 assertEquals(generatedString, result.getText());
                 assertEquals(degrees, result.getDegrees(), 0);
+                assertEquals(50.0, result.getSizeX(), 0);
+                assertEquals(0.1, result.getSizeY(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }
@@ -155,6 +159,9 @@ public class ConcreteCreatorTextTest {
                 assertEquals(fillColor.getValue(), result.getFillColor().getValue());
                 assertEquals(x - 50.0 / 2, result.getX(), 0);
                 assertEquals(y - 0.1 / 2, result.getY(), 0);
+                assertEquals(50.0, result.getSizeX(), 0);
+                assertEquals(0.1, result.getSizeY(), 0);
+                assertEquals(0.0, result.getDegrees(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }

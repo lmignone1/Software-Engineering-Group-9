@@ -49,7 +49,7 @@ public class ConcreteCreatorLineTest {
         }
 
         count = 0;
-        stream = r.doubles(0, 360.001);
+        stream = r.doubles(-360.001, 360.001);
         it = stream.iterator();
         while (count < degreesVect.length && it.hasNext()) {
             degreesVect[count] = it.nextDouble();
@@ -116,6 +116,7 @@ public class ConcreteCreatorLineTest {
                 assertEquals(x - 100.0 / 2, result.getX(), 0);
                 assertEquals(y, result.getY(), 0);
                 assertEquals(0.0, result.getDegrees(), 0);
+                assertEquals(100.0, result.getSizeX(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }
@@ -126,7 +127,7 @@ public class ConcreteCreatorLineTest {
      * Test of createShape method, of class ConcreteCreatorLine.
      */
     @Test
-    public void testCreateShape_5args() {
+    public void testCreateShape_6args() {
         System.out.println("createShape");
         Random r = new Random();
         for (int i = 0; i < NUM; i++) {
