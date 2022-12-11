@@ -160,13 +160,21 @@ public class MemoryTest {
      */
     @Test
     public void testPopStackShape() {
-        System.out.println("popStackShape");
-        Memory instance = new Memory();
-        Shape expResult = null;
-        Shape result = instance.popStackShape();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("addStackShape");
+        Shape expShape;
+        Shape currentShape;
+        
+        try{
+            for(int i = 0; i < NUM; i++){
+                expShape = listShape.get(i);
+                instance.addStackShape(expShape);
+                currentShape = instance.getStackShape().pop();
+                assertEquals(expShape,currentShape);
+            }
+
+        }catch(AssertionError ex){
+            fail("ERROR: The addStackShape failed");
+        }
     }
 
     /**
@@ -174,13 +182,21 @@ public class MemoryTest {
      */
     @Test
     public void testPopStackDouble() {
-        System.out.println("popStackDouble");
-        Memory instance = new Memory();
-        Double expResult = null;
-        Double result = instance.popStackDouble();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("addStackDouble");
+        Double expDouble;
+        Double currentDouble;
+        
+        try{
+            for(int i = 0; i < NUM; i++){
+                expDouble = vect[i];
+                instance.addStackDouble(expDouble);
+                currentDouble = instance.getStackDouble().pop();
+                assertEquals(expDouble,currentDouble);
+            }
+
+        }catch(AssertionError ex){
+            fail("ERROR: The addStackDouble failed");
+        }
     }
 
     /**
@@ -189,12 +205,21 @@ public class MemoryTest {
     @Test
     public void testPopStackColor() {
         System.out.println("popStackColor");
-        Memory instance = new Memory();
-        ColorPicker expResult = null;
-        ColorPicker result = instance.popStackColor();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        ColorPicker expColor = new ColorPicker();
+        ColorPicker currentColor = new ColorPicker();
+        
+        try{
+            for(int i = 0; i < listColor.size(); i++){
+                expColor = listColor.get(i);
+                instance.addStackColor(expColor);
+                currentColor = instance.getStackColor().pop();
+                assertEquals(expColor,currentColor);
+            }
+
+        }catch(AssertionError ex){
+            fail("ERROR: The popStackColor failed");
+        }
     }
 
     /**
@@ -203,11 +228,20 @@ public class MemoryTest {
     @Test
     public void testAddStackShape() {
         System.out.println("addStackShape");
-        Shape selectedShape = null;
-        Memory instance = new Memory();
-        instance.addStackShape(selectedShape);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Shape expShape;
+        Shape currentShape;
+        
+        try{
+            for(int i = 0; i < NUM; i++){
+                expShape = listShape.get(i);
+                instance.addStackShape(expShape);
+                currentShape = instance.getStackShape().peek();
+                assertEquals(expShape,currentShape);
+            }
+
+        }catch(AssertionError ex){
+            fail("ERROR: The addStackShape failed");
+        }
     }
 
     /**
@@ -216,11 +250,20 @@ public class MemoryTest {
     @Test
     public void testAddStackDouble() {
         System.out.println("addStackDouble");
-        Double number = null;
-        Memory instance = new Memory();
-        instance.addStackDouble(number);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Double expDouble;
+        Double currentDouble;
+        
+        try{
+            for(int i = 0; i < NUM; i++){
+                expDouble = vect[i];
+                instance.addStackDouble(expDouble);
+                currentDouble = instance.getStackDouble().peek();
+                assertEquals(expDouble,currentDouble);
+            }
+
+        }catch(AssertionError ex){
+            fail("ERROR: The addStackDouble failed");
+        }
     }
 
     /**
@@ -229,11 +272,22 @@ public class MemoryTest {
     @Test
     public void testAddStackColor() {
         System.out.println("addStackColor");
-        ColorPicker color = null;
-        Memory instance = new Memory();
-        instance.addStackColor(color);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        ColorPicker expColor = new ColorPicker();
+        ColorPicker currentColor = new ColorPicker();
+        
+        try{
+            for(int i = 0; i < listColor.size(); i++){
+                expColor = listColor.get(i);
+                instance.addStackColor(expColor);
+                currentColor = instance.getStackColor().peek();
+                assertEquals(listColor.get(i),currentColor);
+            }
+
+        }catch(AssertionError ex){
+            fail("ERROR: The addStackColor failed");
+        }
+
     }
 
     /**
@@ -242,12 +296,16 @@ public class MemoryTest {
     @Test
     public void testGetStackShape() {
         System.out.println("getStackShape");
-        Memory instance = new Memory();
-        Stack<Shape> expResult = null;
-        Stack<Shape> result = instance.getStackShape();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Stack<Shape> expStack = new Stack<>();
+
+        try{
+            Stack<Shape> currentStack = instance.getStackShape();
+            assertEquals(currentStack.getClass(), expStack.getClass());
+            assertNotNull(instance.getStackShape());
+            
+        }catch(AssertionError ex){
+            fail("ERROR: The getStackShape failed");
+        }
     }
 
     /**
@@ -256,12 +314,16 @@ public class MemoryTest {
     @Test
     public void testGetStackDouble() {
         System.out.println("getStackDouble");
-        Memory instance = new Memory();
-        Stack<Double> expResult = null;
-        Stack<Double> result = instance.getStackDouble();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Stack<Double> expStack = new Stack<>();
+
+        try{
+            Stack<Double> currentStack = instance.getStackDouble();
+            assertEquals(currentStack.getClass(), expStack.getClass());
+            assertNotNull(instance.getStackDouble());
+            
+        }catch(AssertionError ex){
+            fail("ERROR: The getStackDouble failed");
+        }
     }
 
     /**
@@ -270,12 +332,17 @@ public class MemoryTest {
     @Test
     public void testGetStackColor() {
         System.out.println("getStackColor");
-        Memory instance = new Memory();
-        Stack<ColorPicker> expResult = null;
-        Stack<ColorPicker> result = instance.getStackColor();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Stack<ColorPicker> expStack = new Stack<>();
+
+        try{
+            Stack<ColorPicker> currentStack = instance.getStackColor();
+            assertEquals(currentStack.getClass(), expStack.getClass());
+            assertNotNull(instance.getStackColor());
+            
+        }catch(AssertionError ex){
+            fail("ERROR: The getStackColor failed");
+        }
+        
     }
     
 }
