@@ -70,8 +70,7 @@ public class Select {
     public Shape getPasteShape() {
         return pasteShape;
     }
-
-
+    
     public void delete() {
 
         if (this.selectedShape == null) {
@@ -260,15 +259,13 @@ public class Select {
         }
 
         if (this.selectedShape.getType().equals("Line")) {
-            //this.memory.addStackDouble(previousY);
-            //this.memory.addStackDouble(previousX);
+
             this.memory.addStackDouble(this.selectedShape.getY());
             this.memory.addStackDouble(this.selectedShape.getX() + this.selectedShape.getSizeX()/2);
             this.memory.addStackDouble(this.selectedShape.getSizeX());
 
         } else {
-            //this.memory.addStackDouble(previousY);
-            //this.memory.addStackDouble(previousX);
+
             this.memory.addStackDouble(this.selectedShape.getY() + this.selectedShape.getSizeY()/2);
             this.memory.addStackDouble(this.selectedShape.getX() + this.selectedShape.getSizeX()/2);
             this.memory.addStackDouble(this.selectedShape.getSizeY());
@@ -287,9 +284,6 @@ public class Select {
         this.memory.addStackShape(this.selectedShape);
     }
 
-    /* public void toFront(){
-        selectedShape.setToFront();
-    }*/
 
     public void toFront(double index) {
         list.remove(selectedShape);

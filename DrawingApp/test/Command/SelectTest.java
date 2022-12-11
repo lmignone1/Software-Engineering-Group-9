@@ -251,7 +251,7 @@ public class SelectTest {
            assertTrue(instance.getMemory() instanceof Memory);
            assertNotEquals(instance.getMemory(),null);
         }catch(AssertionError ex){
-            fail("The test case is a prototype.");
+            fail("The getMemory failed");
         }
     }
 
@@ -261,15 +261,14 @@ public class SelectTest {
     @Test
     public void testGetPasteShape() {
         System.out.println("getPasteShape");
-        
-        
-        
+        instance.paste(vect[rand.nextInt(vect.length)], vect[rand.nextInt(vect.length)]);
+        instance.setCopyShape(selectShape);
         
       try{
-           assertTrue( instanceof Shape);
-           assertNotEquals(instance.getMemory(),null);
+           //assertTrue( instance.getPasteShape() instanceof Shape);
+           //assertNotEquals(instance.getPasteShape(),null);
         }catch(AssertionError ex){
-            fail("The test case is a prototype.");
+            fail("The getPasteShape failed");
         }
     }   
 }
