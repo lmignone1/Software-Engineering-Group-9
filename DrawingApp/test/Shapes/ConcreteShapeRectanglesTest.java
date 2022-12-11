@@ -34,10 +34,12 @@ public class ConcreteShapeRectanglesTest {
     private double[] vect = null;
     private double[] vect2 = null;
     private List<ColorPicker> listColor = null;
+    private double[] degreesVect;
 
     public ConcreteShapeRectanglesTest() {
         vect = new double[100];
         vect2 = new double[100];
+        degreesVect = new double[100];
         Random r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
@@ -48,6 +50,14 @@ public class ConcreteShapeRectanglesTest {
             } else {
                 vect2[count - vect.length] = it.nextDouble();
             }
+            count++;
+        }
+
+        count = 0;
+        stream = r.doubles(-360.001, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
             count++;
         }
 
@@ -157,6 +167,7 @@ public class ConcreteShapeRectanglesTest {
     @Test
     public void testDraw() {
         System.out.println("drawShape");
+        Random r = new Random();
         Canvas drawingCanvas = new Canvas(800, 600);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         Canvas expCanvas = new Canvas(800, 600);
@@ -181,6 +192,8 @@ public class ConcreteShapeRectanglesTest {
             expGC.setStroke(color.getValue());
             double x = vect[i] - w / 2;
             double y = vect2[i] - h / 2;
+            double deg = degreesVect[r.nextInt(degreesVect.length)];
+            instance.setDegrees(deg);
             expGC.setFill(color.getValue());
             expGC.strokeRect(x, y, w, h);
             expGC.fillRect(x, y, w, h);
@@ -188,6 +201,7 @@ public class ConcreteShapeRectanglesTest {
                 assertEquals(expGC.getStroke(), instanceGC.getStroke());
                 assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
                 assertEquals(expGC.getFill(), instanceGC.getFill());
+                assertEquals(deg, instance.getDegrees(), 0);
                 assertEquals(x, instance.getX(), 0);
                 assertEquals(y, instance.getY(), 0);
                 assertEquals(w, instance.getSizeX(), 0);
@@ -322,6 +336,37 @@ public class ConcreteShapeRectanglesTest {
             } catch (AssertionError ex) {
                 fail("The getPoint failed");
             }
+        }
+    }
+
+    /**
+     * Test of toString method, of class ConcreteShapeRectangles.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Random r = new Random();
+        double x = vect[r.nextInt(vect.length)];
+        double y = vect[r.nextInt(vect.length)];
+        ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
+        ColorPicker fillColor = listColor.get(r.nextInt(listColor.size()));
+        double sizeX = vect[r.nextInt(vect.length)];
+        double sizeY = vect[r.nextInt(vect.length)];
+        double deg = degreesVect[r.nextInt(degreesVect.length)];
+
+        String s = "Rectangle" + " " + x + " " + y + " " + lineColor.getValue() + " " + fillColor.getValue() + " " + sizeX + " " + sizeY + " " + "nothing" + " " + deg;
+        instance.setSizeX(sizeX);
+        instance.setSizeY(sizeY);
+        instance.setXY(x, y);
+        instance.setLineColor(lineColor);
+        instance.setDegrees(deg);
+        instance.setFillColor(fillColor);
+
+        try {
+            assertEquals(s, instance.toString());
+        } catch (AssertionError ex) {
+            System.out.println(s + "\n" + instance.toString()); // it can fail not for a very bug but because of a round problem on the 13 decimal digit (can be easily resolved with round func)
+            fail("The toString failed");
         }
     }
 }

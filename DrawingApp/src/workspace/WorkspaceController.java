@@ -520,7 +520,7 @@ public class WorkspaceController implements Initializable {
     }
 
     public void cut() {
-        command = new CutCommand(selectShape, listPrevious.indexOf(selectShape.getSelectedShape()));
+        command = new CutCommand(selectShape);
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();

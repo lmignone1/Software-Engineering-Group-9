@@ -12,7 +12,7 @@ public class CutCommand implements Command{
     
     private Select shape;
     private double pos;
-    public CutCommand(Select shape, double pos) {
+    public CutCommand(Select shape) {
         this.shape = shape;
         this.pos = pos;
     }
