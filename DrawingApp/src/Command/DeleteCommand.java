@@ -11,9 +11,10 @@ package Command;
 public class DeleteCommand implements Command {
     
     private Select shape;
-
-    public DeleteCommand(Select shape) {
+    private double pos;
+    public DeleteCommand(Select shape, double pos) {
         this.shape = shape;
+        this.pos = pos;
     }
     
     @Override
@@ -23,7 +24,7 @@ public class DeleteCommand implements Command {
 
    @Override
     public void undo() {
-        shape.getShape().add(this.shape.getMemory().popStackShape());
+        shape.getShape().add((int) pos,this.shape.getMemory().popStackShape());
     }
 
 }

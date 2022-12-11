@@ -16,25 +16,21 @@ public class ChangeSizeCommand implements Command {
     double sizeX, sizeY;
     double previousX, previousY;
 
-    public ChangeSizeCommand(Select shape, double sizeX, double sizeY, double previousX, double previousY) {
+    public ChangeSizeCommand(Select shape, double sizeX, double sizeY) {
         this.shape = shape;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        this.previousX = previousX;
-        this.previousY = previousY;
     }
     
-    public ChangeSizeCommand(Select shape, double sizeX, double previousX, double previousY) {
+    public ChangeSizeCommand(Select shape, double sizeX) {
         this.shape = shape;
         this.sizeX = sizeX;
-        this.previousX = previousX;
-        this.previousY = previousY;
     } 
     
 
     @Override
     public void execute() {
-        this.shape.changeSize(this.sizeX, this.sizeY, this.previousX, this.previousY);
+        this.shape.changeSize(this.sizeX, this.sizeY);
     }
 
     @Override

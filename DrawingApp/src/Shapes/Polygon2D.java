@@ -276,9 +276,11 @@ public class Polygon2D implements Shape, Cloneable, Serializable {
      *                         <code>Point</code>; <code>false</code> otherwise.
      * @see #contains(double, double)
      */
+    /*
     public boolean contains(Point p) {
         return contains(p.x, p.y);
     }
+    */
 
     /**
      * Determines whether the specified coordinates are inside this
@@ -290,9 +292,11 @@ public class Polygon2D implements Shape, Cloneable, Serializable {
      *                         the specified coordinates, (<i>x</i>,&nbsp;<i>y</i>);
      *                         <code>false</code> otherwise.
      */
+    /*
     public boolean contains(int x, int y) {
         return contains((double) x, (double) y);
     }
+    */
 
     /**
      * Returns the high precision bounding box of the {@link Shape}.

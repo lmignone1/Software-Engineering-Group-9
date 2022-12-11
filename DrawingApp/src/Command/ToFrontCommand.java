@@ -16,10 +16,12 @@ public class ToFrontCommand implements Command {
     private Select shape;
     private double index;
     private double size;
+    
     public ToFrontCommand(Select shape, double index, double size) {
         this.shape = shape;
         this.index=index;
         this.size=size;
+        
     }
 
     @Override
@@ -30,9 +32,12 @@ public class ToFrontCommand implements Command {
 
     @Override
     public void undo() {
+        
         Shape oldShape = this.shape.getMemory().popStackShape();
         this.shape.getShape().remove(oldShape);
         this.shape.getShape().add((int)index,oldShape);
+        
+       
     }
 
 }

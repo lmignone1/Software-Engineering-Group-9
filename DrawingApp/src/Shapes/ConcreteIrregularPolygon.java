@@ -5,7 +5,6 @@
 package Shapes;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
@@ -23,8 +22,8 @@ public class ConcreteIrregularPolygon extends AbstractShape{
     private final String TYPE;
     private ArrayList<Double> polygonX = new ArrayList<Double>();
     private ArrayList<Double> polygonY = new ArrayList<Double>();
-    private float[] allX;
-    private float[] allY;
+    private double[] allX;
+    private double[] allY;
     private int nPoints;
 
     public ConcreteIrregularPolygon() {
@@ -42,21 +41,13 @@ public class ConcreteIrregularPolygon extends AbstractShape{
         return this.fillColor;
     }
 
-    public void setPolygon(Polygon2D polygon) {
-        this.polygon = polygon;
-    }
-
-    public Polygon2D getPolygon() {
-        return polygon;
-    }
-
     @Override
-    public float[] getAllX() {
+    public double[] getAllX() {
         return allX;
     }
 
     @Override
-    public float[] getAllY() {
+    public double[] getAllY() {
         return allY;
     }
     
@@ -69,22 +60,23 @@ public class ConcreteIrregularPolygon extends AbstractShape{
         this.nPoints = n;
     }
     
-    public void setAllX(float[] allX){
+    public void setAllX(double[] allX){
         this.allX = allX;
     }
-    public void setAllY(float[] allY){
+    public void setAllY(double[] allY){
         this.allY = allY;
     }
-
+    
+    @Override
     public void setPolygonX(ArrayList<Double> polygonX) {
         this.polygonX = polygonX;
     }
 
+    @Override
     public void setPolygonY(ArrayList<Double> polygonY) {
         this.polygonY = polygonY;
     }
-
-
+    
     @Override
     public Shape clone(){
         ConcreteIrregularPolygon irregularPolygon = new ConcreteIrregularPolygon();
@@ -105,12 +97,9 @@ public class ConcreteIrregularPolygon extends AbstractShape{
     public void setXY(double newX, double newY) {
         this.polygonX.add(newX);
         this.polygonY.add(newY);
-        setX(newX);
-        setY(newY);
         float floatX = (float)newX;
         float floatY = (float)newY;
         this.polygon.addPoint(floatX, floatY);
-        //this.point = new Point2D(getX(),getY());
     }
 
     @Override
@@ -126,14 +115,14 @@ public class ConcreteIrregularPolygon extends AbstractShape{
 
         double[] polyX = new double[polygonX.size()];
         double[] polyY = new double[polygonY.size()];
-        allX = new float[polygonX.size()];
-        allY = new float[polygonY.size()];
+        allX = new double[polygonX.size()];
+        allY = new double[polygonY.size()];
 
         for(int i = 0; i < polygonX.size(); i++){
             polyX[i] = polygonX.get(i);
             polyY[i] = polygonY.get(i);
-            allX[i] = polygonX.get(i).floatValue();
-            allY[i] = polygonY.get(i).floatValue();
+            allX[i] = polygonX.get(i);
+            allY[i] = polygonY.get(i);
             
         }
         nPoints = polyX.length;
@@ -143,7 +132,7 @@ public class ConcreteIrregularPolygon extends AbstractShape{
             gc.setTransform(a);
         }
         
-        
+        getGraphicsContext().setLineWidth(3);
         
         getGraphicsContext().strokePolygon(polyX, polyY, polyX.length);
         getGraphicsContext().fillPolygon(polyX, polyY, polyX.length);
@@ -162,11 +151,6 @@ public class ConcreteIrregularPolygon extends AbstractShape{
     }
 
     @Override
-    public Point2D getPoint() {
-        return this.point;
-    }
-
-    @Override
     public String getType() {
         return this.TYPE;
     }
@@ -178,6 +162,11 @@ public class ConcreteIrregularPolygon extends AbstractShape{
 
     @Override
     public double getSizeX() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Point2D getPoint() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

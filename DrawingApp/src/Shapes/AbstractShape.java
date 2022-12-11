@@ -4,6 +4,7 @@
  */
 package Shapes;
 
+import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 
@@ -88,11 +89,12 @@ public abstract class AbstractShape implements Shape{
     public double getSizeY(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    /*
     @Override
     public String toString() {
-        return x + " " + y + " " + lineColor.getValue() + " " + this.degrees;
+        return this.getClass().getName();
     }
+    */
     
     @Override
     public void setText(String string){
@@ -106,12 +108,12 @@ public abstract class AbstractShape implements Shape{
     
     
     @Override
-    public float[] getAllX(){
+    public double[] getAllX(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Override
-    public float[] getAllY(){
+    public double[] getAllY(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
@@ -121,11 +123,18 @@ public abstract class AbstractShape implements Shape{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    
     @Override
     public Shape clone(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
+    @Override
+    public void setPolygonX(ArrayList<Double> arrayListX){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    @Override
+    public void setPolygonY(ArrayList<Double> arrayListY){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
 

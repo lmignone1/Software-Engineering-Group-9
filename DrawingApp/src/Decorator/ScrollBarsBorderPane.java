@@ -31,7 +31,7 @@ public class ScrollBarsBorderPane extends DecoratorBorderPane {
         
     }
 
-    private void setScrollBars() {
+    protected void setScrollBars() {
         this.scrollPane = new ScrollPane();
         scrollPane.setContent(this.canvas);
         scrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);

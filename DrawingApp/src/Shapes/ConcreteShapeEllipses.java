@@ -116,7 +116,7 @@ public class ConcreteShapeEllipses extends AbstractShape{
     public double getSizeY() {
         return this.radiusY;
     }
-
+    /*
     @Override
     public String toString() {
         String s = super.toString();
@@ -127,4 +127,5 @@ public class ConcreteShapeEllipses extends AbstractShape{
         y = y + (this.radiusY/2);
         return TYPE + " " + x + " " + y + " " + split[2] + " " + fillColor.getValue() + " " + radiusX + " " + radiusY + " " + "nothing" + " " + split[3];
     }
+    */
 }

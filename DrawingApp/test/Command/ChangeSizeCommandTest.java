@@ -61,9 +61,10 @@ public class ChangeSizeCommandTest {
     private DoubleStream stream;
     private int count;
     private PrimitiveIterator.OfDouble it;
+    private double[] degreesVect;
     
     public ChangeSizeCommandTest() {
-        
+        degreesVect = new double[100];
         panel = new JFXPanel();
         listShape = new ArrayList<>();
         selectShape = null;
@@ -95,7 +96,7 @@ public class ChangeSizeCommandTest {
         type.add("Line");
         type.add("Rectangle");
         type.add("Ellipse");
-        type.add("Text");
+        //type.add("Text");
         
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z
@@ -103,7 +104,7 @@ public class ChangeSizeCommandTest {
         Random random = new Random();
         
         rand = new Random();
-        vect = new double[100];
+        vect = new double[200];
         stream = rand.doubles(-999.999,999.999);
         count = 0;
         it = stream.iterator();
@@ -111,7 +112,19 @@ public class ChangeSizeCommandTest {
             vect[count] = it.nextDouble();
             count++;
         }
+        
+        count = 0;
+        stream = rand.doubles(-360.0, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
+            count++;
+        }
+        
+        
+        
         for(int i = 0; i<NUM; i++){
+            
             String generatedString = random.ints(leftLimit, rightLimit + 1)
                 .limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
@@ -121,7 +134,7 @@ public class ChangeSizeCommandTest {
                     canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)], 
                     vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())), 
                     listColor.get(rand.nextInt(listColor.size())), vect[rand.nextInt(vect.length)],
-                    vect[rand.nextInt(vect.length)], generatedString);
+                    vect[rand.nextInt(vect.length)], degreesVect[rand.nextInt(degreesVect.length)]);
             listShape.add(createdShape);
         }
         
@@ -138,9 +151,9 @@ public class ChangeSizeCommandTest {
     
     @Before
     public void setUp() {
-        selectShape = listShape.get(rand.nextInt(listShape.size()));
+        selectShape = listShape.get(0);
         selectedShape.setSelectedShape(selectShape);
-        instance = new ChangeSizeCommand(selectedShape, vect[rand.nextInt(vect.length)], vect[rand.nextInt(vect.length)], vect[rand.nextInt(vect.length)], vect[rand.nextInt(vect.length)]);
+        instance = new ChangeSizeCommand(selectedShape, vect[0], vect[1]);
     }
     
     @After
@@ -153,30 +166,88 @@ public class ChangeSizeCommandTest {
     @Test
     public void testExecute() {
        
-        System.out.println("execute");
+        System.out.println("TEST: Execute ChangeSizeCommand ");
         
-        for(int i = 0; i < listShape.size(); i++){
+        double expSizeX = vect[0];
+        double expSizeY = vect[1];
+        double expX = selectedShape.getSelectedShape().getX() - expSizeX/2;
+        double expY;
+
+        if(selectedShape.getSelectedShape().getType().equals("Line")){
+            expY = selectedShape.getSelectedShape().getY();
             
-            instance.sizeX = vect[i]+vect[i];
-            if(selectedShape.getSelectedShape().getType().equals("Rectangle") || selectedShape.getSelectedShape().getType().equals("Ellipse")){
-                instance.sizeY = vect[i]*vect[i];
-            }
+        }else{
+            expY = selectedShape.getSelectedShape().getY() - expSizeY/2;
+
+        }
+        
+        count = 2;
+        
+        for(int i = 0; i < 1; i++){
+            
             instance.execute();
             
             try{
-                assertTrue(listShape.contains(selectShape));
-                assertEquals(selectedShape.getSelectedShape().getSizeX(), instance.sizeX, 0);
+                assertTrue(listShape.contains(selectedShape.getSelectedShape()));
                 
-                if(selectedShape.getSelectedShape().getType().equals("Rectangle") || selectedShape.getSelectedShape().getType().equals("Ellipse")){
-                    assertEquals(selectedShape.getSelectedShape().getSizeY(), instance.sizeY, 0);
+                assertFalse(selectedShape.getMemory().getStackDouble().isEmpty());
+                assertFalse(selectedShape.getMemory().getStackShape().isEmpty());
+                
+                assertEquals(expSizeX, selectedShape.getSelectedShape().getSizeX(), 0);
+
+                if(!selectedShape.getSelectedShape().getType().equals("Line")){
+                    assertEquals(expSizeY,selectedShape.getSelectedShape().getSizeY() ,0);
                 }
-                assertEquals(selectedShape.getPreviousX(),instance.previousX,0);
-                assertEquals(selectedShape.getPreviousY(),instance.previousY,0);
+                
+                if(selectedShape.getSelectedShape().getType().equals("Line")){
+                    assertEquals(expX,selectedShape.getMemory().getStackDouble().get(selectedShape.getMemory().getStackDouble().size()-2),0);
+                }
+                
+                if(!selectedShape.getSelectedShape().getType().equals("Line")){
+                    assertEquals(expX,selectedShape.getMemory().getStackDouble().get(selectedShape.getMemory().getStackDouble().size()-3),0);
+                }
+                
+                if(!selectedShape.getSelectedShape().getType().equals("Line")){
+                    //assertEquals(preExpSizeY,selectedShape.getMemory().getStackDouble().get(selectedShape.getMemory().getStackDouble().size()-2),0);
+                }
+                
+                if(!selectedShape.getSelectedShape().getType().equals("Line")){
+                   //assertEquals(expX,selectedShape.getMemory().getStackDouble().get(selectedShape.getMemory().getStackDouble().size()-2),0);
+                }
+                
+                if(!selectedShape.getMemory().getStackDouble().isEmpty() && !selectedShape.getSelectedShape().getType().equals("Line")){
+                    //assertEquals(expX,selectedShape.getMemory().getStackDouble().get(selectedShape.getMemory().getStackDouble().size()-3),0);
+                    //assertEquals(expY,selectedShape.getMemory().getStackDouble().get(selectedShape.getMemory().getStackDouble().size()-4),0);
+                }
+                
+
+                
             }catch(AssertionError ex){
+
+                System.out.println("expX:" + expX);
+                System.out.println("stack X" +selectedShape.getMemory().getStackDouble().get(selectedShape.getMemory().getStackDouble().size()-2));
+                for(Double s : selectedShape.getMemory().getStackDouble()){
+                    System.out.println(s);
+                }
+                                
                 fail("The excute of ChangeSizeCommand failed");
             }
-            selectShape = listShape.get(rand.nextInt(listShape.size()));
+            selectShape = listShape.get(i);
             selectedShape.setSelectedShape(selectShape);
+            instance = new ChangeSizeCommand(selectedShape,vect[count+2],vect[count+3]);
+            
+            expSizeX = vect[count+2];
+            expSizeY = vect[count+3];
+            expX = selectedShape.getSelectedShape().getX() - expSizeX/2;
+
+
+            if(selectedShape.getSelectedShape().getType().equals("Line")){
+               expY = selectedShape.getSelectedShape().getY();
+            }else{
+               expY =  selectedShape.getSelectedShape().getY() - expSizeY/2;
+               
+            }
+            count = count + 2;
         }
     }      
 
