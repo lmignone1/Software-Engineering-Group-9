@@ -34,10 +34,12 @@ public class ConcreteShapeLinesTest {
     private double[] vect = null;
     private double[] vect2 = null;
     private List<ColorPicker> listColor = null;
+    private double[] degreesVect;
 
     public ConcreteShapeLinesTest() {
         vect = new double[100];
         vect2 = new double[100];
+        degreesVect = new double[100];
         Random r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
@@ -48,6 +50,14 @@ public class ConcreteShapeLinesTest {
             } else {
                 vect2[count - vect.length] = it.nextDouble();
             }
+            count++;
+        }
+
+        count = 0;
+        stream = r.doubles(-360.001, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
             count++;
         }
 
@@ -119,6 +129,7 @@ public class ConcreteShapeLinesTest {
     @Test
     public void testDraw() {
         System.out.println("drawShape");
+        Random r = new Random();
         Canvas drawingCanvas = new Canvas(1400, 1000);
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         Canvas expCanvas = new Canvas(1400, 1000);
@@ -129,7 +140,8 @@ public class ConcreteShapeLinesTest {
         expGC.setLineWidth(2);
         double len = 100.0;
         Iterator<ColorPicker> it = listColor.iterator();
-
+        double deg = degreesVect[r.nextInt(degreesVect.length)];
+        instance.setDegrees(deg);
         for (int i = 0; i < vect.length; i++) {
             instance.setXY(startX[i], startY[i]);
             if (!it.hasNext()) {
@@ -149,6 +161,7 @@ public class ConcreteShapeLinesTest {
             try {
                 assertEquals(expGC.getStroke(), instanceGC.getStroke());
                 assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
+                assertEquals(deg, instance.getDegrees(), 0);
                 assertEquals(x1, instance.getX(), 0);
                 assertEquals(y1, instance.getY(), 0);
                 assertEquals(x2, instance.getEndX(), 0);
@@ -250,7 +263,7 @@ public class ConcreteShapeLinesTest {
         Point2D midPoint = instance.getPoint().midpoint(instance.getEndX(), instance.getEndY());
         try {
             assertTrue(instance.containsPoint(midPoint.getX(), midPoint.getY()));
-            assertFalse(instance.containsPoint(10*midPoint.getX(), 10*midPoint.getY()));
+            assertFalse(instance.containsPoint(10 * midPoint.getX(), 10 * midPoint.getY()));
         } catch (AssertionError ex) {
             fail("The containsPoint failed");
         }
@@ -330,7 +343,7 @@ public class ConcreteShapeLinesTest {
         System.out.println("setFillColor");
         instance.setFillColor(new ColorPicker(Color.CHOCOLATE));
     }
-    
+
     /**
      * Test of setSizeY method, of class ConcreteShapeLines.
      */
@@ -348,5 +361,31 @@ public class ConcreteShapeLinesTest {
         System.out.println("getSizeY");
         instance.getSizeY();
     }
-    
+
+    /**
+     * Test of toString method, of class ConcreteShapeLines.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Random r = new Random();
+        double x = vect[r.nextInt(vect.length)];
+        double y = vect[r.nextInt(vect.length)];
+        ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
+        double sizeX = vect[r.nextInt(vect.length)];
+        double deg = degreesVect[r.nextInt(degreesVect.length)];
+
+        String s = "Line" + " " + x + " " + y + " " + lineColor.getValue() + " " + Color.WHITE + " " + sizeX + " " + "0.0" + " " + "nothing" + " " + deg;
+        instance.setSizeX(sizeX);
+        instance.setXY(x, y);
+        instance.setLineColor(lineColor);
+        instance.setDegrees(deg);
+
+        try {
+            assertEquals(s, instance.toString());
+        } catch (AssertionError ex) {
+            System.out.println(s + "\n" + instance.toString()); // it can fail not for a very bug but because of a round problem on the 13 decimal digit (can be easily resolved with round func)
+            fail("The toString failed");
+        }
+    }
 }

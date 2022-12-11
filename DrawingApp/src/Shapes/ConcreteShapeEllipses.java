@@ -49,15 +49,7 @@ public class ConcreteShapeEllipses extends AbstractShape{
         ellipse.setFrame(getX(), getY(), this.radiusX, this.radiusY);
         point = new Point2D(getX(), getY());
     }
-    /*
-    public double getRadiusX(){
-        return this.radiusX;
-    }
-
-    public double getRadiusY(){
-        return this.radiusY;
-    }
-    */
+   
     @Override
     public void draw(){
         GraphicsContext gc = getGraphicsContext();
