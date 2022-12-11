@@ -122,7 +122,7 @@ public class CutCommandTest {
     public void setUp() {
         selectShape = list.get(r.nextInt(list.size()));
         selectedShape.setSelectedShape(selectShape);
-        instance = new CutCommand(selectedShape);
+        instance = new CutCommand(selectedShape, 0);
     }
     
     @After
