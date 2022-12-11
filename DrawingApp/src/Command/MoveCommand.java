@@ -34,12 +34,10 @@ public class MoveCommand implements Command {
     }
 
     @Override
-    public void undo() {
-        
-        
-        
-        if(this.shape.getMemory().getStackShape().peek().getType().equals("IrregularPolygon")){
-            /*
+    public void undo() { 
+                
+        if(this.shape.getMemory().getStackShape().peek().getType().equals("IrregularPolygon")){ //undo dei poligoni irregolari non funzione alla perfezione
+            
                 double distX;
                 double distY;
                 double startX = this.shape.getMemory().getStackShape().peek().getAllX()[0];
@@ -69,19 +67,19 @@ public class MoveCommand implements Command {
                 this.shape.getMemory().getStackShape().peek().setPolygonX(arrayListX);
                 this.shape.getMemory().getStackShape().peek().setPolygonX(arrayListY);
                 
-                for (int i = 0; i < this.shape.getMemory().getStackShape().peek().getVertices(); i++) {
+                for (int i = 0; i <= this.shape.getMemory().getStackShape().peek().getVertices()-1; i++) {
 
                     double pastX = this.shape.getMemory().popStackDouble();
                     double pastY = this.shape.getMemory().popStackDouble();
 
-                    double setX = pastX - distX;
-                    double setY = pastY - distY;
+                    double setX = pastX + distX;
+                    double setY = pastY + distY;
 
                     this.shape.getMemory().getStackShape().peek().setXY(setX, setY);
 
                 }
                 this.shape.getMemory().popStackShape();
-            */
+            
         }else{
             this.shape.getMemory().popStackShape().setXY(this.shape.getMemory().popStackDouble(), this.shape.getMemory().popStackDouble());
         }

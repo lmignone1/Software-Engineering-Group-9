@@ -112,16 +112,17 @@ public class ChangeSizeCommandTest {
             count++;
         }
         for(int i = 0; i<NUM; i++){
+            /*
             String generatedString = random.ints(leftLimit, rightLimit + 1)
                 .limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
-            
+            */
             createdShape = Creator.createShape(type.get(rand.nextInt(type.size())), 
                     canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)], 
                     vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())), 
                     listColor.get(rand.nextInt(listColor.size())), vect[rand.nextInt(vect.length)],
-                    vect[rand.nextInt(vect.length)], generatedString);
+                    vect[rand.nextInt(vect.length)], 0);
             listShape.add(createdShape);
         }
         

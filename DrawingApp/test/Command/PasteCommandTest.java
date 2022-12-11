@@ -205,7 +205,7 @@ public class PasteCommandTest {
                 assertFalse(listShape.contains(selectedShape.getPasteShape()));
                 assertTrue(selectedShape.getMemory().getStackShape().isEmpty());
                 assertFalse(selectedShape.getMemory().getStackShape().contains(selectedShape.getPasteShape()));
-
+                
             }catch(AssertionError ex){
                 fail("ERROR: The Undo of PasteCommand failed");
             }

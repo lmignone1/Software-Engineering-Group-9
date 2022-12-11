@@ -107,9 +107,6 @@ public class Select {
             return;
         }
 
-        double distX;
-        double distY;
-
         if (this.copyShape.getType().equals("Line")) {
             this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), null, this.copyShape.getSizeX(), 0, this.copyShape.getDegrees());
         } else if (this.copyShape.getType().equals("Text")) {
@@ -121,6 +118,8 @@ public class Select {
             this.pasteShape = creator.createShape(this.copyShape.getType(), this.copyShape.getGraphicsContext(), this.copyShape.getX(), this.copyShape.getY(), this.copyShape.getLineColor(), this.copyShape.getFillColor(), this.copyShape.getSizeX(), this.copyShape.getSizeY(), this.copyShape.getDegrees());
         }
         if (this.pasteShape.getType().equals("IrregularPolygon")) {
+            double distX;
+            double distY;
             double startX = this.copyShape.getAllX()[0];
             double startY = this.copyShape.getAllY()[0];
             Point2D point = new Point2D(startX, startY);
@@ -176,12 +175,14 @@ public class Select {
             return;
         }
 
-        double distX;
-        double distY;
+
         if(this.selectedShape.getType().equals("IrregularPolygon")){
             
-            double startX = this.selectedShape.getAllX()[0];
-            double startY = this.selectedShape.getAllY()[0];
+            double distX;
+            double distY;
+            
+            double startX = this.selectedShape.getAllX()[this.selectedShape.getVertices()-1];
+            double startY = this.selectedShape.getAllY()[this.selectedShape.getVertices()-1];
             
             Point2D point = new Point2D(startX, startY);
             Point2D clickPointX = new Point2D(newX, startY);
@@ -204,7 +205,7 @@ public class Select {
             ArrayList<Double> arrayListY = new ArrayList<>();
             this.selectedShape.setPolygonX(arrayListX);
             this.selectedShape.setPolygonY(arrayListY);
-            for (int i = 0; i < this.selectedShape.getVertices(); i++) {
+            for (int i = this.selectedShape.getVertices()-1; i >= 0; i--) {
 
                 double pastX = this.selectedShape.getAllX()[i];
                 double pastY = this.selectedShape.getAllY()[i];
