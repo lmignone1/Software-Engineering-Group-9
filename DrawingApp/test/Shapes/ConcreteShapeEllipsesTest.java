@@ -366,7 +366,7 @@ public class ConcreteShapeEllipsesTest {
         try {
             assertEquals(s, instance.toString());
         } catch (AssertionError ex) {
-            System.out.println(s + "\n" + instance.toString()); // it can fail not for a very bug but because of a round problem on the 13 decimal digit (can be easily resolved with round func)
+            System.out.println(s + "\n" + instance.toString()); // it can fail not for a real bug but because of a round problem on the 13 decimal digit (can be easily resolved with round func)
             fail("The toString failed");
         }
     }
