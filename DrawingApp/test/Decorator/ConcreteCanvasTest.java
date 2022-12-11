@@ -93,7 +93,6 @@ public class ConcreteCanvasTest {
         int random;
         for (int i = 0; i < 10; i++) {
             random = r.nextInt(999);
-            System.out.println(random);
             int result = instance.getGridSizeInput();
 
             try {
