@@ -1,4 +1,4 @@
-Shapes.ConcreteShapeLines@31a5c39e
-Shapes.ConcreteShapeRectangles@3f49dace
-Shapes.ConcreteShapeEllipses@1e397ed7
-Shapes.ConcreteText@490ab905
+Line 410.9523809523809 53.01587301587302 0x1a3399ff 0xffffffff 100.0 0.0 nothing 30.0
+Rectangle 130.95238095238093 237.53968253968253 0x4d804dff 0x4d1a4dff 100.0 50.0 nothing 90.0
+Ellipse 415.15873015873024 362.9365079365079 0x1a3399ff 0xe64d4dff 150.0 90.0 nothing -30.0
+Text 458.6666666666667 148.0 0x000000ff 0xe64d4dff 50.0 0.1 Test 45.0

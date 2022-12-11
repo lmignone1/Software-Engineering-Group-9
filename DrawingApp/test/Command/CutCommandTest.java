@@ -37,6 +37,7 @@ public class CutCommandTest {
     private double[] vect;
     private GraphicsContext gc;
     private List<ColorPicker> listColor = null;
+    private double[] degreesVect;
     
     private Random r;
     
@@ -45,11 +46,20 @@ public class CutCommandTest {
     public CutCommandTest() {
         vect = new double[100];
         r = new Random();
+        degreesVect = new double[100];
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
         PrimitiveIterator.OfDouble it = stream.iterator();
         while(count < vect.length && it.hasNext()) {
             vect[count] = it.nextDouble();
+            count++;
+        }
+        
+        count = 0;
+        stream = r.doubles(-360.001, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
             count++;
         }
         
@@ -94,7 +104,7 @@ public class CutCommandTest {
                     listColor.get(r.nextInt(listColor.size())),
                     listColor.get(r.nextInt(listColor.size())),
                     vect[r.nextInt(vect.length)], vect[r.nextInt(vect.length)], 
-                    generatedString);
+                    generatedString, degreesVect[r.nextInt(degreesVect.length)]);
             list.add(shape);
         }
         selectedShape = new Select(list, null);
@@ -112,7 +122,7 @@ public class CutCommandTest {
     public void setUp() {
         selectShape = list.get(r.nextInt(list.size()));
         selectedShape.setSelectedShape(selectShape);
-        instance = new CutCommand(selectedShape);
+        instance = new CutCommand(selectedShape, 0);
     }
     
     @After
