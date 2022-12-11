@@ -5,14 +5,13 @@
 package Command;
 
 import Shapes.Shape;
-import javafx.scene.transform.Affine;
 
 /**
  *
  * @author loren
  */
-public class RotateCommand implements Command{
-    
+public class RotateCommand implements Command {
+
     private Select shape;
     private double degrees;
 

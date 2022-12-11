@@ -6,13 +6,13 @@ package Decorator;
 
 import javafx.scene.layout.BorderPane;
 
-
 /**
  *
  * @author Davide
  */
 public interface BorderPaneComponent {
-    
+
     public void addProperty();
+
     public BorderPane getBorderPane();
 }

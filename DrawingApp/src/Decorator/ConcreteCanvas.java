@@ -4,21 +4,17 @@
  */
 package Decorator;
 
-import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.layout.AnchorPane;
 
 /**
  *
  * @author artem
  */
 
-//rappresenta la canvas: oggetto che deve essere decorato
 public class ConcreteCanvas implements CanvasComponent {
-    
+
     Canvas canvas;
     int gridSize;
-    
 
     public ConcreteCanvas(Canvas canvas) {
         this.canvas = canvas;
@@ -42,8 +38,5 @@ public class ConcreteCanvas implements CanvasComponent {
     public int getGridSizeInput() {
         return this.gridSize;
     }
-    
-    
 
-    
 }

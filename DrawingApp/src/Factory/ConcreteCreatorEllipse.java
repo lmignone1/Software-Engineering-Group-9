@@ -9,8 +9,6 @@ import Shapes.Shape;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 
-
-
 /**
  *
  * @author loren
@@ -18,20 +16,21 @@ import javafx.scene.control.ColorPicker;
 public class ConcreteCreatorEllipse extends Creator {
 
     public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor) {
-        
+
         ConcreteShapeEllipses ellipse = new ConcreteShapeEllipses();
-        
+
         ellipse.setGraphicsContext(gc);
         ellipse.setXY(x, y);
         ellipse.setLineColor(lineColor);
         ellipse.setFillColor(fillColor);
-        
-        return ellipse;   
+
+        return ellipse;
     }
+
     public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor, double sizeX, double sizeY, double degrees) {
-        
+
         ConcreteShapeEllipses ellipse = new ConcreteShapeEllipses();
-        
+
         ellipse.setGraphicsContext(gc);
         ellipse.setSizeX(sizeX);
         ellipse.setSizeY(sizeY);
@@ -39,8 +38,8 @@ public class ConcreteCreatorEllipse extends Creator {
         ellipse.setXY(x, y);
         ellipse.setLineColor(lineColor);
         ellipse.setFillColor(fillColor);
-        
-        return ellipse;   
+
+        return ellipse;
     }
-    
+
 }

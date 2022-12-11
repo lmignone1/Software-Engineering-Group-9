@@ -5,7 +5,6 @@
 package Command;
 
 import Shapes.Shape;
-import static java.nio.file.Files.size;
 
 /**
  *
@@ -15,27 +14,27 @@ public class ToBackCommand implements Command {
 
     private Select shape;
     private double index;
-  
+
     public ToBackCommand(Select shape, double index) {
         this.shape = shape;
-        this.index=index;
-        
+        this.index = index;
+
     }
 
     @Override
     public void execute() {
-        
+
         this.shape.toBack(0);
     }
 
     @Override
     public void undo() {
         //this.shape.toBack(index);
-        
+
         Shape oldShape = this.shape.getMemory().popStackShape();
         this.shape.getShape().remove(oldShape);
-        this.shape.getShape().add((int)index,oldShape);
-        
+        this.shape.getShape().add((int) index, oldShape);
+
     }
 
 }

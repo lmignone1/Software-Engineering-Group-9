@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
  * @author Davide
  */
 public class SelectTest {
-    
+
     //SELECT ATTRIBUTE
     private Select instance;
     private Shape selectShape;
@@ -56,8 +56,7 @@ public class SelectTest {
     private int count;
     private PrimitiveIterator.OfDouble it;
     private double[] degreesVect;
-    
-    
+
     public SelectTest() {
         degreesVect = new double[100];
         panel = new JFXPanel();
@@ -128,26 +127,23 @@ public class SelectTest {
                     vect[rand.nextInt(vect.length)], generatedString, degreesVect[rand.nextInt(degreesVect.length)]);
             list.add(createdShape);
         }
-        
-        
-        
-        
+
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
-        
-         instance = new Select(list, null);
+
+        instance = new Select(list, null);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -183,7 +179,7 @@ public class SelectTest {
             } catch (AssertionError ex) {
                 fail("The getSelectedShape failed");
             }
-        }    
+        }
     }
 
     /**
@@ -247,10 +243,10 @@ public class SelectTest {
     @Test
     public void testGetMemory() {
         System.out.println("getMemory");
-        try{
-           assertTrue(instance.getMemory() instanceof Memory);
-           assertNotEquals(instance.getMemory(),null);
-        }catch(AssertionError ex){
+        try {
+            assertTrue(instance.getMemory() instanceof Memory);
+            assertNotEquals(instance.getMemory(), null);
+        } catch (AssertionError ex) {
             fail("The getMemory failed");
         }
     }
@@ -273,5 +269,5 @@ public class SelectTest {
                 fail("The getPasteShape failed");
             }
         }
-    }   
+    }
 }

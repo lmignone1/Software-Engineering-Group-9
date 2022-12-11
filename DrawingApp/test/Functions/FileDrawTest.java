@@ -7,9 +7,7 @@ package Functions;
 import Factory.Creator;
 import Shapes.Shape;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +42,7 @@ public class FileDrawTest {
         line2 = "Rectangle 130.95238095238093 237.53968253968253 0x4d804dff 0x4d1a4dff 100.0 50.0 nothing 90.0";
         line3 = "Ellipse 415.15873015873024 362.9365079365079 0x1a3399ff 0xe64d4dff 150.0 90.0 nothing -30.0";
         line4 = "Text 458.6666666666667 148.0 0x000000ff 0xe64d4dff 50.0 0.1 Test 45.0";
-        
+
         type = new ArrayList<>();
         type.add("Line");
         type.add("Rectangle");
@@ -64,9 +62,9 @@ public class FileDrawTest {
         listShape.add(Creator.createShape(type.get(2), gc, 415.15873015873024, 362.9365079365079,
                 new ColorPicker(Color.valueOf("0x1a3399ff")), new ColorPicker(Color.valueOf("0xe64d4dff")), 150.0, 90.0, -30.0));
 
-        listShape.add(Creator.createShape(type.get(3), gc, 458.6666666666667, 148.0, 
+        listShape.add(Creator.createShape(type.get(3), gc, 458.6666666666667, 148.0,
                 new ColorPicker(Color.valueOf("0x000000ff")), new ColorPicker(Color.valueOf("0xe64d4dff")), 50.0, 0.1, "Test", 45.0));
-        
+
         path = "prova";
         completePath = path + ".txt";
     }
@@ -94,9 +92,9 @@ public class FileDrawTest {
     @Test
     public void testSaveDraw() throws IOException {
         System.out.println("saveDraw");
-        
+
         FileDraw.saveDraw(listShape, path);
-        
+
         FileReader f = new FileReader(completePath);
         BufferedReader b = new BufferedReader(f);
         try {
@@ -132,13 +130,13 @@ public class FileDrawTest {
     @Test
     public void testLoadDraw() throws Exception {
         System.out.println("loadDraw");
-        
+
         FileDraw.loadDraw(listShapeResult, completePath, gc);
-        
+
         try {
             assertNotNull(listShapeResult);
             assertEquals(listShape.size(), listShapeResult.size());
-            for(int i = 0; i < listShape.size(); i++){
+            for (int i = 0; i < listShape.size(); i++) {
                 assertEquals(listShape.get(i).getType(), listShapeResult.get(i).getType());
                 assertEquals(gc, listShapeResult.get(i).getGraphicsContext());
                 assertEquals(listShape.get(i).getLineColor().getValue(), listShapeResult.get(i).getLineColor().getValue());
@@ -147,15 +145,15 @@ public class FileDrawTest {
                 assertEquals(listShape.get(i).getSizeX(), listShapeResult.get(i).getSizeX(), 0);
                 assertEquals(listShape.get(i).getPoint(), listShapeResult.get(i).getPoint());
                 assertEquals(listShape.get(i).getDegrees(), listShapeResult.get(i).getDegrees(), 0);
-                if(!listShape.get(i).getType().equals(type.get(0))){
+                if (!listShape.get(i).getType().equals(type.get(0))) {
                     assertEquals(listShape.get(i).getSizeY(), listShapeResult.get(i).getSizeY(), 0);
                     assertEquals(listShape.get(i).getFillColor().getValue(), listShapeResult.get(i).getFillColor().getValue());
                 }
-                if(listShape.get(i).getType().equals(type.get(3))){
+                if (listShape.get(i).getType().equals(type.get(3))) {
                     assertEquals(listShape.get(i).getText(), listShapeResult.get(i).getText());
                 }
             }
-        } catch (AssertionError ex){
+        } catch (AssertionError ex) {
             fail("The loadFile failed");
         }
     }

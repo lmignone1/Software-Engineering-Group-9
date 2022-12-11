@@ -16,7 +16,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
-import javafx.scene.transform.Affine;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

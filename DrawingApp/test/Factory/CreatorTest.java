@@ -35,7 +35,6 @@ public class CreatorTest {
     private List<String> mode;
     private double[] degreesVect;
 
- 
     public CreatorTest() {
         vect = new double[100];
         degreesVect = new double[100];
@@ -47,7 +46,7 @@ public class CreatorTest {
             vect[count] = it.nextDouble();
             count++;
         }
-        
+
         count = 0;
         stream = r.doubles(-360.001, 360.001);
         it = stream.iterator();
@@ -55,7 +54,7 @@ public class CreatorTest {
             degreesVect[count] = it.nextDouble();
             count++;
         }
-        
+
         listColor = new ArrayList<>();
 
         ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
@@ -127,7 +126,7 @@ public class CreatorTest {
                     assertEquals(x - 100.0 / 2, result.getX(), 0);
                     assertEquals(y - 50.0 / 2, result.getY(), 0);
                     assertEquals(fillColor.getValue(), result.getFillColor().getValue());
-                }  else if (elem.equals(mode.get(2))) {
+                } else if (elem.equals(mode.get(2))) {
                     assertEquals(x - 150.0 / 2, result.getX(), 0);
                     assertEquals(y - 90.0 / 2, result.getY(), 0);
                     assertEquals(fillColor.getValue(), result.getFillColor().getValue());
@@ -202,11 +201,11 @@ public class CreatorTest {
     @Test
     public void testCreateShape_10args() {
         System.out.println("createShape");
-        
+
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
-        
+
         Random r = new Random();
         for (String elem : mode) {
             double x = vect[r.nextInt(vect.length)];
@@ -216,13 +215,12 @@ public class CreatorTest {
             ColorPicker fillColor = listColor.get(r.nextInt(listColor.size()));
             ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
             double degrees = degreesVect[r.nextInt(degreesVect.length)];
-            
+
             String generatedString = r.ints(leftLimit, rightLimit + 1)
                     .limit(targetStringLength)
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString();
 
-            
             Shape result = Creator.createShape(elem, gc, x, y, lineColor, fillColor, sizeX, sizeY, generatedString, degrees);
             try {
                 assertNotNull(result);

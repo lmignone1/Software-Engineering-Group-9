@@ -13,7 +13,7 @@ import Command.DeleteCommand;
 import Command.Invoker;
 import Command.MoveCommand;
 import Command.PasteCommand;
-import Command.RotateCommand; 
+import Command.RotateCommand;
 import Command.Select;
 import Decorator.ConcreteCanvas;
 import Decorator.GridDecorator;
@@ -27,23 +27,13 @@ import Factory.Creator;
 import Functions.FileDraw;
 import Functions.Zoom;
 import Shapes.Shape;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -57,12 +47,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
@@ -72,11 +57,8 @@ import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
-import javax.imageio.ImageIO;
 import Decorator.CanvasComponent;
 import javafx.scene.transform.Affine;
-import javafx.scene.transform.Rotate;
 
 /**
  * FXML Controller class
@@ -155,7 +137,7 @@ public class WorkspaceController implements Initializable {
     private MenuItem saveProjectMenu;
     @FXML
     private Button textButton;
-    
+
     private boolean flagGrid;
 
     /**
@@ -184,7 +166,7 @@ public class WorkspaceController implements Initializable {
         gc.setTransform(new Affine());
     }
 
-    private void loadWindow(String location, String title) throws IOException { //metodo per far apparire una nuova finestra. Usato per la creazione di nuovi progetti
+    private void loadWindow(String location, String title) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(location));
         Scene scene = new Scene(root);
         Stage stage = new Stage(StageStyle.DECORATED);
@@ -195,12 +177,12 @@ public class WorkspaceController implements Initializable {
     }
 
     @FXML
-    private void newProject(ActionEvent event) throws IOException { //metodo per creare un nuovo progetto
+    private void newProject(ActionEvent event) throws IOException {
         loadWindow("/workspace/Workspace.fxml", " ");
     }
 
     @FXML
-    private void loadProject(ActionEvent event) throws IOException { //metodo per aprire un progetto esistente
+    private void loadProject(ActionEvent event) throws IOException {
         FileChooser openFile = new FileChooser();
         openFile.setTitle("Open File");
         File file = null;
@@ -211,7 +193,7 @@ public class WorkspaceController implements Initializable {
     }
 
     @FXML
-    private void saveProject(ActionEvent event) throws IOException { //metodo per salvare il progetto
+    private void saveProject(ActionEvent event) throws IOException {
         FileChooser save = new FileChooser();
         save.setTitle("Save Image");
         File file = save.showSaveDialog(Workspace.stage);
@@ -221,10 +203,10 @@ public class WorkspaceController implements Initializable {
         }
 
     }
-    
+
     @FXML
     private void resizeCanvas(MouseEvent event) {
-    //CHANGE THE CANVAS SIZE IF THE PANE'S SIZE IS BIGGER THAN THE CANVAS
+        //CHANGE THE CANVAS SIZE IF THE PANE'S SIZE IS BIGGER THAN THE CANVAS
         if (pane.getWidth() > 1200 && pane.getHeight() > 700) {
             drawingCanvas.setWidth(pane.getWidth());
             drawingCanvas.setHeight(pane.getHeight());
@@ -265,7 +247,7 @@ public class WorkspaceController implements Initializable {
             shapeCreated.draw();
         }
         if (event.isSecondaryButtonDown()) {
-            select(event);//QUANDO SELEZIONI UNA SECONDA VOLTA LANCIA SEMPRE UN ECCEZIONE Exception in thread "JavaFX Application Thread" java.lang.UnsupportedOperationException
+            select(event);
         }
         if (event.isPrimaryButtonDown() && mod.equals("Move")) {
             move(event.getX(), event.getY());
@@ -305,16 +287,16 @@ public class WorkspaceController implements Initializable {
 
                 if (elem.getType().equals("Text") || elem.getType().equals("IrregularPolygon")) {
                     flag = false;
-                    if (elem.getType().equals("Text") || elem.getType().equals("IrregularPolygon") ) {
+                    if (elem.getType().equals("Text") || elem.getType().equals("IrregularPolygon")) {
                         sizeMenu.setDisable(true);
 
-                    } else  {
+                    } else {
                         sizeMenu.setDisable(false);
                     }
-                    if( elem.getType().equals("IrregularPolygon")){
+                    if (elem.getType().equals("IrregularPolygon")) {
                         moveMenu.setDisable(true);
-                    }else{
-                          moveMenu.setDisable(false);
+                    } else {
+                        moveMenu.setDisable(false);
                     }
                 } else if (selectShape.getSelectedShape() == null) {
                     selectShape.setSelectedShape(null);
@@ -328,14 +310,15 @@ public class WorkspaceController implements Initializable {
     }
 
     private void drawAll() {
-        
+
         Iterator<Shape> it = listShape.iterator();
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
-        if(flagGrid == true) {
+        if (flagGrid == true) {
             String g = gridSize.getText();
             Integer grid = new Integer(g);
-            if(grid.intValue() <= 0)
+            if (grid.intValue() <= 0) {
                 return;
+            }
             component.setGridSizeInput(grid.intValue());
             gridDecorator.execute();
         }
@@ -381,26 +364,25 @@ public class WorkspaceController implements Initializable {
     private void initContextMenu() {
         contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu, rotateMenu, toFrontMenu, toBackMenu, toMirrorMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
-        
+
         contextMenu.showingProperty().addListener((observable, oldValue, newValue) -> {
-        if(newValue==false&&flag==true){  
-            if(mod=="Cut"||mod=="Delete"){
-           listShape.remove(selectShape.getSelectedShape());
-            }else if(mod!="Paste"){
-                 listShape.remove(selectShape.getSelectedShape());
-                 listShape.add(previousPosition, selectShape.getSelectedShape());
+            if (newValue == false && flag == true) {
+                if (mod == "Cut" || mod == "Delete") {
+                    listShape.remove(selectShape.getSelectedShape());
+                } else if (mod != "Paste") {
+                    listShape.remove(selectShape.getSelectedShape());
+                    listShape.add(previousPosition, selectShape.getSelectedShape());
+                }
+                drawAll();
+
             }
-            drawAll();
-            
-        } 
-    });
-      
+        });
 
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
             public void handle(ActionEvent event) {
                 delete();
-                mod="Delete";
-               
+                mod = "Delete";
+
             }
         });
 
@@ -419,17 +401,17 @@ public class WorkspaceController implements Initializable {
                 //I SET THE MODE TO COPY IF I CLICK ON THE COPY OPTION
                 copy();
                 pasteMenu.setDisable(false);
-                flag=true;
-                mod="Copy";
+                flag = true;
+                mod = "Copy";
             }
         });
 
-        pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
+        pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the pasteMenu item
             public void handle(ActionEvent event) {
                 paste(pastX, pastY);
-                flag=true;
-                listPrevious.add(listShape.get(listShape.size()-1));
-                mod="Paste";
+                flag = true;
+                listPrevious.add(listShape.get(listShape.size() - 1));
+                mod = "Paste";
             }
         });
 
@@ -437,8 +419,8 @@ public class WorkspaceController implements Initializable {
             public void handle(ActionEvent event) {
                 cut();
                 pasteMenu.setDisable(false);
-                mod="Cut";
-                
+                mod = "Cut";
+
             }
         });
 
@@ -452,37 +434,37 @@ public class WorkspaceController implements Initializable {
         sizeMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
                 changeSize();
-                flag=true;
-                mod="Size";
+                flag = true;
+                mod = "Size";
             }
         });
 
         toFrontMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
-               //I CALL THE TO FRONT FUNCTION AND I PASS THE POSITION OF THE SELECTED SHAPE IN THE LIST OF FIGURES
-               //AND THE SIZE OF THE LIST
+                //I CALL THE TO FRONT FUNCTION AND I PASS THE POSITION OF THE SELECTED SHAPE IN THE LIST OF FIGURES
+                //AND THE SIZE OF THE LIST
                 toFront(listPrevious.indexOf(selectShape.getSelectedShape()), listShape.size());
-                mod="ToFront";
+                mod = "ToFront";
             }
         });
 
-        toBackMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
+        toBackMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the toBackMenu item
             public void handle(ActionEvent event) {
                 toBack(listPrevious.indexOf(selectShape.getSelectedShape()));
 
             }
         });
-        toMirrorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
+        toMirrorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the toMirrorMenu item
             public void handle(ActionEvent event) {
-               //I CALL THE TO MIRROR FUNCTION
+                //I CALL THE TO MIRROR FUNCTION
                 toMirror();
-                mod="ToMirror";
+                mod = "ToMirror";
             }
         });
         rotateMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the rotateMenu item
             public void handle(ActionEvent event) {
                 rotate();
-                mod="Rotate";
+                mod = "Rotate";
             }
         });
     }
@@ -510,7 +492,7 @@ public class WorkspaceController implements Initializable {
     public void toBack(double index) {
         //I CREATE THE COMMAND TO BACK BY PASSING THE SELECTED SHAPE,
         //THE POSITION IN THE LIST, AT THE END I INVOKE THE COMMAND
-        
+
         command = new ToBackCommand(selectShape, index);
         invoker.setCommand(command);
         invoker.startCommand();
@@ -547,11 +529,11 @@ public class WorkspaceController implements Initializable {
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
-        mod="";
+        mod = "";
     }
 
     public void cut() {
-        command = new CutCommand(selectShape,listShape.indexOf(selectShape.getSelectedShape()));
+        command = new CutCommand(selectShape, listShape.indexOf(selectShape.getSelectedShape()));
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
@@ -569,7 +551,7 @@ public class WorkspaceController implements Initializable {
 
     }
 
-    public void changeSize() { //CONTROLLARE QUANDO L'UTENTE NON INSERISCE NULLA NELLE CASELLE DI TESTO DI SIZEX E SIZEY, LANCIA UN ECCEZIONE
+    public void changeSize() {
         String x1 = sizeX.getText();
         String y1 = sizeY.getText();
         Double x = new Double(x1);
@@ -640,25 +622,23 @@ public class WorkspaceController implements Initializable {
     private void addText(ActionEvent event) {
         mod = "Text";
     }
-    
+
     @FXML
-    private void overlapping(MouseEvent event) { 
+    private void overlapping(MouseEvent event) {
         //WHEN I SELECT A SHAPE IT BRINGS IT TO THE FOREGROUND
-        if(event.isSecondaryButtonDown()&&flag==false){  
-            if(mod=="Cut"||mod=="Delete"){
-         listShape.remove(selectShape.getSelectedShape());
-        
-         
-        }else if(mod!="Paste"){
-               
-           listShape.remove(selectShape.getSelectedShape());
-           listShape.add(listShape.size(), selectShape.getSelectedShape());
-           
+        if (event.isSecondaryButtonDown() && flag == false) {
+            if (mod == "Cut" || mod == "Delete") {
+                listShape.remove(selectShape.getSelectedShape());
+
+            } else if (mod != "Paste") {
+
+                listShape.remove(selectShape.getSelectedShape());
+                listShape.add(listShape.size(), selectShape.getSelectedShape());
+
             }
             drawAll();
-            
+
         }
     }
 
-    
 }

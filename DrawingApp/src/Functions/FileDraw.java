@@ -12,7 +12,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
@@ -22,20 +21,20 @@ import javafx.scene.paint.Color;
  * @author loren
  */
 public class FileDraw {
- 
-    public static void saveDraw(List<Shape> listShape, String path) throws IOException{
-        
+
+    public static void saveDraw(List<Shape> listShape, String path) throws IOException {
+
         try ( FileWriter f = new FileWriter(path + ".txt")) {
-                for (Shape elem : listShape) {
-                    f.write(elem.toString() + "\n");
-                }
+            for (Shape elem : listShape) {
+                f.write(elem.toString() + "\n");
             }
+        }
     }
-    
-    public static void loadDraw(List<Shape> listShape, String path, GraphicsContext gc) throws IOException{
+
+    public static void loadDraw(List<Shape> listShape, String path, GraphicsContext gc) throws IOException {
         FileReader f = null;
         BufferedReader b = null;
-        
+
         try {
             f = new FileReader(path);
             b = new BufferedReader(f);

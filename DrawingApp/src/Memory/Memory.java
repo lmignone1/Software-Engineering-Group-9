@@ -13,7 +13,7 @@ import javafx.scene.control.ColorPicker;
  * @author Davide
  */
 public class Memory {
-    
+
     private Stack<Shape> stackShape;
     private Stack<Double> stackDouble;
     private Stack<ColorPicker> stackColor;

@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
  * @author artem
  */
 public class ConcreteTextTest {
+
     private ConcreteText instance;
     private JFXPanel panel = new JFXPanel();
     private double[] vect = null;
@@ -35,7 +36,7 @@ public class ConcreteTextTest {
     private List<ColorPicker> listColor = null;
     private String string;
     private double[] degreesVect;
-    
+
     public ConcreteTextTest() {
         vect = new double[100];
         vect2 = new double[100];
@@ -60,7 +61,7 @@ public class ConcreteTextTest {
             degreesVect[count] = it.nextDouble();
             count++;
         }
-        
+
         listColor = new ArrayList<>();
 
         ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
@@ -81,20 +82,20 @@ public class ConcreteTextTest {
         listColor.add(colorPickerPurple);
         listColor.add(colorPickerBlack);
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         instance = new ConcreteText();
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -178,7 +179,7 @@ public class ConcreteTextTest {
         double w = 50.0;
         double h = 0.1;
         Iterator<ColorPicker> it = listColor.iterator();
-        
+
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
@@ -194,7 +195,7 @@ public class ConcreteTextTest {
             cp.setValue(Color.TRANSPARENT);
             instance.setLineColor(color);
             instance.setFillColor(color);
-            
+
             GraphicsContext instanceGC = instance.getGraphicsContext();
             expGC.setStroke(cp.getValue());
             double x = vect[i] - w / 2;
@@ -204,17 +205,17 @@ public class ConcreteTextTest {
             expGC.setFill(color.getValue());
             expGC.strokeRect(x, y, w, h);
             expGC.fillRect(x, y, w, h);
-            
+
             String generatedString = random.ints(leftLimit, rightLimit + 1)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-            
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+
             instance.setText(generatedString);
-            expGC.fillText(generatedString, x + w/4, y);            
-            
+            expGC.fillText(generatedString, x + w / 4, y);
+
             instance.draw();
-            
+
             try {
                 assertEquals(expGC.getStroke(), instanceGC.getStroke());
                 assertEquals(expGC.getLineWidth(), instanceGC.getLineWidth(), 0);
@@ -368,25 +369,25 @@ public class ConcreteTextTest {
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
         Random random = new Random();
-        
-        try{
-            for(int i = 0; i < 10; i++) {
+
+        try {
+            for (int i = 0; i < 10; i++) {
                 String generatedString = random.ints(leftLimit, rightLimit + 1)
-                    .limit(targetStringLength)
-                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                    .toString();
-                
+                        .limit(targetStringLength)
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+
                 String currentString = instance.getText();
                 instance.setText(generatedString);
-                
+
                 assertNotEquals(currentString, instance.getText());
                 assertEquals(generatedString, instance.getText());
-                
+
             }
         } catch (AssertionError ex) {
             fail("The setText failed");
         }
-        
+
     }
 
     /**
@@ -399,25 +400,25 @@ public class ConcreteTextTest {
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
         Random random = new Random();
-        
-        try{
-            for(int i = 0; i < 10; i++) {
+
+        try {
+            for (int i = 0; i < 10; i++) {
                 String generatedString = random.ints(leftLimit, rightLimit + 1)
-                    .limit(targetStringLength)
-                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                    .toString();
-                
+                        .limit(targetStringLength)
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+
                 instance.setText(generatedString);
                 String result = instance.getText();
                 assertNotNull(result);
                 assertEquals(generatedString, result);
-                
+
             }
         } catch (AssertionError ex) {
             fail("The getText failed");
         }
     }
-    
+
     /**
      * Test of toString method, of class ConcreteText.
      */
@@ -429,10 +430,10 @@ public class ConcreteTextTest {
         int targetStringLength = 10;
 
         Random r = new Random();
-         String generatedString = r.ints(leftLimit, rightLimit + 1)
-                    .limit(targetStringLength)
-                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                    .toString();
+        String generatedString = r.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
         double x = vect[r.nextInt(vect.length)];
         double y = vect[r.nextInt(vect.length)];
         ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
@@ -440,7 +441,7 @@ public class ConcreteTextTest {
         double sizeX = vect[r.nextInt(vect.length)];
         double sizeY = vect[r.nextInt(vect.length)];
         double deg = degreesVect[r.nextInt(degreesVect.length)];
-   
+
         String s = "Text" + " " + x + " " + y + " " + lineColor.getValue() + " " + fillColor.getValue() + " " + sizeX + " " + sizeY + " " + generatedString + " " + deg;
         instance.setSizeX(sizeX);
         instance.setSizeY(sizeY);
@@ -457,5 +458,5 @@ public class ConcreteTextTest {
             fail("The toString failed");
         }
     }
-    
+
 }

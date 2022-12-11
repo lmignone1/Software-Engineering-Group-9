@@ -51,15 +51,6 @@ public class ConcreteShapeRectangles extends AbstractShape {
         point = new Point2D(getX(), getY());
     }
 
-    /*
-    public double getWidth(){
-        return this.width;
-    }
-
-    public double getHeight() {
-        return this.height;
-    }
-     */
     @Override
 
     public void draw() {
@@ -76,11 +67,11 @@ public class ConcreteShapeRectangles extends AbstractShape {
             a.appendRotation(deg, this.getX() + width / 2, this.getY() + height / 2);
             gc.setTransform(a);
         }
-        
+
         gc.strokeRect(getX(), getY(), this.width, this.height);
         gc.fillRect(getX(), getY(), this.width, this.height);
-        
-        if(deg != 0.0){
+
+        if (deg != 0.0) {
             a.setToIdentity();
             gc.setTransform(a);
         }
@@ -126,7 +117,7 @@ public class ConcreteShapeRectangles extends AbstractShape {
         //RETURN THE HEIGHT OF THE RECTANGLE
         return this.height;
     }
-    
+
     @Override
     public String toString() {
         //RETURN THE RECTANGLE INFORMATIONS
@@ -138,5 +129,5 @@ public class ConcreteShapeRectangles extends AbstractShape {
         y = y + (this.height / 2);
         return TYPE + " " + x + " " + y + " " + split[2] + " " + fillColor.getValue() + " " + this.width + " " + this.height + " " + "nothing" + " " + split[3];
     }
-    
-}   
+
+}

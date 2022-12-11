@@ -28,21 +28,22 @@ import static org.junit.Assert.*;
  * @author Acer
  */
 public class ToBackCommandTest {
+
     private JFXPanel panel = new JFXPanel();
     private ToBackCommand instance;
-    
+
     private Select selectedShape;
     private Shape selectShape;
     private List<Shape> list;
-    
+
     private double[] vect;
     private GraphicsContext gc;
     private List<ColorPicker> listColor = null;
-    
+
     private Random r;
     private double[] degreesVect;
     private final int NUM = 10;
-    
+
     public ToBackCommandTest() {
         degreesVect = new double[100];
         vect = new double[100];
@@ -50,13 +51,13 @@ public class ToBackCommandTest {
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
         PrimitiveIterator.OfDouble it = stream.iterator();
-        while(count < vect.length && it.hasNext()) {
+        while (count < vect.length && it.hasNext()) {
             vect[count] = it.nextDouble();
             count++;
         }
-        
+
         listColor = new ArrayList<>();
-        
+
         ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
         ColorPicker colorPickerRed = new ColorPicker(Color.RED);
         ColorPicker colorPickerBlue = new ColorPicker(Color.BLUE);
@@ -65,28 +66,27 @@ public class ToBackCommandTest {
         ColorPicker colorPickerGreen = new ColorPicker(Color.GREEN);
         ColorPicker colorPickerPurple = new ColorPicker(Color.PURPLE);
         ColorPicker colorPickerBlack = new ColorPicker(Color.BLACK);
-        
+
         listColor.add(colorPickerWhite);
-        listColor.add(colorPickerRed); 
+        listColor.add(colorPickerRed);
         listColor.add(colorPickerBlue);
         listColor.add(colorPickerYellow);
         listColor.add(colorPickerOrange);
         listColor.add(colorPickerGreen);
         listColor.add(colorPickerPurple);
         listColor.add(colorPickerBlack);
-        
+
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
         Random random = new Random();
-        
+
         Canvas canvas = new Canvas(1400, 1000);
         gc = canvas.getGraphicsContext2D();
         String[] type = {"Line", "Rectangle", "Ellipse", "Text"};
         list = new ArrayList<>();
         Creator c = new Creator();
-        
-        
+
         count = 0;
         stream = r.doubles(-360.0, 360.001);
         it = stream.iterator();
@@ -94,15 +94,14 @@ public class ToBackCommandTest {
             degreesVect[count] = it.nextDouble();
             count++;
         }
-        
-        
-        for(int i = 0; i < NUM; i++){
+
+        for (int i = 0; i < NUM; i++) {
             String generatedString = random.ints(leftLimit, rightLimit + 1)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-            
-            Shape shape = c.createShape(type[r.nextInt(type.length)], gc, vect[r.nextInt(vect.length)], 
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+
+            Shape shape = c.createShape(type[r.nextInt(type.length)], gc, vect[r.nextInt(vect.length)],
                     vect[r.nextInt(vect.length)],
                     listColor.get(r.nextInt(listColor.size())),
                     listColor.get(r.nextInt(listColor.size())),
@@ -112,24 +111,22 @@ public class ToBackCommandTest {
         }
         selectedShape = new Select(list, null);
     }
-    
-    
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         selectShape = list.get(r.nextInt(list.size()));
         selectedShape.setSelectedShape(selectShape);
-        instance = new ToBackCommand(selectedShape,list.indexOf(selectedShape.getSelectedShape()));
+        instance = new ToBackCommand(selectedShape, list.indexOf(selectedShape.getSelectedShape()));
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -140,40 +137,41 @@ public class ToBackCommandTest {
     @Test
     public void testExecute() {
         System.out.println("execute");
-        for(int i = 1; i < list.size(); i++){
-        instance.execute();
-        int expPosition=0;
-        try {
-                    assertEquals(expPosition,list.indexOf(selectedShape.getSelectedShape()));
-                    assertEquals(selectedShape.getSelectedShape(),list.get(0));
-            } catch(AssertionError ex){
+        for (int i = 1; i < list.size(); i++) {
+            instance.execute();
+            int expPosition = 0;
+            try {
+                assertEquals(expPosition, list.indexOf(selectedShape.getSelectedShape()));
+                assertEquals(selectedShape.getSelectedShape(), list.get(0));
+            } catch (AssertionError ex) {
                 fail("ERROR-2: The execute ToBackCommand failed");
             }
-        selectShape = list.get(i);
-        selectedShape.setSelectedShape(selectShape);
+            selectShape = list.get(i);
+            selectedShape.setSelectedShape(selectShape);
+        }
     }
-}
+
     /**
      * Test of undo method, of class ToBackCommand.
      */
     @Test
     public void testUndo() {
-       System.out.println("undo");
-       int expPosition;
-       for(int i = 0; i < list.size(); i++){
-       instance.execute();
-       instance.undo();
-       expPosition=list.indexOf(selectedShape.getSelectedShape());
-        try {
-            
-            assertEquals(expPosition,list.indexOf(selectedShape.getSelectedShape()));
-            assertEquals(selectedShape.getSelectedShape(),list.get(expPosition));
-            } catch(AssertionError ex){
+        System.out.println("undo");
+        int expPosition;
+        for (int i = 0; i < list.size(); i++) {
+            instance.execute();
+            instance.undo();
+            expPosition = list.indexOf(selectedShape.getSelectedShape());
+            try {
+
+                assertEquals(expPosition, list.indexOf(selectedShape.getSelectedShape()));
+                assertEquals(selectedShape.getSelectedShape(), list.get(expPosition));
+            } catch (AssertionError ex) {
                 fail("ERROR-2: The undo ToBackCommand failed");
             }
-       selectShape = list.get(i);
-       selectedShape.setSelectedShape(selectShape);
-    }
-        
+            selectShape = list.get(i);
+            selectedShape.setSelectedShape(selectShape);
+        }
+
     }
 }

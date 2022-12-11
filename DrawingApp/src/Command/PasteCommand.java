@@ -9,7 +9,7 @@ package Command;
  * @author Davide
  */
 public class PasteCommand implements Command {
-    
+
     private Select shape;
     private double x, y;
 
@@ -29,5 +29,5 @@ public class PasteCommand implements Command {
         this.shape.getShape().remove(this.shape.getMemory().popStackShape());
 
     }
-    
+
 }

@@ -4,13 +4,7 @@
  */
 package Decorator;
 
-import Shapes.Shape;
-import java.util.Iterator;
-import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 /**
@@ -19,30 +13,30 @@ import javafx.scene.paint.Color;
  */
 public class GridDecorator extends DecoratorCanvas {
     //int gridSize;
-    
-    public GridDecorator(CanvasComponent component){
+
+    public GridDecorator(CanvasComponent component) {
         super(component);
     }
-    
+
     @Override
-    public void execute(){
+    public void execute() {
         super.execute();
         setGrid();
     }
-    
-    private void setGrid(){
-        
+
+    private void setGrid() {
+
         GraphicsContext gc = component.getCanvas().getGraphicsContext2D();
         gc.clearRect(0, 0, component.getCanvas().getWidth(), component.getCanvas().getHeight());
-        
+
         // vertical lines
         gc.setStroke(Color.GREY);
-        for(int i = 0 ; i < component.getCanvas().getWidth() ; i+=component.getGridSizeInput()){
-            gc.strokeLine(i, 0, i, component.getCanvas().getHeight() - (component.getCanvas().getHeight()%component.getGridSizeInput()) );
-        }        
+        for (int i = 0; i < component.getCanvas().getWidth(); i += component.getGridSizeInput()) {
+            gc.strokeLine(i, 0, i, component.getCanvas().getHeight() - (component.getCanvas().getHeight() % component.getGridSizeInput()));
+        }
         // horizontal lines
         gc.setStroke(Color.GREY);
-        for(int i = component.getGridSizeInput() ; i < component.getCanvas().getHeight() ; i+=component.getGridSizeInput()){
+        for (int i = component.getGridSizeInput(); i < component.getCanvas().getHeight(); i += component.getGridSizeInput()) {
             gc.strokeLine(0, i, component.getCanvas().getWidth(), i);
         }
     }

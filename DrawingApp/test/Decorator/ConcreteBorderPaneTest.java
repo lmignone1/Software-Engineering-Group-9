@@ -18,29 +18,28 @@ import static org.junit.Assert.*;
  * @author Davide
  */
 public class ConcreteBorderPaneTest {
-    
+
     private JFXPanel panel = new JFXPanel();
     private ConcreteBorderPane instance;
     private BorderPane borderPane;
-      
-    
+
     public ConcreteBorderPaneTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         borderPane = new BorderPane();
         instance = new ConcreteBorderPane(borderPane);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -52,13 +51,13 @@ public class ConcreteBorderPaneTest {
     public void testGetBorderPane() {
         System.out.println("TEST: GetBorderPane");
         BorderPane result = instance.getBorderPane();
-        try{
-            assertNotEquals(null,result);
+        try {
+            assertNotEquals(null, result);
             assertEquals(borderPane, result);
-        }catch(AssertionError ex){
-             fail("ERROR: The GetBorderPane failed");
+        } catch (AssertionError ex) {
+            fail("ERROR: The GetBorderPane failed");
         }
-       
+
     }
 
 }

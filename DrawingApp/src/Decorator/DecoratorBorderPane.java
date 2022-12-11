@@ -6,14 +6,12 @@ package Decorator;
 
 import javafx.scene.layout.BorderPane;
 
-
 /**
  *
  * @author Davide
  */
 public class DecoratorBorderPane implements BorderPaneComponent {
-    
-    
+
     protected BorderPaneComponent borderPane;
 
     public DecoratorBorderPane(BorderPaneComponent borderPane) {
@@ -29,6 +27,5 @@ public class DecoratorBorderPane implements BorderPaneComponent {
     public BorderPane getBorderPane() {
         return borderPane.getBorderPane();
     }
-    
-}
 
+}

@@ -11,7 +11,7 @@ import Shapes.Shape;
  * @author artem
  */
 public class ChangeSizeCommand implements Command {
-    
+
     private Select shape;
     double sizeX, sizeY;
     double previousX, previousY;
@@ -21,12 +21,11 @@ public class ChangeSizeCommand implements Command {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
     }
-    
+
     public ChangeSizeCommand(Select shape, double sizeX) {
         this.shape = shape;
         this.sizeX = sizeX;
-    } 
-    
+    }
 
     @Override
     public void execute() {
@@ -35,17 +34,16 @@ public class ChangeSizeCommand implements Command {
 
     @Override
     public void undo() {
-        if (this.shape.getSelectedShape().getType().equals("Line")){
+        if (this.shape.getSelectedShape().getType().equals("Line")) {
             Shape oldShape = this.shape.getMemory().popStackShape();
             oldShape.setSizeX(this.shape.getMemory().popStackDouble());
             oldShape.setXY(this.shape.getMemory().popStackDouble(), this.shape.getMemory().popStackDouble());
-        }
-        else{
+        } else {
             Shape oldShape = this.shape.getMemory().popStackShape();
             oldShape.setSizeX(this.shape.getMemory().popStackDouble());
             oldShape.setSizeY(this.shape.getMemory().popStackDouble());
             oldShape.setXY(this.shape.getMemory().popStackDouble(), this.shape.getMemory().popStackDouble());
         }
     }
-    
+
 }

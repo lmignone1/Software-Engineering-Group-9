@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
  * @author Davide
  */
 public class ConcreteBorderPane implements BorderPaneComponent {
-    
+
     private BorderPane borderPane;
 
     public ConcreteBorderPane(BorderPane borderPane) {
@@ -22,9 +22,9 @@ public class ConcreteBorderPane implements BorderPaneComponent {
     public BorderPane getBorderPane() {
         return borderPane;
     }
-    
+
     @Override
-    public void addProperty() { 
+    public void addProperty() {
     }
 
 }

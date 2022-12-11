@@ -19,28 +19,29 @@ import static org.junit.Assert.*;
  * @author artem
  */
 public class ConcreteCanvasTest {
+
     private JFXPanel panel = new JFXPanel();
     private ConcreteCanvas instance;
     private Canvas canvas;
     private int gridSize;
-    
+
     public ConcreteCanvasTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         canvas = new Canvas();
         instance = new ConcreteCanvas(canvas);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -52,11 +53,11 @@ public class ConcreteCanvasTest {
     public void testGetCanvas() {
         System.out.println("getCanvas");
         Canvas result = instance.getCanvas();
-        try{
-            assertNotEquals(null,result);
+        try {
+            assertNotEquals(null, result);
             assertEquals(canvas, result);
-        }catch(AssertionError ex){
-             fail("The GetCanvas failed");
+        } catch (AssertionError ex) {
+            fail("The GetCanvas failed");
         }
     }
 
@@ -68,15 +69,15 @@ public class ConcreteCanvasTest {
         System.out.println("setGridSizeInput");
         Random r = new Random();
         int random;
-        for(int i=0; i<10; i++){
+        for (int i = 0; i < 10; i++) {
             random = r.nextInt(999);
             int currentGridSizeInput = instance.getGridSizeInput();
             instance.setGridSizeInput(random);
-            
-            try{
-                assertNotEquals(currentGridSizeInput,instance.getGridSizeInput());
+
+            try {
+                assertNotEquals(currentGridSizeInput, instance.getGridSizeInput());
                 assertEquals(random, instance.getGridSizeInput());
-            } catch(AssertionError ex) {
+            } catch (AssertionError ex) {
                 fail("The GetGridSizeInput failed");
             }
         }
@@ -90,18 +91,18 @@ public class ConcreteCanvasTest {
         System.out.println("getGridSizeInput");
         Random r = new Random();
         int random;
-        for(int i=0; i<10; i++){
+        for (int i = 0; i < 10; i++) {
             random = r.nextInt(999);
             System.out.println(random);
             int result = instance.getGridSizeInput();
-            
-            try{
-                assertNotEquals(null,result);
+
+            try {
+                assertNotEquals(null, result);
                 assertEquals(gridSize, result);
-            } catch(AssertionError ex) {
+            } catch (AssertionError ex) {
                 fail("The GetGridSizeInput failed");
             }
         }
     }
-    
+
 }

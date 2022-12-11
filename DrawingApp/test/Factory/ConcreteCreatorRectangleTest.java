@@ -47,7 +47,7 @@ public class ConcreteCreatorRectangleTest {
             vect[count] = it.nextDouble();
             count++;
         }
-        
+
         count = 0;
         stream = r.doubles(-360.001, 360.001);
         it = stream.iterator();
@@ -55,7 +55,7 @@ public class ConcreteCreatorRectangleTest {
             degreesVect[count] = it.nextDouble();
             count++;
         }
-        
+
         listColor = new ArrayList<>();
 
         ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);

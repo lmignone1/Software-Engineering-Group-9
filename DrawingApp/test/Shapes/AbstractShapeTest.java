@@ -35,7 +35,7 @@ public class AbstractShapeTest {
     private List<ColorPicker> listColor = null;
     private double[] degreesVect;
     private final int NUM = 10;
-    
+
     public AbstractShapeTest() {
         vect = new double[100];
         vect2 = new double[100];
@@ -298,7 +298,7 @@ public class AbstractShapeTest {
     public void testToString() {
         System.out.println("toString");
         Random r = new Random();
-        for(int i = 0; i < NUM; i++){
+        for (int i = 0; i < NUM; i++) {
             double x = vect[r.nextInt(vect.length)];
             double y = vect[r.nextInt(vect.length)];
             ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
@@ -310,9 +310,9 @@ public class AbstractShapeTest {
             instance.setDegrees(deg);
             try {
                 assertEquals(s, instance.toString());
-            } catch (AssertionError ex){
+            } catch (AssertionError ex) {
                 fail("The toString failed");
-            } 
+            }
         }
     }
 

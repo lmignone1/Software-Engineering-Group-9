@@ -8,7 +8,6 @@ import java.util.PrimitiveIterator;
 import java.util.Random;
 import java.util.stream.DoubleStream;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Scale;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -105,7 +104,7 @@ public class ZoomTest {
                 expResult.setX(1.0);
                 expResult.setY(1.0);
             }
-            
+
             expResult.setPivotX(newX);
             expResult.setPivotY(newY);
 

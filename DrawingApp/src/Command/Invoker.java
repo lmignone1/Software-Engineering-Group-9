@@ -11,23 +11,24 @@ import java.util.Stack;
  * @author Davide
  */
 public class Invoker {
-    
+
     private Command command;
     private Stack<Command> stack = new Stack<>();
-    
-    public void setCommand(Command command){
+
+    public void setCommand(Command command) {
         this.command = command;
     }
-    
-    public void startCommand(){
+
+    public void startCommand() {
         command.execute();
         stack.add(command);
     }
-    public void startUndo(){
-    
+
+    public void startUndo() {
+
         Command command = stack.pop();
         command.undo();
-    
+
     }
-    
+
 }

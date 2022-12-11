@@ -5,11 +5,8 @@
 package Decorator;
 
 import java.util.Random;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.paint.Color;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -22,29 +19,30 @@ import static org.junit.Assert.*;
  * @author artem
  */
 public class GridDecoratorTest {
+
     private JFXPanel panel = new JFXPanel();
     private GridDecorator instance;
     private CanvasComponent concreteCanvas;
     private Canvas canvas;
-    
+
     public GridDecoratorTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         canvas = new Canvas();
         concreteCanvas = new ConcreteCanvas(canvas);
         instance = new GridDecorator(concreteCanvas);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -56,17 +54,17 @@ public class GridDecoratorTest {
     public void testExecute() {
         Random r = new Random();
         int random;
-        for(int i=0; i<10; i++){
+        for (int i = 0; i < 10; i++) {
             random = r.nextInt(999);
             instance.setGridSizeInput(random);
-            
-            try{
-               assertEquals(canvas, instance.getCanvas());
-               assertEquals(instance.getGridSizeInput(), random);
-            } catch(AssertionError ex) {
+
+            try {
+                assertEquals(canvas, instance.getCanvas());
+                assertEquals(instance.getGridSizeInput(), random);
+            } catch (AssertionError ex) {
                 fail("execute is failed");
             }
         }
     }
-    
+
 }

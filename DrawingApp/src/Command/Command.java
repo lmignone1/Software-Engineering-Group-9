@@ -9,8 +9,9 @@ package Command;
  * @author Davide
  */
 public interface Command {
-    
+
     public void execute();
+
     public void undo();
-    
+
 }

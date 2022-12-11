@@ -4,9 +4,7 @@
  */
 package Factory;
 
-
 import Shapes.ConcreteIrregularPolygon;
-import Shapes.Polygon2D;
 import Shapes.Shape;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
@@ -15,16 +13,16 @@ import javafx.scene.control.ColorPicker;
  *
  * @author Davide
  */
-public class ConcreteCreatorIrregularPolygon extends Creator{
+public class ConcreteCreatorIrregularPolygon extends Creator {
+
     public static Shape createShape(GraphicsContext gc, double x, double y, ColorPicker lineColor, ColorPicker fillColor) {
-        
+
         ConcreteIrregularPolygon polygon = new ConcreteIrregularPolygon();
-        
+
         polygon.setGraphicsContext(gc);
-        //polygon.setXY(x, y);
         polygon.setLineColor(lineColor);
         polygon.setFillColor(fillColor);
-        
-        return polygon;   
-    }    
+
+        return polygon;
+    }
 }

@@ -47,7 +47,7 @@ public class ConcreteCreatorEllipseTest {
             vect[count] = it.nextDouble();
             count++;
         }
-        
+
         count = 0;
         stream = r.doubles(-360.001, 360.001);
         it = stream.iterator();

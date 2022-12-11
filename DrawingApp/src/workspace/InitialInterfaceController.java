@@ -28,25 +28,22 @@ public class InitialInterfaceController implements Initializable {
     @FXML
     private StackPane rootPane;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new InitialScreen().start();
-    }    
-    
+    }
+
     class InitialScreen extends Thread {
-        
+
         @Override
-        public void run(){
+        public void run() {
             try {
                 Thread.sleep(3000);
-                
+
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        Parent root = null ;
+                        Parent root = null;
                         try {
                             root = FXMLLoader.load(getClass().getResource("Workspace.fxml"));
                         } catch (IOException ex) {
@@ -55,14 +52,13 @@ public class InitialInterfaceController implements Initializable {
                         Scene scene = new Scene(root);
                         Stage stage = new Stage();
                         stage.setScene(scene);
-                        stage.show();  
-                
+                        stage.show();
+
                         rootPane.getScene().getWindow().hide();
                     }
-                    
+
                 });
-                
-                
+
             } catch (InterruptedException ex) {
                 Logger.getLogger(InitialInterfaceController.class.getName()).log(Level.SEVERE, null, ex);
             }

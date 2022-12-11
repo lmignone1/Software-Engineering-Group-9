@@ -27,10 +27,11 @@ import static org.junit.Assert.*;
  * @author Acer
  */
 public class ChangeColorCommandTest {
+
     private Select selectedShape;
     private Shape selectShape;
     private List<Shape> listShape;
-    private JFXPanel panel; 
+    private JFXPanel panel;
     private ChangeColorCommand instance;
     private Creator creator;
     private Canvas canvas;
@@ -56,17 +57,17 @@ public class ChangeColorCommandTest {
     private DoubleStream stream;
     private int count;
     private PrimitiveIterator.OfDouble it;
-    
+
     public ChangeColorCommandTest() {
         panel = new JFXPanel();
         listShape = new ArrayList<>();
         selectShape = null;
-        selectedShape = new Select(listShape,selectShape);
+        selectedShape = new Select(listShape, selectShape);
         creator = new Creator();
-        canvas = new Canvas(1400,1000);
-        
+        canvas = new Canvas(1400, 1000);
+
         listColor = new ArrayList<>();
-        
+
         colorPickerWhite = new ColorPicker(Color.WHITE);
         colorPickerRed = new ColorPicker(Color.RED);
         colorPickerBlue = new ColorPicker(Color.BLUE);
@@ -79,9 +80,9 @@ public class ChangeColorCommandTest {
         colorPickerColar = new ColorPicker(Color.CORAL);
         colorPickerCyan = new ColorPicker(Color.CYAN);
         colorPickerGray = new ColorPicker(Color.GRAY);
-        
+
         listColor.add(colorPickerWhite);
-        listColor.add(colorPickerRed); 
+        listColor.add(colorPickerRed);
         listColor.add(colorPickerBlue);
         listColor.add(colorPickerYellow);
         listColor.add(colorPickerOrange);
@@ -92,64 +93,64 @@ public class ChangeColorCommandTest {
         listColor.add(colorPickerColar);
         listColor.add(colorPickerCyan);
         listColor.add(colorPickerGray);
-        
+
         type = new ArrayList<>();
         type.add("Line");
         type.add("Rectangle");
         type.add("Ellipse");
         type.add("Text");
-        
+
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
         Random random = new Random();
-        
+
         rand = new Random();
         vect = new double[100];
-        stream = rand.doubles(-999.999,999.999);
+        stream = rand.doubles(-999.999, 999.999);
         count = 0;
         it = stream.iterator();
-        while(count < vect.length && it.hasNext()){
+        while (count < vect.length && it.hasNext()) {
             vect[count] = it.nextDouble();
             count++;
         }
-        for(int i = 0; i<NUM; i++){
+        for (int i = 0; i < NUM; i++) {
             /*
             String generatedString = random.ints(leftLimit, rightLimit + 1)
                 .limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
-            */
-            createdShape = Creator.createShape(type.get(rand.nextInt(type.size())), 
-                    canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)], 
-                    vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())), 
+             */
+            createdShape = Creator.createShape(type.get(rand.nextInt(type.size())),
+                    canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)],
+                    vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())),
                     listColor.get(rand.nextInt(listColor.size())), vect[rand.nextInt(vect.length)],
                     vect[rand.nextInt(vect.length)], 0);
             listShape.add(createdShape);
         }
-        
-    
+
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         selectShape = listShape.get(0);
         selectedShape.setSelectedShape(selectShape);
-        if(selectedShape.getSelectedShape().getType().equals("Line")) 
-            instance = new ChangeColorCommand(selectedShape,listColor.get(0),null);
-        else
-            instance = new ChangeColorCommand(selectedShape,listColor.get(0),listColor.get(1));
-        
+        if (selectedShape.getSelectedShape().getType().equals("Line")) {
+            instance = new ChangeColorCommand(selectedShape, listColor.get(0), null);
+        } else {
+            instance = new ChangeColorCommand(selectedShape, listColor.get(0), listColor.get(1));
+        }
+
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -164,39 +165,39 @@ public class ChangeColorCommandTest {
         ColorPicker expectFill = listColor.get(1);
         ColorPicker pastColorLine;
         ColorPicker pastColorFill = null;
-        for(int i = 1; i < listShape.size(); i++){
+        for (int i = 1; i < listShape.size(); i++) {
             pastColorLine = this.selectedShape.getSelectedShape().getLineColor();
-            if(!this.selectedShape.getSelectedShape().getType().equals("Line")){
+            if (!this.selectedShape.getSelectedShape().getType().equals("Line")) {
                 pastColorFill = this.selectedShape.getSelectedShape().getFillColor();
             }
             instance.execute();
-            
-            try{
+
+            try {
                 assertTrue(listShape.contains(selectShape));
-                assertEquals(expectLine.getValue(),selectedShape.getSelectedShape().getLineColor().getValue());
+                assertEquals(expectLine.getValue(), selectedShape.getSelectedShape().getLineColor().getValue());
                 assertTrue(this.selectedShape.getMemory().getStackColor().contains(pastColorLine));
-                if(!selectedShape.getSelectedShape().getType().equals("Line")){
-                    assertEquals(expectFill.getValue(),selectedShape.getSelectedShape().getFillColor().getValue());
+                if (!selectedShape.getSelectedShape().getType().equals("Line")) {
+                    assertEquals(expectFill.getValue(), selectedShape.getSelectedShape().getFillColor().getValue());
                     assertTrue(this.selectedShape.getMemory().getStackColor().contains(pastColorFill));
                 }
-                    
-                
-            }catch(AssertionError ex){
+
+            } catch (AssertionError ex) {
                 fail("ERROR: The excute of ChangeColorCommand failed");
             }
             selectShape = listShape.get(i);
             selectedShape.setSelectedShape(selectShape);
 
-            if(selectedShape.getSelectedShape().getType().equals("Line")){
-                instance = new ChangeColorCommand(selectedShape,listColor.get(i),null);
-            }else { 
-                instance = new ChangeColorCommand(selectedShape,listColor.get(i),listColor.get(i+1));
+            if (selectedShape.getSelectedShape().getType().equals("Line")) {
+                instance = new ChangeColorCommand(selectedShape, listColor.get(i), null);
+            } else {
+                instance = new ChangeColorCommand(selectedShape, listColor.get(i), listColor.get(i + 1));
             }
             expectLine = listColor.get(i);
-            expectFill = listColor.get(i+1);
+            expectFill = listColor.get(i + 1);
 
         }
     }
+
     /**
      * Test of undo method, of class ChangeColorCommand.
      */
@@ -206,32 +207,32 @@ public class ChangeColorCommandTest {
 
         ColorPicker expLine;
         ColorPicker expFill = null;
-        
-        for(int i = 1; i < listShape.size(); i++){
+
+        for (int i = 1; i < listShape.size(); i++) {
             expLine = selectedShape.getSelectedShape().getLineColor();
-            if(!this.selectedShape.getSelectedShape().getType().equals("Line")){
+            if (!this.selectedShape.getSelectedShape().getType().equals("Line")) {
                 expFill = this.selectedShape.getSelectedShape().getFillColor();
             }
 
             instance.execute();
             instance.undo();
-            try{
+            try {
                 assertTrue(listShape.contains(selectShape));
-                assertEquals(expLine.getValue(),selectedShape.getSelectedShape().getLineColor().getValue());
-                if(!selectedShape.getSelectedShape().getType().equals("Line")){
-                    assertEquals(expFill.getValue(),selectedShape.getSelectedShape().getFillColor().getValue());
+                assertEquals(expLine.getValue(), selectedShape.getSelectedShape().getLineColor().getValue());
+                if (!selectedShape.getSelectedShape().getType().equals("Line")) {
+                    assertEquals(expFill.getValue(), selectedShape.getSelectedShape().getFillColor().getValue());
                 }
-                 
-            }catch(AssertionError ex){
+
+            } catch (AssertionError ex) {
                 fail("ERROR: The Undo of ChangeColorCommand failed");
             }
             selectShape = listShape.get(i);
             selectedShape.setSelectedShape(selectShape);
 
-            if(selectedShape.getSelectedShape().getType().equals("Line")){
-                instance = new ChangeColorCommand(selectedShape,listColor.get(i),null);
-            }else { 
-                instance = new ChangeColorCommand(selectedShape,listColor.get(i),listColor.get(i+1));
+            if (selectedShape.getSelectedShape().getType().equals("Line")) {
+                instance = new ChangeColorCommand(selectedShape, listColor.get(i), null);
+            } else {
+                instance = new ChangeColorCommand(selectedShape, listColor.get(i), listColor.get(i + 1));
             }
 
         }

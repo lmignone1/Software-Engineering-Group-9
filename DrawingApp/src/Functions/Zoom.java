@@ -4,7 +4,6 @@
  */
 package Functions;
 
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Scale;
 
 /**

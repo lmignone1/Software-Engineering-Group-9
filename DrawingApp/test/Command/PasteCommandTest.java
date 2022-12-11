@@ -27,14 +27,14 @@ import static org.junit.Assert.*;
  * @author artem
  */
 public class PasteCommandTest {
-    
+
     double x, y;
     //SELECT ATTRIBUTE
     private Select selectedShape;
     private Shape selectShape;
     private List<Shape> listShape;
     //TEST PASTE COMMAND ATTRIBUTE
-    private JFXPanel panel; 
+    private JFXPanel panel;
     private PasteCommand instance;
     //CREATION SHAPE ATTRIBUTE
     private Creator creator;
@@ -58,18 +58,18 @@ public class PasteCommandTest {
     private int count;
     private PrimitiveIterator.OfDouble it;
     private double[] degreesVect;
-    
+
     public PasteCommandTest() {
         degreesVect = new double[100];
         panel = new JFXPanel();
         listShape = new ArrayList<>();
         selectShape = null;
-        selectedShape = new Select(listShape,selectShape);
+        selectedShape = new Select(listShape, selectShape);
         creator = new Creator();
-        canvas = new Canvas(1400,1000);
-        
+        canvas = new Canvas(1400, 1000);
+
         listColor = new ArrayList<>();
-        
+
         colorPickerWhite = new ColorPicker(Color.WHITE);
         colorPickerRed = new ColorPicker(Color.RED);
         colorPickerBlue = new ColorPicker(Color.BLUE);
@@ -78,37 +78,37 @@ public class PasteCommandTest {
         colorPickerGreen = new ColorPicker(Color.GREEN);
         colorPickerPurple = new ColorPicker(Color.PURPLE);
         colorPickerBlack = new ColorPicker(Color.BLACK);
-        
+
         listColor.add(colorPickerWhite);
-        listColor.add(colorPickerRed); 
+        listColor.add(colorPickerRed);
         listColor.add(colorPickerBlue);
         listColor.add(colorPickerYellow);
         listColor.add(colorPickerOrange);
         listColor.add(colorPickerGreen);
         listColor.add(colorPickerPurple);
         listColor.add(colorPickerBlack);
-        
+
         type = new ArrayList<>();
         type.add("Line");
         type.add("Rectangle");
         type.add("Ellipse");
         //type.add("Text");
-        
+
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
         Random random = new Random();
-        
+
         rand = new Random();
         vect = new double[100];
-        stream = rand.doubles(-999.999,999.999);
+        stream = rand.doubles(-999.999, 999.999);
         count = 0;
         it = stream.iterator();
-        while(count < vect.length && it.hasNext()){
+        while (count < vect.length && it.hasNext()) {
             vect[count] = it.nextDouble();
             count++;
         }
-        
+
         count = 0;
         stream = rand.doubles(-360.0, 360.001);
         it = stream.iterator();
@@ -116,38 +116,37 @@ public class PasteCommandTest {
             degreesVect[count] = it.nextDouble();
             count++;
         }
-        
-        
-        for(int i = 0; i<NUM; i++){
+
+        for (int i = 0; i < NUM; i++) {
             String generatedString = random.ints(leftLimit, rightLimit + 1)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-            
-            createdShape = Creator.createShape(type.get(rand.nextInt(type.size())), 
-                    canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)], 
-                    vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())), 
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+
+            createdShape = Creator.createShape(type.get(rand.nextInt(type.size())),
+                    canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)],
+                    vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())),
                     listColor.get(rand.nextInt(listColor.size())), vect[rand.nextInt(vect.length)],
                     vect[rand.nextInt(vect.length)], degreesVect[rand.nextInt(degreesVect.length)]);
             listShape.add(createdShape);
         }
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         selectShape = listShape.get(0);
         selectedShape.setCopyShape(selectShape);
-        instance = new PasteCommand(selectedShape,vect[0],vect[1]);
+        instance = new PasteCommand(selectedShape, vect[0], vect[1]);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -155,45 +154,44 @@ public class PasteCommandTest {
     /**
      * Test of execute method, of class PasteCommand.
      */
-    
     @Test
     public void testExecute() {
-       System.out.println("TEST: execute pasteCommand");
+        System.out.println("TEST: execute pasteCommand");
 
-       double expX = vect[0] - selectedShape.getCopyShape().getSizeX()/2;
-       double expY;
-       
-       if(selectedShape.getCopyShape().getType().equals("Line")){
-           expY = vect[1];
-       }else{
-           expY = vect[1] - selectedShape.getCopyShape().getSizeY()/2;
-       }
-       
-       int count = 2;
-       
-       for(int i = 0; i < NUM; i++){
+        double expX = vect[0] - selectedShape.getCopyShape().getSizeX() / 2;
+        double expY;
+
+        if (selectedShape.getCopyShape().getType().equals("Line")) {
+            expY = vect[1];
+        } else {
+            expY = vect[1] - selectedShape.getCopyShape().getSizeY() / 2;
+        }
+
+        int count = 2;
+
+        for (int i = 0; i < NUM; i++) {
 
             instance.execute();
-            try{
+            try {
                 assertEquals(expX, selectedShape.getPasteShape().getX(), 0);
                 assertEquals(expY, selectedShape.getPasteShape().getY(), 0);
                 assertTrue(listShape.contains(selectedShape.getPasteShape()));
                 assertFalse(selectedShape.getMemory().getStackShape().isEmpty());
                 assertTrue(selectedShape.getMemory().getStackShape().contains(selectedShape.getPasteShape()));
 
-            }catch(AssertionError ex){
+            } catch (AssertionError ex) {
                 fail("ERROR: The excute of PasteCommand failed");
             }
-            
+
             selectShape = listShape.get(i);
             selectedShape.setCopyShape(selectShape);
-            instance = new PasteCommand(selectedShape,vect[count+2],vect[count+3]);
-            
-            expX = vect[count+2] - selectedShape.getCopyShape().getSizeX()/2;
-            if(selectedShape.getCopyShape().getType().equals("Line")){
-                expY = vect[count+3];
-            }else{
-                expY = vect[count+3] - selectedShape.getCopyShape().getSizeY()/2;
+            instance = new PasteCommand(selectedShape, vect[count + 2], vect[count + 3]);
+
+            expX = vect[count + 2] - selectedShape.getCopyShape().getSizeX() / 2;
+            if (selectedShape.getCopyShape().getType().equals("Line")) {
+                expY = vect[count + 3];
+            } else {
+                expY = vect[count + 3] - selectedShape.getCopyShape().getSizeY() / 2;
             }
             count = count + 2;
         }
@@ -204,60 +202,60 @@ public class PasteCommandTest {
      */
     @Test
     public void testUndo() {
-       System.out.println("TEST: Undo pasteCommand");
-                
-       int count = 2;
-       
-       for(int i = 0; i < NUM; i++){
+        System.out.println("TEST: Undo pasteCommand");
+
+        int count = 2;
+
+        for (int i = 0; i < NUM; i++) {
 
             instance.execute();
             instance.undo();
-            try{
+            try {
                 assertFalse(listShape.contains(selectedShape.getPasteShape()));
                 assertTrue(selectedShape.getMemory().getStackShape().isEmpty());
                 assertFalse(selectedShape.getMemory().getStackShape().contains(selectedShape.getPasteShape()));
-                
-            }catch(AssertionError ex){
+
+            } catch (AssertionError ex) {
                 fail("ERROR: The Undo of PasteCommand failed");
             }
-            
+
             selectShape = listShape.get(i);
             selectedShape.setCopyShape(selectShape);
-            instance = new PasteCommand(selectedShape,vect[count+2],vect[count+3]);
-            
+            instance = new PasteCommand(selectedShape, vect[count + 2], vect[count + 3]);
+
             count = count + 2;
         }
     }
-    
+
     /**
      * Test2 of undo method, of class PasteCommand.
      */
     @Test
     public void testUndo2() {
-       System.out.println("TEST2: Undo pasteCommand");
-        
-       int count = 2;
-        
-       for(int i = 0; i < NUM; i++){
+        System.out.println("TEST2: Undo pasteCommand");
+
+        int count = 2;
+
+        for (int i = 0; i < NUM; i++) {
             selectShape = listShape.get(i);
             selectedShape.setCopyShape(selectShape);
-            instance = new PasteCommand(selectedShape,vect[count+2],vect[count+3]);
+            instance = new PasteCommand(selectedShape, vect[count + 2], vect[count + 3]);
             instance.execute();
             count = count + 2;
-       } 
-       
-       for(int i = 0; i < NUM; i++){
+        }
+
+        for (int i = 0; i < NUM; i++) {
 
             instance.undo();
-            try{
+            try {
                 assertFalse(listShape.contains(selectedShape.getPasteShape()));
                 assertFalse(selectedShape.getMemory().getStackShape().contains(selectedShape.getPasteShape()));
 
-            }catch(AssertionError ex){
+            } catch (AssertionError ex) {
                 fail("ERROR-2: The Undo of PasteCommand failed");
             }
-            
+
         }
     }
-    
+
 }

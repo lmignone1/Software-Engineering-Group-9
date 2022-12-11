@@ -26,15 +26,14 @@ import static org.junit.Assert.*;
  *
  * @author Acer
  */
-
-    
 public class ToMirrorCommandTest {
+
     //SELECT ATTRIBUTE
     private Select selectedShape;
     private Shape selectShape;
     private List<Shape> listShape;
     //TEST MOVE COMMAND ATTRIBUTE
-    private JFXPanel panel; 
+    private JFXPanel panel;
     private ToMirrorCommand instance;
     //CREATION SHAPE ATTRIBUTE
     private Creator creator;
@@ -55,20 +54,20 @@ public class ToMirrorCommandTest {
     private Random rand;
     private double[] vect;
     private DoubleStream stream;
-    private int count,count2;
+    private int count, count2;
     private PrimitiveIterator.OfDouble it;
     private double[] degreesVect;
-    
+
     public ToMirrorCommandTest() {
-          panel = new JFXPanel();
+        panel = new JFXPanel();
         listShape = new ArrayList<>();
         selectShape = null;
-        selectedShape = new Select(listShape,selectShape);
+        selectedShape = new Select(listShape, selectShape);
         creator = new Creator();
-        canvas = new Canvas(1400,1000);
-        
+        canvas = new Canvas(1400, 1000);
+
         listColor = new ArrayList<>();
-        
+
         colorPickerWhite = new ColorPicker(Color.WHITE);
         colorPickerRed = new ColorPicker(Color.RED);
         colorPickerBlue = new ColorPicker(Color.BLUE);
@@ -77,33 +76,33 @@ public class ToMirrorCommandTest {
         colorPickerGreen = new ColorPicker(Color.GREEN);
         colorPickerPurple = new ColorPicker(Color.PURPLE);
         colorPickerBlack = new ColorPicker(Color.BLACK);
-        
+
         listColor.add(colorPickerWhite);
-        listColor.add(colorPickerRed); 
+        listColor.add(colorPickerRed);
         listColor.add(colorPickerBlue);
         listColor.add(colorPickerYellow);
         listColor.add(colorPickerOrange);
         listColor.add(colorPickerGreen);
         listColor.add(colorPickerPurple);
         listColor.add(colorPickerBlack);
-        
+
         type = new ArrayList<>();
         type.add("Line");
         type.add("Rectangle");
         type.add("Ellipse");
         type.add("Text");
-        
+
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
         Random random = new Random();
-        
+
         rand = new Random();
         vect = new double[100];
-        stream = rand.doubles(-999.999,999.999);
+        stream = rand.doubles(-999.999, 999.999);
         count = 0;
         it = stream.iterator();
-        while(count < vect.length && it.hasNext()){
+        while (count < vect.length && it.hasNext()) {
             vect[count] = it.nextDouble();
             count++;
         }
@@ -112,41 +111,40 @@ public class ToMirrorCommandTest {
         stream = rand.doubles(-360.0, 360.001);
         it = stream.iterator();
         while (count < degreesVect.length && it.hasNext()) {
-        degreesVect[count] = it.nextDouble();
-        count2++;
-}
-        for(int i = 0; i<NUM; i++){
+            degreesVect[count] = it.nextDouble();
+            count2++;
+        }
+        for (int i = 0; i < NUM; i++) {
             String generatedString = random.ints(leftLimit, rightLimit + 1)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-            
-            createdShape = Creator.createShape(type.get(rand.nextInt(type.size())), 
-                    canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)], 
-                    vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())), 
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+
+            createdShape = Creator.createShape(type.get(rand.nextInt(type.size())),
+                    canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)],
+                    vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())),
                     listColor.get(rand.nextInt(listColor.size())), vect[rand.nextInt(vect.length)],
-                    vect[rand.nextInt(vect.length)],degreesVect[rand.nextInt(degreesVect.length)]);
+                    vect[rand.nextInt(vect.length)], degreesVect[rand.nextInt(degreesVect.length)]);
             listShape.add(createdShape);
         }
-        
-    
+
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         selectShape = listShape.get(0);
         selectedShape.setSelectedShape(selectShape);
-        instance = new ToMirrorCommand(selectedShape,degreesVect[rand.nextInt(degreesVect.length)]);
+        instance = new ToMirrorCommand(selectedShape, degreesVect[rand.nextInt(degreesVect.length)]);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -156,31 +154,31 @@ public class ToMirrorCommandTest {
      */
     @Test
     public void testExecute() {
-       System.out.println("execute");
-       int expPositionX = 0;
-       int expPositionY = 0;
-       int expDegrees = 0; 
-       for(int i = 1; i < listShape.size(); i++){
-           
-        expPositionX= (int) (selectedShape.getSelectedShape().getX()+selectedShape.getSelectedShape().getSizeX());
-        expPositionY= (int) (selectedShape.getSelectedShape().getY());
-        expDegrees= (int) (selectedShape.getSelectedShape().getDegrees());
-        instance.execute();
-        /*System.out.println(selectedShape.getSelectedShape().getType());
+        System.out.println("execute");
+        int expPositionX = 0;
+        int expPositionY = 0;
+        int expDegrees = 0;
+        for (int i = 1; i < listShape.size(); i++) {
+
+            expPositionX = (int) (selectedShape.getSelectedShape().getX() + selectedShape.getSelectedShape().getSizeX());
+            expPositionY = (int) (selectedShape.getSelectedShape().getY());
+            expDegrees = (int) (selectedShape.getSelectedShape().getDegrees());
+            instance.execute();
+            /*System.out.println(selectedShape.getSelectedShape().getType());
         System.out.println(expPositionX);
         System.out.println((int)selectedShape.getSelectedShape().getX());
         System.out.println('\n');*/
-        try{   
-            
-           assertEquals(expPositionX,(int)selectedShape.getSelectedShape().getX(),0);
-           assertEquals(expPositionY,(int)selectedShape.getSelectedShape().getY(),0);   
-           assertEquals(expDegrees,-(int)selectedShape.getSelectedShape().getDegrees(),0);    
-            } catch(AssertionError ex){
+            try {
+
+                assertEquals(expPositionX, (int) selectedShape.getSelectedShape().getX(), 0);
+                assertEquals(expPositionY, (int) selectedShape.getSelectedShape().getY(), 0);
+                assertEquals(expDegrees, -(int) selectedShape.getSelectedShape().getDegrees(), 0);
+            } catch (AssertionError ex) {
                 fail("ERROR-2: The execute ToMirrorCommand failed");
             }
-        selectShape = listShape.get(i);
-        selectedShape.setSelectedShape(selectShape);
-    }
+            selectShape = listShape.get(i);
+            selectedShape.setSelectedShape(selectShape);
+        }
     }
 
     /**
@@ -189,24 +187,24 @@ public class ToMirrorCommandTest {
     @Test
     public void testUndo() {
         System.out.println("undo");
-        for(int i = 1; i < listShape.size(); i++){
-        
-        int expPositionX = (int) (selectedShape.getSelectedShape().getX());
-        int expPositionY = (int) selectedShape.getSelectedShape().getY();
-        int expDegrees = (int) selectedShape.getSelectedShape().getDegrees();
-        
-        instance.execute();
-        instance.undo();
-        try{   
-            assertEquals(expPositionX,(int)selectedShape.getSelectedShape().getX(),0);
-            assertEquals(expPositionY,(int)selectedShape.getSelectedShape().getY(),0);   
-            assertEquals(expDegrees,(int)selectedShape.getSelectedShape().getDegrees(),0);   
-            } catch(AssertionError ex){
+        for (int i = 1; i < listShape.size(); i++) {
+
+            int expPositionX = (int) (selectedShape.getSelectedShape().getX());
+            int expPositionY = (int) selectedShape.getSelectedShape().getY();
+            int expDegrees = (int) selectedShape.getSelectedShape().getDegrees();
+
+            instance.execute();
+            instance.undo();
+            try {
+                assertEquals(expPositionX, (int) selectedShape.getSelectedShape().getX(), 0);
+                assertEquals(expPositionY, (int) selectedShape.getSelectedShape().getY(), 0);
+                assertEquals(expDegrees, (int) selectedShape.getSelectedShape().getDegrees(), 0);
+            } catch (AssertionError ex) {
                 fail("ERROR-2: The Undo ToMirrorCommand failed");
             }
-        selectShape = listShape.get(i);
-        selectedShape.setSelectedShape(selectShape);
+            selectShape = listShape.get(i);
+            selectedShape.setSelectedShape(selectShape);
+        }
     }
-    }
-    
+
 }

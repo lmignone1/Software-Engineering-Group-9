@@ -6,7 +6,6 @@
 package Command;
 
 import Shapes.Shape;
-import static java.nio.file.Files.size;
 
 /**
  *
@@ -16,6 +15,7 @@ public class ToMirrorCommand implements Command {
 
     private Select shape;
     private double degrees;
+
     public ToMirrorCommand(Select shape, double degrees) {
         this.shape = shape;
         this.degrees = degrees;
@@ -24,31 +24,28 @@ public class ToMirrorCommand implements Command {
     @Override
     public void execute() {
         this.shape.toMirror(degrees);
-      
+
     }
-    
+
     @Override
     public void undo() {
         int index;
-        degrees=this.shape.getSelectedShape().getDegrees();
-        
-        if(this.shape.getSelectedShape() == null){
+        degrees = this.shape.getSelectedShape().getDegrees();
+
+        if (this.shape.getSelectedShape() == null) {
             return;
         }
-        
+
         Shape oldShape = this.shape.getMemory().popStackShape();
-        
-        if(oldShape.getType()!="Line"){
-        oldShape.setXY(oldShape.getX()-0.5*oldShape.getSizeX(), oldShape.getY()+0.5*oldShape.getSizeY());
-        oldShape.setDegrees(-degrees);
+
+        if (oldShape.getType() != "Line") {
+            oldShape.setXY(oldShape.getX() - 0.5 * oldShape.getSizeX(), oldShape.getY() + 0.5 * oldShape.getSizeY());
+            oldShape.setDegrees(-degrees);
         }
-        
-        if(oldShape.getType()=="Line"){
-            oldShape.setXY(oldShape.getX()- 0.5*oldShape.getSizeX(),oldShape.getY());
+
+        if (oldShape.getType() == "Line") {
+            oldShape.setXY(oldShape.getX() - 0.5 * oldShape.getSizeX(), oldShape.getY());
             oldShape.setDegrees(-degrees);
         }
     }
 }
-
-
-

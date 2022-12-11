@@ -8,18 +8,9 @@ import Factory.Creator;
 import Memory.Memory;
 import Shapes.Shape;
 import java.util.ArrayList;
-import java.awt.geom.AffineTransform;
 import java.util.List;
-import java.util.Arrays;
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.effect.Effect;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.transform.Affine;
-import javafx.scene.transform.NonInvertibleTransformException;
-import javafx.scene.transform.Rotate;
 
 /**
  *
@@ -34,13 +25,12 @@ public class Select {
     private Shape pasteShape;
     private Memory memory;
     private double deg;
-  
 
     public Select(List<Shape> listShape, Shape selectedShape) {
         this.list = listShape;
         this.selectedShape = selectedShape;
         this.memory = new Memory();
-        
+
     }
 
     public List<Shape> getShape() {
@@ -70,7 +60,7 @@ public class Select {
     public Shape getPasteShape() {
         return pasteShape;
     }
-    
+
     public void delete() {
 
         if (this.selectedShape == null) {
@@ -96,7 +86,7 @@ public class Select {
         } else {
             this.copyShape = creator.createShape(this.selectedShape.getType(), this.selectedShape.getGraphicsContext(), this.selectedShape.getX(), this.selectedShape.getY(), this.selectedShape.getLineColor(), this.selectedShape.getFillColor(), this.selectedShape.getSizeX(), this.selectedShape.getSizeY(), this.getSelectedShape().getDegrees());
         }
-        
+
         this.memory.addStackShape(this.copyShape);
     }
 
@@ -174,22 +164,19 @@ public class Select {
             return;
         }
 
-
-        if(this.selectedShape.getType().equals("IrregularPolygon")){
+        if (this.selectedShape.getType().equals("IrregularPolygon")) {
             double distX;
             double distY;
-            
+
             double startX = this.selectedShape.getAllX()[0];
             double startY = this.selectedShape.getAllY()[0];
 
-            
             Point2D point = new Point2D(startX, startY);
             Point2D clickPointX = new Point2D(newX, startY);
             Point2D clickPointY = new Point2D(startX, newY);
             distX = point.distance(clickPointX);
             distY = point.distance(clickPointY);
-            
-      
+
             if (newX > startX && newY > startY) {
 
             } else if (newX < startX && newY < startY) {
@@ -205,7 +192,7 @@ public class Select {
             ArrayList<Double> arrayListY = new ArrayList<>();
             this.selectedShape.setPolygonX(arrayListX);
             this.selectedShape.setPolygonY(arrayListY);
-            
+
             for (int i = 0; i < this.selectedShape.getVertices(); i++) {
 
                 double pastX = this.selectedShape.getAllX()[i];
@@ -218,13 +205,13 @@ public class Select {
             }
 
             this.memory.addStackDouble(startY);
-            this.memory.addStackDouble(startX);            
-        }else{
+            this.memory.addStackDouble(startX);
+        } else {
             this.selectedShape.setXY(newX, newY);
             this.memory.addStackDouble(previousY);
             this.memory.addStackDouble(previousX);
         }
-        
+
         this.memory.addStackShape(this.selectedShape);
     }
 
@@ -261,13 +248,13 @@ public class Select {
         if (this.selectedShape.getType().equals("Line")) {
 
             this.memory.addStackDouble(this.selectedShape.getY());
-            this.memory.addStackDouble(this.selectedShape.getX() + this.selectedShape.getSizeX()/2);
+            this.memory.addStackDouble(this.selectedShape.getX() + this.selectedShape.getSizeX() / 2);
             this.memory.addStackDouble(this.selectedShape.getSizeX());
 
         } else {
 
-            this.memory.addStackDouble(this.selectedShape.getY() + this.selectedShape.getSizeY()/2);
-            this.memory.addStackDouble(this.selectedShape.getX() + this.selectedShape.getSizeX()/2);
+            this.memory.addStackDouble(this.selectedShape.getY() + this.selectedShape.getSizeY() / 2);
+            this.memory.addStackDouble(this.selectedShape.getX() + this.selectedShape.getSizeX() / 2);
             this.memory.addStackDouble(this.selectedShape.getSizeY());
             this.memory.addStackDouble(this.selectedShape.getSizeX());
 
@@ -275,15 +262,14 @@ public class Select {
 
         if (this.selectedShape.getType().equals("Line")) {
             this.selectedShape.setSizeX(sizeX);
-            this.selectedShape.setXY(this.selectedShape.getX()+ this.selectedShape.getSizeX()/2, this.selectedShape.getY());
+            this.selectedShape.setXY(this.selectedShape.getX() + this.selectedShape.getSizeX() / 2, this.selectedShape.getY());
         } else {
             this.selectedShape.setSizeX(sizeX);
             this.selectedShape.setSizeY(sizeY);
-            this.selectedShape.setXY(this.selectedShape.getX()+ this.selectedShape.getSizeX()/2, this.selectedShape.getY()+ this.selectedShape.getSizeY()/2);
+            this.selectedShape.setXY(this.selectedShape.getX() + this.selectedShape.getSizeX() / 2, this.selectedShape.getY() + this.selectedShape.getSizeY() / 2);
         }
         this.memory.addStackShape(this.selectedShape);
     }
-
 
     public void toFront(double index) {
         list.remove(selectedShape);
@@ -303,34 +289,30 @@ public class Select {
             return;
         }
 
-       
-       this.memory.addStackDouble(selectedShape.getDegrees());
-       this.selectedShape.setDegrees(degrees);
-       this.memory.addStackShape(selectedShape);
-   }
+        this.memory.addStackDouble(selectedShape.getDegrees());
+        this.selectedShape.setDegrees(degrees);
+        this.memory.addStackShape(selectedShape);
+    }
 
-   public void toMirror(double degrees){
-       deg=selectedShape.getDegrees();
-       if(this.selectedShape == null){
+    public void toMirror(double degrees) {
+        deg = selectedShape.getDegrees();
+        if (this.selectedShape == null) {
             return;
         }
-       
-       this.memory.addStackDouble(selectedShape.getDegrees());
-       this.selectedShape.setDegrees(degrees);
-       this.memory.addStackShape(selectedShape);
-     
-        if(selectedShape.getType()!="Line"){
+
+        this.memory.addStackDouble(selectedShape.getDegrees());
+        this.selectedShape.setDegrees(degrees);
+        this.memory.addStackShape(selectedShape);
+
+        if (selectedShape.getType() != "Line") {
             this.memory.addStackDouble(selectedShape.getDegrees());
             this.selectedShape.setDegrees(-deg);
-            selectedShape.setXY(selectedShape.getX()+1.5*selectedShape.getSizeX(),selectedShape.getY()+0.5*selectedShape.getSizeY());
-        }
-       
-       else {
+            selectedShape.setXY(selectedShape.getX() + 1.5 * selectedShape.getSizeX(), selectedShape.getY() + 0.5 * selectedShape.getSizeY());
+        } else {
             this.memory.addStackDouble(selectedShape.getDegrees());
             this.selectedShape.setDegrees(-deg);
-            selectedShape.setXY(selectedShape.getX()+ 1.5*selectedShape.getSizeX(),selectedShape.getY());       
+            selectedShape.setXY(selectedShape.getX() + 1.5 * selectedShape.getSizeX(), selectedShape.getY());
         }
-        
 
     }
 }
