@@ -247,11 +247,12 @@ public class SelectTest {
     @Test
     public void testGetMemory() {
         System.out.println("getMemory");
-
-        
-        //assertTrue();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try{
+           assertTrue(instance.getMemory() instanceof Memory);
+           assertNotEquals(instance.getMemory(),null);
+        }catch(AssertionError ex){
+            fail("The test case is a prototype.");
+        }
     }
 
     /**
@@ -260,11 +261,11 @@ public class SelectTest {
     @Test
     public void testGetPasteShape() {
         System.out.println("getPasteShape");
-        Select instance = null;
-        Shape expResult = null;
-        Shape result = instance.getPasteShape();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+      try{
+           assertTrue(instance.getPasteShape() instanceof Shape);
+           assertNotEquals(instance.getMemory(),null);
+        }catch(AssertionError ex){
+            fail("The test case is a prototype.");
+        }
     }   
 }
