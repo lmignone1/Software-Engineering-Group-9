@@ -100,7 +100,7 @@ public class MoveCommandTest {
         Random random = new Random();
         
         rand = new Random();
-        vect = new double[100];
+        vect = new double[200];
         stream = rand.doubles(-999.999,999.999);
         count = 0;
         it = stream.iterator();
@@ -191,6 +191,7 @@ public class MoveCommandTest {
             }else{
                expY = vect[count+5] - selectedShape.getSelectedShape().getSizeY()/2;
             }
+            count = count + 4;
         }
     }
 
@@ -209,7 +210,7 @@ public class MoveCommandTest {
        if(selectedShape.getSelectedShape().getType().equals("Line")){
            expPreY = vect[3];
        }else{
-           expPreY = vect[3] + selectedShape.getSelectedShape().getSizeY()/2;
+           expPreY = vect[3] - selectedShape.getSelectedShape().getSizeY()/2;
        }
        
        int count = 4;
@@ -220,10 +221,13 @@ public class MoveCommandTest {
             instance.undo();
             try{
                 assertTrue(listShape.contains(selectShape));
+                
                 assertEquals(expPreX,selectedShape.getSelectedShape().getX(),0);
                 assertEquals(expPreY,selectedShape.getSelectedShape().getY(),0);
-                assertFalse(selectedShape.getMemory().getStackDouble().contains(expPreX));
-                assertFalse(selectedShape.getMemory().getStackDouble().contains(expPreY));
+                if(!selectedShape.getMemory().getStackDouble().isEmpty()){
+                    assertNotEquals(expPreX, selectedShape.getMemory().getStackDouble().lastElement());
+                    assertNotEquals(expPreY, selectedShape.getMemory().getStackDouble().get(selectedShape.getMemory().getStackDouble().size()-2));
+                }
             }catch(AssertionError ex){
                 fail("ERROR: The undo of moveCommand failed");
             }
@@ -241,6 +245,8 @@ public class MoveCommandTest {
             }else{
                expPreY = vect[count+7] - selectedShape.getSelectedShape().getSizeY()/2;
             }
+            
+            count = count + 4;
         }
     }
     

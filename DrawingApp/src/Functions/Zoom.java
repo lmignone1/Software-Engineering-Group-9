@@ -4,15 +4,13 @@
  */
 package Functions;
 
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Scale;
 
 /**
  *
- * @author loren
+ * @author Davide
  */
 public class Zoom {
-
     private double zoomFactor;
 
     public static void zoom(Scale scale, double newX, double newY, double wheel) {

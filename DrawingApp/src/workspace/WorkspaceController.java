@@ -303,7 +303,6 @@ public class WorkspaceController implements Initializable {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
                 selectShape.setSelectedShape(elem);
-                System.out.println("--------SELECT---------");
                 
                 if (elem.getType().equals("Text") || elem.getType().equals("IrregularPolygon")) {
                     sizeMenu.setDisable(true);
@@ -321,7 +320,7 @@ public class WorkspaceController implements Initializable {
             //System.out.println(selectShape.getSelectedShape());//CONTROLLARE QUANDO è NULL
             selectShape.setSelectedShape(null); //PER ESEMPIO COSì MA POI BISOGNA FARE DEI CHECK NEI NELLE VARIE OPERAZIONI
         }*/
-        System.out.println(selectShape.getSelectedShape());
+     
         pastX = event.getX();
         pastY = event.getY();
     }
@@ -533,10 +532,10 @@ public class WorkspaceController implements Initializable {
         Double x = new Double(x1);
 
         if (selectShape.getSelectedShape().getType().equals("Line")) {
-            command = new ChangeSizeCommand(selectShape, x.doubleValue(), pastX, pastY);
+            command = new ChangeSizeCommand(selectShape, x.doubleValue());
         } else {
             Double y = new Double(y1);
-            command = new ChangeSizeCommand(selectShape, x.doubleValue(), y.doubleValue(), pastX, pastY);
+            command = new ChangeSizeCommand(selectShape, x.doubleValue(), y.doubleValue());
 
         }
         invoker.setCommand(command);

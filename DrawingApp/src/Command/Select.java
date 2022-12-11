@@ -177,7 +177,6 @@ public class Select {
 
 
         if(this.selectedShape.getType().equals("IrregularPolygon")){
-            System.out.println("-----------MOVE-------------");
             double distX;
             double distY;
             
@@ -212,14 +211,9 @@ public class Select {
 
                 double pastX = this.selectedShape.getAllX()[i];
                 double pastY = this.selectedShape.getAllY()[i];
-                
-                System.out.println("X:" + pastX);
-                System.out.println("Y:" + pastY);
 
                 double setX = pastX + distX;
                 double setY = pastY + distY;
-                System.out.println("setX:" + setX);
-                System.out.println("setY:" + setY);
 
                 this.selectedShape.setXY(setX, setY);
             }
@@ -259,20 +253,24 @@ public class Select {
         this.memory.addStackShape(this.selectedShape);
     }
 
-    public void changeSize(double sizeX, double sizeY, double previousX, double previousY) {
+    public void changeSize(double sizeX, double sizeY) {
 
         if (this.selectedShape == null) {
             return;
         }
 
         if (this.selectedShape.getType().equals("Line")) {
-            this.memory.addStackDouble(previousY);
-            this.memory.addStackDouble(previousX);
+            //this.memory.addStackDouble(previousY);
+            //this.memory.addStackDouble(previousX);
+            this.memory.addStackDouble(this.selectedShape.getY());
+            this.memory.addStackDouble(this.selectedShape.getX() + this.selectedShape.getSizeX()/2);
             this.memory.addStackDouble(this.selectedShape.getSizeX());
 
         } else {
-            this.memory.addStackDouble(previousY);
-            this.memory.addStackDouble(previousX);
+            //this.memory.addStackDouble(previousY);
+            //this.memory.addStackDouble(previousX);
+            this.memory.addStackDouble(this.selectedShape.getY() + this.selectedShape.getSizeY()/2);
+            this.memory.addStackDouble(this.selectedShape.getX() + this.selectedShape.getSizeX()/2);
             this.memory.addStackDouble(this.selectedShape.getSizeY());
             this.memory.addStackDouble(this.selectedShape.getSizeX());
 
@@ -280,11 +278,11 @@ public class Select {
 
         if (this.selectedShape.getType().equals("Line")) {
             this.selectedShape.setSizeX(sizeX);
-            this.selectedShape.setXY(this.selectedShape.getX(), this.selectedShape.getY());
+            this.selectedShape.setXY(this.selectedShape.getX()+ this.selectedShape.getSizeX()/2, this.selectedShape.getY());
         } else {
             this.selectedShape.setSizeX(sizeX);
             this.selectedShape.setSizeY(sizeY);
-            this.selectedShape.setXY(this.selectedShape.getX(), this.selectedShape.getY());
+            this.selectedShape.setXY(this.selectedShape.getX()+ this.selectedShape.getSizeX()/2, this.selectedShape.getY()+ this.selectedShape.getSizeY()/2);
         }
         this.memory.addStackShape(this.selectedShape);
     }
