@@ -57,10 +57,10 @@ public class CopyCommandTest {
     private DoubleStream stream;
     private int count;
     private PrimitiveIterator.OfDouble it;
-    
+    private double[] degreesVect;
     
     public CopyCommandTest() {
-        
+        degreesVect = new double[100];
         panel = new JFXPanel();
         listShape = new ArrayList<>();
         selectShape = null;
@@ -108,6 +108,15 @@ public class CopyCommandTest {
             vect[count] = it.nextDouble();
             count++;
         }
+        count = 0;
+        stream = rand.doubles(-360.0, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
+            count++;
+        }
+        
+        
         for(int i = 0; i<NUM; i++){
             String generatedString = random.ints(leftLimit, rightLimit + 1)
                 .limit(targetStringLength)
@@ -118,7 +127,7 @@ public class CopyCommandTest {
                     canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)], 
                     vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())), 
                     listColor.get(rand.nextInt(listColor.size())), vect[rand.nextInt(vect.length)],
-                    vect[rand.nextInt(vect.length)], generatedString);
+                    vect[rand.nextInt(vect.length)], degreesVect[rand.nextInt(degreesVect.length)]);
             listShape.add(createdShape);
         }
         

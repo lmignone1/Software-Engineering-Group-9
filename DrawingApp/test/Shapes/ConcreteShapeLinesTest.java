@@ -372,18 +372,14 @@ public class ConcreteShapeLinesTest {
         double x = vect[r.nextInt(vect.length)];
         double y = vect[r.nextInt(vect.length)];
         ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
-        ColorPicker fillColor = listColor.get(r.nextInt(listColor.size()));
         double sizeX = vect[r.nextInt(vect.length)];
-        double sizeY = vect[r.nextInt(vect.length)];
         double deg = degreesVect[r.nextInt(degreesVect.length)];
 
-        String s = "Lines" + " " + x + " " + y + " " + lineColor.getValue() + " " + fillColor.getValue() + " " + sizeX + " " + sizeY + " " + "nothing" + " " + deg;
+        String s = "Line" + " " + x + " " + y + " " + lineColor.getValue() + " " + Color.WHITE + " " + sizeX + " " + "0.0" + " " + "nothing" + " " + deg;
         instance.setSizeX(sizeX);
-        instance.setSizeY(sizeY);
         instance.setXY(x, y);
         instance.setLineColor(lineColor);
         instance.setDegrees(deg);
-        instance.setFillColor(fillColor);
 
         try {
             assertEquals(s, instance.toString());
