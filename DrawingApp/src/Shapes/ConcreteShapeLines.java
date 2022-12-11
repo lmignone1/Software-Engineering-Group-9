@@ -32,6 +32,7 @@ public class ConcreteShapeLines extends AbstractShape{
 
     @Override
      public void setXY(double x, double y){ 
+         
         setX(x - length/2);
         setY(y);
         setEndX(getX() + length);
@@ -41,6 +42,7 @@ public class ConcreteShapeLines extends AbstractShape{
     }
     @Override
     public void draw() {
+        
         GraphicsContext gc = getGraphicsContext();
         double deg = this.getDegrees();
         Affine a = gc.getTransform();
@@ -72,38 +74,46 @@ public class ConcreteShapeLines extends AbstractShape{
     }
 
     public double getEndX() {
+       
         return endX;
     }
 
     public void setEndX(double endX) {
+       
         this.endX = endX;
     }
 
     public double getEndY() {
+        
         return endY;
     }
 
     public void setEndY(double endY) {
+        
         this.endY = endY;
     }
 
     @Override
     public String getType() {
+        
        return this.TYPE;
     }
     
     @Override
     public void setSizeX(double sizeX) {
+      
         this.length = sizeX;
     }
 
     @Override
     public double getSizeX() {
+       
         return this.length;
     }
     
     @Override
     public String toString() {
+        
         String s = super.toString();
         String[] split = s.split(" ");
         double x = Double.parseDouble(split[0]);

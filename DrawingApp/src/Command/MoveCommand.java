@@ -23,6 +23,7 @@ public class MoveCommand implements Command {
     private double newY;
 
     public MoveCommand(Select shape, double newX, double newY, double previousX, double previousY) {
+        
         this.shape = shape;
         this.newX = newX;
         this.newY = newY;
@@ -32,11 +33,13 @@ public class MoveCommand implements Command {
 
     @Override
     public void execute() {
+        
         this.shape.move(this.newX, this.newY, this.previousX, this.previousY);
 
     }
 
     @Override
+
     public void undo() { 
                 
         if(this.shape.getMemory().getStackShape().peek().getType().equals("IrregularPolygon")){ 

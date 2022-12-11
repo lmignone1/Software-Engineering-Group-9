@@ -13,7 +13,7 @@ import Command.DeleteCommand;
 import Command.Invoker;
 import Command.MoveCommand;
 import Command.PasteCommand;
-import Command.RotateCommand;
+import Command.RotateCommand; 
 import Command.Select;
 import Decorator.ConcreteCanvas;
 import Decorator.GridDecorator;
@@ -221,10 +221,10 @@ public class WorkspaceController implements Initializable {
         }
 
     }
-
+    
     @FXML
     private void resizeCanvas(MouseEvent event) {
-
+    //CHANGE THE CANVAS SIZE IF THE PANE'S SIZE IS BIGGER THAN THE CANVAS
         if (pane.getWidth() > 800 && pane.getHeight() > 600) {
             drawingCanvas.setWidth(pane.getWidth());
             drawingCanvas.setHeight(pane.getHeight());
@@ -378,20 +378,26 @@ public class WorkspaceController implements Initializable {
     private void initContextMenu() {
         contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu, rotateMenu, toFrontMenu, toBackMenu, toMirrorMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
+        
         contextMenu.showingProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == false && flag == true) {
-                for (int i = 0; i < listShape.size(); i++) {
-                    listShape.set(i, listPrevious.get(i));
-                }
-                flag = true;
-                drawAll();
+        if(newValue==false&&flag==true){  
+            if(mod=="Cut"||mod=="Delete"){
+           listShape.remove(selectShape.getSelectedShape());
+            }else if(mod!="Paste"){
+                 listShape.remove(selectShape.getSelectedShape());
+                 listShape.add(previousPosition, selectShape.getSelectedShape());
             }
-        });
+            drawAll();
+            
+        } 
+    });
+      
 
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
             public void handle(ActionEvent event) {
                 delete();
-
+                mod="Delete";
+               
             }
         });
 
@@ -407,15 +413,20 @@ public class WorkspaceController implements Initializable {
 
         copyMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the copyMenu item
             public void handle(ActionEvent event) {
-                copy();
+             //I SET THE MODE TO COPY IF I CLICK ON THE COPY OPTION
+             copy();
                 pasteMenu.setDisable(false);
-                flag = true;
+                flag=true;
+                mod="Copy";
             }
         });
 
         pasteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the moveMenu item
             public void handle(ActionEvent event) {
                 paste(pastX, pastY);
+                flag=true;
+                listPrevious.add(listShape.get(listShape.size()-1));
+                mod="Paste";
             }
         });
 
@@ -423,7 +434,8 @@ public class WorkspaceController implements Initializable {
             public void handle(ActionEvent event) {
                 cut();
                 pasteMenu.setDisable(false);
-
+                mod="Cut";
+                
             }
         });
 
@@ -437,14 +449,17 @@ public class WorkspaceController implements Initializable {
         sizeMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
                 changeSize();
-                flag = true;
+                flag=true;
+                mod="Size";
             }
         });
 
         toFrontMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
+               //I CALL THE TO FRONT FUNCTION AND I PASS THE POSITION OF THE SELECTED SHAPE IN THE LIST OF FIGURES
+               //AND THE SIZE OF THE LIST
                 toFront(listPrevious.indexOf(selectShape.getSelectedShape()), listShape.size());
-
+                mod="ToFront";
             }
         });
 
@@ -456,18 +471,22 @@ public class WorkspaceController implements Initializable {
         });
         toMirrorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
+               //I CALL THE TO MIRROR FUNCTION
                 toMirror();
-
+                mod="ToMirror";
             }
         });
         rotateMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the rotateMenu item
             public void handle(ActionEvent event) {
                 rotate();
+                mod="Rotate";
             }
         });
     }
 
     public void toFront(double index, double size) {
+        //I CREATE THE COMMAND TO FRONT BY PASSING THE SELECTED SHAPE,
+        //THE POSITION IN THE LIST AND THE SIZE OF THE LIST, AT THE END I INVOKE THE COMMAND
         command = new ToFrontCommand(selectShape, index, size);
         invoker.setCommand(command);
         invoker.startCommand();
@@ -475,6 +494,8 @@ public class WorkspaceController implements Initializable {
     }
 
     public void toMirror() {
+        //I CREATE THE COMMAND TO MIRROR BY PASSING THE SELECTED SHAPE 
+        //AND THE NEGATIVE DEGREES TO MIRROR IT, AT THE END I INVOKE THE COMMAND
         double deg;
         deg = selectShape.getSelectedShape().getDegrees();
         command = new ToMirrorCommand(selectShape, -deg);
@@ -484,6 +505,9 @@ public class WorkspaceController implements Initializable {
     }
 
     public void toBack(double index) {
+        //I CREATE THE COMMAND TO BACK BY PASSING THE SELECTED SHAPE,
+        //THE POSITION IN THE LIST, AT THE END I INVOKE THE COMMAND
+        
         command = new ToBackCommand(selectShape, index);
         invoker.setCommand(command);
         invoker.startCommand();
@@ -499,6 +523,8 @@ public class WorkspaceController implements Initializable {
     }
 
     public void move(double x, double y) {
+        //I CREATE THE MOVE COMMAND BY PASSING THE SELECTED SHAPE, THE OLD POSITIONS OF THE SHAPE 
+        //AND THE THOSE IT MUST ASSUME AFTER THE MOVE, AT THE END I INVOKE THE COMMAND
         command = new MoveCommand(selectShape, x, y, pastX, pastY);
         invoker.setCommand(command);
         invoker.startCommand();
@@ -506,6 +532,7 @@ public class WorkspaceController implements Initializable {
     }
 
     public void copy() {
+        //I CREATE THE COPY COMMAND BY PASSING THE SELECTED SHAPE, AT THE END I INVOKE THE COMMAND
         command = new CopyCommand(selectShape);
         invoker.setCommand(command);
         invoker.startCommand();
@@ -517,10 +544,11 @@ public class WorkspaceController implements Initializable {
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
+        mod="";
     }
 
     public void cut() {
-        command = new CutCommand(selectShape, listPrevious.indexOf(selectShape.getSelectedShape()));
+        command = new CutCommand(selectShape,listShape.indexOf(selectShape.getSelectedShape()));
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
@@ -609,16 +637,25 @@ public class WorkspaceController implements Initializable {
     private void addText(ActionEvent event) {
         mod = "Text";
     }
-
+    
     @FXML
-    private void overlapping(MouseEvent event) {
-        if (event.isSecondaryButtonDown() && flag == false) {
-            listShape.remove(listShape.indexOf(selectShape.getSelectedShape()));
-            listShape.add(listShape.size(), selectShape.getSelectedShape());
+    private void overlapping(MouseEvent event) { 
+        //WHEN I SELECT A SHAPE IT BRINGS IT TO THE FOREGROUND
+        if(event.isSecondaryButtonDown()&&flag==false){  
+            if(mod=="Cut"||mod=="Delete"){
+         listShape.remove(selectShape.getSelectedShape());
+        
+         
+        }else if(mod!="Paste"){
+               
+           listShape.remove(selectShape.getSelectedShape());
+           listShape.add(listShape.size(), selectShape.getSelectedShape());
+           
+            }
             drawAll();
-
+            
         }
-
     }
 
+    
 }
