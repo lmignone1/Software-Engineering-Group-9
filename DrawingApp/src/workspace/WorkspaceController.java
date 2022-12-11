@@ -225,10 +225,9 @@ public class WorkspaceController implements Initializable {
     @FXML
     private void resizeCanvas(MouseEvent event) {
     //CHANGE THE CANVAS SIZE IF THE PANE'S SIZE IS BIGGER THAN THE CANVAS
-        if (pane.getWidth() > 800 && pane.getHeight() > 600) {
+        if (pane.getWidth() > 1200 && pane.getHeight() > 700) {
             drawingCanvas.setWidth(pane.getWidth());
             drawingCanvas.setHeight(pane.getHeight());
-            //drawAll();
         }
 
     }
@@ -250,7 +249,6 @@ public class WorkspaceController implements Initializable {
                 shape = shapeCreated;
                 flagIrregular = true;
             } else {
-                //listShape.add(shapeCreated);
                 shapeCreated.draw();
             }
 
@@ -282,7 +280,7 @@ public class WorkspaceController implements Initializable {
         if (mod.equals("IrregularPolygon") && !mod.equals("Move")) {
             shape.setXY(event.getX(), event.getY());
             try {
-                Thread.sleep(250);
+                Thread.sleep(200);
             } catch (Exception e) {
             }
         }
@@ -307,11 +305,16 @@ public class WorkspaceController implements Initializable {
 
                 if (elem.getType().equals("Text") || elem.getType().equals("IrregularPolygon")) {
                     flag = false;
-                    if (elem.getType().equals("Text")) {
+                    if (elem.getType().equals("Text") || elem.getType().equals("IrregularPolygon") ) {
                         sizeMenu.setDisable(true);
 
-                    } else {
+                    } else  {
                         sizeMenu.setDisable(false);
+                    }
+                    if( elem.getType().equals("IrregularPolygon")){
+                        moveMenu.setDisable(true);
+                    }else{
+                          moveMenu.setDisable(false);
                     }
                 } else if (selectShape.getSelectedShape() == null) {
                     selectShape.setSelectedShape(null);
@@ -413,8 +416,8 @@ public class WorkspaceController implements Initializable {
 
         copyMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the copyMenu item
             public void handle(ActionEvent event) {
-             //I SET THE MODE TO COPY IF I CLICK ON THE COPY OPTION
-             copy();
+                //I SET THE MODE TO COPY IF I CLICK ON THE COPY OPTION
+                copy();
                 pasteMenu.setDisable(false);
                 flag=true;
                 mod="Copy";

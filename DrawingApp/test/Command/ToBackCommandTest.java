@@ -40,10 +40,11 @@ public class ToBackCommandTest {
     private List<ColorPicker> listColor = null;
     
     private Random r;
-    
+    private double[] degreesVect;
     private final int NUM = 10;
     
     public ToBackCommandTest() {
+        degreesVect = new double[100];
         vect = new double[100];
         r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
@@ -84,6 +85,17 @@ public class ToBackCommandTest {
         String[] type = {"Line", "Rectangle", "Ellipse", "Text"};
         list = new ArrayList<>();
         Creator c = new Creator();
+        
+        
+        count = 0;
+        stream = r.doubles(-360.0, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
+            count++;
+        }
+        
+        
         for(int i = 0; i < NUM; i++){
             String generatedString = random.ints(leftLimit, rightLimit + 1)
                 .limit(targetStringLength)
@@ -95,7 +107,7 @@ public class ToBackCommandTest {
                     listColor.get(r.nextInt(listColor.size())),
                     listColor.get(r.nextInt(listColor.size())),
                     vect[r.nextInt(vect.length)], vect[r.nextInt(vect.length)],
-                    generatedString);
+                    degreesVect[r.nextInt(degreesVect.length)]);
             list.add(shape);
         }
         selectedShape = new Select(list, null);

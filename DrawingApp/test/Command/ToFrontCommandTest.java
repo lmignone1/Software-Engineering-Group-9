@@ -38,12 +38,13 @@ public class ToFrontCommandTest {
     private double[] vect;
     private GraphicsContext gc;
     private List<ColorPicker> listColor = null;
-    
+    private double[] degreesVect;
     private Random r;
     
     private final int NUM = 10;
     
     public ToFrontCommandTest() {
+        degreesVect = new double[100];
         vect = new double[100];
         r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
@@ -78,7 +79,13 @@ public class ToFrontCommandTest {
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
         Random random = new Random();
-        
+        count = 0;
+        stream = r.doubles(-360.0, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
+            count++;
+        }
         Canvas canvas = new Canvas(1400, 1000);
         gc = canvas.getGraphicsContext2D();
         String[] type = {"Line", "Rectangle", "Ellipse", "Text"};
@@ -95,7 +102,7 @@ public class ToFrontCommandTest {
                     listColor.get(r.nextInt(listColor.size())),
                     listColor.get(r.nextInt(listColor.size())),
                     vect[r.nextInt(vect.length)], vect[r.nextInt(vect.length)],
-                    generatedString);
+                    degreesVect[r.nextInt(degreesVect.length)]);
             list.add(shape);
         }
         selectedShape = new Select(list, null);

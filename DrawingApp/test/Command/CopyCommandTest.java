@@ -92,7 +92,7 @@ public class CopyCommandTest {
         type.add("Line");
         type.add("Rectangle");
         type.add("Ellipse");
-        type.add("Text");
+        //type.add("Text");
         
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z

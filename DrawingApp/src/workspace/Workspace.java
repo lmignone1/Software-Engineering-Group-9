@@ -35,10 +35,9 @@ public class Workspace extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Workspace.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("InitialInterface.fxml"));
         primaryStage.setTitle("Paint It!");
         
-        //primaryStage.getIcons().add(new Image("/workspace.image/uni.png"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add(this.getClass().getResource("hiddenHyperLink.css").toExternalForm());
         primaryStage.setScene(scene);
@@ -46,8 +45,6 @@ public class Workspace extends Application {
 
         primaryStage.show();
 
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("RootLayoutController.fxml"));
-        //WorkspaceController controller = loader.getController();
         
         ChangeListener<Number> listener = new ChangeListener<Number>() {
             private Point2D stageSize = null ;
@@ -57,15 +54,9 @@ public class Workspace extends Application {
                 if (stageSize == null) {
                     Platform.runLater(() -> {
 
-                        if((stageSize.getX() < 800) && (stageSize.getY() < 600) ){
+                        if((stageSize.getX() < 1200) && (stageSize.getY() < 700) ){
                             WorkspaceController.componentBorderPane.addProperty();
-                            //controller.componentBorderPane.addProperty();
                         }
-                        /*
-                        System.out.printf("Old: (%.1f, %.1f); new: (%.1f, %.1f)%n", 
-                                previousStageSize.getX(), previousStageSize.getY(), 
-                                stageSize.getX(), stageSize.getY());
-                        */
                         previousStageSize = stageSize;
                         stageSize = null;
                     });
@@ -79,48 +70,6 @@ public class Workspace extends Application {
         primaryStage.widthProperty().addListener(listener);
         primaryStage.heightProperty().addListener(listener);
 
-        
-        //stageSizeChageListener(primaryStage,controller);
-        
     }
-    /*
-    private void stageSizeChageListener(Stage stage, WorkspaceController controller) throws IOException,InvocationTargetException{
-        
-        //FXMLLoader loader = new FXMLLoader(Main.class.getResource("Workspace.fxml"));
-        //Parent sceneFXML = loader.load();
-        //WorkspaceController ctrl = (WorkspaceController)FXMLLoader.load(getClass().getResource("Workspace.fxml"));
-        
-            stage.widthProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
-                    if(newValue.doubleValue() < 800){
-                        //System.out.println(observable);
-                        //System.out.println("oldValue: " + oldValue);
-                        //System.out.println("newValue:" + newValue);
-                        controller.addScrollBars();
-                        //ctrl.componentBorderPane.addProperty();
-                          //System.out.println("Width changed!!");
-                       
-                    }else{
-                        System.out.println("no");
-                    }
-
-                }
-
-            });
-            
-            stage.heightProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if(newValue.intValue() < 600){
-                        controller.addScrollBars();
-                    }
-                }
-            });
-            
-
-    }
-    */
-    
+ 
 }
