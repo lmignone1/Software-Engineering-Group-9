@@ -32,16 +32,19 @@ public class ConcreteShapeRectangles extends AbstractShape {
 
     @Override
     public void setFillColor(ColorPicker color) {
+        //SET THE COLOR OF THE INSIDE OF THE RECTANGLE
         this.fillColor = new ColorPicker(color.getValue());
     }
 
     @Override
     public ColorPicker getFillColor() {
+        //RETURN THE COLOR OF THE INSIDE OF THE RECTANGLE
         return this.fillColor;
     }
 
     @Override
     public void setXY(double newX, double newY) {
+        //SET THE START AND THE END VALUES OF THE RECTANGLE
         setX(newX - this.width / 2);
         setY(newY - this.height / 2);
         rectangle.setFrame(getX(), getY(), this.width, this.height);
@@ -60,6 +63,7 @@ public class ConcreteShapeRectangles extends AbstractShape {
     @Override
 
     public void draw() {
+        //SET THE GRAPHICSCONTEXT VALUES TO DRAW THE RECTANGLE
         GraphicsContext gc = getGraphicsContext();
         double deg = this.getDegrees();
         Affine a = gc.getTransform();
@@ -95,31 +99,37 @@ public class ConcreteShapeRectangles extends AbstractShape {
 
     @Override
     public String getType() {
+        //RETURN THE TYPE OF THE SHAPE, IN THIS CASE RECTANGLE
         return this.TYPE;
     }
 
     @Override
     public void setSizeX(double sizeX) {
+        //SET THE WIDTH OF THE RECTANGLE
         this.width = sizeX;
     }
 
     @Override
     public void setSizeY(double sizeY) {
+        //SET THE HEIGHT OF THE RECTANGLE
         this.height = sizeY;
     }
 
     @Override
     public double getSizeX() {
+        //RETURN THE WIDTH OF THE RECTANGLE
         return this.width;
     }
 
     @Override
     public double getSizeY() {
+        //RETURN THE HEIGHT OF THE RECTANGLE
         return this.height;
     }
     
     @Override
     public String toString() {
+        //RETURN THE RECTANGLE INFORMATIONS
         String s = super.toString();
         String[] split = s.split(" ");
         double x = Double.parseDouble(split[0]);
