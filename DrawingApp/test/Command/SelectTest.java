@@ -261,14 +261,17 @@ public class SelectTest {
     @Test
     public void testGetPasteShape() {
         System.out.println("getPasteShape");
-        instance.paste(vect[rand.nextInt(vect.length)], vect[rand.nextInt(vect.length)]);
-        instance.setCopyShape(selectShape);
-        
-      try{
-           //assertTrue( instance.getPasteShape() instanceof Shape);
-           //assertNotEquals(instance.getPasteShape(),null);
-        }catch(AssertionError ex){
-            fail("The getPasteShape failed");
+        for (int i = 0; i < NUM; i++) {
+            selectShape = list.get(i);
+            instance.setCopyShape(selectShape);
+            instance.paste(vect[rand.nextInt(vect.length)], vect[rand.nextInt(vect.length)]);
+            Shape result = instance.getPasteShape();
+            try {
+                assertNotNull(result);
+                assertTrue(result instanceof Shape);
+            } catch (AssertionError ex) {
+                fail("The getPasteShape failed");
+            }
         }
     }   
 }
