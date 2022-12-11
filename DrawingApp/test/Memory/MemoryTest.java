@@ -113,7 +113,6 @@ public class MemoryTest {
             vect[count] = it.nextDouble();
             count++;
         }
-
         count = 0;
         stream = rand.doubles(-360.0, 360.001);
         it = stream.iterator();
