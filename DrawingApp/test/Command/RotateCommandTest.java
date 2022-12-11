@@ -145,12 +145,11 @@ public class RotateCommandTest {
             double oldDeg = selectShape.getDegrees();
             instance.execute();
             try {
-                assertEquals(deg, selectShape.getDegrees(), 0);
+                assertEquals(deg, selectedShape.getSelectedShape().getDegrees(), 0);
                 assertFalse(selectedShape.getMemory().getStackDouble().isEmpty());
                 assertTrue(selectedShape.getMemory().getStackShape().contains(selectShape));
                 assertEquals(oldDeg, selectedShape.getMemory().getStackDouble().lastElement(), 0);
             } catch (AssertionError ex) {
-                System.out.println("Error" + selectShape);
                 fail("The execute failed");
             }
         }
@@ -170,12 +169,12 @@ public class RotateCommandTest {
             selectedShape.setSelectedShape(selectShape);
             double deg = degreesVect[r.nextInt(degreesVect.length)];
             instance = new RotateCommand(selectedShape, deg);
-            double oldDeg = selectShape.getDegrees();
+            double oldDeg = selectedShape.getSelectedShape().getDegrees();
             instance.execute();
             instance.undo();
             try {
                 assertTrue(selectedShape.getMemory().getStackShape().isEmpty());
-                assertEquals(oldDeg, selectShape.getDegrees(), 0);
+                assertEquals(oldDeg, selectedShape.getSelectedShape().getDegrees(), 0);
             } catch (AssertionError ex) {
                 fail("The undo failed");
             }
@@ -189,11 +188,13 @@ public class RotateCommandTest {
     public void testUndo2() {
         System.out.println("undo2");
         Random r = new Random();
+        double[] oldDeg = new double[listShape.size()];
 
         for (int i = 0; i < listShape.size(); i++) {
             selectShape = listShape.get(i);
             selectedShape.setSelectedShape(selectShape);
             instance = new RotateCommand(selectedShape, degreesVect[r.nextInt(degreesVect.length)]);
+            oldDeg[i] = selectedShape.getSelectedShape().getDegrees();
             instance.execute();
         }
 
@@ -208,24 +209,25 @@ public class RotateCommandTest {
 
         for (int i = 0; i < listShape.size(); i++) {
             Shape currentShape = selectedShape.getMemory().getStackShape().peek();
-            double oldDeg = selectedShape.getMemory().getStackDouble().peek();
             double currentDeg = currentShape.getDegrees();
-            System.out.println("----");
-            System.out.println(currentShape + " -----> " + oldDeg);
             instance.undo();
-            System.out.println(currentShape);
             try {
-                assertEquals(oldDeg, currentShape.getDegrees(), 0);
-                assertFalse(selectedShape.getMemory().getStackDouble().contains(oldDeg));
-                assertFalse(selectedShape.getMemory().getStackShape().contains(currentShape));
-            } catch (AssertionError ex) {
-                System.out.println(currentShape);
-                System.out.println("stampa stack");
-                for(double e : selectedShape.getMemory().getStackDouble()) {
-                    System.out.println(e);
+                assertEquals(oldDeg[listShape.size() - i - 1], currentShape.getDegrees(), 0);
+                if (!selectedShape.getMemory().getStackDouble().isEmpty()) {
+                    assertNotEquals(oldDeg[listShape.size() - i - 1], selectedShape.getMemory().getStackDouble().lastElement());
                 }
+                assertFalse(selectedShape.getMemory().getStackShape().contains(currentShape));
+
+            } catch (AssertionError ex) {
                 fail("The undo2 failed");
             }
+        }
+
+        try {
+            assertTrue(selectedShape.getMemory().getStackDouble().isEmpty());
+            assertTrue(selectedShape.getMemory().getStackShape().isEmpty());
+        } catch (AssertionError ex) {
+            fail("The undo2 failed");
         }
     }
 

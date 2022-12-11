@@ -49,9 +49,9 @@ public class ConcreteCreatorEllipseTest {
         }
         
         count = 0;
-        stream = r.doubles(0, 360.001);
+        stream = r.doubles(-360.001, 360.001);
         it = stream.iterator();
-        while (count < vect.length && it.hasNext()) {
+        while (count < degreesVect.length && it.hasNext()) {
             degreesVect[count] = it.nextDouble();
             count++;
         }
@@ -117,6 +117,8 @@ public class ConcreteCreatorEllipseTest {
                 assertEquals(fillColor.getValue(), result.getFillColor().getValue());
                 assertEquals(x - 150.0 / 2, result.getX(), 0);
                 assertEquals(y - 90.0 / 2, result.getY(), 0);
+                assertEquals(150.0, result.getSizeX(), 0);
+                assertEquals(90.0, result.getSizeY(), 0);
                 assertEquals(0.0, result.getDegrees(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
@@ -128,7 +130,7 @@ public class ConcreteCreatorEllipseTest {
      * Test of createShape method, of class ConcreteCreatorEllipse.
      */
     @Test
-    public void testCreateShape_7args() {
+    public void testCreateShape_8args() {
         System.out.println("createShape");
         Random r = new Random();
         for (int i = 0; i < NUM; i++) {

@@ -18,8 +18,6 @@ public abstract class AbstractShape implements Shape{
     private double x;
     private double y;
     private double degrees;
-    //private double sizeX;
-    //private double sizeY;
     
     @Override
     public void setLineColor(ColorPicker color){
@@ -80,20 +78,6 @@ public abstract class AbstractShape implements Shape{
     public void setDegrees(double degrees) {
         this.degrees = degrees;
     }
-    
-    /*
-    @Override
-    public void setSizeX(double sizeX) {
-        this.sizeX = sizeX;
-    }
-    
-    @Override
-    public double getSizeX(){
-        return this.sizeX;
-    }
-    
-    
-    */
     
     @Override
     public void setSizeY(double sizeY) {

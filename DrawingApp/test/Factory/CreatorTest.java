@@ -49,7 +49,7 @@ public class CreatorTest {
         }
         
         count = 0;
-        stream = r.doubles(0, 360.001);
+        stream = r.doubles(-360.001, 360.001);
         it = stream.iterator();
         while (count < degreesVect.length && it.hasNext()) {
             degreesVect[count] = it.nextDouble();
@@ -82,6 +82,7 @@ public class CreatorTest {
         mode.add("Line");
         mode.add("Rectangle");
         mode.add("Ellipse");
+        mode.add("Text");
     }
 
     @BeforeClass
@@ -131,7 +132,10 @@ public class CreatorTest {
                     assertEquals(y - 90.0 / 2, result.getY(), 0);
                     assertEquals(fillColor.getValue(), result.getFillColor().getValue());
                 } else {
-                    // aggiungere test text shape
+                    assertEquals(x - 50.0 / 2, result.getX(), 0);
+                    assertEquals(y - 0.1 / 2, result.getY(), 0);
+                    assertEquals(fillColor.getValue(), result.getFillColor().getValue());
+                    assertEquals(null, result.getText());
                 }
             } catch (AssertionError ex) {
                 fail("The createShape failed");
@@ -160,25 +164,31 @@ public class CreatorTest {
                 assertEquals(elem, result.getType());
                 assertEquals(gc, result.getGraphicsContext());
                 assertEquals(lineColor.getValue(), result.getLineColor().getValue());
-                assertEquals(degrees, result.getDegrees(), 0);
                 if (elem.equals(mode.get(0))) {
                     assertEquals(x - sizeX / 2, result.getX(), 0);
                     assertEquals(y, result.getY(), 0);
                     assertEquals(sizeX, result.getSizeX(), 0);
+                    assertEquals(degrees, result.getDegrees(), 0);
                 } else if (elem.equals(mode.get(1))) {
                     assertEquals(x - sizeX / 2, result.getX(), 0);
                     assertEquals(y - sizeY / 2, result.getY(), 0);
                     assertEquals(fillColor.getValue(), result.getFillColor().getValue());
                     assertEquals(sizeX, result.getSizeX(), 0);
                     assertEquals(sizeY, result.getSizeY(), 0);
+                    assertEquals(degrees, result.getDegrees(), 0);
                 } else if (elem.equals(mode.get(2))) {
                     assertEquals(x - sizeX / 2, result.getX(), 0);
                     assertEquals(y - sizeY / 2, result.getY(), 0);
                     assertEquals(fillColor.getValue(), result.getFillColor().getValue());
                     assertEquals(sizeX, result.getSizeX(), 0);
                     assertEquals(sizeY, result.getSizeY(), 0);
+                    assertEquals(degrees, result.getDegrees(), 0);
                 } else {
-                    // aggiungere test text shape
+                    assertEquals(0.0, result.getDegrees(), 0);
+                    assertEquals(x - 50.0 / 2, result.getX(), 0);
+                    assertEquals(y - 0.1 / 2, result.getY(), 0);
+                    assertEquals(fillColor.getValue(), result.getFillColor().getValue());
+                    assertEquals(null, result.getText());
                 }
             } catch (AssertionError ex) {
                 fail("The createShape failed");
@@ -220,7 +230,6 @@ public class CreatorTest {
                 assertEquals(gc, result.getGraphicsContext());
                 assertEquals(lineColor.getValue(), result.getLineColor().getValue());
                 assertEquals(degrees, result.getDegrees(), 0);
- 
                 if (elem.equals(mode.get(0))) {
                     assertEquals(x - sizeX / 2, result.getX(), 0);
                     assertEquals(y, result.getY(), 0);
@@ -239,7 +248,9 @@ public class CreatorTest {
                     assertEquals(sizeY, result.getSizeY(), 0);
                 } else {
                     assertEquals(generatedString, result.getText());
-                    // aggiungere test text shape
+                    assertEquals(x - 50.0 / 2, result.getX(), 0);
+                    assertEquals(y - 0.1 / 2, result.getY(), 0);
+                    assertEquals(fillColor.getValue(), result.getFillColor().getValue());
                 }
             } catch (AssertionError ex) {
                 fail("The createShape failed");

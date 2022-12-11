@@ -22,7 +22,7 @@ public class ConcreteText extends AbstractShape {
     private ColorPicker fillColor;
     private Rectangle2D rectangle = null;
     private Point2D point;
-    private String string;
+    private String string = null;
     private final String TYPE;
     
 
