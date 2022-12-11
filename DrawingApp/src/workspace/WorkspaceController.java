@@ -19,6 +19,7 @@ import Decorator.ConcreteCanvas;
 import Decorator.GridDecorator;
 import Command.ToBackCommand;
 import Command.ToFrontCommand;
+import Command.ToMirrorCommand;
 import Decorator.BorderPaneComponent;
 import Decorator.ConcreteBorderPane;
 import Decorator.ScrollBarsBorderPane;
@@ -99,6 +100,7 @@ public class WorkspaceController implements Initializable {
     private GraphicsContext gc;
     private Creator creator;
     public List<Shape> listShape = null;
+    public List<Shape> listPrevious = null;
     private String oldMod;
     private Invoker invoker;
     private Select selectShape;
@@ -116,8 +118,10 @@ public class WorkspaceController implements Initializable {
     MenuItem sizeMenu = new MenuItem("Change size");
     MenuItem toFrontMenu = new MenuItem("To Front");
     MenuItem toBackMenu = new MenuItem("To Back");
+    MenuItem toMirrorMenu = new MenuItem("To Mirror");
     MenuItem rotateMenu = new MenuItem("Rotate");
-    
+    private boolean flag=false;
+    private int previousPosition;
     @FXML
     private TextField sizeX;
     @FXML
@@ -125,12 +129,6 @@ public class WorkspaceController implements Initializable {
 
     //da cambiare 
     private Select changeShape = null;
-    @FXML
-    private MenuItem newProjectMenu;
-    @FXML
-    private MenuItem loadProjectMenu;
-    @FXML
-    private MenuItem saveProjectMenu;
 
     private CanvasComponent component;
     private CanvasComponent gridDecorator;
@@ -150,6 +148,12 @@ public class WorkspaceController implements Initializable {
     private Shape shape;
     private boolean flagIrregular = true;
     @FXML
+    private MenuItem newProjectMenu;
+    @FXML
+    private MenuItem loadProjectMenu;
+    @FXML
+    private MenuItem saveProjectMenu;
+    @FXML
     private Button textButton;
     
     /**
@@ -160,6 +164,7 @@ public class WorkspaceController implements Initializable {
         gc = drawingCanvas.getGraphicsContext2D();
         creator = new Creator();
         listShape = new ArrayList<>();
+        listPrevious = new ArrayList<>();
         invoker = new Invoker();
         pasteMenu.setDisable(true);
         selectShape = new Select(listShape, null);
@@ -226,7 +231,8 @@ public class WorkspaceController implements Initializable {
 
     }
 
-    @FXML
+   
+     @FXML
     private void makeDraw(MouseEvent event) {
 
         if (event.isPrimaryButtonDown() && (mod.equals("Line") || mod.equals("Rectangle") || mod.equals("Ellipse") || mod.equals("IrregularPolygon"))) {
@@ -238,6 +244,7 @@ public class WorkspaceController implements Initializable {
 
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, selectedFullColour);
             listShape.add(shapeCreated);
+            listPrevious.add(shapeCreated);
             if(shapeCreated.getType().equals("IrregularPolygon")){
                 shape = shapeCreated;
                 flagIrregular = true;
@@ -256,6 +263,7 @@ public class WorkspaceController implements Initializable {
 
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, textPicker, 10, 10, text.getText(), 0.0);
             listShape.add(shapeCreated);
+            listPrevious.add(shapeCreated);
             shapeCreated.draw();
         }
         if (event.isSecondaryButtonDown()) {
@@ -305,6 +313,8 @@ public class WorkspaceController implements Initializable {
                 selectShape.setSelectedShape(elem);
                 
                 if (elem.getType().equals("Text") || elem.getType().equals("IrregularPolygon")) {
+                flag=false;
+                if (elem.getType().equals("Text")){
                     sizeMenu.setDisable(true);
                     
                 } else {
@@ -321,18 +331,11 @@ public class WorkspaceController implements Initializable {
             selectShape.setSelectedShape(null); //PER ESEMPIO COSì MA POI BISOGNA FARE DEI CHECK NEI NELLE VARIE OPERAZIONI
         }*/
      
-        pastX = event.getX();
-        pastY = event.getY();
+            pastX = event.getX();
+            pastY = event.getY();
+        }
     }
 
-    /* private void sel(){
-           
-            toFront(listShape.indexOf(selectShape.getSelectedShape()),listShape.size());
-            
-        }
-    private void desel(){
-        toFront(previousPosition,previousPosition);
-    }*/
     private void drawAll() {
         Iterator<Shape> it = listShape.iterator();
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
@@ -341,16 +344,7 @@ public class WorkspaceController implements Initializable {
             elem.draw();
         }
     }
-    private int previousPosition;
-
-    private void sel(MouseEvent event) {
-
-        if (selectShape.getSelectedShape().containsPoint(event.getX(), event.getY())) {
-            listShape.add(listShape.size() - 1, selectShape.getSelectedShape());
-        }
-
-    }
-
+    
     @FXML
     private void rectangle(MouseEvent event) {
         mod = "Rectangle";
@@ -386,18 +380,23 @@ public class WorkspaceController implements Initializable {
 
 
     private void initContextMenu() {
-        contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu, rotateMenu, toFrontMenu, toBackMenu);
+        contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu, rotateMenu, toFrontMenu,toBackMenu, toMirrorMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
-        /* contextMenu.showingProperty().addListener((observable, oldValue, newValue) -> {
+        contextMenu.showingProperty().addListener((observable, oldValue, newValue) -> {
         if(newValue==false&&flag==true){
-        
-        flag=false;
+        for(int i=0;i<listShape.size();i++){
+            listShape.set(i,listPrevious.get(i));
         }
-    });*/
+        flag=true;
+        drawAll();
+        }
+    });
+      
 
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
             public void handle(ActionEvent event) {
                 delete();
+               
             }
         });
 
@@ -407,7 +406,7 @@ public class WorkspaceController implements Initializable {
                     oldMod = mod;
                 }
                 mod = "Move";
-
+                flag=true;
             }
         });
 
@@ -415,7 +414,7 @@ public class WorkspaceController implements Initializable {
             public void handle(ActionEvent event) {
                 copy();
                 pasteMenu.setDisable(false);
-
+                flag=true;
             }
         });
 
@@ -429,34 +428,43 @@ public class WorkspaceController implements Initializable {
             public void handle(ActionEvent event) {
                 cut();
                 pasteMenu.setDisable(false);
+                
             }
         });
 
         colorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the colorMenu item
             public void handle(ActionEvent event) {
                 changeColor();
+                flag=true;
             }
         });
 
         sizeMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
                 changeSize();
-                
+                flag=true;
             }
         });
         
         toFrontMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
-                toFront(listShape.indexOf(selectShape.getSelectedShape()), listShape.size());
+                toFront(listPrevious.indexOf(selectShape.getSelectedShape()), listShape.size());
+                
             }
         });
         
         toBackMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
             public void handle(ActionEvent event) {
-                toBack(listShape.indexOf(selectShape.getSelectedShape()));
+                toBack(listPrevious.indexOf(selectShape.getSelectedShape()));
+                
             }
         });
-        
+        toMirrorMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the sizeMenu item
+            public void handle(ActionEvent event) {
+                toMirror();
+                
+            }
+        });
         rotateMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the rotateMenu item
             public void handle(ActionEvent event) {
                 rotate();
@@ -470,7 +478,14 @@ public class WorkspaceController implements Initializable {
         invoker.startCommand();
         drawAll();
     }
-
+    public void toMirror() {
+        double deg;
+        deg=selectShape.getSelectedShape().getDegrees();
+        command = new ToMirrorCommand(selectShape,-deg);
+        invoker.setCommand(command);
+        invoker.startCommand();
+        drawAll();
+    }
     public void toBack(double index) {
         command = new ToBackCommand(selectShape, index);
         invoker.setCommand(command);
@@ -480,7 +495,7 @@ public class WorkspaceController implements Initializable {
     }
 
     public void delete() {
-        command = new DeleteCommand(selectShape);
+        command = new DeleteCommand(selectShape,listPrevious.indexOf(selectShape.getSelectedShape()));
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
@@ -508,7 +523,7 @@ public class WorkspaceController implements Initializable {
     }
 
     public void cut() {
-        command = new CutCommand(selectShape);
+        command = new CutCommand(selectShape,listPrevious.indexOf(selectShape.getSelectedShape()));
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
@@ -545,7 +560,13 @@ public class WorkspaceController implements Initializable {
 
     public void rotate() {
         String x = rotateField.getText();
-        command = new RotateCommand(selectShape, Double.parseDouble(x));
+        double X;
+        if(!x.isEmpty()){
+        X = Double.parseDouble(x);
+        }else{
+        X = 180;
+        }
+        command = new RotateCommand(selectShape,X);
         invoker.setCommand(command);
         invoker.startCommand();
         drawAll();
@@ -589,4 +610,18 @@ public class WorkspaceController implements Initializable {
     private void addText(ActionEvent event) {
         mod = "Text";
     }
+    
+    @FXML
+    private void overlapping(MouseEvent event) { 
+        if(event.isSecondaryButtonDown()&&flag==false){  
+          listShape.remove(listShape.indexOf(selectShape.getSelectedShape()));
+          listShape.add(listShape.size(), selectShape.getSelectedShape());
+          drawAll();
+         
+        }
+    
+    }
+
+    
+
 }

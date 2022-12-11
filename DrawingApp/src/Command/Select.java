@@ -8,12 +8,18 @@ import Factory.Creator;
 import Memory.Memory;
 import Shapes.Shape;
 import java.util.ArrayList;
+import java.awt.geom.AffineTransform;
 import java.util.List;
 import java.util.Arrays;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.effect.Effect;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Affine;
+import javafx.scene.transform.NonInvertibleTransformException;
+import javafx.scene.transform.Rotate;
 
 /**
  *
@@ -27,22 +33,20 @@ public class Select {
     private Creator creator = new Creator();
     private Shape pasteShape;
     private Memory memory;
+    private double deg;
+  
 
     public Select(List<Shape> listShape, Shape selectedShape) {
         this.list = listShape;
         this.selectedShape = selectedShape;
         this.memory = new Memory();
+        
     }
 
     public List<Shape> getShape() {
         return list;
     }
 
-    /*
-    public void setShape(List<Shape> shape) {
-        this.list = shape;
-    }
-     */
     public Shape getSelectedShape() {
         return selectedShape;
     }
@@ -67,11 +71,7 @@ public class Select {
         return pasteShape;
     }
 
-    /*
-    public void setMemory(Memory memory) {
-        this.memory = memory;
-    }
-     */
+
     public void delete() {
 
         if (this.selectedShape == null) {
@@ -309,8 +309,34 @@ public class Select {
             return;
         }
 
-        this.memory.addStackDouble(selectedShape.getDegrees());
-        this.selectedShape.setDegrees(degrees);
-        this.memory.addStackShape(selectedShape);
+       
+       this.memory.addStackDouble(selectedShape.getDegrees());
+       this.selectedShape.setDegrees(degrees);
+       this.memory.addStackShape(selectedShape);
+   }
+
+   public void toMirror(double degrees){
+       deg=selectedShape.getDegrees();
+       if(this.selectedShape == null){
+            return;
+        }
+       
+       this.memory.addStackDouble(selectedShape.getDegrees());
+       this.selectedShape.setDegrees(degrees);
+       this.memory.addStackShape(selectedShape);
+     
+        if(selectedShape.getType()!="Line"){
+            this.memory.addStackDouble(selectedShape.getDegrees());
+            this.selectedShape.setDegrees(-deg);
+            selectedShape.setXY(selectedShape.getX()+1.5*selectedShape.getSizeX(),selectedShape.getY()+0.5*selectedShape.getSizeY());
+        }
+       
+       else {
+            this.memory.addStackDouble(selectedShape.getDegrees());
+            this.selectedShape.setDegrees(-deg);
+            selectedShape.setXY(selectedShape.getX()+ 1.5*selectedShape.getSizeX(),selectedShape.getY());       
+        }
+        
+
     }
 }

@@ -31,7 +31,7 @@ public class ConcreteShapeLines extends AbstractShape{
     }
 
     @Override
-    public void setXY(double x, double y){ 
+     public void setXY(double x, double y){ 
         setX(x - length/2);
         setY(y);
         setEndX(getX() + length);

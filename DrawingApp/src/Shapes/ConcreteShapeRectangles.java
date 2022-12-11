@@ -58,6 +58,7 @@ public class ConcreteShapeRectangles extends AbstractShape {
     }
      */
     @Override
+
     public void draw() {
         GraphicsContext gc = getGraphicsContext();
         double deg = this.getDegrees();
@@ -79,6 +80,7 @@ public class ConcreteShapeRectangles extends AbstractShape {
             a.setToIdentity();
             gc.setTransform(a);
         }
+
     }
 
     @Override

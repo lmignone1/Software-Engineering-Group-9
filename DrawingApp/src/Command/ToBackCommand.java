@@ -15,7 +15,7 @@ public class ToBackCommand implements Command {
 
     private Select shape;
     private double index;
-    
+  
     public ToBackCommand(Select shape, double index) {
         this.shape = shape;
         this.index=index;
@@ -31,6 +31,7 @@ public class ToBackCommand implements Command {
     @Override
     public void undo() {
         //this.shape.toBack(index);
+        
         Shape oldShape = this.shape.getMemory().popStackShape();
         this.shape.getShape().remove(oldShape);
         this.shape.getShape().add((int)index,oldShape);

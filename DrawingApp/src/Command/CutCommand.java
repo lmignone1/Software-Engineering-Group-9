@@ -11,9 +11,10 @@ package Command;
 public class CutCommand implements Command{
     
     private Select shape;
-
-    public CutCommand(Select shape) {
+    private double pos;
+    public CutCommand(Select shape, double pos) {
         this.shape = shape;
+        this.pos = pos;
     }
 
     @Override
@@ -23,8 +24,10 @@ public class CutCommand implements Command{
 
     @Override
     public void undo() {
-        //this.shape.setCopyShape(null);
-        this.shape.getShape().add(this.shape.getMemory().popStackShape());
+
+        this.shape.setCopyShape(null);
+        this.shape.getShape().add((int) pos,this.shape.getMemory().popStackShape());
+
        
     }
 }
