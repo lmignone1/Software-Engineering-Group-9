@@ -40,10 +40,10 @@ public class FileDrawTest {
 
     public FileDrawTest() {
 
-        line1 = "Line 410.9523809523809 53.01587301587302 0x1a3399ff 0xffffffff 100.0 0.0 nothing";
-        line2 = "Rectangle 130.95238095238093 237.53968253968253 0x4d804dff 0x4d1a4dff 100.0 50.0 nothing";
-        line3 = "Ellipse 415.15873015873024 362.9365079365079 0x1a3399ff 0xe64d4dff 150.0 90.0 nothing";
-        line4 = "Text 458.6666666666667 148.0 0x000000ff 0xe64d4dff 50.0 0.1 Test";
+        line1 = "Line 410.9523809523809 53.01587301587302 0x1a3399ff 0xffffffff 100.0 0.0 nothing 30.0";
+        line2 = "Rectangle 130.95238095238093 237.53968253968253 0x4d804dff 0x4d1a4dff 100.0 50.0 nothing 90.0";
+        line3 = "Ellipse 415.15873015873024 362.9365079365079 0x1a3399ff 0xe64d4dff 150.0 90.0 nothing -30.0";
+        line4 = "Text 458.6666666666667 148.0 0x000000ff 0xe64d4dff 50.0 0.1 Test 45.0";
         
         type = new ArrayList<>();
         type.add("Line");
@@ -56,16 +56,16 @@ public class FileDrawTest {
         gc = c.getGraphicsContext2D();
 
         listShape.add(Creator.createShape(type.get(0), gc, 410.9523809523809, 53.01587301587302,
-                new ColorPicker(Color.valueOf("0x1a3399ff")), new ColorPicker(Color.valueOf("0xffffffff")), 100.0, 0.0));
+                new ColorPicker(Color.valueOf("0x1a3399ff")), new ColorPicker(Color.valueOf("0xffffffff")), 100.0, 0.0, 30.0));
 
         listShape.add(Creator.createShape(type.get(1), gc, 130.95238095238093, 237.53968253968253,
-                new ColorPicker(Color.valueOf("0x4d804dff")), new ColorPicker(Color.valueOf("0x4d1a4dff")), 100.0, 50.0));
+                new ColorPicker(Color.valueOf("0x4d804dff")), new ColorPicker(Color.valueOf("0x4d1a4dff")), 100.0, 50.0, 90.0));
 
         listShape.add(Creator.createShape(type.get(2), gc, 415.15873015873024, 362.9365079365079,
-                new ColorPicker(Color.valueOf("0x1a3399ff")), new ColorPicker(Color.valueOf("0xe64d4dff")), 150.0, 90.0));
+                new ColorPicker(Color.valueOf("0x1a3399ff")), new ColorPicker(Color.valueOf("0xe64d4dff")), 150.0, 90.0, -30.0));
 
         listShape.add(Creator.createShape(type.get(3), gc, 458.6666666666667, 148.0, 
-                new ColorPicker(Color.valueOf("0x000000ff")), new ColorPicker(Color.valueOf("0xe64d4dff")), 50.0, 0.1, "Test"));
+                new ColorPicker(Color.valueOf("0x000000ff")), new ColorPicker(Color.valueOf("0xe64d4dff")), 50.0, 0.1, "Test", 45.0));
         
         path = "prova";
         completePath = path + ".txt";
@@ -146,6 +146,7 @@ public class FileDrawTest {
                 assertEquals(listShape.get(i).getY(), listShapeResult.get(i).getY(), 0);
                 assertEquals(listShape.get(i).getSizeX(), listShapeResult.get(i).getSizeX(), 0);
                 assertEquals(listShape.get(i).getPoint(), listShapeResult.get(i).getPoint());
+                assertEquals(listShape.get(i).getDegrees(), listShapeResult.get(i).getDegrees(), 0);
                 if(!listShape.get(i).getType().equals(type.get(0))){
                     assertEquals(listShape.get(i).getSizeY(), listShapeResult.get(i).getSizeY(), 0);
                     assertEquals(listShape.get(i).getFillColor().getValue(), listShapeResult.get(i).getFillColor().getValue());

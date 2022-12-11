@@ -34,9 +34,11 @@ public class ConcreteCreatorRectangleTest {
     private List<ColorPicker> listColor;
     private GraphicsContext gc;
     private final int NUM = 10;
+    private double[] degreesVect;
 
     public ConcreteCreatorRectangleTest() {
         vect = new double[100];
+        degreesVect = new double[100];
         Random r = new Random();
         DoubleStream stream = r.doubles(-999.999, 999.999);
         int count = 0;
@@ -45,7 +47,15 @@ public class ConcreteCreatorRectangleTest {
             vect[count] = it.nextDouble();
             count++;
         }
-
+        
+        count = 0;
+        stream = r.doubles(0, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
+            count++;
+        }
+        
         listColor = new ArrayList<>();
 
         ColorPicker colorPickerWhite = new ColorPicker(Color.WHITE);
@@ -107,6 +117,7 @@ public class ConcreteCreatorRectangleTest {
                 assertEquals(fillColor.getValue(), result.getFillColor().getValue());
                 assertEquals(x - 100.0 / 2, result.getX(), 0);
                 assertEquals(y - 50.0 / 2, result.getY(), 0);
+                assertEquals(0.0, result.getDegrees(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }
@@ -127,7 +138,8 @@ public class ConcreteCreatorRectangleTest {
             double sizeY = vect[r.nextInt(vect.length)];
             ColorPicker lineColor = listColor.get(r.nextInt(listColor.size()));
             ColorPicker fillColor = listColor.get(r.nextInt(listColor.size()));
-            Shape result = instance.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY);
+            double degrees = degreesVect[r.nextInt(degreesVect.length)];
+            Shape result = instance.createShape(gc, x, y, lineColor, fillColor, sizeX, sizeY, degrees);
             try {
                 assertNotNull(result);
                 assertEquals(gc, result.getGraphicsContext());
@@ -137,6 +149,7 @@ public class ConcreteCreatorRectangleTest {
                 assertEquals(y - sizeY / 2, result.getY(), 0);
                 assertEquals(sizeX, result.getSizeX(), 0);
                 assertEquals(sizeY, result.getSizeY(), 0);
+                assertEquals(degrees, result.getDegrees(), 0);
             } catch (AssertionError ex) {
                 fail("The createShape failed");
             }

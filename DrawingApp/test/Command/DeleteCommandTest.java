@@ -22,19 +22,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
 /**
  *
  * @author Davide
  */
 public class DeleteCommandTest {
-    
+
     //SELECT ATTRIBUTE
     private Select selectedShape;
     private Shape selectShape;
     private List<Shape> listShape;
     //TEST DELETE COMMAND ATTRIBUTE
-    private JFXPanel panel; 
+    private JFXPanel panel;
     private DeleteCommand instance;
     //CREATION SHAPE ATTRIBUTE
     private Creator creator;
@@ -57,19 +56,19 @@ public class DeleteCommandTest {
     private DoubleStream stream;
     private int count;
     private PrimitiveIterator.OfDouble it;
-  
-    
+    private double[] degreesVect;
+
     public DeleteCommandTest() {
-        
+        degreesVect = new double[100];
         panel = new JFXPanel();
         listShape = new ArrayList<>();
         selectShape = null;
-        selectedShape = new Select(listShape,selectShape);
+        selectedShape = new Select(listShape, selectShape);
         creator = new Creator();
-        canvas = new Canvas(1400,1000);
-        
+        canvas = new Canvas(1400, 1000);
+
         listColor = new ArrayList<>();
-        
+
         colorPickerWhite = new ColorPicker(Color.WHITE);
         colorPickerRed = new ColorPicker(Color.RED);
         colorPickerBlue = new ColorPicker(Color.BLUE);
@@ -78,67 +77,76 @@ public class DeleteCommandTest {
         colorPickerGreen = new ColorPicker(Color.GREEN);
         colorPickerPurple = new ColorPicker(Color.PURPLE);
         colorPickerBlack = new ColorPicker(Color.BLACK);
-        
+
         listColor.add(colorPickerWhite);
-        listColor.add(colorPickerRed); 
+        listColor.add(colorPickerRed);
         listColor.add(colorPickerBlue);
         listColor.add(colorPickerYellow);
         listColor.add(colorPickerOrange);
         listColor.add(colorPickerGreen);
         listColor.add(colorPickerPurple);
         listColor.add(colorPickerBlack);
-        
+
         type = new ArrayList<>();
         type.add("Line");
         type.add("Rectangle");
         type.add("Ellipse");
         type.add("Text");
-        
+
         int leftLimit = 97; //letter a
         int rightLimit = 122; //letter z
         int targetStringLength = 10;
         Random random = new Random();
-        
+
         rand = new Random();
         vect = new double[100];
-        stream = rand.doubles(-999.999,999.999);
+        stream = rand.doubles(-999.999, 999.999);
         count = 0;
         it = stream.iterator();
-        while(count < vect.length && it.hasNext()){
+        while (count < vect.length && it.hasNext()) {
             vect[count] = it.nextDouble();
             count++;
         }
-        for(int i = 0; i<NUM; i++){
+
+        count = 0;
+        stream = rand.doubles(-360.0, 360.001);
+        it = stream.iterator();
+        while (count < degreesVect.length && it.hasNext()) {
+            degreesVect[count] = it.nextDouble();
+            count++;
+        }
+
+        for (int i = 0; i < NUM; i++) {
             String generatedString = random.ints(leftLimit, rightLimit + 1)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-            
-            createdShape = Creator.createShape(type.get(rand.nextInt(type.size())), 
-                    canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)], 
-                    vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())), 
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+
+            createdShape = Creator.createShape(type.get(rand.nextInt(type.size())),
+                    canvas.getGraphicsContext2D(), vect[rand.nextInt(vect.length)],
+                    vect[rand.nextInt(vect.length)], listColor.get(rand.nextInt(listColor.size())),
                     listColor.get(rand.nextInt(listColor.size())), vect[rand.nextInt(vect.length)],
-                    vect[rand.nextInt(vect.length)], generatedString);
+                    vect[rand.nextInt(vect.length)], generatedString, degreesVect[rand.nextInt(degreesVect.length)]);
             listShape.add(createdShape);
         }
-        
+
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         selectShape = listShape.get(rand.nextInt(listShape.size()));
         selectedShape.setSelectedShape(selectShape);
         instance = new DeleteCommand(selectedShape);
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -149,17 +157,17 @@ public class DeleteCommandTest {
     @Test
     public void testExecute() {
         System.out.println("TEST: Execute deleteCommand");
-    
-        for(int i = 1; i < NUM; i++){
+
+        for (int i = 1; i < NUM; i++) {
             instance.execute();
-            try{
+            try {
                 assertFalse(listShape.contains(selectShape));
                 assertFalse(selectedShape.getMemory().getStackShape().isEmpty());
                 assertTrue(selectedShape.getMemory().getStackShape().contains(selectShape));
-            }catch(AssertionError ex){
+            } catch (AssertionError ex) {
                 fail("ERROR: The excute of deleteCommand failed");
             }
-            if(listShape.isEmpty()){
+            if (listShape.isEmpty()) {
                 break;
             }
             selectShape = listShape.get(rand.nextInt(listShape.size()));
@@ -173,54 +181,63 @@ public class DeleteCommandTest {
     @Test
     public void testUndo() {
         System.out.println("TEST: Undo deleteCommand");
-        
-        for(int i = 0; i < NUM; i++){
+
+        for (int i = 0; i < NUM; i++) {
             instance.execute();
             instance.undo();
-            try{
+            try {
                 assertTrue(listShape.contains(selectShape));
                 assertTrue(selectedShape.getMemory().getStackShape().isEmpty());
                 assertFalse(selectedShape.getMemory().getStackShape().contains(selectShape));
-            }catch(AssertionError ex){
+            } catch (AssertionError ex) {
                 fail("ERROR: The undo of deleteCommand failed");
             }
             selectShape = listShape.get(rand.nextInt(listShape.size()));
             selectedShape.setSelectedShape(selectShape);
         }
     }
-    
+
     /**
      * Test2 of undo method, of class DeleteCommand.
      */
     @Test
     public void testUndo2() {
         System.out.println("TEST2: Undo deleteCommand");
-        
+
         Shape expShape;
-        
-        for(int i = 0; i < NUM; i++){
+
+        for (int i = 0; i < NUM; i++) {
             instance.execute();
-            if(listShape.isEmpty()){
+            if (listShape.isEmpty()) {
                 break;
             }
             selectShape = listShape.get(rand.nextInt(listShape.size()));
             selectedShape.setSelectedShape(selectShape);
         }
-        
-        assertTrue(listShape.isEmpty());
-        
-        for(int i = 0; i < NUM; i++){
+
+        try {
+            assertTrue(listShape.isEmpty());
+        } catch (AssertionError ex) {
+            fail(" ERROR-2: The undo of deleteCommand failed");
+        }
+
+        for (int i = 0; i < NUM; i++) {
             expShape = selectedShape.getMemory().getStackShape().peek();
             instance.undo();
-            try{
+            try {
                 assertTrue(listShape.contains(expShape));
                 assertFalse(selectedShape.getMemory().getStackShape().contains(expShape));
-            }catch(AssertionError ex){
+            } catch (AssertionError ex) {
                 fail(" ERROR-2: The undo of deleteCommand failed");
             }
         }
-        assertFalse(listShape.isEmpty());
-        
+
+        try {
+            assertFalse(listShape.isEmpty());
+        } catch (AssertionError ex) {
+            fail(" ERROR-2: The undo of deleteCommand failed");
+        }
+
     }
-    
+
 }
