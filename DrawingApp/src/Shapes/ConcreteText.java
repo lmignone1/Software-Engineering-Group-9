@@ -124,7 +124,7 @@ public class ConcreteText extends AbstractShape {
     public String getText() {
         return this.string;
     }
-
+    /*
     @Override
     public String toString() {
         String s = super.toString();
@@ -135,7 +135,7 @@ public class ConcreteText extends AbstractShape {
         y = y + (this.height/2);
         return TYPE + " " + x + " " + y + " " + split[2] + " " + fillColor.getValue() + " " + this.width + " " + this.height + " " + string + " " + split[3];
     }
-    
+    */
     
     
 }

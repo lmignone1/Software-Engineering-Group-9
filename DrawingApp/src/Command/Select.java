@@ -177,18 +177,20 @@ public class Select {
 
 
         if(this.selectedShape.getType().equals("IrregularPolygon")){
-            
+            System.out.println("-----------MOVE-------------");
             double distX;
             double distY;
             
-            double startX = this.selectedShape.getAllX()[this.selectedShape.getVertices()-1];
-            double startY = this.selectedShape.getAllY()[this.selectedShape.getVertices()-1];
+            double startX = this.selectedShape.getAllX()[0];
+            double startY = this.selectedShape.getAllY()[0];
+
             
             Point2D point = new Point2D(startX, startY);
             Point2D clickPointX = new Point2D(newX, startY);
             Point2D clickPointY = new Point2D(startX, newY);
             distX = point.distance(clickPointX);
             distY = point.distance(clickPointY);
+            
       
             if (newX > startX && newY > startY) {
 
@@ -205,32 +207,31 @@ public class Select {
             ArrayList<Double> arrayListY = new ArrayList<>();
             this.selectedShape.setPolygonX(arrayListX);
             this.selectedShape.setPolygonY(arrayListY);
-            for (int i = this.selectedShape.getVertices()-1; i >= 0; i--) {
+            
+            for (int i = 0; i < this.selectedShape.getVertices(); i++) {
 
                 double pastX = this.selectedShape.getAllX()[i];
                 double pastY = this.selectedShape.getAllY()[i];
                 
-                this.memory.addStackDouble(pastY);
-                this.memory.addStackDouble(pastX);
+                System.out.println("X:" + pastX);
+                System.out.println("Y:" + pastY);
 
                 double setX = pastX + distX;
                 double setY = pastY + distY;
+                System.out.println("setX:" + setX);
+                System.out.println("setY:" + setY);
 
                 this.selectedShape.setXY(setX, setY);
-
             }
-            
+
             this.memory.addStackDouble(startY);
-            this.memory.addStackDouble(startX);
-            
-            
+            this.memory.addStackDouble(startX);            
         }else{
             this.selectedShape.setXY(newX, newY);
             this.memory.addStackDouble(previousY);
             this.memory.addStackDouble(previousX);
         }
         
-
         this.memory.addStackShape(this.selectedShape);
     }
 

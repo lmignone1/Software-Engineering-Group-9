@@ -240,7 +240,7 @@ public class WorkspaceController implements Initializable {
             listShape.add(shapeCreated);
             if(shapeCreated.getType().equals("IrregularPolygon")){
                 shape = shapeCreated;
-                 flagIrregular = true;
+                flagIrregular = true;
             }else{
                 //listShape.add(shapeCreated);
                 shapeCreated.draw();
@@ -288,7 +288,7 @@ public class WorkspaceController implements Initializable {
              
             shape.draw();
             flagIrregular = false;
-            shape = null; // non so se migliora o no 
+            //shape = null; // non so se migliora o no 
             
         }
         //mod = "";
@@ -303,6 +303,8 @@ public class WorkspaceController implements Initializable {
             Shape elem = it.next();
             if (elem.containsPoint(event.getX(), event.getY())) {
                 selectShape.setSelectedShape(elem);
+                System.out.println("--------SELECT---------");
+                
                 if (elem.getType().equals("Text") || elem.getType().equals("IrregularPolygon")) {
                     sizeMenu.setDisable(true);
                     
@@ -319,7 +321,7 @@ public class WorkspaceController implements Initializable {
             //System.out.println(selectShape.getSelectedShape());//CONTROLLARE QUANDO è NULL
             selectShape.setSelectedShape(null); //PER ESEMPIO COSì MA POI BISOGNA FARE DEI CHECK NEI NELLE VARIE OPERAZIONI
         }*/
-
+        System.out.println(selectShape.getSelectedShape());
         pastX = event.getX();
         pastY = event.getY();
     }

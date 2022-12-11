@@ -101,7 +101,7 @@ public class ConcreteShapeLines extends AbstractShape{
     public double getSizeX() {
         return this.length;
     }
-
+    /*
     @Override
     public String toString() {
         String s = super.toString();
@@ -110,5 +110,5 @@ public class ConcreteShapeLines extends AbstractShape{
         x = x + this.length/2;
         return TYPE + " " + x + " " + split[1] + " " + split[2] + " " + Color.WHITE + " " + length + " " + "0.0" + " " + "nothing" + " " + split[3];
     }
-
+    */
 }

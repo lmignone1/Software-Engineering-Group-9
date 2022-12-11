@@ -105,11 +105,12 @@ public abstract class AbstractShape implements Shape{
     public double getSizeY(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    /*
     @Override
     public String toString() {
-        return x + " " + y + " " + lineColor.getValue() + " " + this.degrees;
+        return this.getClass().getName();
     }
+    */
     
     @Override
     public void setText(String string){

@@ -4,7 +4,10 @@
  */
 package Command;
 
+import Shapes.Shape;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Stack;
 import javafx.geometry.Point2D;
 
 /**
@@ -36,50 +39,55 @@ public class MoveCommand implements Command {
     @Override
     public void undo() { 
                 
-        if(this.shape.getMemory().getStackShape().peek().getType().equals("IrregularPolygon")){ //undo dei poligoni irregolari non funzione alla perfezione
+        if(this.shape.getMemory().getStackShape().peek().getType().equals("IrregularPolygon")){ 
+
+            double distX;
+            double distY;
+            Shape irregularShape = this.shape.getMemory().popStackShape();
+            double startX = irregularShape.getAllX()[0];
+            double startY = irregularShape.getAllY()[0];
+            double x = this.shape.getMemory().popStackDouble();
+            double y = this.shape.getMemory().popStackDouble();
+                  
+            Point2D point = new Point2D(startX, startY);
+            Point2D clickPointX = new Point2D(x, startY);
+            Point2D clickPointY = new Point2D(startX, y);
+            distX = point.distance(clickPointX);
+            distY = point.distance(clickPointY);
             
-                double distX;
-                double distY;
-                double startX = this.shape.getMemory().getStackShape().peek().getAllX()[0];
-                double startY = this.shape.getMemory().getStackShape().peek().getAllY()[0];
-                double x = this.shape.getMemory().popStackDouble();
-                double y = this.shape.getMemory().popStackDouble();
+            if (newX > startX && newY > startY) {
 
-                Point2D point = new Point2D(startX, startY);
-                Point2D clickPointX = new Point2D(newX, startY);
-                Point2D clickPointY = new Point2D(startX, newY);
-                distX = point.distance(clickPointX);
-                distY = point.distance(clickPointY);
+            } else if (newX < startX && newY < startY) {
+                distX = -distX;
+                distY = -distY;
+            } else if (newX < startX && newY > startY) {
+                distX = -distX;
+            } else if (newX > startX && newY < startY) {
+                distY = -distY;
+            }
 
-                if (newX > startX && newY > startY) {
+            ArrayList<Double> arrayListX = new ArrayList<>();
+            ArrayList<Double> arrayListY = new ArrayList<>();
+            irregularShape.setPolygonX(arrayListX);
+            irregularShape.setPolygonY(arrayListY);
+            System.out.println(Arrays.toString(irregularShape.getAllX()));
+            System.out.println(Arrays.toString(irregularShape.getAllY()));
+            
+            for (int i = 0; i < irregularShape.getVertices(); i++) {
 
-                } else if (newX < startX && newY < startY) {
-                    distX = -distX;
-                    distY = -distY;
-                } else if (newX < startX && newY > startY) {
-                    distX = -distX;
-                } else if (newX > startX && newY < startY) {
-                    distY = -distY;
-                }
-
-                ArrayList<Double> arrayListX = new ArrayList<>();
-                ArrayList<Double> arrayListY = new ArrayList<>();
-                this.shape.getMemory().getStackShape().peek().setPolygonX(arrayListX);
-                this.shape.getMemory().getStackShape().peek().setPolygonX(arrayListY);
+                double pastX = irregularShape.getAllX()[i];
+                double pastY = irregularShape.getAllY()[i];
                 
-                for (int i = 0; i <= this.shape.getMemory().getStackShape().peek().getVertices()-1; i++) {
+                System.out.println("pastX:" + pastX);
+                System.out.println("pastY:" + pastY);
 
-                    double pastX = this.shape.getMemory().popStackDouble();
-                    double pastY = this.shape.getMemory().popStackDouble();
+                double setX = pastX - distX;
+                double setY = pastY - distY;
 
-                    double setX = pastX + distX;
-                    double setY = pastY + distY;
+                irregularShape.setXY(setX, setY);
+                
+            }
 
-                    this.shape.getMemory().getStackShape().peek().setXY(setX, setY);
-
-                }
-                this.shape.getMemory().popStackShape();
-            
         }else{
             this.shape.getMemory().popStackShape().setXY(this.shape.getMemory().popStackDouble(), this.shape.getMemory().popStackDouble());
         }
