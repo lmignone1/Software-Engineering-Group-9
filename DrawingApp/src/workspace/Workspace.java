@@ -5,11 +5,7 @@
 package workspace;
 
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,34 +25,9 @@ public class Workspace extends Application {
         primaryStage.setTitle("Paint It!");
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(this.getClass().getResource("hiddenHyperLink.css").toExternalForm());
         primaryStage.setScene(scene);
 
         primaryStage.show();
-
-        ChangeListener<Number> listener = new ChangeListener<Number>() {
-            private Point2D stageSize = null;
-            private Point2D previousStageSize = new Point2D(primaryStage.getWidth(), primaryStage.getHeight());
-
-            @Override
-            public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-                if (stageSize == null) {
-                    Platform.runLater(() -> {
-
-                        if ((stageSize.getX() < 1200) && (stageSize.getY() < 700)) {
-                            WorkspaceController.componentBorderPane.addProperty();
-                        }
-                        previousStageSize = stageSize;
-                        stageSize = null;
-                    });
-                }
-                stageSize = new Point2D(primaryStage.getWidth(), primaryStage.getHeight());
-            }
-
-        };
-
-        primaryStage.widthProperty().addListener(listener);
-        primaryStage.heightProperty().addListener(listener);
 
     }
 
