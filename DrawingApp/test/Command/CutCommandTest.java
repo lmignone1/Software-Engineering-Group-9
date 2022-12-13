@@ -199,8 +199,13 @@ public class CutCommandTest {
             selectShape = list.get(r.nextInt(list.size()));
             selectedShape.setSelectedShape(selectShape);
         }
-
-        assertTrue(list.isEmpty());
+        
+        try {
+            assertTrue(list.isEmpty());
+        } catch (AssertionError ex) {
+            fail(" ERROR-2: The undo of cutCommand failed");
+        }
+        
 
         for (int i = 0; i < NUM; i++) {
             expShape = selectedShape.getMemory().getStackShape().peek();
@@ -212,7 +217,12 @@ public class CutCommandTest {
                 fail(" ERROR-2: The undo of cutCommand failed");
             }
         }
-        assertFalse(list.isEmpty());
-
+        
+        try {
+            assertFalse(list.isEmpty());
+        } catch (AssertionError ex) {
+            fail(" ERROR-2: The undo of cutCommand failed");
+        }
+       
     }
 }
