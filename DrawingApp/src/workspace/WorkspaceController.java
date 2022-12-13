@@ -226,7 +226,7 @@ public class WorkspaceController implements Initializable {
 
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, selectedFullColour);
             listShape.add(shapeCreated);
-            listPrevious.add(shapeCreated);
+            //listPrevious.add(shapeCreated);
             if (shapeCreated.getType().equals("IrregularPolygon")) {
                 shape = shapeCreated;
                 flagIrregular = true;
@@ -243,7 +243,7 @@ public class WorkspaceController implements Initializable {
 
             Shape shapeCreated = creator.createShape(mod, gc, event.getX(), event.getY(), selectedContourColour, textPicker, 10, 10, text.getText(), 0.0);
             listShape.add(shapeCreated);
-            listPrevious.add(shapeCreated);
+            //listPrevious.add(shapeCreated);
             shapeCreated.draw();
         }
         if (event.isSecondaryButtonDown()) {
@@ -300,6 +300,9 @@ public class WorkspaceController implements Initializable {
                     }
                 } else if (selectShape.getSelectedShape() == null) {
                     selectShape.setSelectedShape(null);
+                } else {
+                    moveMenu.setDisable(false);
+                    sizeMenu.setDisable(false);
                 }
             }
         }
@@ -364,7 +367,8 @@ public class WorkspaceController implements Initializable {
     private void initContextMenu() {
         contextMenu.getItems().addAll(deleteMenu, moveMenu, copyMenu, pasteMenu, cutMenu, colorMenu, sizeMenu, rotateMenu, toFrontMenu, toBackMenu, toMirrorMenu);
         drawingCanvas.setOnContextMenuRequested(e -> contextMenu.show(drawingCanvas, e.getScreenX(), e.getScreenY()));
-
+        
+        /*
         contextMenu.showingProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == false && flag == true) {
                 if (mod == "Cut" || mod == "Delete") {
@@ -377,6 +381,7 @@ public class WorkspaceController implements Initializable {
 
             }
         });
+        */
 
         deleteMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the deleteMenu item
             public void handle(ActionEvent event) {
@@ -443,14 +448,14 @@ public class WorkspaceController implements Initializable {
             public void handle(ActionEvent event) {
                 //I CALL THE TO FRONT FUNCTION AND I PASS THE POSITION OF THE SELECTED SHAPE IN THE LIST OF FIGURES
                 //AND THE SIZE OF THE LIST
-                toFront(listPrevious.indexOf(selectShape.getSelectedShape()), listShape.size());
+                toFront(listShape.indexOf(selectShape.getSelectedShape()), listShape.size());
                 mod = "ToFront";
             }
         });
 
         toBackMenu.setOnAction(new EventHandler<ActionEvent>() { //set the action of the toBackMenu item
             public void handle(ActionEvent event) {
-                toBack(listPrevious.indexOf(selectShape.getSelectedShape()));
+                toBack(listShape.indexOf(selectShape.getSelectedShape()));
 
             }
         });
@@ -614,8 +619,8 @@ public class WorkspaceController implements Initializable {
     @FXML
     private void disableGrid(ActionEvent event) {
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
-        drawAll();
         flagGrid = false;
+        drawAll();
     }
 
     @FXML
@@ -625,6 +630,7 @@ public class WorkspaceController implements Initializable {
 
     @FXML
     private void overlapping(MouseEvent event) {
+        /*
         //WHEN I SELECT A SHAPE IT BRINGS IT TO THE FOREGROUND
         if (event.isSecondaryButtonDown() && flag == false) {
             if (mod == "Cut" || mod == "Delete") {
@@ -639,6 +645,7 @@ public class WorkspaceController implements Initializable {
             drawAll();
 
         }
+         */
     }
 
 }
